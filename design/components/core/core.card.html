@@ -1,0 +1,19 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Core" subtitle="Wordmark, script toggle, buttons, status, banner" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script><style>body{margin:0;background:var(--surface);color:var(--text);font-family:var(--font-latin)}.g{display:grid;gap:14px;padding:18px 20px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const K = window.GoemDesignSystem_26c22a;
+
+function Demo(){ const [s,setS]=React.useState('deva'); const { Wordmark, ScriptToggle, Button, IconButton, SourceStatus, DraftBanner, Credit } = K;
+return <div><DraftBanner onTellUs={()=>{}} /><div className="g">
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><Wordmark size={26} /><ScriptToggle value={s} onChange={setS} /></div>
+<div style={{display:'flex',gap:10,flexWrap:'wrap'}}><Button iconAfter="arrow-right">Go inside</Button><Button variant="outline">How to say it</Button><Button variant="ghost">Where this comes from</Button><Button disabled>Voices soon</Button></div>
+<div style={{display:'flex',gap:10,alignItems:'center'}}><IconButton icon="arrow-left" label="Back" /><IconButton icon="search" label="Search" /><IconButton icon="layers" label="Layers" />
+<div style={{background:'var(--house-neel)',color:'var(--house-neel-on)',padding:8,borderRadius:16,display:'flex',gap:8}}><IconButton icon="x" label="Close" tone="soft" ink="var(--house-neel-on)" /><Button size="m" ink="var(--house-neel-on)" paper="var(--house-neel)">On a house</Button></div></div>
+<div style={{display:'flex',gap:20,flexWrap:'wrap'}}><SourceStatus status="agree" /><SourceStatus status="differ" /><SourceStatus status="pending" /></div>
+<Credit />
+</div></div>; }
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

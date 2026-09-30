@@ -1,0 +1,8 @@
+/* Page defaults on top of the design tokens (styles.css is copied from design/ as-is). */
+html { background: var(--surface); }
+body {
+  margin: 0;
+  min-height: 100vh; min-height: 100dvh;
+  background: var(--surface); color: var(--text);
+  font: var(--weight-regular) var(--size-body)/var(--lh-body) var(--font-latin);
+}

@@ -1,0 +1,97 @@
+# Khoim (खंय): build brief for Claude Code
+
+Khoim ("where" in Konkani) is a non-profit, mobile-first map of Goa's place names, by Pangolin Marketing. The map is the whole site: tap a place to see its Konkani name in Devanagari and Romi next to its official spelling, with a rough guide to saying it; tap again to go inside (Goa, 3 districts, 12 talukas, villages). Domain: **khoim.in**. The owner, Shashank, is not a developer: explain choices in plain words, keep the setup boring, and never leave him with a terminal task he can't follow.
+
+## Status (30 September 2026)
+- Design: **final for this phase**, made in Claude Design. Everything is in `design/`.
+- Domain khoim.in is on Cloudflare (Pangolin account). Email hello@khoim.in forwards to Shashank. Cloudflare Web Analytics is on for khoim.in (auto-injected, no snippet needed).
+- Not done yet: the GitHub repo, the Cloudflare Worker, branch protection. Your first session creates the repo; Shashank connects Cloudflare (see SETUP.md).
+
+## Read in this order
+1. `design/design_handoff_khoim/README.md`: screens, interactions, states, data model, tokens. **This is the spec.** Match it exactly.
+2. `design/readme.md`: design principles, content rules, iconography.
+3. `design/ui_kits/khoim/`: the working reference app. Serve `design/` (`npx serve design`) and open `ui_kits/khoim/index.html` to click through every state, phone and desktop, light and dark.
+4. `design/components/`: reference implementation of every component (`X.jsx`), its props (`X.d.ts`) and usage notes (`X.prompt.md`). `design/components/data/` holds names, geometry and lookups.
+5. `design/guidelines/accessibility.md`: the AAA checklist and contrast figures.
+6. `docs/names-research.md`: where every name comes from and what is uncertain. `docs/copy.md`: SEO text, collaborator note, outreach.
+
+The design files are references built with in-browser Babel. Rebuild them properly; don't ship the Babel setup or `_ds_bundle.js`.
+
+## Non-negotiable rules
+1. **Government data first.** Boundaries and official names come only from the LGD files in `data/raw/`. Konkani and Romi names come only from `design/components/data/places.js` (same as `data/names_districts_talukas.csv`) and, later, reviewed rows of `data/village_names_review.xlsx`.
+2. **Never generate, transliterate or guess** a Konkani or Romi name, a pronunciation, or a speaker. A missing name shows the designed "Official name only" / PendingName state.
+3. **Say-it guides are unreviewed drafts** (`reviewed: false`). Always show the note "Not yet checked by a speaker" with them, exactly as designed.
+4. **Dharbandora** stays official-name-only until its data row changes. Pernem and Kushavati have no Romi; fall back as designed.
+5. **Scripts are equal.** Romi is upright and full ink, never italic or grey. Devanagari: no letter-spacing, line height at least 1.5, `lang="gom"` on Konkani Devanagari, `lang="mr"` on Marathi.
+6. **Copy:** UI text comes from `design/` verbatim. Anything missing gets a `TODO(copy)` marker and goes in your final summary. No em dashes, no invented copy.
+7. **Accessibility target is WCAG 2.2 AAA** as specified in `design/guidelines/accessibility.md`. Respect `prefers-reduced-motion` everywhere.
+8. Contact address on the site is **hello@khoim.in**. Credit line, verbatim: "Khoim is a non-profit initiative by Pangolin Marketing. Boundaries and official names: Local Government Directory, Government of India."
+
+## Stack
+- **Astro (static output) + React** via `@astrojs/react`. The map app is one React island built from the design components; Astro prerenders a static page per place so links can be shared and Google can index names.
+  - Routes: `/`, `/{district}/`, `/{district}/{taluka}/`, `/{district}/{taluka}/{village}/`. Each page renders the app opened at that place, with its own `<title>` and description from `docs/copy.md` (SEO section) and real text content (the place's names) in the HTML.
+  - Keep in-app navigation client-side (History API) so it feels like one app; URLs update as the user drills in.
+- **Plain CSS** with the design tokens: copy `design/tokens/*.css` and `design/styles.css` as-is. No Tailwind, no CSS-in-JS.
+- **Map:** SVG only, from `design/components/data/goaGeo.js` (built from `data/raw/` by `data/scripts/build_geo.py`). No Leaflet, MapLibre, WebGL or tiles. Ship geometry as JSON; load village polygons per taluka.
+- **Fonts:** Anek Devanagari and Anek Latin, weights 500/600/700, self-hosted woff2 subsets (files in `design/assets/fonts/`, others from Google Fonts, OFL). Keep Devanagari GSUB features when subsetting.
+- **Icons:** the 22 Lucide paths in `design/components/core/iconPaths.js`. No icon font.
+- **Hosting:** Cloudflare Worker "khoim" with static assets, built by Cloudflare Workers Builds from GitHub. No Astro adapter (static output needs none). Pin exact dependency versions; commit the lockfile.
+- Budget: first load on a mid-range Android over 4G, Lighthouse mobile performance 90 or more; home page JS + CSS + districts/talukas geometry under 250 KB compressed.
+
+## Phase 1 scope (launch)
+Everything in the design handoff's screens 1 to 6 and desktop, with the data that exists today:
+- Goa, 3 districts, 12 talukas with full names; 384 village shapes with official names (LGD; 37 from Survey of India, marked as such).
+- LGD lists 429 villages (`data/villages_lgd.csv`); 347 match a shape. Villages without a shape still appear in search and get a page, with a note that the outline isn't available yet. Join on codes, never names (21 names repeat).
+- Search in all scripts, script toggle (saved as `khoim-script`), scrub loupe, sheets, say-it beats, announcements, dark mode.
+- Layers and About screen with the draft banner.
+- "Tell us" / "Write to us": `mailto:hello@khoim.in` for now, with a prefilled subject naming the place. (A proper form comes later.)
+
+## Not in phase 1 (build the hooks only)
+- Recordings: `VoiceClip` shows its empty state; data shape `{ speaker, village, src, duration }` is ready.
+- Layers beyond Names: `LayerSwitch` shows them as coming.
+- Village Konkani names: the build reads reviewed rows (reviewer name and date filled) from the review sheet when they exist.
+- Offline service worker, contribution form, recording flow: not designed yet. Don't invent them.
+
+## First-session tasks
+1. Check tools: `node -v` (24.x), `git --version`, `gh auth status`. If any fail, stop and point Shashank to SETUP.md.
+2. Scaffold Astro into this folder (minimal template, TypeScript strict) without touching existing files, add `@astrojs/react`, `react`, `react-dom`, and `wrangler` (devDependency). Keep `astro.config.mjs`, `wrangler.jsonc`, `.nvmrc` as given.
+3. Build a one-page placeholder home in the real design (wordmark, title line, draft banner, credit) so the first deploy shows something true.
+4. `npm run build`, `git init`, first commit on `main`, then `gh repo create khoim --public --source . --push` (Shashank approves). This is the only direct push to `main`.
+5. Tell Shashank to do SETUP.md steps 4 and 5 and wait for him to confirm the Cloudflare preview URL works.
+6. Then build phase 1 in small pull requests (tokens and fonts; data layer; map; sheets and place card; search; routing and static pages; About; accessibility and performance pass), following DEPLOY below.
+
+## Data files
+| File | What | Licence |
+| --- | --- | --- |
+| `design/components/data/places.js` | 16 named units (Goa, districts, talukas) with all name forms, status, house colour | Khoim, CC BY 4.0 |
+| `design/components/data/goaGeo.js` | projected SVG paths for districts, talukas, villages | derived from LGD, CC0 |
+| `data/raw/goa_*_lgd.geojson` | source boundaries (villages, talukas, districts 2026, panchayats) | CC0 via India Geodata (LGD source) |
+| `data/raw/lgd_all_villages_goa_2026-09-30.xlsx` | official LGD list of 429 villages | GODL-India |
+| `data/villages_lgd.csv` | clean LGD list with `has_boundary` | GODL-India |
+| `data/names_districts_talukas.csv` | the 16 units with sources and confidence | Khoim, CC BY 4.0 |
+| `data/village_names_review.xlsx` | reviewer sheet for village names (phase 2) | |
+| `data/raw/osm_localities_ODbL.csv` | OpenStreetMap localities for search aliases later | ODbL, keep separate |
+
+Districts: North Goa = Pernem, Bardez, Tiswadi, Bicholim, Sattari. South Goa = Ponda, Mormugao, Salcete. Kushavati = Quepem, Sanguem, Canacona, Dharbandora (notified 31 Dec 2025). LGD spells Sattari as "Satari": display "Sattari".
+
+## Done means
+- Every state in `design/ui_kits/khoim/index.html` reproduced, phone and desktop, light and dark, checked side by side.
+- Works at 360px on a mid-range Android; Lighthouse mobile performance 90+, accessibility 100.
+- Devanagari checked on iOS Safari and Android Chrome (conjuncts in साश्टी, म्हापशें, धारबांदोडें render joined).
+- No UI text outside `design/` except listed `TODO(copy)` markers.
+- A one-page `RUNBOOK.md` for Shashank: how to update a name, how a change goes live, who has access to Cloudflare and GitHub.
+
+## DEPLOY
+- Hosting: Cloudflare Worker "khoim" with static assets, auto-deployed by Workers Builds from GitHub. Production = `main`. Never run `wrangler deploy`, never ask for or store a Cloudflare API token.
+- Static only: `output: "static"`, no adapter, no server code, no `main` in wrangler.jsonc. Build: `npm run build` into `./dist`.
+- Never commit secrets. The site needs none.
+- Every change:
+  1. `git switch -c feat/<short-name>` from an up-to-date `main`.
+  2. `npm run build` locally; fix all errors before pushing.
+  3. Push the branch, open a PR with `gh pr create`. PR body in plain English for a non-developer: what changed, what to check, on phone and desktop.
+  4. Wait for Cloudflare's preview URL comment and paste it to Shashank.
+  5. Do not merge. Shashank merges on GitHub. Only if he types "ship it" in this session, run `gh pr merge --squash --delete-branch`.
+- Never push to `main` after the first-session push, never force-push, never rewrite history.
+- Keep `wrangler` in devDependencies and `name` in wrangler.jsonc equal to "khoim".
+- Licences: LICENSE (MIT, code), DATA-LICENSE.md. Pages showing LGD data carry the GODL-India attribution with the lgdirectory.gov.in URL (put it on the About screen). No government emblems.
+- If a Cloudflare build fails, read the log from the PR check link, fix on the same branch, push again.

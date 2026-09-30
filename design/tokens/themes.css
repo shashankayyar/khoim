@@ -1,0 +1,25 @@
+/* Semantic tokens. Light leads; dark via [data-theme="dark"] (set it from prefers-color-scheme or the user's choice). */
+:root{
+--surface:var(--lime-100);--surface-raised:var(--lime-50);--surface-sunk:var(--lime-200);--surface-invert:var(--ink-900);
+--text:var(--ink-900);--text-2:var(--ink-700);--text-invert:var(--lime-50);
+--line:var(--lime-300);--line-strong:var(--ink-900);
+--trim:var(--lime-50);--map-empty:var(--lime-50);--map-edge:var(--lime-300);
+--mark:var(--mark-light);
+--focus-ring:0 0 0 2px var(--surface-raised),0 0 0 5px var(--ink-900);/* @kind shadow */
+--scrim:rgba(22,18,12,.32);
+--map-haldi-dim:var(--house-haldi-tint);--map-kokum-dim:var(--house-kokum-tint);--map-rose-dim:var(--house-rose-tint);--map-green-dim:var(--house-green-tint);--map-oxide-dim:var(--house-oxide-tint);--map-lilac-dim:var(--house-lilac-tint);--map-sky-dim:var(--house-sky-tint);--map-neel-dim:var(--house-neel-tint);--map-mustard-dim:var(--house-mustard-tint);
+color-scheme:light;
+}
+[data-theme="dark"]{
+--surface:var(--soot-950);--surface-raised:var(--soot-800);--surface-sunk:var(--soot-900);--surface-invert:var(--chalk-100);
+--text:var(--chalk-100);--text-2:var(--chalk-300);--text-invert:var(--ink-900);
+--line:var(--soot-700);--line-strong:var(--chalk-100);
+--trim:var(--soot-950);--map-empty:var(--soot-900);--map-edge:var(--soot-600);
+--mark:var(--mark-dark);
+--focus-ring:0 0 0 2px var(--soot-950),0 0 0 5px var(--chalk-100);/* @kind shadow */
+--scrim:rgba(0,0,0,.5);
+--shadow-1:0 2px 10px rgba(0,0,0,.4);--shadow-2:0 6px 24px rgba(0,0,0,.5);--shadow-3:0 14px 36px rgba(0,0,0,.6);--shadow-sheet:0 -10px 40px rgba(0,0,0,.5);
+--map-haldi-dim:var(--house-haldi-tint-dark);--map-kokum-dim:var(--house-kokum-tint-dark);--map-rose-dim:var(--house-rose-tint-dark);--map-green-dim:var(--house-green-tint-dark);--map-oxide-dim:var(--house-oxide-tint-dark);--map-lilac-dim:var(--house-lilac-tint-dark);--map-sky-dim:var(--house-sky-tint-dark);--map-neel-dim:var(--house-neel-tint-dark);--map-mustard-dim:var(--house-mustard-tint-dark);
+color-scheme:dark;
+}
+@media (prefers-reduced-motion:reduce){:root{--dur-press:0ms;/* @kind other */--dur-fast:0ms;/* @kind other */--dur-base:0ms;/* @kind other */--dur-sheet:0ms;/* @kind other */--dur-zoom:0ms;/* @kind other */--dur-paint:0ms;/* @kind other */--stagger-paint:0ms;/* @kind other */--press-scale:1;/* @kind other */}}

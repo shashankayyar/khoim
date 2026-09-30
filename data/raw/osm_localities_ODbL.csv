@@ -1,0 +1,1233 @@
+osm_id,place,name,name_en,name_pt,name_gom,name_mr,name_hi,alt_name,old_name,wikidata,row_id,inside_village,soi_name,inside_taluka
+node/245630114,hamlet,Cabo de Rama,,Cabo de Rama,,,,,,,325.0,,GONVAL,Canacona
+node/245631159,suburb,Nuvem,,,,,,,,Q7070625,176.0,Nuvem,NUVE,Salcete
+node/245631482,suburb,Verna,,,,,,,,Q6273207,212.0,Loutulim,LOTLI,Salcete
+node/245631957,suburb,Mardol,,,,,,,,Q6758692,251.0,Priol,PRIOL,Ponda
+node/245632080,village,Pilar,,,,,,,,Q7193759,226.0,Goa Velha,GOA VELHA,Tiswadi
+node/245632163,suburb,Old Goa,Old Goa,Goa Velha,,,Старый гоа,Velha Goa,,Q553907,242.0,Ella,VELA,Tiswadi
+node/245632174,suburb,Ribandar,,,,,,,,Q7322219,235.0,,RAYBANDAR,Tiswadi
+node/245632201,suburb,Betim,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/245632245,town,Valpoi,,,,,वालपय,,,Q2734533,95.0,Valpoi,VALPOY,Satari
+node/245632297,suburb,Alto Porvorim,,,,,,Porvorim,,Q7232861,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/245632434,town,Sankhali,Sankhali,,साखळी,साखळी,साखली,Sanquelim,,Q720140,275.0,Sanquelim,SANAUELIM,Bicholim
+node/245632739,town,Pernem,,Perném,,,,,,Q2736166,8.0,Pernem,PERNEM,Pernem
+node/245632788,village,Tiracol,,,,,,,,Q105085894,2.0,Tiracol,TIRACOL,Pernem
+node/342117878,village,Shirgao,,,,,,,,Q60746571,32.0,Mulgao,MULGAON,Bicholim
+node/342117887,town,Bicholim,Bicholim,,दिवचल,डिचोली,बिचोलिम,Dicholi,,Q796819,282.0,Bicholim,DICHOLI,Bicholim
+node/342117894,locality,Maneri,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/342117990,neighbourhood,Acoi,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/342118132,village,Tambose,Tamboxem,,,,,,,,42.0,Tamboxem,TAMBOSE,Pernem
+node/355795365,town,Mapusa,,Mapuçá,म्हापशें,म्हापसा,म्हापसा,,,Q2087705,303.0,Mapusa,MAPUCA,Bardez
+node/355798208,suburb,Arambol,Arambol,,,,अरम्बोल,Harmal,,Q4784002,1.0,Arambol,ARAMBOL,Pernem
+node/559616946,suburb,Bogmalo,,,,,,,,Q4937665,223.0,Chicalim,BAGMALO,Mormugao
+node/560737828,village,Ilha de Rachol,,Ilha de Rachol,,,,,,,180.0,Curtorim,SHELVAN,Salcete
+node/724238671,village,Benaulim,,,,,,,,Q2564851,207.0,Benaulim,BANAVALI,Salcete
+node/985854404,village,Vagator,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/1063528865,suburb,Mormugao,,Mormugão,,मोर्मुगाव,,,,Q1814480,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/1063577355,town,Vasco,Vasco da Gama,Vasco da Gama,वास्को द गामा,वास्को द गामा,वास्को द गामा,,,Q978780,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/1205894304,village,Cavelossim,,,,,,,,Q5054993,330.0,Cavelossim,KAVLESI,Salcete
+node/1338056849,suburb,Guirim,,,,,,,,Q1708211,305.0,Guirim,GIRIN,Bardez
+node/1590347870,village,Korgao,,,,,,Corgao,,,9.0,Corgao,KORGAON,Pernem
+node/1633003380,village,Chandor,,,,,,,,Q4818320,155.0,Guirdolim,GIRDOLIN,Salcete
+node/1633023982,village,Majorda,,,,,,,,Q6738390,210.0,Majorda,MAJORDA,Salcete
+node/1656283837,neighbourhood,Dongarpur,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/1656284241,suburb,Baga,,,,,,,,Q4841379,311.0,Calangute,KALANGUT,Bardez
+node/1656287159,village,Sangolda,,,,,,,,Q7418068,317.0,Sangolda,SANGOLDA,Bardez
+node/1687185066,suburb,Fontainhas,,,,,,,,Q5465121,321.0,Panaji,PANAJI,Tiswadi
+node/1687185073,suburb,Nerul,,,,,,,,Q104870541,313.0,Nerul,NERUL,Bardez
+node/1687186916,village,Sinquerim,,,,,,,,Q7525001,312.0,,Kandoli,Bardez
+node/1687216927,neighbourhood,Mala,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/1687216929,city,Panaji,Panaji,Pangim,पणजी/Ponnjé,पणजी,पणजी,,Panjim,Q214681,321.0,Panaji,PANAJI,Tiswadi
+node/1687471772,suburb,Anjuna,,,,,,,,Q4765908,309.0,Anjuna,ANJUNA,Bardez
+node/1688110013,town,Calangute,,,,,,,,Q861976,311.0,Calangute,KALANGUT,Bardez
+node/1688110016,suburb,Candolim,Candolim,,,कंडोलिम,,,,Q858424,312.0,,Kandoli,Bardez
+node/1688110390,suburb,Verem,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/1688228909,village,Balli,,,,,बाल्ली,,,,338.0,Bali,BALLY,Quepem
+node/1707049604,village,Aglote,,,,,,,,,112.0,Aglote,AALOT,Dharbandora
+node/1707049607,village,Bolcornem,,,,,,,,,112.0,Aglote,AALOT,Dharbandora
+node/1707049610,village,Calem,,,,,,Kalay,,,125.0,Calem,COLEM,Sanguem
+node/1707049613,isolated_dwelling,Caranzol,,,,,,,,,385.0,Caranzol,KARANJHOL,Dharbandora
+node/1707049614,village,Karmane,,,,,,Cormonem,,,163.0,Santona,SANTONA,Sanguem
+node/1707049631,village,Collem,,,,,,Kulem,,,126.0,Colem,KOLEM,Dharbandora
+node/1707049637,village,Mollem,,,,,,,,Q6896064,121.0,Molem,MOLEN,Dharbandora
+node/1707049640,hamlet,Nandran,,,,,,,,,121.0,Molem,MOLEN,Dharbandora
+node/1707049645,village,Shigao,,,,,,,,,124.0,Sigao,SHIGAON,Dharbandora
+node/1707049652,hamlet,Tambdi Surla,,,,,,,,,120.0,Surla,SURLA,Dharbandora
+node/1715059940,locality,Sernabatim Beach,,,,,,,,,203.0,Sernabatim,SERNABATIM,Salcete
+node/1875638639,village,Keri,,,,,,Querim,,,255.0,Querim,KERI,Ponda
+node/1887902356,village,Shiroda,,,,,,,,Q7498903,179.0,Siroda,SHIRODA,Ponda
+node/1887923085,village,Zambaulim,,,,,,Jambavalli,,Q8065654,354.0,Rivona,REVONA,Sanguem
+node/1887929310,town,Quepem,Quepem,Quepém,केपें,केपे,क्यूपेम,,,Q2561452,150.0,Quepem,QUEPEM,Quepem
+node/1887959933,village,Tilamola,,,,,,,,,147.0,Xeldem,SHELDEN,Quepem
+node/1888067086,town,Curchorem,Curchorem,Curchorém,कुडचडें,कुडचडे,कुडचडे,Kudchade,,Q1190690,138.0,Curchorem-Cacora,HODAR,Quepem
+node/1894918866,village,Mandrem,,,,,,,,Q6748193,10.0,Mandrem,MANDREM,Pernem
+node/1894927605,village,Ashvem,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/1894932463,suburb,Siolim,,,,,Рыбный рынок,,,Q2734452,15.0,Siolim,GUDE,Bardez
+node/1894940114,village,Agarvada,,,,,,,,,13.0,Agarvado,AGARVADA,Pernem
+node/1894949515,suburb,Morjim,,,,,,,,Q6912471,14.0,Morjim,MORJIM,Pernem
+node/1944441069,suburb,Dona Paula,,,,,,,,Q5293802,321.0,Panaji,PANAJI,Tiswadi
+node/2012351363,village,Surla,,,,,,,,,52.0,Surla,SURLA,Satari
+node/2050380080,village,Velguem,,,,,,,,,64.0,Velguem,VELGUE,Satari
+node/2050468759,village,Codal,,,,,,,,,72.0,Codal,KODAL,Satari
+node/2050468760,village,Dabem,,,,,,,,,84.0,Zormen,JARMA,Satari
+node/2050468761,village,Derodem,,,,,,,,,55.0,Derodem,DERODE,Satari
+node/2050468762,village,Gulem,,,,,,,,,81.0,Querim,BAYALVADA,Satari
+node/2050502463,village,Malol,,,,,,,,,71.0,Maloli,MALOLI,Satari
+node/2050502467,village,Nanorem,,,,,,Nanode,,,70.0,Nanorem,NANODE,Satari
+node/2093383179,village,Kerim,Querim,,,,,,,Q105102470,3.0,Querim,QUERIM,Pernem
+node/2122430553,suburb,Chaudi,,,,,चौडी,Chauri,,Q5088118,343.0,Anjadip,CHAURI,Canacona
+node/2122430556,village,Darbandora,,,,,,,,,165.0,Darbandora,DARBANDORA,Dharbandora
+node/2122430557,village,Palolem,Palolem,,,,पाळोळें,Pololem,,,343.0,Anjadip,CHAURI,Canacona
+node/2122430558,town,Sanguem,,,सांगे,,संगेम,,,Q614055,143.0,Sanguem,SANGUEM,Sanguem
+node/2122681711,village,Jagvi,,,,,,,,,373.0,Vichundrem,DIGALI,Sanguem
+node/2122681722,suburb,Tivim,,,,,,,,Q7810422,18.0,Tivim,DAT,Bardez
+node/2214129765,village,Arpora,,,,,,,,Q4795762,310.0,Arpora,ARPORA,Bardez
+node/2523902348,suburb,Gogol,,,,,,,,Q5577426,197.0,Margao,MADGAON,Salcete
+node/2548066557,town,Margao,Margao,Margão,मडगाव,मडगांव,मडगाँव,Dongorwado,,Q515117,197.0,Margao,MADGAON,Salcete
+node/2634447575,village,Betalbatim,,,,,,,,,202.0,Betalbatim,BTALBHATI,Salcete
+node/2634447622,locality,Velsao Beach,,,,,,,,,215.0,Velsao,VELSAVAON,Mormugao
+node/2635792805,village,Varca,,,,,,,,Q2558931,192.0,Varca,FATRADE,Salcete
+node/2637221110,village,Arossim,,,,,,,,,213.0,Arossim,AROSIM,Mormugao
+node/2637221114,village,Cansaulim,,,,,,,,,215.0,Velsao,VELSAVAON,Mormugao
+node/2637221118,village,Colva,,,,,,,,Q3440760,200.0,Colva,KOLVE,Salcete
+node/2637221120,village,Cuelim,,,,,,,,,215.0,Velsao,VELSAVAON,Mormugao
+node/2637221123,village,Gaundaulim,,,,,,,,,202.0,Betalbatim,BTALBHATI,Salcete
+node/2637221124,village,Consua,,,,,,,,,210.0,Majorda,MAJORDA,Salcete
+node/2637221307,village,Quelossim,,,,,,Keloshi,Kardalipura,Q7271205,218.0,Quelossim,KELOSIM,Mormugao
+node/2637221312,village,Sernabatim,,,,,,,,,203.0,Sernabatim,SERNABATIM,Salcete
+node/2637221315,village,Utorda,,,,,,,,,208.0,Utorda,UTARDA,Salcete
+node/2637221316,village,Vanelim,,,,,,,,,204.0,Vanelim,VANELI,Salcete
+node/2713529718,village,Savoi-Verem,,,,,,,,Q7428387,256.0,Savoi-Verem,PONDA,Ponda
+node/2792180108,village,Agassaim,,Agaçaim,,,,,,Q267781,248.0,Mercurim,MERKURI,Tiswadi
+node/2843297136,suburb,Goa Velha,,,,,,,,Q1707675,226.0,Goa Velha,GOA VELHA,Tiswadi
+node/3253815062,town,Canacona,,,,,काणकोण,,Kanvapura,Q5029212,343.0,Anjadip,CHAURI,Canacona
+node/3302676338,village,Fatrade,,,,,,,,,192.0,Varca,FATRADE,Salcete
+node/3374530976,suburb,Saligao,,Saligão,,,,,,Q2734462,315.0,Saligao,SALIGAO,Bardez
+node/3998902921,village,Polem,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/4054300219,village,Mopa,,,,,,,,Q15256011,38.0,Mopa,MOPA,Pernem
+node/4229409092,village,Assolna,,,,,,,,Q4810289,333.0,Assolna,ASSOLNA,Salcete
+node/4229418676,village,Chinchinim,,,,,,,,Q1105849,332.0,Chinchinim,CHINCHINIM,Salcete
+node/4229438713,suburb,Navelim,,,,,,,,Q512793,197.0,Margao,MADGAON,Salcete
+node/4237339059,village,Betul,,,,,,,,Q4899041,329.0,Velim,GORKOMARAD,Salcete
+node/4269392839,village,Velim,,,,,,,,Q7919021,329.0,Velim,GORKOMARAD,Salcete
+node/4269410587,village,Sirlim,,,,,,,,,191.0,Deussua,DEVSUA,Salcete
+node/4269416543,village,Dramapur,,,,,,,,Q5305753,189.0,Dramapur,DRAMAPUR,Salcete
+node/4269423562,village,Sarzora,,,,,,,,Q15275510,190.0,Sarzora,SARZORA,Salcete
+node/4269430895,village,Baida,,,,,,,,,332.0,Chinchinim,CHINCHINIM,Salcete
+node/4269435190,village,Orlim,,,,,,,,,192.0,Varca,FATRADE,Salcete
+node/4269442085,village,Carmona,,,,,,,,Q5043736,331.0,Carmona,KARMANE,Salcete
+node/4269446305,suburb,Chicalim,,,,,,,,Q1105928,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/4269448115,village,Cortalim,,,,,,,,Q5173213,217.0,Cortalim,KORTALI,Mormugao
+node/4269449904,village,Fatorpa,,,,,,,,Q5437933,328.0,Fatorpa,FATARPA,Quepem
+node/4269450051,suburb,Aldona,,,,,,,,Q584939,299.0,Aldona,HALDONA,Bardez
+node/4269461179,village,Assagao,,,,,,,,Q4808351,308.0,Assagao,ASGAON,Bardez
+node/4269850191,suburb,Borim,,,,,,,,Q4945134,169.0,Borim,KAJORDE,Ponda
+node/4269851822,suburb,Karmali,,,,,,Carambolim,,Q5037659,244.0,,Karmali,Tiswadi
+node/4270026560,suburb,Merces,,,,,,,,Q16889372,233.0,Murda,MERSI TEM,Tiswadi
+node/4270036822,village,Nachinola,,,,,,,,Q6957165,302.0,Nachinola,NACHINALA,Bardez
+node/4270037933,village,Salvador do Mundo,,,,,,,,Q7406476,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/4270039688,village,Paliem,,,,,,,,Q104830171,304.0,Paliem,PALIYE,Bardez
+node/4270042009,village,Olaulim,,,,,,,,Q7083138,298.0,Olaulim,VOLAWALI,Bardez
+node/4270043361,village,Chorao,,,,,,,,Q5104961,292.0,Caraim,MADEL,Tiswadi
+node/4270043841,village,Parra,,,,,,,,Q7139725,306.0,Parra,PARRA,Bardez
+node/4270045610,village,Piedade,,,,,,Goltim-Navelim,,Q24907522,293.0,Navelim,NAVELI,Tiswadi
+node/4270047171,village,Ucassaim,,,,,,,,Q7876628,296.0,Ucassaim,UKSAI,Bardez
+node/4270050584,village,Revora,,,,,,,,Q7318968,20.0,Colvale,KOLVAL,Bardez
+node/4270051081,suburb,Madkai,,,,,,,,Q6728253,250.0,Marcaim,MADKAI,Ponda
+node/4270055224,suburb,Kucheli,,,,,,Cunchelim,,Q5194206,303.0,Mapusa,MAPUCA,Bardez
+node/4270068318,village,Priol,,,,,,,,Q7245354,251.0,Priol,PRIOL,Ponda
+node/4270072344,village,Pomburpa,,,,,,,,Q7227247,297.0,Pomburpa,POMBURPA,Bardez
+node/4270072708,suburb,Khandola,Khandola,,खांडोळा,खांडोळा,खाण्डोला,Candola,,Q6400251,268.0,Candola,KHANDOLA,Ponda
+node/4270076776,neighbourhood,Naroa,,,,,,,,Q24939789,289.0,Malar,MALAR,Tiswadi
+node/4270082182,village,Amona,,,,,,,,Q4747530,271.0,Amone,AMONA,Bicholim
+node/4272835641,hamlet,Khandepar,,,,,,,,Q6400235,254.0,Candepar,KHANDEPAR,Ponda
+node/4273233465,hamlet,Nakeri,,,,,,Naquerim,,,326.0,Naquerim,NAKERI,Quepem
+node/4275425539,village,Cuchirem,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/4297559572,suburb,Patto,,,,,,Patto Centre,,,321.0,Panaji,PANAJI,Tiswadi
+node/4301838569,locality,Aguada,,,,,,,,,312.0,,Kandoli,Bardez
+node/4308281173,town,Cuncolim,Cuncolim,,,कंकोलिं,,,,Q1190666,333.0,Assolna,ASSOLNA,Salcete
+node/4310434782,suburb,Dabolim,,,,,,,,Q5207532,224.0,Dabolim,IJORSHI,Mormugao
+node/4318209291,village,Rivona,Rivona,,रवोणा,रवोणा,रिवोना,,,Q25690948,354.0,Rivona,REVONA,Sanguem
+node/4318212969,locality,Curdi,Curdi,,कुर्डी,कुर्डी,,,,Q25690904,366.0,Curdi,KURDI,Sanguem
+node/4318212970,village,Loliem,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/4335923463,suburb,Bambolim,Bambolim,,बम्बोलिम,बम्बोलिम,बम्बोलिम,,,Q627037,229.0,Bambolim,BAMBOLI,Tiswadi
+node/4357166509,neighbourhood,Aquem,,,,,,,,Q583648,197.0,Margao,MADGAON,Salcete
+node/4359885196,neighbourhood,Cumborda,,,,,,,,,212.0,Loutulim,LOTLI,Salcete
+node/4360951643,neighbourhood,Vadi,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/4492354024,village,Ambaulim,,,,,,,,,336.0,Ambaulim,AMBAVALI,Quepem
+node/4492391753,village,Alorna,,,,,,,,Q119149709,36.0,Alorna,ALORNA,Pernem
+node/4492410461,suburb,Assonora,,,,,,,,Q29025172,31.0,Assonora,ASNODE,Bardez
+node/4492418125,village,Banastarim,,,,,,,,,262.0,Adcolna,HADKON,Ponda
+node/4492418126,village,Batim,,,,,,,,Q4869281,238.0,Talaulim,TALAUIM,Tiswadi
+node/4492422653,neighbourhood,Cacra,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/4492432568,village,Chopdem,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/4492433563,suburb,Chimbel,,,,,,,,Q1104221,236.0,Chimbel,CHIMBEL,Tiswadi
+node/4492439401,village,Dhargalim,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/4492449812,village,Gandaulim,,,,,,Gaondali,São Brás,Q107027710,242.0,Ella,VELA,Tiswadi
+node/4492463187,village,Karapur,,,,,,,,Q861379,280.0,Carapur,GOWANDIWADA,Bicholim
+node/4492463188,village,Loutolim,,,,,,,,Q14223122,175.0,Loutulim,RASAAIN,Salcete
+node/4492463395,village,Moira,,,,,,,,Q15254605,301.0,Moira,MOIDE,Bardez
+node/4492470451,village,Oxel,,,,,,,,Q104868257,12.0,Oxel,OSHAL,Bardez
+node/4492470452,village,Parse,Parcem,,पार्से,पार्सेम,पार्सेम,,,Q628210,11.0,Parcem,PARSE,Pernem
+node/4492470453,village,Pirna,,,,,,,,Q104869415,24.0,Moitem,PIRNA,Bardez
+node/4492480650,village,Poroscodem,,,,,,,,,5.0,Poroscodem,PARASKAD,Pernem
+node/4551074251,village,Acamor,,,,,,,,,336.0,Ambaulim,AMBAVALI,Quepem
+node/4592026821,hamlet,Gaval-Khol,,,,,,,,,325.0,,GONVAL,Canacona
+node/4635121893,locality,Old Ferry Point,,,,,,,,,12.0,Oxel,OSHAL,Bardez
+node/4747045164,village,Deussua,,,,,,,,,191.0,Deussua,DEVSUA,Salcete
+node/4839430374,neighbourhood,Desterro,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/4936506777,suburb,St.Cruz,,Santa Cruz,,,,Santa Cruz,Calapor,Q7419382,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/5012036459,village,Paroda,,,,,,,,,185.0,Mulem,MULEM,Salcete
+node/5168663131,suburb,Curtorim,Curtorim,,कर्टोरिम,कर्टोरिम,कर्टोरिम,,,Q5196020,180.0,Curtorim,SHELVAN,Salcete
+node/5210795539,neighbourhood,Ambaji,,,,,,,,,197.0,Margao,MADGAON,Salcete
+node/5257049686,village,Parlmar Grande,,,,,,,,,332.0,Chinchinim,CHINCHINIM,Salcete
+node/5286903645,village,Ambelim,,,,,,,,Q113576291,333.0,Assolna,ASSOLNA,Salcete
+node/5366764330,isolated_dwelling,,,,,,,,,,52.0,Surla,SURLA,Satari
+node/5413946466,village,Devsu,,,,,,,,,9.0,Corgao,KORGAON,Pernem
+node/5418178954,village,Chapora,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/5463102530,village,Akhada,,,,,,Acada,,,269.0,Jua,JUA,Tiswadi
+node/5472192472,village,Patnam,,,,,पत्नेम,Patnem,,,343.0,Anjadip,CHAURI,Canacona
+node/5472215863,hamlet,Talpona,,,,,तल्पोना,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/5472234232,hamlet,Galgibaga,,,,गल्गिबगा,गल्गिबगा,Galjibag;Galgibag,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/5472336456,hamlet,Sadolxem,,,,,सदोल्क्सेम,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/5472359054,hamlet,Ponsulem,,,,,पोंसुलेम,,,,343.0,Anjadip,CHAURI,Canacona
+node/5472634094,village,Rajbag,,,,,राजबाग़,Rajbagh,,,343.0,Anjadip,CHAURI,Canacona
+node/5545785581,village,Padi,,,,,,,,,352.0,Padi,PADI,Quepem
+node/5696623247,neighbourhood,Nageshi,,,,,,,,,253.0,Bandora,BANDIWADA,Ponda
+node/5715134695,neighbourhood,Mahalaxmi,,,,,,,,,253.0,Bandora,BANDIWADA,Ponda
+node/5715189627,suburb,Bandora,,,,,,Bandoda,,Q720252,253.0,Bandora,BANDIWADA,Ponda
+node/5715189628,village,Usgao,,,,,,,,Q104864770,110.0,Usgao,USGAON,Bicholim
+node/5715189629,suburb,Usgao Tisk,,,,,,Tisca,,,110.0,Usgao,USGAON,Bicholim
+node/5866148430,town,Ponda,Ponda,Pondá,फोंडें,फोंडा,पोण्डा,,,Q7227678,170.0,Ponda,PONDA,Ponda
+node/5867357364,village,Boma,,,,,,Bhoma,,Q104902834,264.0,Cundaim,KUNDAI,Ponda
+node/5868813527,locality,Ward No. 10,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/6120107630,village,Agonda,,,,,,,,Q14201574,342.0,Agonda,DEVALKAJJAN,Canacona
+node/6167910045,neighbourhood,Vanxim,,Capão,,,,,,Q24907367,291.0,Capao,VANSHI,Tiswadi
+node/6382037706,village,Khadki,,,,,,Codqui,,,96.0,Codqui,BARAJAN,Satari
+node/6690601286,village,Tuem,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/7297175349,neighbourhood,Pontemol,,,,,,,,,138.0,Curchorem-Cacora,HODAR,Quepem
+node/9057648975,suburb,Verna Industrial Estate,,,,,,,,,216.0,Nagoa,NAGVE,Salcete
+node/9188323358,hamlet,,,,,,,,,,37.0,Chandel,CHANDEL,Pernem
+node/9188323359,village,Karmalwadi,,,,,,,,,36.0,Alorna,ALORNA,Pernem
+node/9188323360,village,Chandel,,,,,,,,,37.0,Chandel,CHANDEL,Pernem
+node/9367439119,neighbourhood,São Tomé,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/9408641449,suburb,Colvale,,,,,,,,Q939521,20.0,Colvale,KOLVAL,Bardez
+node/9409169704,suburb,Miramar,,,,,,,,Q6872686,321.0,Panaji,PANAJI,Tiswadi
+node/9409186284,suburb,Taleigao,,,,,,,,Q7679155,323.0,Taleigao,DURGAVADO,Tiswadi
+node/9409186285,suburb,Caranzalem,,,,,,,,Q5037708,321.0,Panaji,PANAJI,Tiswadi
+node/9409203771,suburb,Altinho,,,,,,,,Q3525816,321.0,Panaji,PANAJI,Tiswadi
+node/9409325959,village,Orgao,,,,,,,,Q104864766,267.0,Tivrem,TIVREN,Ponda
+node/9410609942,village,Corjuem,,,,,,,,,300.0,Corjuem,KHORUJUVEN,Bardez
+node/9413227589,suburb,Fatorda,,,,,,,,Q5437932,197.0,Margao,MADGAON,Salcete
+node/9413228819,village,Ganjem,,,,,,Gangem,,,109.0,Gangem,GOTIAKHADILWADA,Satari
+node/9413290771,hamlet,Satrem,,,,,,,,,54.0,Satrem,SATRE,Satari
+node/9413290775,hamlet,Golauli,,,,,,,,,53.0,Golauli,GOALI,Satari
+node/9413290776,village,Ivrem-Buzruco,,,,,,,,,49.0,Ivrem-Buzruco,IVRE BUDRUK,Satari
+node/9413290784,village,Choraundem,,,,,,,,,48.0,Choraundem,CHARAVADE,Satari
+node/9413869335,hamlet,,,,,,,,,,339.0,Barcem,BARSEN,Quepem
+node/9413869336,hamlet,,,,,,,,,,339.0,Barcem,BARSEN,Quepem
+node/9413869338,hamlet,Gokuldem,,,,,,,,,351.0,Gocoldem,GOKOLE,Quepem
+node/9413869339,hamlet,Quisconda,,,,,,,,,349.0,Quisconda,KISKON,Quepem
+node/9413869340,hamlet,,,,,,,,,,346.0,Corla,KARL  KAJUGATTO,Quepem
+node/9413869341,hamlet,Vaul,,,,,,,,,350.0,,VAUL,Quepem
+node/9414726980,hamlet,Cumbari,,,,,,,,,381.0,Cumbari,KUMBARI,Sanguem
+node/9415857182,village,Neura,,,,,,Neura Grande,,Q121879099,245.0,Mandur,MANUR,Tiswadi
+node/9415857183,neighbourhood,Ella,,,,,,,,,242.0,Ella,VELA,Tiswadi
+node/9416023017,village,Siridao,,,,,,,,Q24887624,227.0,Siridao,SIRIDAO,Tiswadi
+node/9417116270,suburb,Pilerne,,,,,,,,Q7193889,314.0,Marra,MARRA,Bardez
+node/9417116271,village,Ladfem,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/9417116272,village,Poira,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/9417116296,village,Piligao,,,,,,,,,270.0,Piligao,PILIGAON,Bicholim
+node/9417116299,suburb,Penha de França,,,,,,,,Q2734539,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/9417124264,village,Nagoa,,,,,,,,Q6958896,315.0,Saligao,SALIGAO,Bardez
+node/9417124288,village,Sodiem,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/9417124289,suburb,Duler,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/9419751822,village,Cana,,,,,,,,,205.0,Cana,KANA,Salcete
+node/9419760856,village,Colomb,,,,,,Colamb,,,360.0,Colomba,KOLAMBA,Sanguem
+node/9419760875,village,Macasana,,,,,,,,,160.0,Macasana,MAKAZAN,Salcete
+node/9419760876,suburb,Marcela,Marcel,,,,,Mashel,,Q6783101,267.0,Tivrem,TIVREN,Ponda
+node/9419760893,village,Durbhat,,,,,,,,,171.0,Durbhat,AGAPUR,Ponda
+node/9419775537,village,Gaondongrim,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/9419775538,village,Tudal,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/9419775553,village,Canaguinim,,,,,,,,,326.0,Naquerim,NAKERI,Quepem
+node/9419779607,hamlet,Salgini,,,,,,,,,377.0,Verlem,VERLEN,Sanguem
+node/9419779608,village,Neturlim,,,,,,Netravali,,Q6999899,372.0,Netorli,NETRAVLI,Sanguem
+node/9419779609,village,Caiguinim,,,,,,,,,355.0,Adnem,ADNE,Quepem
+node/9419779610,village,Pirla,,,,,,,,,348.0,Pirla,PIRL,Quepem
+node/9419784808,village,Tonca,,,,,,,,,268.0,Candola,KHANDOLA,Ponda
+node/9419784809,village,Navelim,,,,,,,,Q26780935,273.0,Navelim,BHARINBAG,Bicholim
+node/9419803632,suburb,Honda,,,,,,Handa,,,86.0,Onda,HONDA,Satari
+node/9419803633,village,Pissurlem,,,,,,,,,87.0,Pissurlem,PISSURLE,Satari
+node/9419803634,village,Birondem,,,,,,,,,101.0,Birondem,BHIRONDE,Satari
+node/9816170878,hamlet,Codvol,,,,,,,,,59.0,Codvol,KODAL,Satari
+node/9816170880,hamlet,Vainguinim,,,,,,,,,56.0,Vainguinim,VAYANGANI,Satari
+node/9817982399,hamlet,Ivrem-Curdo,,,,,,,,,50.0,Ivrem-Curdo,IVRE KHURD,Satari
+node/9817982400,hamlet,Rivem,,,,,,,,,53.0,Golauli,GOALI,Satari
+node/9818708298,village,Saptmale,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9818708299,hamlet,Dhaosera,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9818708300,hamlet,Pal,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9818885947,hamlet,Dhadu,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9818885998,hamlet,Palkul,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9821320837,hamlet,Bothar,,,,,,,,,120.0,Surla,SURLA,Dharbandora
+node/9821320838,village,Malpona,,,,,,,,,114.0,Malpona,MALPON,Satari
+node/9821320839,village,Govanem,,,,,,,,,116.0,Govanem,GAVANE,Satari
+node/9821320840,village,Xelopo-Curdo,,,,,,,,,117.0,Xelopo-Curdo,SHELPI KHURD,Satari
+node/9821320841,village,Sirsodem,,,,,,,,,117.0,Xelopo-Curdo,SHELPI KHURD,Satari
+node/9821320842,village,Assodem,,,,,,,,,119.0,Assodem,AASSODE,Satari
+node/9821320843,village,Ambeli,,,,,,,,,115.0,Ambeli,AMBELI,Satari
+node/9821320844,hamlet,Myange,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9821320845,hamlet,Shali,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9821320846,hamlet,Murmune,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9821362084,village,Dhamshem,,,,,,Damocem,,,98.0,Damocem,DHAMSE,Satari
+node/9821362085,hamlet,Melauli,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/9821372619,village,Siranguli,,,,,,,,,117.0,Xelopo-Curdo,SHELPI KHURD,Satari
+node/9823516663,village,Carambolim-Bozruco,,,,,,,,,63.0,Carambolim-Bozruco,KARAMBALI BUZRUK,Satari
+node/9823817521,village,Siroli,,,,,,,,,44.0,Siroli,SHIROLI,Satari
+node/9824175005,hamlet,Takwada,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9824175006,hamlet,Tiralwad,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9824175007,hamlet,Kattanwada,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9824175008,hamlet,Nanuswada,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9824175009,hamlet,Gotlaktiadiwada,,,,,,,,,109.0,Gangem,GOTIAKHADILWADA,Satari
+node/9824175010,hamlet,Sonarwada,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/9826253860,hamlet,Ghadiwada,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9826253861,hamlet,Gavandiwada,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9826253862,hamlet,Kudapwada,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9826253863,hamlet,Bholwada,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9826253864,hamlet,Kalamwada,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9826253865,village,Podocem,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/9826253866,hamlet,Kulchirie,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/9826253867,hamlet,Kudachira,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/9826638414,village,Kankirem,,,,,,Conquirem,,,109.0,Gangem,GOTIAKHADILWADA,Satari
+node/9826638415,village,Gulei,,,,,,,,,99.0,Guleli,GULELI,Satari
+node/9826638416,hamlet,Padeli,,,,,,,,,99.0,Guleli,GULELI,Satari
+node/9826703317,hamlet,Bhomwadi,,,,,,,,,100.0,Padeli,BHOMWADI,Satari
+node/9826703318,hamlet,Gavedwadi,,,,,,,,,100.0,Padeli,BHOMWADI,Satari
+node/9826703783,isolated_dwelling,,,,,,,,,,101.0,Birondem,BHIRONDE,Satari
+node/9829202006,village,Maulinguem,,,,,,,,,34.0,Maulinguem North,MAVLINGE,Satari
+node/9829202007,hamlet,Korapur,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9829202008,hamlet,Karekhajan,,,,,,,,,272.0,Virdi,VIRDI,Bicholim
+node/9829202009,hamlet,Virdi,,,,,,,,,272.0,Virdi,VIRDI,Bicholim
+node/9829202010,hamlet,Maulinguem South,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9829202011,village,Cudnam,,,,,,,,,276.0,Cudnem,KUDNE,Bicholim
+node/9829273377,village,Vantem,,,,,,,,,104.0,Vantem,VANTE GAONKARWADA,Satari
+node/9829273378,hamlet,Vinte Madhalwada,,,,,,,,,104.0,Vantem,VANTE GAONKARWADA,Satari
+node/9829273379,hamlet,Dongarwada,,,,,,,,,104.0,Vantem,VANTE GAONKARWADA,Satari
+node/9829273380,hamlet,Nayawada,,,,,,,,,104.0,Vantem,VANTE GAONKARWADA,Satari
+node/9829273381,hamlet,Piliyekarwada,,,,,,,,,105.0,Vaguriem,WAGURE,Satari
+node/9829273382,village,Porcem,,,,,,,,,107.0,Ponocem,PANSE,Satari
+node/9829273383,hamlet,Chulayen,,,,,,,,,88.0,Sonus-Vonvoliem,OVALAYEN,Satari
+node/9829273384,village,Sonus-Vonvoliem,,,,,,,,,88.0,Sonus-Vonvoliem,OVALAYEN,Satari
+node/9829391186,hamlet,Morlem,,,,,,Marle,,,82.0,Morlem,MORLE,Satari
+node/9829391187,hamlet,Moite,,,,,,,,,35.0,Ravona,RAVAN,Satari
+node/9829391188,village,Poriem,,,,,,Pariye,,,278.0,Poriem,PARIYE,Satari
+node/9829391189,hamlet,Penja,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/9832105525,village,Sanvordem,,,,,,,,,62.0,Sanvordem,SANVARDE,Satari
+node/9832105526,village,Cudcem,,,,,,,,,65.0,Bombedem,BOMBEDE,Satari
+node/9832105527,village,Bombedem,,,,,,,,,65.0,Bombedem,BOMBEDE,Satari
+node/9832105528,village,Veluz,,,,,,,,,94.0,,VELUZ,Satari
+node/9832105529,village,Satorem,,,,,,,,,76.0,Satorem,HEDODE,Satari
+node/9832105530,hamlet,Naneli,,,,,,,,,77.0,Naneli,NANELI,Satari
+node/9832105531,village,Pale,,,,,,Pali,,,79.0,Pale,PALI,Satari
+node/9834927306,village,Sonal,,,,,,,,,61.0,Sonal,SONAL,Satari
+node/9834927307,village,Davem,,,,,,,,,66.0,Davem,DONGARVADA,Satari
+node/9834927308,village,Ustem,,,,,,,,,69.0,Ustem,USTE,Satari
+node/9834927309,locality,Pendral,,,,,,,,,60.0,Caranzol,KARANZOL,Satari
+node/9834927310,locality,Kosamochi Dhot,,,,,,,,,60.0,Caranzol,KARANZOL,Satari
+node/9834927311,hamlet,Kunma,,,,,,,,,60.0,Caranzol,KARANZOL,Satari
+node/9834927312,village,Caranzol,,,,,,,,,60.0,Caranzol,KARANZOL,Satari
+node/9834927313,hamlet,Bhombar,,,,,,Bambar,,,71.0,Maloli,MALOLI,Satari
+node/9837376790,hamlet,Carambolim-Brahma,,,,,,,,,68.0,Carambolim- Brama,KARAMBALI BRAMHA,Satari
+node/9837376791,hamlet,Nagargao,,,,,,,,,67.0,Ambedem,AMBEDE,Satari
+node/9837376792,village,Ambedem,,,,,,,,,67.0,Ambedem,AMBEDE,Satari
+node/9839850860,hamlet,Xelpo-Buzruco,,,,,,,,,73.0,Xelopo-Buzruco,SALPI BUDRUK,Satari
+node/9839850861,hamlet,Sigonem,,,,,,,,,74.0,Sigonem,SINGNA,Satari
+node/9839850862,hamlet,Dongurli,,,,,,,,,75.0,Dongurli,DONGURVADA,Satari
+node/9839850863,neighbourhood,Nagoli,,,,,,,,,75.0,Dongurli,DONGURVADA,Satari
+node/9839850864,neighbourhood,Thane,,,,,,,,,75.0,Dongurli,DONGURVADA,Satari
+node/9840010447,village,Cotorem,,,,,,,,,97.0,Cotorem,KHOTODE,Satari
+node/9840010448,neighbourhood,Bimbal,,,,,,,,,97.0,Cotorem,KHOTODE,Satari
+node/9840153784,village,Mauxi,,,,,,Mauzi,,,93.0,Mauzi,MAUSI,Satari
+node/9840153785,village,Cumaroonda,,,,,,,,,89.0,Cumarconda,KUMAR KHAND,Satari
+node/9840153786,village,Vaguriem,,,,,,,,,105.0,Vaguriem,WAGURE,Satari
+node/9840153787,hamlet,Singne,,,,,,,,,105.0,Vaguriem,WAGURE,Satari
+node/9842572572,village,Sanvorcem,,,,,,,,,102.0,Sanvorcem,SANVARSHE,Satari
+node/9842572573,hamlet,,,,,,,,,,96.0,Codqui,BARAJAN,Satari
+node/9842572574,hamlet,Baralan,,,,,,,,,96.0,Codqui,BARAJAN,Satari
+node/9842572575,village,Nanus,,,,,,Nanui,,,91.0,,NANUZ,Satari
+node/9842910457,village,Advoi,,,,,,,,,103.0,Advoi,ADVAI DESAIWADA,Satari
+node/9842910458,neighbourhood,Adval Desaiwada,,,,,,,,,103.0,Advoi,ADVAI DESAIWADA,Satari
+node/9842910459,neighbourhood,Kumbharwada,,,,,,,,,103.0,Advoi,ADVAI DESAIWADA,Satari
+node/9842910460,hamlet,Codiem,,,,,,,,,90.0,Codiem,HASOLE,Satari
+node/9842910461,hamlet,Ansolem,,,,,,,,,90.0,Codiem,HASOLE,Satari
+node/9842910462,village,Naguem,,,,,,,,,92.0,Naguem,Naguem,Satari
+node/9843050880,hamlet,Patwal,,,,,,,,,64.0,Velguem,VELGUE,Satari
+node/9843215909,hamlet,Bdyarula,,,,,,,,,81.0,Querim,BAYALVADA,Satari
+node/9843215910,hamlet,Ghorti,,,,,,,,,45.0,Gonteli,GHONTELI,Satari
+node/9843215911,village,Gonteli,,,,,,,,,45.0,Gonteli,GHONTELI,Satari
+node/9849342347,village,Saleli,,,,,,,,,83.0,Saleli,SALILI,Satari
+node/9849342348,village,Zormen,,,,,,Zanne,,,84.0,Zormen,JARMA,Satari
+node/9849342349,village,Copordem,,,,,,,,,78.0,Edorem,KOPARDE,Satari
+node/9849342350,hamlet,Edorem,,,,,,,,,76.0,Satorem,HEDODE,Satari
+node/9852101946,village,Buimpal,,,,,,,,,85.0,Buimpal,BHUIPAL,Satari
+node/9852101947,hamlet,Dhatwada,,,,,,,,,87.0,Pissurlem,PISSURLE,Satari
+node/9852101948,hamlet,Dhendkal,,,,,,,,,86.0,Onda,HONDA,Satari
+node/9854320839,village,Ravona,,,,,,,,,35.0,Ravona,RAVAN,Satari
+node/9854348666,hamlet,Guvthal,,,,,,,,,275.0,Sanquelim,SANAUELIM,Bicholim
+node/9854348667,neighbourhood,Sankhali Housing Board Colony,,,,,,,,,274.0,Harvalem,HARVALE,Bicholim
+node/9854348668,hamlet,Vajri,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/9854348669,neighbourhood,Harwala,,,,,,,,,274.0,Harvalem,HARVALE,Bicholim
+node/9854348670,village,Harvalem,,,,,,,,,274.0,Harvalem,HARVALE,Bicholim
+node/9854536470,hamlet,Maina,,,,,,,,,273.0,Navelim,BHARINBAG,Bicholim
+node/9854536471,hamlet,Phulgawada,,,,,,,,,273.0,Navelim,BHARINBAG,Bicholim
+node/9854536472,neighbourhood,Phulgawada,,,,,,,,,273.0,Navelim,BHARINBAG,Bicholim
+node/9854536473,hamlet,Phal,,,,,,,,,276.0,Cudnem,KUDNE,Bicholim
+node/9854536474,hamlet,Chikkawada,,,,,,,,,276.0,Cudnem,KUDNE,Bicholim
+node/9857021545,village,Cotombi,,,,,,,,,258.0,Cotombi,KOTAMBI,Bicholim
+node/9857021546,village,Velguem,,,,,,,,,106.0,Velguem,VELGE,Bicholim
+node/9857021547,neighbourhood,Velge,,,,,,,,,106.0,Velguem,VELGE,Bicholim
+node/9857021548,neighbourhood,Vayalewada,,,,,,,,,106.0,Velguem,VELGE,Bicholim
+node/9858828942,hamlet,Rumakhwada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828943,hamlet,Khajanwada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828944,hamlet,Chavdiwada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828945,village,Surla,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828946,hamlet,Gaukawada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828947,hamlet,Devalwada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828948,hamlet,Tarijawakwada,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828949,hamlet,Jashiwada,,,,,,Joshibhat Khadapwada,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828950,hamlet,Khoagine,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828951,hamlet,Barajan,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828952,hamlet,Dingnaseri,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828953,hamlet,Kodski,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9858828954,hamlet,Bhojighat,,,,,,,,,259.0,Surla,DINGNASUR,Bicholim
+node/9859141651,neighbourhood,Bhamalwada,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141652,village,Pali,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141653,hamlet,Thorlal,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141654,neighbourhood,,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141655,neighbourhood,Mastakwada,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141656,hamlet,Devalwada,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141657,hamlet,Nevarwada,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/9859141658,hamlet,Ambesi,,,,,,,,,108.0,Pale,MASTAKWADA,Bicholim
+node/10230151372,hamlet,Vagona,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230158065,hamlet,Paraghate,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230158066,hamlet,Quedem,,,,,,Kudey,,,341.0,Cola,KOLA,Canacona
+node/10230158135,hamlet,Betul,,,,,,,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/10230163845,hamlet,Nuem,,,,,,,,,325.0,,GONVAL,Canacona
+node/10230174303,hamlet,Deval Khazan,,,,,,Devalkajjan,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/10230175452,hamlet,Tembe,,,,,,,,,326.0,Naquerim,NAKERI,Quepem
+node/10230183145,hamlet,Asoli,,,,,,,,,340.0,Quedem,KHEDE,Quepem
+node/10230183225,village,Gamval,,,,,,,,,325.0,,GONVAL,Canacona
+node/10230183545,hamlet,Malorem,,,,,,,,,325.0,,GONVAL,Canacona
+node/10230185744,hamlet,Matven,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230188271,hamlet,Paremol,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230189135,hamlet,Saleri,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230189776,hamlet,Kanibag,,,,,,,,,327.0,Quitol,KITAL,Quepem
+node/10230192313,hamlet,Dabem,,,,,,,,,327.0,Quitol,KITAL,Quepem
+node/10230195639,village,Kuddi,,,,,,,,,325.0,,GONVAL,Canacona
+node/10230196048,hamlet,Mudkud,,,,,,,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/10230197021,village,Morpirl,,,,,,,,,327.0,Quitol,KITAL,Quepem
+node/10230197022,hamlet,Parven,,,,,,,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/10230197866,hamlet,Kajumole,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/10230200797,hamlet,Bhatpal,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/10230200798,hamlet,Kolsar,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230203544,hamlet,Galayen,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230203545,hamlet,Shisheval,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230205082,village,Poinguinim,,,,,,,,Q7207884,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230205083,hamlet,Velvada,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230213299,hamlet,Aedophond,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230213301,hamlet,Kargal,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230213928,isolated_dwelling,Talen,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230213929,hamlet,Maragal,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230214483,hamlet,Chipalen,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230214484,village,Talpona,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230221328,hamlet,Sadolasen,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230221673,hamlet,Khavat,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230221674,hamlet,Borus,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/10230221675,village,Cotigao,,,,,,Khotigaon,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230226182,hamlet,Melvada,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230226637,hamlet,Tirvan,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230228167,hamlet,Velvada,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230228168,isolated_dwelling,Kumegal,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230233822,hamlet,Ghodkamal,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230234765,hamlet,Amonem,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230234935,village,Kolamb,,,,,,,,,343.0,Anjadip,CHAURI,Canacona
+node/10230236592,hamlet,Mutal,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230237315,hamlet,Kalshi,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230237884,village,Partagal,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230240539,hamlet,Ardophond,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230399307,hamlet,Astangal,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230399308,isolated_dwelling,Supagudi,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/10230432116,hamlet,Bhars,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230436082,hamlet,Chal,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230436466,hamlet,Jambhmal,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230436467,hamlet,Aven,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230441515,hamlet,,,,,,,,,,339.0,Barcem,BARSEN,Quepem
+node/10230441516,hamlet,Monem,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230445107,hamlet,Barsen,,,,,,Barcem,,,339.0,Barcem,BARSEN,Quepem
+node/10230445108,isolated_dwelling,Thudal,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230446304,hamlet,Tamanamal,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230446366,hamlet,Barsarem,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230447123,hamlet,Bode,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230447124,hamlet,Tirval,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230447400,hamlet,Kudewado,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230447402,hamlet,Pansulemol,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230448779,hamlet,Sukadset,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230449351,hamlet,Nane,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230451212,hamlet,Undrawada,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230451213,hamlet,Jaipod,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230451214,hamlet,Bhutpal,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/10230451849,hamlet,Anvali,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230452298,isolated_dwelling,Bhupar,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230452722,hamlet,Bondai,,,,,,,,,326.0,Naquerim,NAKERI,Quepem
+node/10230453417,hamlet,Jarsem,,,,,,,,,339.0,Barcem,BARSEN,Quepem
+node/10230453452,village,Nagarsen,,,,,,,,,343.0,Anjadip,CHAURI,Canacona
+node/10230453617,hamlet,Dabhel,,,,,,,,,379.0,Poinguinim,POINGUNIN,Canacona
+node/10230457637,hamlet,Sulkarna,,,,,,Sulcorna,,,374.0,Sulcorna,SURKARN,Quepem
+node/10230464363,hamlet,Satorli,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230467582,village,Savantwada,,,,,,,,,343.0,Anjadip,CHAURI,Canacona
+node/10230467583,hamlet,Kajalker,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/10230474331,hamlet,Devabag,,,,,,,,,343.0,Anjadip,CHAURI,Canacona
+node/10230475899,isolated_dwelling,Bambubouthan,,,,,,,,,347.0,Cazur,BAMBUBOUTHAN,Quepem
+node/10230479907,hamlet,Peden,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/10230479993,isolated_dwelling,Panha,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230479994,hamlet,Kazir,,,,,,Cazur,,,347.0,Cazur,BAMBUBOUTHAN,Quepem
+node/10230480698,hamlet,Kajalker,,,,,,,,,380.0,Loliem,LOLEN,Canacona
+node/10230482122,hamlet,Kankon,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/10230482123,hamlet,Chapoli,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/10230482870,isolated_dwelling,Gulen,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/10230482871,hamlet,Kalvaden,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/10230483532,hamlet,Korla,,,,,,Corla,,,348.0,Pirla,PIRL,Quepem
+node/10230484022,hamlet,Donbosko,,,,,,,,,374.0,Sulcorna,SURKARN,Quepem
+node/10230484857,hamlet,Jhinthwado,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10230484917,isolated_dwelling,Tale,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/10724380315,neighbourhood,Ganeshpuri,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10726442921,neighbourhood,Buta Waddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/10728060836,village,Quitla,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/10728060849,neighbourhood,Munang Waddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/10728071705,suburb,Khorlim,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10728071724,village,Badem,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/10733397954,neighbourhood,Pilerne Industrial Estate,,,,,,,,,314.0,Marra,MARRA,Bardez
+node/10733447550,village,Reis Magos,,,,,,,,Q2248527,313.0,Nerul,NERUL,Bardez
+node/10733447556,neighbourhood,Aforamento,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/10738752733,neighbourhood,Gaum Vaddi,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10738752735,neighbourhood,Katte Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/10740646149,neighbourhood,New Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/10741143927,neighbourhood,Soranto Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10743847823,neighbourhood,Escrivao Vaddo,,,,,,,,,312.0,,Kandoli,Bardez
+node/10743847827,neighbourhood,Marquis Vaddo,,,,,,,,,312.0,,Kandoli,Bardez
+node/10743847828,neighbourhood,Britto Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/10743847829,neighbourhood,Ximer Vaddo,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/10743847831,neighbourhood,Anna Vaddo,,,,,,,,,312.0,,Kandoli,Bardez
+node/10744007245,neighbourhood,Monteiro Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10744007246,neighbourhood,Dmello Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10746591764,neighbourhood,Gubla Vaddo,,,,,,,,,12.0,Oxel,OSHAL,Bardez
+node/10746591765,village,Marna,,,,,,,,Q104864322,16.0,Marna,SHIVOLI,Bardez
+node/10746644534,neighbourhood,Ekta Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10746644535,neighbourhood,Datta Wadi,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10746644540,neighbourhood,Mapusa Industrial Estate,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10746644590,neighbourhood,Pedem,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10746644591,quarter,Camar Khazan,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10746644601,neighbourhood,Gaunsa Wada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10748231632,neighbourhood,Lopes Vaddo,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/10748231638,neighbourhood,Malim Betim,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/10748231640,neighbourhood,Journalist Colony,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/10748231641,neighbourhood,Arradi Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/10749415896,neighbourhood,Lake View Colony,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10749415897,neighbourhood,La Campala Colony,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10749415898,neighbourhood,St. Mary's Colony,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10756400904,neighbourhood,Campal,,,,,,,,Q5027890,321.0,Panaji,PANAJI,Tiswadi
+node/10757172839,neighbourhood,Panjim Bazaar,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10757172840,suburb,Santa Inez,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10757172922,neighbourhood,Patto Colony,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/10761172632,neighbourhood,Madhlawada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/10762360471,neighbourhood,Kalchawada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/10763709951,neighbourhood,Junaswada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/10764139255,neighbourhood,Warcha Wada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/10769084283,hamlet,Kiranpani,,,,,,,,,4.0,Paliem,PALIEM,Pernem
+node/10770513613,neighbourhood,Tuem Industrial Estate,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/10848423418,suburb,Baina,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/10848442391,suburb,Sada,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/10851258710,suburb,Zuarinagar,,,,,,,,,219.0,Sancoale,SANKVAL,Mormugao
+node/10851258737,suburb,Vaddem,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/10852830581,neighbourhood,Vidhyanagar Colony,,Colônia Vidhyanagar,,,,,,,224.0,Dabolim,IJORSHI,Mormugao
+node/10941361989,village,Nagoa,,,,,,,,,216.0,Nagoa,NAGVE,Salcete
+node/10941361990,neighbourhood,Calapur,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/10943471954,suburb,Raia,,,,,,,,Q7283687,178.0,Raia,SANTEMOL,Salcete
+node/10943752179,neighbourhood,Zor Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10943752180,neighbourhood,Sonar Vaddo,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/10948743188,neighbourhood,Bamon Vaddo,,,,,,Baman Vaddo,,,15.0,Siolim,GUDE,Bardez
+node/10948786280,neighbourhood,Fernandez Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10957771572,neighbourhood,Dando,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10957989942,neighbourhood,Rodriguez Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10957989969,neighbourhood,Afframento Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10957989970,neighbourhood,Maina Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10957989971,neighbourhood,Bancar Vaddo,,,,,,Bankar Wada,,,15.0,Siolim,GUDE,Bardez
+node/10957990010,neighbourhood,Soares Vaddo,,,,,,Voilo Vaddo,,,16.0,Marna,SHIVOLI,Bardez
+node/10963294165,village,Veliena,,,,,,,,,368.0,Viliena,VILYAN,Sanguem
+node/10963337649,neighbourhood,Piqueno Chiwar,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10963337653,neighbourhood,Dabholkar Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/10966030471,neighbourhood,Mazal Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/10968119659,neighbourhood,Xelpem,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10973695759,suburb,Ansabhat,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10973697189,neighbourhood,Vithalwadi,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10977392115,neighbourhood,Angod Waddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10978580072,neighbourhood,Ghateshwar Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10978707883,neighbourhood,Khadpa Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10978707884,neighbourhood,St. Joseph Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10988973197,neighbourhood,Khalcha Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10989016556,neighbourhood,Pilimbi Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10989016594,neighbourhood,Shree Dattaprasad Colony,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10989749731,locality,Siolim Market,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/10991711628,neighbourhood,Morod,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/10992307320,neighbourhood,Camurlim Housing Board,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11006002408,village,,,,,,,,,,179.0,Siroda,SHIRODA,Ponda
+node/11006014822,village,Mangeshi,Mangeshi,,,,,Mangueshi,,Q6749003,251.0,Priol,PRIOL,Ponda
+node/11006923555,village,Britona,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/11006923558,neighbourhood,SBI Colony,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/11007832269,neighbourhood,Kundai Industrial Estate,,,,,,,,,264.0,Cundaim,KUNDAI,Ponda
+node/11007832277,village,Kundai,,,,,,,,,264.0,Cundaim,KUNDAI,Ponda
+node/11007901225,neighbourhood,Madkai Industrial Estate,,,,,,,,,250.0,Marcaim,MADKAI,Ponda
+node/11008080167,village,Juve,,,,,,St Estevam,,,269.0,Jua,JUA,Tiswadi
+node/11008090708,suburb,Farmagudi,,,,,,,,Q5435612,253.0,Bandora,BANDIWADA,Ponda
+node/11009611780,village,Cuncoliem,,,,,,Kunkoliem,,Q109170365,263.0,Cuncoliem,KUNKULE,Ponda
+node/11009683548,neighbourhood,Sabnis Valley,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/11010017277,neighbourhood,St. Anthony Vaddo,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/11054899154,neighbourhood,Igrez Vaddo,,,,,,Igreja Vaddo,,,16.0,Marna,SHIVOLI,Bardez
+node/11077377095,neighbourhood,Ganesh Nagar,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11077377101,neighbourhood,Mushir Wada,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11081400566,neighbourhood,Shetye Vaddo,,,,,,Xetia Vaddo,,,303.0,Mapusa,MAPUCA,Bardez
+node/11085435351,neighbourhood,Mhadlem Bhat,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11085435352,neighbourhood,Gaunsa Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11160050293,neighbourhood,Varcha Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11160050298,neighbourhood,Tropa Waddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11167732060,suburb,Panelim,,,,,,,,,240.0,,PANVELIM,Tiswadi
+node/11167732066,neighbourhood,Hill City,,,,,,,,,241.0,Bainguinim,BAINGINI,Tiswadi
+node/11167732067,neighbourhood,Hill Town,,,,,,,,,241.0,Bainguinim,BAINGINI,Tiswadi
+node/11167732140,neighbourhood,Kadamba Plateau,,,,,,,,,240.0,,PANVELIM,Tiswadi
+node/11172276877,suburb,Karaswada,,,,,,,Carras Vaddo,,303.0,Mapusa,MAPUCA,Bardez
+node/11172276879,village,Canca,,,,,,,,Q104875362,305.0,Guirim,GIRIN,Bardez
+node/11185872825,neighbourhood,Canca Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/11204403595,village,São Matias,,,,,,Malar,,Q7594683,289.0,Malar,MALAR,Tiswadi
+node/11204581631,village,Camurlim,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11204597038,neighbourhood,Teenmad,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11204773348,neighbourhood,Darbarwada,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11204773357,neighbourhood,Wagali,,,,,,Vagalim,,,17.0,Camurlim,OGALI,Bardez
+node/11204773358,neighbourhood,Dallawaddo,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11204773359,village,Khairat,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11204773565,village,Chikhli,,,,,,Chicalim,,,20.0,Colvale,KOLVAL,Bardez
+node/11207103929,neighbourhood,Tuar Vaddo,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11207103956,neighbourhood,Voiza Vaddo,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11207103957,neighbourhood,St. Anthony Vaddo,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11210487800,village,Arabo,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/11210758380,neighbourhood,Bhom Wada,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/11210758468,neighbourhood,Gaonkar Wada,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/11210758653,neighbourhood,Bandir Wada,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/11210758803,neighbourhood,Shirgalim,,,,,,Shirgal,,,21.0,Dargalim,DHARGAL,Pernem
+node/11210853599,neighbourhood,Vetal Wada,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/11210853605,neighbourhood,Duel Wada,,,,,,,,,7.0,Tuem,TUYE,Pernem
+node/11235241286,neighbourhood,St. Jerome Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/11237612519,neighbourhood,Madel,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237612520,neighbourhood,Madel Housing Board,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237612522,neighbourhood,Green View Colony,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237655458,neighbourhood,Volvonem,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237655459,neighbourhood,Comprem,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237706342,neighbourhood,Nivol Vaddo,,,,,,,,,19.0,Sircaim,SIRSAI,Bardez
+node/11237706433,village,Sircaim,,,,,,,,Q100425944,19.0,Sircaim,SIRSAI,Bardez
+node/11237706434,neighbourhood,Bodiem,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237755577,neighbourhood,Cansa,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237846829,neighbourhood,God's Paradise Housing Colony,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237846832,neighbourhood,Auchit Vaddo,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237846833,neighbourhood,Lobo Vaddo,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237869709,neighbourhood,Lima Vaddo,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237869710,neighbourhood,Indira Nagar,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11237869715,neighbourhood,Dhanva,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/11268532785,neighbourhood,Binani,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11303109252,village,Kelbaiwada,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/11304725916,village,Keri,,,,,,Anjunem,,,81.0,Querim,BAYALVADA,Satari
+node/11327947362,neighbourhood,Mainat Bhatti,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/11327947363,neighbourhood,Tambudki Vaddo,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/11327947364,neighbourhood,Diwan Bhatti,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/11327947365,neighbourhood,Veigas Vaddo,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/11346193832,neighbourhood,Koni Wado,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11346193857,neighbourhood,Xell Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11349419123,neighbourhood,Madhalamaz,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/11351596375,neighbourhood,Armolkar Wada,,,,,,,,,11.0,Parcem,PARSE,Pernem
+node/11351596376,neighbourhood,Vai Dongar,,,,,,,,,11.0,Parcem,PARSE,Pernem
+node/11351596388,neighbourhood,Khariwada,,,,,,,,,11.0,Parcem,PARSE,Pernem
+node/11357668361,neighbourhood,Chawda Wada,,,,,,,,,11.0,Parcem,PARSE,Pernem
+node/11358740826,neighbourhood,Munang Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/11358740841,neighbourhood,Warcha Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/11358740849,neighbourhood,Tembwada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/11358740850,neighbourhood,Vithaldas Wada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/11380707213,neighbourhood,St. Sebastian Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/11391059919,neighbourhood,Samudai,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11402094792,neighbourhood,Valdares Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11449050888,neighbourhood,Keniwada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/11449050890,neighbourhood,Avchitvaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11449050892,neighbourhood,Prais Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/11502745274,neighbourhood,B. Arradi Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/11502745275,neighbourhood,Silva Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/11530478891,neighbourhood,Jackni Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/11533113764,neighbourhood,Green Valley Colony,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/11536255265,neighbourhood,St. Francis Vaddo,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11586159936,neighbourhood,Chinvar,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/11687092576,neighbourhood,Durga Nagar,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11707449173,neighbourhood,Abaxio Vaddo,,,,,,Abbas Vaddo,,,305.0,Guirim,GIRIN,Bardez
+node/11707936859,neighbourhood,Hali Wada,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11708933104,neighbourhood,Colvale Industrial Area,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/11709089682,hamlet,Ambarim,,,,,,,,,292.0,Caraim,MADEL,Tiswadi
+node/11709089707,village,Kerem,,,,,,Caraim,,,292.0,Caraim,MADEL,Tiswadi
+node/11710909524,hamlet,Talsai,,,,,,,,,366.0,Curdi,KURDI,Sanguem
+node/11715646462,neighbourhood,Murmusem,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/11715646464,neighbourhood,Ghol Wada,,,,,,,,,16.0,Marna,SHIVOLI,Bardez
+node/11757219393,neighbourhood,Buddhavada,,,,,,,,,17.0,Camurlim,OGALI,Bardez
+node/11774909347,village,Poriebhat,,,,,,,,,212.0,Loutulim,LOTLI,Salcete
+node/11774909516,village,Rachol,,,,,,,,Q7279550,180.0,Curtorim,SHELVAN,Salcete
+node/11775855875,village,Curpem,,,,,,,,,361.0,Curpem,KURPE,Sanguem
+node/11775856050,hamlet,Tudav,,,,,,,,,377.0,Verlem,VERLEN,Sanguem
+node/11775856051,neighbourhood,Padalwado,,,,,,,,,377.0,Verlem,VERLEN,Sanguem
+node/11775856052,village,Verlem,,,,,,,,,377.0,Verlem,VERLEN,Sanguem
+node/11775856268,village,Vaddem,,,,,,,,,362.0,Porteem,PORTEM,Sanguem
+node/11830380024,neighbourhood,Gawdewada,,,,,,,,,14.0,Morjim,MORJIM,Pernem
+node/11832726690,neighbourhood,Mane,,,,,,,,,372.0,Netorli,NETRAVLI,Sanguem
+node/11832726697,neighbourhood,Rumde,,,,,,,,,372.0,Netorli,NETRAVLI,Sanguem
+node/11834819961,neighbourhood,Sakailowado,,,,,,,,,376.0,Nundem,NUNE,Sanguem
+node/11834896070,neighbourhood,Vailowado,,,,,,,,,376.0,Nundem,NUNE,Sanguem
+node/11834896136,village,Nundem,,,,,,,,,376.0,Nundem,NUNE,Sanguem
+node/11835578414,neighbourhood,Jakem,,,,,,,,,372.0,Netorli,NETRAVLI,Sanguem
+node/11837105710,neighbourhood,Bendwado,,,,,,Bena,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837105711,neighbourhood,Dando,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837105712,neighbourhood,Moirawado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837105713,neighbourhood,Cotto,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837133610,neighbourhood,Kharkate Ghati,,,,,,Kharkate Ghati,,,146.0,Curchorem-Cacora,KUDCHADEN,Quepem
+node/11837133615,neighbourhood,Bazarwado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837266592,village,Uguem,,,,,,,,,131.0,Uguem,UGEM,Sanguem
+node/11837266644,neighbourhood,Pajimol,,,,,,,,,131.0,Uguem,UGEM,Sanguem
+node/11837569391,neighbourhood,Zariwado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11837824100,neighbourhood,Saudimol,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11865998582,hamlet,Valkini,,,,,,,,,367.0,Bati,BATI,Sanguem
+node/11866032379,village,Sanvordem,,,,,,,,Q720846,137.0,Sanvordem,SANVARDEM,Sanguem
+node/11866032380,village,Mirabag,,,,,,,,,137.0,Sanvordem,SANVARDEM,Sanguem
+node/11866032381,hamlet,Guddemol,,,,,,,,,136.0,Rumbrem,RUMBREM,Sanguem
+node/11866152984,village,Bhati,,,,,,,,,367.0,Bati,BATI,Sanguem
+node/11866283729,village,Ambeudak,,,,,,,,,163.0,Santona,SANTONA,Sanguem
+node/11868157734,hamlet,Deulamol,,,,,,,,,145.0,Nagvem,NAGVEM,Quepem
+node/11868157735,village,Bhinde,,,,,,,,,357.0,Molcarnem,MALKARNE,Quepem
+node/11868157736,village,Molcopona,,,,,,Malakpan,,,359.0,Molcopona,MALKAPOM,Quepem
+node/11868157737,village,Mugoli,,,,,,,,,142.0,Muguli,MUGULI,Sanguem
+node/11868157738,neighbourhood,Nondurlem,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11868157739,neighbourhood,Taripanto,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11868157740,neighbourhood,Orkotto,,,,,,Varkotto,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11868157741,village,Kelvona,,,,,,,,,360.0,Colomba,KOLAMBA,Sanguem
+node/11868157742,village,Mascavrem,,,,,,,,,360.0,Colomba,KOLAMBA,Sanguem
+node/11868157748,neighbourhood,Sattarkarwado,,,,,,,,,361.0,Curpem,KURPE,Sanguem
+node/11868157749,neighbourhood,Chimutwado,,,,,,,,,361.0,Curpem,KURPE,Sanguem
+node/11868157752,neighbourhood,Bandwado,,,,,,,,,372.0,Netorli,NETRAVLI,Sanguem
+node/11868157753,hamlet,Kongare,,,,,,,,,367.0,Bati,BATI,Sanguem
+node/11868157754,hamlet,Vakikulan,,,,,,,,,124.0,Sigao,SHIGAON,Dharbandora
+node/11868157755,neighbourhood,Bharipwado,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+node/11868157756,neighbourhood,Sauzamol,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+node/11868157757,village,Voldeon,,,,,,,,,163.0,Santona,SANTONA,Sanguem
+node/11868157758,hamlet,Dudal,,,,,,,,,133.0,Dudal,DUDAL,Sanguem
+node/11868157760,village,Costimol,,,,,,,,,132.0,Costi,KASHTI,Sanguem
+node/11868157761,village,Costi,,,,,,Kashti,,,132.0,Costi,KASHTI,Sanguem
+node/11868174269,neighbourhood,Kamral,,,,,,,,,138.0,Curchorem-Cacora,HODAR,Quepem
+node/11868174270,village,Dhadem,,,,,,,,,139.0,Comproi,KANPRAY,Sanguem
+node/11868174271,village,Bandoli,,,,,,,,,135.0,Bandoli,BANDOLI,Dharbandora
+node/11868174274,neighbourhood,Deunamol,,,,,,,,,125.0,Calem,COLEM,Sanguem
+node/11868174275,hamlet,Valshe,,,,,,,,,370.0,Naiquinim,NAIQUINIM,Sanguem
+node/11868174293,neighbourhood,Damal,,,,,,,,,131.0,Uguem,UGEM,Sanguem
+node/11868286385,hamlet,Zuna,,,,,,,,,130.0,Patiem,PATIEM,Sanguem
+node/11871650666,neighbourhood,Kodlamol,,,,,,,,,144.0,Cotarli,KOTARLI,Sanguem
+node/11871650667,neighbourhood,Borchimol,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11871650668,neighbourhood,Temchowado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093337,neighbourhood,Madhalowado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093338,neighbourhood,Coilapar,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093339,neighbourhood,Vithalwadi,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093340,neighbourhood,Khutiwado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093341,neighbourhood,Oilowado,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093342,neighbourhood,Dattawadi,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093343,neighbourhood,Boilapar,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093344,neighbourhood,Chikalmol,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093345,neighbourhood,Orkottomol,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093346,neighbourhood,Bamonsai,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093347,neighbourhood,Pattem,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093348,neighbourhood,Khairekhatem,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093349,neighbourhood,Pangal,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11879093350,neighbourhood,Chincha,,,,,,,,,143.0,Sanguem,SANGUEM,Sanguem
+node/11886078178,village,Molcornem,,,,,,,,,145.0,Nagvem,NAGVEM,Quepem
+node/11900895514,neighbourhood,Girkar Wada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/12058891898,neighbourhood,Xell Vaddo,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12058891899,village,Bastora,,,,,,,,Q4868363,305.0,Guirim,GIRIN,Bardez
+node/12067341299,neighbourhood,Feira Alto,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12081015355,village,Punola,,,,,,,,,304.0,Paliem,PALIYE,Bardez
+node/12081377284,neighbourhood,Chari Vaddo,,,,,,,,,301.0,Moira,MOIDE,Bardez
+node/12081429662,neighbourhood,Vaigun Vaddo,,,,,,,,,302.0,Nachinola,NACHINALA,Bardez
+node/12082894264,neighbourhood,Manguirish Colony,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/12082908989,neighbourhood,Damadem Vaddo,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/12104944154,neighbourhood,Gavkarvada,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/12104944428,hamlet,Ponolem,,,,,,,,,284.0,Calvim,KALVI,Bardez
+node/12104944429,village,Kalvi,,,,,,Calvim,,Q25689900,284.0,Calvim,KALVI,Bardez
+node/12104944685,village,Mayem,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/12104944686,village,Shikeri,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/12104944861,village,Madel,,,,,,,,,292.0,Caraim,MADEL,Tiswadi
+node/12119968179,neighbourhood,Shimvaddo,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/12128375515,neighbourhood,Goltim,,,,,,,,,290.0,Goltim,GOLTIM,Tiswadi
+node/12128375516,village,Cumbarjua,,,,,,,,,266.0,Cumbarjua,KUMBHAR JUVEN,Tiswadi
+node/12133316541,neighbourhood,Barros-Sonar Waddo,,,,,,,,,317.0,Sangolda,SANGOLDA,Bardez
+node/12137091033,neighbourhood,Malar,,,,,,,,,289.0,Malar,MALAR,Tiswadi
+node/12137091034,neighbourhood,Navelim,,,,,,,,,293.0,Navelim,NAVELI,Tiswadi
+node/12140547561,suburb,Socorro,,,,,,,,Q282424,318.0,Socorro,PORVORIM,Bardez
+node/12144350017,neighbourhood,Freitas Vaddo,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12144757978,neighbourhood,Bondir Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12144757979,neighbourhood,Dabhol Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12144757980,neighbourhood,Deul Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12144757981,neighbourhood,Dando,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12144757982,neighbourhood,Grande Peddem,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12154017338,village,Verla,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12155646031,neighbourhood,Vancio Vaddo,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12155646032,neighbourhood,Sorvem Vaddo,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12157639324,neighbourhood,Bairo Alto,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12162916510,neighbourhood,Press Colony,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12165023227,neighbourhood,PDA Colony,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12165023230,neighbourhood,Morod Vaddo,,,,,,,,,317.0,Sangolda,SANGOLDA,Bardez
+node/12174369501,neighbourhood,St. Cajetan Colony,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12179699397,neighbourhood,Fonduvem,,,,,,,,,235.0,,RAYBANDAR,Tiswadi
+node/12183351046,neighbourhood,Huddo Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12188376736,neighbourhood,Lobo Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/12198565906,village,Varkhand,,,,,,Varconda,,,40.0,Varconda,VARKHAND,Pernem
+node/12198565907,hamlet,Nanachepani,,,,,,,,,40.0,Varconda,VARKHAND,Pernem
+node/12198565936,neighbourhood,Shemeche Advan,,,,,,,,,40.0,Varconda,VARKHAND,Pernem
+node/12215723052,neighbourhood,Pintos Vaddo,,,,,,,,,312.0,,Kandoli,Bardez
+node/12216697920,neighbourhood,Coimvaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/12216699320,neighbourhood,Ranoi,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/12216699635,neighbourhood,Naicvaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/12222115338,neighbourhood,Gama Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/12222725260,village,Paliem,,,,,,,,,4.0,Paliem,PALIEM,Pernem
+node/12222754020,village,Kasarvarne,,,,,,Cansarnavorem,,,39.0,Cansarvornem,KASARVARNE,Pernem
+node/12222754021,village,Ozorim,,,,,,,,,22.0,Ozorim,VAJRI,Pernem
+node/12222757523,village,Ibrampur,,,,,,,,,27.0,Ibrampur,IBRAMPUR,Pernem
+node/12222758150,village,Virnoda,,,,,,Virnora,,,6.0,Virnora,VIRNODA,Pernem
+node/12222758179,village,Torse,Toxem,,,,,,,,43.0,Torxem,TORSE,Pernem
+node/12222758180,village,Uguem,,,,,,,,,41.0,Uguem,UGUEM,Pernem
+node/12248746334,neighbourhood,Cardoz Vaddo,,,,,,,,,323.0,Taleigao,DURGAVADO,Tiswadi
+node/12279170356,neighbourhood,Mercurim,,,,,,,,,248.0,Mercurim,MERKURI,Tiswadi
+node/12284891210,neighbourhood,Fernen Vaddo,,,,,,,,,31.0,Assonora,ASNODE,Bardez
+node/12284891216,neighbourhood,Grand Khori,,,,,,,,,19.0,Sircaim,SIRSAI,Bardez
+node/12284891220,neighbourhood,Bhandar Vaddo,,,,,,,,,31.0,Assonora,ASNODE,Bardez
+node/12284891229,neighbourhood,Canturlim,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/12284922400,neighbourhood,St. Ann Colony,,,,,,,,,18.0,Tivim,DAT,Bardez
+node/12285116118,neighbourhood,Indira Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12285116135,neighbourhood,Sai Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12289661642,neighbourhood,Chima Vaddo,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/12295985126,neighbourhood,Dandoswada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12333914422,neighbourhood,Pinto D’Souza Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12333914433,neighbourhood,Sainik Housing Society,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/12334208369,neighbourhood,Porvorim Old Bazaar,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12334764479,neighbourhood,Saulem,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12334764736,neighbourhood,Green Valley,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12334764868,neighbourhood,Goan Paradise Colony,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12336285048,neighbourhood,Annapurna Nagar,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/12364201426,neighbourhood,Dehul Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12382116371,neighbourhood,Gumal Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12384793752,suburb,Mangor,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/12384793765,neighbourhood,Varunapuri,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/12401334913,neighbourhood,Bakul Colony,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12401340524,neighbourhood,Tivim Industrial Estate,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12403276631,neighbourhood,Mahalaxmi Layout,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12408869628,neighbourhood,Pirazona,,,,,,,,,301.0,Moira,MOIDE,Bardez
+node/12415386486,neighbourhood,Tali Wada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12415399901,neighbourhood,Khalap Wada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12424735485,neighbourhood,Fondac Vaddo,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12424807580,neighbourhood,Sancoachy Arradi,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12433184844,village,Curca,,,,,,,,,228.0,Curca,KURKA,Tiswadi
+node/12480830808,suburb,Bainguinim,,,,,,,,,241.0,Bainguinim,BAINGINI,Tiswadi
+node/12485025646,neighbourhood,Ella Farm,,,,,,,,,242.0,Ella,VELA,Tiswadi
+node/12485025647,village,Talaulim,,,,,,,,,238.0,Talaulim,TALAUIM,Tiswadi
+node/12485025648,village,Goalim Moula,,,,,,,,,239.0,Goalim Moula,GOALIM MOVLA,Tiswadi
+node/12485025649,village,Neura-O-Pequeno,,,,,,,,,247.0,Neura-O-Pequeno,NEVRA PIKNE,Tiswadi
+node/12485025650,village,Mandur,,,,,,,,,245.0,Mandur,MANUR,Tiswadi
+node/12487008643,neighbourhood,Khobra Vaddo,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/12487008644,neighbourhood,Naikawado,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/12487065711,neighbourhood,Agar Vaddo,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/12487065725,neighbourhood,Gaurav Vaddo,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/12555935114,neighbourhood,Pundalik Nagar,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/12556109930,neighbourhood,Saldanha Colony,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/12557109640,neighbourhood,Ram Nagar,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/12557109641,suburb,Alto Betim,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/12557109652,neighbourhood,Sonar Bhat,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/12574640929,neighbourhood,Sateri Nagar,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12574672836,village,Patradevi,,,,,,,,,43.0,Torxem,TORSE,Pernem
+node/12583463740,neighbourhood,Rajwada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12583754317,neighbourhood,Demello Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12589668668,neighbourhood,Lima Vaddo,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12592434442,neighbourhood,Rauta Vaddo,,,,,,,,,316.0,Nagoa,NAGVA,Bardez
+node/12592434443,neighbourhood,Camotin Vaddo,,,,,,,,,312.0,,Kandoli,Bardez
+node/12592434444,neighbourhood,Fuldem Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/12595022735,neighbourhood,Feira Baixa,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12595258009,suburb,Altinho,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12595627150,neighbourhood,Escrivao Vaddo,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+node/12595627151,neighbourhood,Nig Vaddo,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/12595627152,neighbourhood,Arradi Saligao,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/12595627153,neighbourhood,Cruz Vaddo,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/12595627166,neighbourhood,Sonarbhat,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/12595683067,neighbourhood,Green Hills,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12606169098,neighbourhood,Kailas Nagar,,,,,,,,,31.0,Assonora,ASNODE,Bardez
+node/12610313293,village,Menkure,,,,,,Mencurem,,,26.0,Mencurem,MENKURE,Bicholim
+node/12610313296,village,Talarna,,,,,,,,,36.0,Alorna,ALORNA,Pernem
+node/12610409189,village,Sal,,,,,,,,,28.0,Salem,SAL,Bicholim
+node/12612285818,neighbourhood,Desai Vaddo,,,,,,,,,24.0,Moitem,PIRNA,Bardez
+node/12612420116,village,Amthane,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/12612420298,neighbourhood,Mesta Vaddo,,,,,,,,,24.0,Moitem,PIRNA,Bardez
+node/12612437079,village,Mulgao,,,,,,,,,32.0,Mulgao,MULGAON,Bicholim
+node/12612437080,neighbourhood,Advalpale,,,,,,,,,30.0,Adwalpale,ADVALPAL,Bicholim
+node/12612437081,village,Usap,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/12613330970,neighbourhood,Kepkarwada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613330972,neighbourhood,Marathwada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613330973,neighbourhood,Deulwada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613357289,village,Nadora,,,,,,,,Q104869412,23.0,Nadora,NEDORA,Bardez
+node/12613368565,neighbourhood,Sachebhat,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613368566,neighbourhood,Sawantwada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613368567,neighbourhood,Naikwada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12613368568,neighbourhood,Askawada,,,,,,,,,10.0,Mandrem,MANDREM,Pernem
+node/12622217772,locality,Ward 6,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12626166722,village,Kumyamala,,,,,,,,,28.0,Salem,SAL,Bicholim
+node/12640895782,neighbourhood,Almeida Vaddo,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/12652791946,village,Arla,,,,,,,,,251.0,Priol,PRIOL,Ponda
+node/12672145060,neighbourhood,Pello Vaddo,,,,,,,,,296.0,Ucassaim,UKSAI,Bardez
+node/12672145083,neighbourhood,Couto Vaddo,,,,,,,,,296.0,Ucassaim,UKSAI,Bardez
+node/12672234516,neighbourhood,Lourdes Vaddo,,,,,,,,,296.0,Ucassaim,UKSAI,Bardez
+node/12672255138,neighbourhood,Ganesh Colony,,,,,,,,,296.0,Ucassaim,UKSAI,Bardez
+node/12686391002,neighbourhood,Don Vaddo,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/12695806318,neighbourhood,Boa Vista Vaddo,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12701303451,neighbourhood,Zari,,,,,,,,,219.0,Sancoale,SANKVAL,Mormugao
+node/12701493922,neighbourhood,Airway Colony,,,,,,,,,219.0,Sancoale,SANKVAL,Mormugao
+node/12706374565,neighbourhood,Modlo Vaddo,,,,,,,,,16.0,Marna,SHIVOLI,Bardez
+node/12706495553,neighbourhood,Birmottem,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12706495590,neighbourhood,Dattawadi,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12707245053,neighbourhood,Zos Vaddo,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12707245066,neighbourhood,Carrem,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12707245072,neighbourhood,Aradi,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12707245073,neighbourhood,Vaddem,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/12717628578,neighbourhood,Bal Bhat,,,,,,Balbot,,,305.0,Guirim,GIRIN,Bardez
+node/12721861073,neighbourhood,Suvarna Colony,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12731589258,neighbourhood,Voilo Vaddo,,,,,,Vale Vaddo,,,308.0,Assagao,ASGAON,Bardez
+node/12731589260,neighbourhood,Gongerem Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12735745327,neighbourhood,Bilow Pedem,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12735745337,neighbourhood,Emerald Fields Layout,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12736615193,neighbourhood,Valjar Vaddo,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+node/12751781000,neighbourhood,Bailem Bhat,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12751830401,neighbourhood,Kerem,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12751830603,neighbourhood,Bhatir Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12751830604,neighbourhood,Araddi Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12751830605,neighbourhood,Aframento Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12751830606,neighbourhood,Cruz Vaddo,,,,,,,,,16.0,Marna,SHIVOLI,Bardez
+node/12751830607,neighbourhood,Chaudi Vaddo,,,,,,,,,16.0,Marna,SHIVOLI,Bardez
+node/12751844906,neighbourhood,Uddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12751844907,neighbourhood,Tarchi Bhat,,,,,,,,,12.0,Oxel,OSHAL,Bardez
+node/12751844948,neighbourhood,Porta Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12751844949,neighbourhood,Nowem,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12753322573,neighbourhood,Alto Dhuler,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12775692195,neighbourhood,Sonsodo,,,,,,,,,178.0,Raia,SANTEMOL,Salcete
+node/12784120476,neighbourhood,Phukat Vaddo,,,,,,,,,308.0,Assagao,ASGAON,Bardez
+node/12786104621,neighbourhood,Namoshi,,,,,,,,,305.0,Guirim,GIRIN,Bardez
+node/12788057631,neighbourhood,Naika Vaddo,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12788057632,neighbourhood,Sai Nagar,,,,,,,,,307.0,Verla,PARRA,Bardez
+node/12789486540,village,Naiguinim,,,,,,,,,279.0,Curchirem,KUDCHIRE,Satari
+node/12789486541,hamlet,Lakhere,,,,,,,,,283.0,Bordem,,Bicholim
+node/12789487049,village,Kasarpal,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/12791074248,neighbourhood,Dongrim,,,,,,,,,245.0,Mandur,MANUR,Tiswadi
+node/12791074253,village,Azossim,,,,,,,,,243.0,Azossim,AJOSI,Tiswadi
+node/12791074254,village,Adcolna,,,,,,,,,262.0,Adcolna,HADKON,Ponda
+node/12791074255,village,Tiverm,,,,,,,,,267.0,Tivrem,TIVREN,Ponda
+node/12791074374,village,Nagzar,,,,,,,,,40.0,Varconda,VARKHAND,Pernem
+node/12791089258,village,Palem,,,,,,,,,227.0,Siridao,SIRIDAO,Tiswadi
+node/12791089263,village,Gancim,,,,,,,,,246.0,Gancim,GANSIM,Tiswadi
+node/12791940555,neighbourhood,Ravinagar,,,,,,,,,170.0,Ponda,PONDA,Ponda
+node/12791940734,village,Curti,,,,,,,,,253.0,Bandora,BANDIWADA,Ponda
+node/12791940735,suburb,Khandepar,,,,,,,,Q6400235,254.0,Candepar,KHANDEPAR,Ponda
+node/12791940736,village,Vagurbem,,,,,,,,,257.0,Vagurbem,KHAJANWADA,Ponda
+node/12792005271,village,Naroa,,,,,,,,,288.0,Naroa,NARVA,Bicholim
+node/12792005272,village,Aturli,,,,,,,,,286.0,Aturli,ATURLI,Bicholim
+node/12792022321,village,Vainguinim,,,,,,,,,285.0,Vainguinim,VAYANGNE,Bicholim
+node/12793912899,neighbourhood,Mainawda,,,,,,,,,9.0,Corgao,KORGAON,Pernem
+node/12793912900,neighbourhood,Pethecha Wada,,,,,,,,,9.0,Corgao,KORGAON,Pernem
+node/12793921707,neighbourhood,Valpe,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/12793921708,neighbourhood,Kulan,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/12794263731,neighbourhood,Bandh Vaddo,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/12794263732,neighbourhood,Segunda Bairo,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/12794263733,neighbourhood,Cabesa Ward,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/12794263734,neighbourhood,Alto Santa Cruz,,,,,,,,,231.0,Calapor,SANTHACRUZ,Tiswadi
+node/12794276356,hamlet,Kujra Velem Bhat,,,,,,Cujira,,,237.0,,KUJRA VELEM BHAT,Tiswadi
+node/12794924953,neighbourhood,Neugi Nagar,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/12802200362,neighbourhood,Gawli Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12803335986,neighbourhood,Vel Vaddo,,,,,,,,,218.0,Quelossim,KELOSIM,Mormugao
+node/12803335987,neighbourhood,Curpawada,,,,,,,,,217.0,Cortalim,KORTALI,Mormugao
+node/12803336078,village,Talaulim,,,,,,,,,172.0,Durbhat,DURBHAT,Ponda
+node/12803827002,hamlet,Kital,,,,,,Quitol,,,327.0,Quitol,KITAL,Quepem
+node/12809393936,village,Piliem,,,,,,,,,165.0,Darbandora,DARBANDORA,Dharbandora
+node/12811293430,neighbourhood,Vasant Nagar,,,,,,,,,274.0,Harvalem,HARVALE,Bicholim
+node/12811320313,locality,Satre,,,,,,,,,54.0,Satrem,SATRE,Satari
+node/12811473775,neighbourhood,Karapur,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/12811473776,neighbourhood,Vithalpur,,,,,,,,,277.0,Podocem,PODSEN,Satari
+node/12811473777,neighbourhood,Desai Nagar,,,,,,,,,275.0,Sanquelim,SANAUELIM,Bicholim
+node/12814685039,village,Betki,,,,,,Betqui,,,261.0,Betqui,BETGI,Ponda
+node/12814685040,neighbourhood,Wadi Wada,,,,,,,,,268.0,Candola,KHANDOLA,Ponda
+node/12817142944,suburb,Corlim,,,,,,,,,265.0,Corlim,KORLIM,Tiswadi
+node/12817142945,neighbourhood,Mangaddo,,,,,,,,,265.0,Corlim,KORLIM,Tiswadi
+node/12817142946,neighbourhood,PDA Colony,,,,,,,,,265.0,Corlim,KORLIM,Tiswadi
+node/12817142947,neighbourhood,Ravalnath Nagar,,,,,,,,,265.0,Corlim,KORLIM,Tiswadi
+node/12817142948,neighbourhood,Corlim Industrial Estate,,,,,,,,,265.0,Corlim,KORLIM,Tiswadi
+node/12819030485,village,Nirankal,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/12819030490,neighbourhood,Sai Nagar,,,,,,,,,110.0,Usgao,USGAON,Bicholim
+node/12821585098,village,Sangod,,,,,,,,,123.0,Sangod,SANGOD,Dharbandora
+node/12918587393,neighbourhood,Dangui Colony,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12920667771,neighbourhood,Maddi Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12944601994,village,,,,,,,,,,179.0,Siroda,SHIRODA,Ponda
+node/12945839443,neighbourhood,Cool Valley,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12948773017,neighbourhood,Rai Shivoli,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12951338263,village,Sarmanas,,,,,,,,,270.0,Piligao,PILIGAON,Bicholim
+node/12953824546,neighbourhood,Kumbar Vaddo,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12953824547,quarter,Alto Xelpem,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12953826299,quarter,Alto Dhuler,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/12977262651,village,Marra,,,,,,,,,314.0,Marra,MARRA,Bardez
+node/12977262654,neighbourhood,Moica Vaddo,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12977262666,neighbourhood,Vol Vaddo,,,,,,,,,319.0,Pilerne,PILERN,Bardez
+node/12979555426,village,Rassaim,,,,,,,,,175.0,Loutulim,RASAAIN,Salcete
+node/12979557802,village,Adpai,,,,,,,,,171.0,Durbhat,AGAPUR,Ponda
+node/12983427152,neighbourhood,Dicarpal,,,,,,,,,187.0,Dicarpale,DIKARPAL,Salcete
+node/12983427153,neighbourhood,Bobteawaddo,,,,,,,,,196.0,Davorlim,DAVARLIM,Salcete
+node/12983427154,neighbourhood,Chadwaddo,,,,,,,,,196.0,Davorlim,DAVARLIM,Salcete
+node/12983427156,neighbourhood,Shantinagar,,,,,,,,,188.0,Aquem,AKE,Salcete
+node/12983427157,suburb,Rawanfond,,,,,,,,,188.0,Aquem,AKE,Salcete
+node/12984995064,neighbourhood,Costa Vaddo,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/12985044597,neighbourhood,Guddem,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/13034216519,suburb,Chikolna,,,,,,,,,222.0,Chicolna,CHIKOLNA,Mormugao
+node/13056164072,neighbourhood,Mini Satellite Township,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+node/13070266426,locality,Bicholim Industrial Estate,,,,,,,,,282.0,Bicholim,DICHOLI,Bicholim
+node/13075742518,neighbourhood,Amaiwada,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/13075742519,neighbourhood,Malpe,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/13075742520,neighbourhood,Sawalwada,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/13075742521,neighbourhood,Maus Vaddo,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/13075742522,neighbourhood,Bazar Peth,,,,,,,,,8.0,Pernem,PERNEM,Pernem
+node/13078553483,neighbourhood,Bhatti Waddo,,,,,,,,,313.0,Nerul,NERUL,Bardez
+node/13084270962,neighbourhood,Livrament Vaddo,,,,,,,,,317.0,Sangolda,SANGOLDA,Bardez
+node/13094016301,neighbourhood,Torda,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13094016345,neighbourhood,Vidya Nagar,,,,,,,,,294.0,Penha-de-Franca,PENHA DE FRANC,Bardez
+node/13096962035,neighbourhood,Malwara,,,,,,,,,226.0,Goa Velha,GOA VELHA,Tiswadi
+node/13097013904,neighbourhood,Sulabhat,,,,,,,,,226.0,Goa Velha,GOA VELHA,Tiswadi
+node/13097013905,neighbourhood,Pequeno Mercurim,,,,,,,,,248.0,Mercurim,MERKURI,Tiswadi
+node/13144994317,village,Sancordem,,,,,,,,,122.0,Sancordem,SAKVORDE,Dharbandora
+node/13146469117,village,Betora,,,,,,,,Q104902728,168.0,Betora,BETORA,Ponda
+node/13146469118,locality,Betora Industrial Estate,,,,,,,,,168.0,Betora,BETORA,Ponda
+node/13147705627,neighbourhood,Dattawadi,,,,,,,,,280.0,Carapur,GOWANDIWADA,Bicholim
+node/13156019219,hamlet,,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+node/13156019220,hamlet,,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+node/13156021322,hamlet,Sonali,,,,,,,,,384.0,Sonauli,SONAULI,Dharbandora
+node/13157300344,neighbourhood,Vodlemol,,,,,,,,,146.0,Curchorem-Cacora,KUDCHADEN,Quepem
+node/13157300345,neighbourhood,Mathemol,,,,,,,,,146.0,Curchorem-Cacora,KUDCHADEN,Quepem
+node/13157300363,locality,Kakoda Industrial Estate - Phase I,,,,,,,,,146.0,Curchorem-Cacora,KUDCHADEN,Quepem
+node/13157300364,locality,Kakoda Industrial Estate - Phase 2,,,,,,,,,146.0,Curchorem-Cacora,KUDCHADEN,Quepem
+node/13167073160,neighbourhood,Narayan Nagar,,,,,,,,,86.0,Onda,HONDA,Satari
+node/13167079851,neighbourhood,Morlem Colony,,,,,,,,,82.0,Morlem,MORLE,Satari
+node/13167079852,neighbourhood,Gaonkarwada,,,,,,,,,86.0,Onda,HONDA,Satari
+node/13167287273,neighbourhood,Durgawaddo,,,,,,,,,322.0,,TALGAON,Tiswadi
+node/13168930070,hamlet,Patiem,,,,,,,,,130.0,Patiem,PATIEM,Sanguem
+node/13168930071,hamlet,Maulinguem,,,,,,,,,134.0,Maulinguem,MALINGEM,Sanguem
+node/13206512109,isolated_dwelling,Yedrem,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13207268481,isolated_dwelling,,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13207268482,hamlet,Kuskem,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13207268483,hamlet,Nadke,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13207268484,hamlet,Keri,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13227319512,hamlet,Naiquinim,,,,,,,,,370.0,Naiquinim,NAIQUINIM,Sanguem
+node/13227319513,hamlet,Portem,,,,,,,,,362.0,Porteem,PORTEM,Sanguem
+node/13229963176,hamlet,Yeda,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13230037961,neighbourhood,Vaddem Colony 2,,,,,,,,,362.0,Porteem,PORTEM,Sanguem
+node/13230037962,neighbourhood,Vaddem Colony 3,,,,,,,,,362.0,Porteem,PORTEM,Sanguem
+node/13230037963,neighbourhood,Vaddem Colony 1,,,,,,,,,362.0,Porteem,PORTEM,Sanguem
+node/13230095340,hamlet,Potrem,,,,,,,,,382.0,Potrem,POTREM,Sanguem
+node/13230317074,hamlet,Tudou,,,,,,,,,131.0,Uguem,UGEM,Sanguem
+node/13232996672,isolated_dwelling,Morphond,,,,,,,,,378.0,Cotigao,COTIGAO,Canacona
+node/13249176045,neighbourhood,Lima Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13249176046,neighbourhood,Muddo Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13249176047,village,Carona,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13250394742,hamlet,Murdi,,,,,,,,,254.0,Candepar,KHANDEPAR,Ponda
+node/13250394756,hamlet,Ishwarbhat,,,,,,,,,254.0,Candepar,KHANDEPAR,Ponda
+node/13250394768,hamlet,Bagwada,,,,,,,,,254.0,Candepar,KHANDEPAR,Ponda
+node/13261053198,locality,Ward No.7,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13261053199,locality,Ward No.8,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13270914270,hamlet,,,,,,,,,,123.0,Sangod,SANGOD,Dharbandora
+node/13270914321,village,Codli,,,,,,Kodli,,,164.0,Codli,KODLI,Dharbandora
+node/13270915142,hamlet,Barkaten,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+node/13273586613,village,Conxem,,,,,,,,,161.0,Conxem,KONSEN,Ponda
+node/13275227499,neighbourhood,Varcha Rautwada,,,,,,,,,13.0,Agarvado,AGARVADA,Pernem
+node/13277984531,hamlet,,,,,,,,,,165.0,Darbandora,DARBANDORA,Dharbandora
+node/13277984532,hamlet,Khumbarwadi,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13277984535,hamlet,Dulai,,,,,,,,,164.0,Codli,KODLI,Dharbandora
+node/13277984653,village,Dabhal,,,,,,,,,164.0,Codli,KODLI,Dharbandora
+node/13277984654,hamlet,,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13277984665,hamlet,,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13280035543,neighbourhood,Vainguinim Valley,,,,,,,,,323.0,Taleigao,DURGAVADO,Tiswadi
+node/13280035544,neighbourhood,La Citadel Colony,,,,,,,,,323.0,Taleigao,DURGAVADO,Tiswadi
+node/13280035545,neighbourhood,Nagalli Hills Colony,,,,,,,,,323.0,Taleigao,DURGAVADO,Tiswadi
+node/13280084311,neighbourhood,Aivao,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/13280084328,neighbourhood,La Marvel Colony,,,,,,,,,321.0,Panaji,PANAJI,Tiswadi
+node/13283545071,hamlet,,,,,,,,,,98.0,Damocem,DHAMSE,Satari
+node/13283565008,hamlet,,,,,,,,,,111.0,Melauli,MELAVALI,Satari
+node/13284433813,hamlet,,,,,,,,,,25.0,Dumacem,DUMASE,Bicholim
+node/13284433931,hamlet,Dumase,,,,,,Dhumacem,,,25.0,Dumacem,DUMASE,Bicholim
+node/13287787816,neighbourhood,Esmarelda Greens,,,,,,,,,242.0,Ella,VELA,Tiswadi
+node/13294442962,neighbourhood,Naik Wada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/13294442963,neighbourhood,Gawde Wada,,,,,,,,,9.0,Corgao,KORGAON,Pernem
+node/13294443041,neighbourhood,Deul Wada,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/13294443049,neighbourhood,Bhat Wadi,,,,,,,,,1.0,Arambol,ARAMBOL,Pernem
+node/13297101576,hamlet,Vichundrem,,,,,,,,,373.0,Vichundrem,DIGALI,Sanguem
+node/13297101577,islet,,,,,,,,,,374.0,Sulcorna,SURKARN,Quepem
+node/13297101578,hamlet,,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/13297101579,hamlet,,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/13297101587,hamlet,,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/13297107031,hamlet,,,,,,,,,,353.0,Maina,MAYNA,Quepem
+node/13305019900,neighbourhood,Walkeshwar Vaddo,,,,,,,,,19.0,Sircaim,SIRSAI,Bardez
+node/13312830584,locality,Ward 11,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13314293189,neighbourhood,Ekoshim,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13314293190,neighbourhood,Donvaddo,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13316230880,neighbourhood,Esapur,,,,,,,,,12.0,Oxel,OSHAL,Bardez
+node/13316230893,locality,Ward 3,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13327410453,neighbourhood,Noronha Vaddo,,,,,,,,,16.0,Marna,SHIVOLI,Bardez
+node/13335502392,hamlet,Bivol,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13336059660,hamlet,,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/13336059661,hamlet,,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/13336070703,village,Kharpal,,,,,,,,,29.0,Latambarcem,KASARPAL,Bicholim
+node/13345168223,neighbourhood,Bandiwada,,,,,,,,,253.0,Bandora,BANDIWADA,Ponda
+node/13345168228,neighbourhood,Undir,,,,,,,,,253.0,Bandora,BANDIWADA,Ponda
+node/13345704051,neighbourhood,Jerusalém,,Jerusalém,,,,,,,216.0,Nagoa,NAGVE,Salcete
+node/13359879390,neighbourhood,Sankwadi,,,,,,,,,310.0,Arpora,ARPORA,Bardez
+node/13371090658,neighbourhood,Sanjay Nagar Colony,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13371090673,neighbourhood,Vijay Nagar Colony,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13375535408,locality,Ward 1,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/13378662182,hamlet,,,,,,,,,,256.0,Savoi-Verem,PONDA,Ponda
+node/13378671550,locality,Ward 1,,,,,,,,,306.0,Parra,PARRA,Bardez
+node/13378671562,neighbourhood,Salmona Vaddo,,,,,,,,,315.0,Saligao,SALIGAO,Bardez
+node/13378677169,village,Volvoi,,,,,,,,,260.0,Volvoi,VALVAI,Ponda
+node/13378700229,hamlet,Taldem,,,,,,,,,120.0,Surla,SURLA,Dharbandora
+node/13383693248,village,Assolda,,,,,,,,,156.0,Assolda,ASOLDA,Quepem
+node/13383693249,village,Mulem,,,,,,,,,185.0,Mulem,MULEM,Salcete
+node/13383693250,village,Avedem,,,,,,,,,152.0,Avedem,AVEDEN,Quepem
+node/13383693251,village,Cotombi,,,,,,,,,154.0,Cotombi,KAKODA,Quepem
+node/13383845072,village,Xelvona,,,,,,,,,157.0,Xic-Xelvona,SHIKSHELVAN,Quepem
+node/13383845073,hamlet,Xic Xelvona,,,,,,,,,157.0,Xic-Xelvona,SHIKSHELVAN,Quepem
+node/13436986856,neighbourhood,Ranghavi Estate,,,,,,,,,221.0,Issorcim,IJORSHI,Mormugao
+node/13436992553,neighbourhood,Vaddem,,,,,,,,,225.0,,,Mormugao
+node/13523512689,neighbourhood,Salem Vaddo,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13523918982,neighbourhood,Rujayee Wada,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13536184391,neighbourhood,Umbra Vaddo,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13536191803,neighbourhood,Badem,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13536191808,locality,Char Manos,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13551365351,neighbourhood,Muddo Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551365381,neighbourhood,Khrusa Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551365396,neighbourhood,Castel Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551365397,neighbourhood,New Castel Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551365398,neighbourhood,Panthin,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551367364,neighbourhood,Caravalho Vaddo,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551367365,neighbourhood,Lakdem,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551367366,neighbourhood,Nivim,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13551386716,neighbourhood,Amadi,,,,,,,,,298.0,Olaulim,VOLAWALI,Bardez
+node/13566188185,locality,Ward No.5,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13567327004,locality,Ward 3,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13567327005,locality,Perepetual Succor Ward 2,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13567327006,locality,Vaddem Ward 1,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13569204071,neighbourhood,Maina Vaddo,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13569215478,locality,St. Sebastian Ward 2,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13582965185,neighbourhood,Raint Vaddo,,,,,,,,,301.0,Moira,MOIDE,Bardez
+node/13584394145,locality,Ward 9,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13598523540,village,Tamsheri,,,,,,,,,174.0,,TAMSHERI,Ponda
+node/13598523541,village,Wadi,,,,,,,,,172.0,Durbhat,DURBHAT,Ponda
+node/13598523735,village,Agapur,,,,,,,,,171.0,Durbhat,AGAPUR,Ponda
+node/13598563342,village,Veling,,,,,,,,,252.0,Velinga,VELING,Ponda
+node/13626635270,neighbourhood,Kamat Nagar,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13626674253,neighbourhood,Defence Colony,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13652306140,neighbourhood,Mungul,,,,,,,,,197.0,Margao,MADGAON,Salcete
+node/13652306178,village,Seraulim,,,,,,,,,198.0,Duncolim,DHUNKALI,Salcete
+node/13665570398,hamlet,Cola,,,,,,,,,341.0,Cola,KOLA,Canacona
+node/13665586510,hamlet,Karashirmol,,,,,,,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/13665586511,hamlet,Panna,,,,,,,,,342.0,Agonda,DEVALKAJJAN,Canacona
+node/13666682591,locality,Ward No 8,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13669512254,hamlet,Gulem,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/13669512259,hamlet,Asali,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/13669512260,hamlet,Vaijwada,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/13669512261,hamlet,Karve,,,,,,,,,345.0,Gaodongrem,GAUNDONGREN,Canacona
+node/13669512262,hamlet,Nuve,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/13669512263,village,Shristhal,,,,,,,,,344.0,Canacona,MALLIKARJUN,Canacona
+node/13669517280,locality,Karmal Ghat,,,,,,,,,339.0,Barcem,BARSEN,Quepem
+node/13670959428,neighbourhood,Paitona,,,,,,,,,295.0,Salvador do Mundo,SALVADOR DU MUNDU,Bardez
+node/13685202404,quarter,Mahakhazan,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/13687688113,locality,Uddo Ward No.1,,,,,,,,,15.0,Siolim,GUDE,Bardez
+node/13699175077,neighbourhood,Bhootkhamb,,,,,,,,,255.0,Querim,KERI,Ponda
+node/13724517218,hamlet,Dhat,,,,,,,,,124.0,Sigao,SHIGAON,Dharbandora
+node/13724517240,hamlet,Gauliwadi,,,,,,,,,121.0,Molem,MOLEN,Dharbandora
+node/13724517241,hamlet,Jamboli,,,,,,,,,121.0,Molem,MOLEN,Dharbandora
+node/13724517242,hamlet,Satpal,,,,,,,,,122.0,Sancordem,SAKVORDE,Dharbandora
+node/13724517243,hamlet,Bomdi,,,,,,,,,122.0,Sancordem,SAKVORDE,Dharbandora
+node/13724517244,hamlet,Dongarwada,,,,,,,,,122.0,Sancordem,SAKVORDE,Dharbandora
+node/13724517245,hamlet,Kansavali,,,,,,,,,121.0,Molem,MOLEN,Dharbandora
+node/13724517246,hamlet,Bondumal,,,,,,,,,121.0,Molem,MOLEN,Dharbandora
+node/13724517247,hamlet,Bimbal,,,,,,,,,124.0,Sigao,SHIGAON,Dharbandora
+node/13747615572,village,Sarvan,,,,,,,,,281.0,Sarvona,SARVAN,Bicholim
+node/13766549745,locality,Ward No. 6,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+node/13784009654,neighbourhood,Nauxim,,,,,,,,,229.0,Bambolim,BAMBOLI,Tiswadi
+node/13786286962,neighbourhood,Mae de Deus Vaddo,,,,,,,,,317.0,Sangolda,SANGOLDA,Bardez
+node/13830457545,locality,Sanguem Industrial Estate,,,,,,,,,144.0,Cotarli,KOTARLI,Sanguem
+node/13846653043,neighbourhood,Kharbet,,,,,,,,,287.0,Maem,BHATWADI,Bicholim
+node/13858360469,hamlet,Bbahane,,,,,,,,,179.0,Siroda,SHIRODA,Ponda
+node/13858360470,hamlet,Paji,,,,,,,,,179.0,Siroda,SHIRODA,Ponda
+node/13858360471,hamlet,Ansi,,,,,,,,,165.0,Darbandora,DARBANDORA,Dharbandora
+node/13858360472,hamlet,Savkarbhat,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13858360473,hamlet,Gavalwada,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13858360474,hamlet,,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13858360495,hamlet,,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13858361026,hamlet,Mayna,,,,,,,,,166.0,Nirancal,KALSAI,Ponda
+node/13874779029,neighbourhood,Deulwada,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/13874819015,locality,Ward No 4,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+node/13883262496,neighbourhood,Panarim,,,,,,,,,299.0,Aldona,HALDONA,Bardez
+node/13887338584,neighbourhood,Ganga Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13887372727,neighbourhood,Ward No 14,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13887372742,neighbourhood,Ward No 15,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13887905521,neighbourhood,Vidya Nagar,,,,,,,,,303.0,Mapusa,MAPUCA,Bardez
+node/13898636399,neighbourhood,Attafondem,,,,,,,,,301.0,Moira,MOIDE,Bardez
+node/14007709780,neighbourhood,Mangor,,,,,,,,,324.0,Mormugao,VASCO DA GAMA,Mormugao
+node/14021687060,neighbourhood,Cusmane,,,,,,,,,150.0,Quepem,QUEPEM,Quepem
+node/14076066091,village,Deao,,,,,,,,,356.0,,DIYANV,Quepem
+node/14076066092,village,SIrvoi,,,,,,,,,148.0,Sirvoi,SHIRVAI,Quepem
+node/14102627424,neighbourhood,Matve Dabolim,,,,,,,,,224.0,Dabolim,IJORSHI,Mormugao
+node/14103600474,locality,Murgaon Industrial Estate,,,,,,,,,223.0,Chicalim,BAGMALO,Mormugao
+node/14103608134,neighbourhood,Surya Nagar Colony,,,,,,,,,219.0,Sancoale,SANKVAL,Mormugao
+node/14103608135,neighbourhood,Mother Teresa Colony,,,,,,,,,219.0,Sancoale,SANKVAL,Mormugao
+node/14104854257,neighbourhood,Alto Chicalim,,,,,,,,,223.0,Chicalim,BAGMALO,Mormugao
+node/14107123313,neighbourhood,Atafondem,,,,,,,,,301.0,Moira,MOIDE,Bardez
+node/14107940293,neighbourhood,Alto Dabolim,,,,,,,,,224.0,Dabolim,IJORSHI,Mormugao
+node/14107940294,neighbourhood,Jairam Nagar,,,,,,,,,224.0,Dabolim,IJORSHI,Mormugao
+node/14107944432,neighbourhood,Holy Cross Colony,,,,,,,,,224.0,Dabolim,IJORSHI,Mormugao
+node/14191221398,neighbourhood,Ambirna Vaddo,,,,,,,,,318.0,Socorro,PORVORIM,Bardez
+way/19852663,islet,Sai Island,,,,,,,,,7.0,Tuem,TUYE,Pernem
+way/19852716,islet,,,,,,,,,,,,,
+way/19852740,islet,,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+way/19852749,islet,Juvem Island,,,,,,,,,21.0,Dargalim,DHARGAL,Pernem
+way/19852753,islet,,,,,,,,,,18.0,Tivim,DAT,Bardez
+way/19852774,islet,,,,,,,,,,20.0,Colvale,KOLVAL,Bardez
+way/103659972,village,Anjuna,,,,,,,,,309.0,Anjuna,ANJUNA,Bardez
+way/240797392,islet,,,,,,,,,,330.0,Cavelossim,KAVLESI,Salcete
+way/278775634,neighbourhood,Jerusalém,,Jerusalém,,,,,,,216.0,Nagoa,NAGVE,Salcete
+way/278775636,neighbourhood,Cumborda,,,,,,,,,212.0,Loutulim,LOTLI,Salcete
+way/567582707,hamlet,,,,,,,,,,291.0,Capao,VANSHI,Tiswadi
+way/1039028295,islet,,,,,,,,,,311.0,Calangute,KALANGUT,Bardez
+way/1180760713,locality,Sangod,,,,,,,,,126.0,Colem,KOLEM,Dharbandora
+way/1449379109,islet,,,,,,,,,,,,,
+way/1449379111,islet,,,,,,,,,,,,,
+relation/13659275,island,Goa Island,,Ilha de Goa,,,,,,Q107058013,233.0,Murda,MERSI TEM,Tiswadi
+relation/13659415,island,Chorão Island,,Ilha de Chorão,,,,,,Q5104961,292.0,Caraim,MADEL,Tiswadi
+relation/16021880,islet,Juve Island,,,,,,St. Estevam Island,,,269.0,Jua,JUA,Tiswadi
+relation/16351567,island,Capão Island,,Ilha do Capão,Vanxim,,,,,,291.0,Capao,VANSHI,Tiswadi
+relation/17864734,island,Divar Island,,Ilha de Divar,,,,,,Q5283830,290.0,Goltim,GOLTIM,Tiswadi
+relation/17880493,island,Cumbarjua Island,,,,,,,,Q5193800,266.0,Cumbarjua,KUMBHAR JUVEN,Tiswadi
+relation/18873522,island,Calvim Island,,,,,,,,,284.0,Calvim,KALVI,Bardez
+relation/19801549,islet,Sandbar Islet,,,,,,,,,15.0,Siolim,GUDE,Bardez
+relation/19801550,islet,,,,,,,,,,15.0,Siolim,GUDE,Bardez

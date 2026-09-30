@@ -1,0 +1,43 @@
+---
+import '../styles/styles.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Dark theme follows the phone or computer setting. Runs before paint so the page never flashes light. -->
+    <script is:inline>
+      (function () {
+        var q = window.matchMedia('(prefers-color-scheme: dark)');
+        var set = function () {
+          if (q.matches) document.documentElement.setAttribute('data-theme', 'dark');
+          else document.documentElement.removeAttribute('data-theme');
+        };
+        set();
+        q.addEventListener('change', set);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

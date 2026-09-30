@@ -1,0 +1,44 @@
+<!-- @dsCard group="UI kits" viewport="1100x900" name="Khoim app" subtitle="Phone and desktop, every state, light and dark" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Khoim</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:#E4E1D9;color:#16120C;font:16px/1.5 "Anek Latin",sans-serif}a{color:#294C9C}a:hover{color:#16120C}
+.stage{min-height:100vh;display:flex;gap:40px;align-items:center;justify-content:center;padding:32px;flex-wrap:wrap}
+.device{position:relative;overflow:hidden;flex:0 0 auto}
+.phone{width:390px;height:844px;border-radius:44px;box-shadow:0 0 0 10px #16120C,0 30px 80px rgba(22,18,12,.3)}
+.desk{width:1280px;height:800px;border-radius:14px;box-shadow:0 0 0 1px rgba(22,18,12,.2),0 30px 80px rgba(22,18,12,.2)}
+.rail{display:grid;gap:4px;align-content:center;width:280px}
+.rail p{margin:0 0 10px;font:500 15px/1.5 "Anek Latin"}
+.rail button{display:grid;grid-template-columns:34px 1fr;align-items:center;text-align:left;border:0;background:transparent;padding:10px 12px;border-radius:14px;font:600 15px/1.3 "Anek Latin";color:#16120C;cursor:pointer;min-height:44px}
+.rail button[aria-pressed="true"]{background:#16120C;color:#fff}
+.rail .row{display:flex;gap:6px;margin-top:10px}.rail .row button{grid-template-columns:1fr;text-align:center;flex:1;border:2px solid #16120C}
+::-webkit-scrollbar{display:none}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" src="state.jsx"></script>
+<script type="text/babel" src="More.jsx"></script>
+<script type="text/babel" src="Screens.jsx"></script>
+<script type="text/babel">
+function Stage(){
+  const saved = JSON.parse(localStorage.getItem('khoim-kit') || '{}');
+  const [p, setP] = React.useState(saved.p || '1');
+  const [desk, setDesk] = React.useState(!!saved.desk);
+  const [theme, setTheme] = React.useState(saved.theme || 'light');
+  React.useEffect(() => localStorage.setItem('khoim-kit', JSON.stringify({ p, desk, theme })), [p, desk, theme]);
+  const flip = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+  return <div className="stage">
+    <div className={'device ' + (desk ? 'desk' : 'phone')} data-theme={theme === 'dark' ? 'dark' : undefined}>
+      {desk ? <KhoimDesktop preset={p} theme={theme} onTheme={flip} /> : <KhoimPhone preset={p} theme={theme} onTheme={flip} />}
+    </div>
+    <div className="rail">
+      <p>Each taluka is painted in a Goan house colour, with white trim between them. Tap to select, tap again to go inside. Press and drag along Goa to feel your way.</p>
+      {Object.entries(KHOIM_PRESETS).map(([k, v]) => <button key={k} aria-pressed={p === k} onClick={() => setP(k)}><span>{k}</span>{v.label}</button>)}
+      <div className="row"><button aria-pressed={!desk} onClick={() => setDesk(false)}>Phone</button><button aria-pressed={desk} onClick={() => setDesk(true)}>Desktop</button></div>
+      <div className="row"><button aria-pressed={theme === 'light'} onClick={() => setTheme('light')}>Light</button><button aria-pressed={theme === 'dark'} onClick={() => setTheme('dark')}>Dark</button></div>
+    </div>
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Stage />);
+</script></body></html>

@@ -1,0 +1,46 @@
+/* Khoim foundations. Frozen 30 Sept 2026.
+   Every text/background pair used in the product meets WCAG 2.2 AAA (7:1 normal text, 4.5:1 large).
+   Contrast figures are in guidelines/accessibility.md. Never put text at reduced opacity. */
+:root{
+/* Goan house colours. Houses are lime-washed in strong colours with white trim, and repainted after each monsoon.
+   Each has an "on" ink (7:1 or better), a light tint for dimmed map areas and a dark-mode tint. */
+--house-haldi:#E8B23A;--house-haldi-on:var(--ink-900);--house-haldi-tint:#F2E2BE;--house-haldi-tint-dark:#614C1E;
+--house-kokum:#8C2E4A;--house-kokum-on:var(--white);--house-kokum-tint:#D8BDC2;--house-kokum-tint-dark:#421D25;
+--house-rose:#E2869D;--house-rose-on:var(--ink-900);--house-rose-tint:#F0D6D9;--house-rose-tint-dark:#633F45;
+--house-green:#206150;--house-green-on:var(--white);--house-green-tint:#BACCC4;--house-green-tint-dark:#193128;
+--house-oxide:#913D28;--house-oxide-on:var(--white);--house-oxide-tint:#DAC1B9;--house-oxide-tint-dark:#442318;
+--house-lilac:#A79AD2;--house-lilac-on:var(--ink-900);--house-lilac-tint:#E0DCE8;--house-lilac-tint-dark:#4C4659;
+--house-sky:#50AEC5;--house-sky-on:var(--ink-900);--house-sky-tint:#C8E1E5;--house-sky-tint-dark:#2B4E54;
+--house-neel:#294C9C;--house-neel-on:var(--white);--house-neel-tint:#BDC6D9;--house-neel-tint-dark:#1D2945;
+--house-mustard:#DF9036;--house-mustard-on:var(--ink-900);--house-mustard-tint:#F0D9BD;--house-mustard-tint-dark:#62421E;
+--white:#FFFFFF;
+/* neutrals: lime-wash white and soot ink */
+--lime-50:#FFFFFF;--lime-100:#F6F5F1;--lime-200:#ECEAE3;--lime-300:#DEDAD0;--lime-400:#B9B3A7;
+--ink-900:#16120C;--ink-700:#4A453E;--ink-600:#57514A;
+--soot-950:#15130F;--soot-900:#1B1814;--soot-800:#211E19;--soot-700:#2E2A24;--soot-600:#48433B;
+--chalk-100:#F3F0E8;--chalk-300:#C9C3B8;
+--mark-light:#F4D98A;--mark-dark:#6B5412;
+/* type: one family in two scripts. Anek Devanagari for Devanagari, Anek Latin for Romi and English (has ã õ ũ ẽ ĩ ñ ç) */
+--font-deva:"Anek Devanagari","Anek Latin",system-ui,sans-serif;
+--font-latin:"Anek Latin","Anek Devanagari",system-ui,sans-serif;
+--weight-regular:500;--weight-strong:600;--weight-heavy:700;
+/* sizes (px). Devanagari always line-height >= 1.5; never letter-spaced */
+--size-name-hero:76px;--size-name-xl:54px;--size-name-l:40px;--size-name-m:30px;--size-name-s:24px;
+--size-title:29px;--size-lead:19px;--size-body:17px;--size-small:15px;--size-caption:14px;
+--lh-deva:1.5;/* @kind font */--lh-latin:1.3;/* @kind font */--lh-body:1.5;/* @kind font */--lh-title:1.15;/* @kind font */
+--track-title:-0.01em;/* @kind font */
+/* spacing, 4px base */
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-7:28px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;
+--gutter:20px;--tap:48px;/* @kind spacing */--tap-min:44px;/* @kind spacing */
+/* radii: soft squares, never pills */
+--radius-xs:4px;--radius-s:8px;--radius-m:12px;--radius-l:16px;--radius-xl:20px;--radius-sheet:28px;--radius-device:44px;
+/* trim: the white frame inside every house-colour surface */
+--trim-width:2px;--trim-inset:6px;
+/* elevation: warm, low, no blur-heavy shadows (cheap phones) */
+--shadow-1:0 2px 10px rgba(22,18,12,.08);--shadow-2:0 6px 24px rgba(22,18,12,.12);--shadow-3:0 14px 36px rgba(22,18,12,.24);--shadow-sheet:0 -10px 40px rgba(22,18,12,.16);
+/* motion. Subtle, one idea per movement. All of it switches off under prefers-reduced-motion */
+--ease-standard:cubic-bezier(.32,.72,0,1);/* @kind other */--ease-out:cubic-bezier(.22,1,.36,1);/* @kind other */--ease-in:cubic-bezier(.4,0,1,1);/* @kind other */
+--dur-press:140ms;/* @kind other */--dur-fast:200ms;/* @kind other */--dur-base:320ms;/* @kind other */--dur-sheet:480ms;/* @kind other */--dur-zoom:600ms;/* @kind other */--dur-paint:700ms;/* @kind other */--stagger-paint:60ms;/* @kind other */--beat:420ms;/* @kind other */
+--press-scale:.97;/* @kind other */
+--z-map:0;/* @kind other */--z-chrome:10;/* @kind other */--z-sheet:20;/* @kind other */--z-search:40;/* @kind other */--z-banner:50;/* @kind other */
+}
