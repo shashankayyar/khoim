@@ -29,8 +29,8 @@ const NAMES: { kind: ContributionKind; label: string }[] = [
   { kind: 'correction', label: 'A correction' }
 ];
 
-/* TODO(copy): from here to MISSING_RECORDING, the wording for the layers that are not on the map yet is new
-   (1 October 2026) and is not in docs/copy.md. The examples are taken from the layer notes in LAYERS. */
+/* From here to ADD_ANOTHER: wording for the layers that are not on the map yet. In docs/copy.md (confirmed by
+   Shashank, 1 October 2026). The examples are taken from the layer notes in LAYERS. */
 const LAYER_CHOICE: Record<string, { kind: ContributionKind; label: string }> = {
   voices: { kind: 'voice', label: 'A recording of the name' },
   crops: { kind: 'crops', label: 'A crop grown here' },
