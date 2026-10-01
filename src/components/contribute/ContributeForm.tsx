@@ -59,7 +59,7 @@ const ASK: Record<TextKind, { label: string; hint?: string }> = {
 const MAX_VALUES = 6;
 const ADD_ANOTHER = 'Add another';
 
-/* TODO(copy): the four lines below are new (one form for many things) and are not in docs/copy.md yet. */
+/* One form for many things. Wording in docs/copy.md (confirmed by Shashank, 1 October 2026). */
 const PICK_HINT = 'Tick as many as you like. Each one opens a box.';
 const MISSING_PICK = 'Please tick at least one thing to add.';
 const SENT_LIST = 'You sent:';

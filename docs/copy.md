@@ -39,10 +39,10 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Form, music: What is sung or danced here? For example: mando, dulpod, deknni, fugdi
 - Form, landmarks: What is the landmark, and what do people nearby call it? For example: a temple, church, mosque or spring
 - Form, several at once: Add another
-- Form, under "What are you adding?": Tick as many as you like. Each one opens a box. TODO(copy): confirm.
-- Form, nothing ticked: Please tick at least one thing to add. TODO(copy): confirm.
-- Form, after sending: You sent: (then the list of what was sent). TODO(copy): confirm.
-- Recording, village missing: Please fill this in. It is shown with your recording. TODO(copy): confirm.
+- Form, under "What are you adding?": Tick as many as you like. Each one opens a box.
+- Form, nothing ticked: Please tick at least one thing to add.
+- Form, after sending: You sent: (then the list of what was sent).
+- Recording, village missing: Please fill this in. It is shown with your recording.
 - Recording: Say {Official} the way you say it at home. Up to 10 seconds. / Record / Stop / Recording. {n} seconds left. / Listen / Record again / {n} seconds recorded.
 - Recording, village: Which village or town are you from? It is shown with your recording
 - Recording, nothing recorded: Please record the name first.
