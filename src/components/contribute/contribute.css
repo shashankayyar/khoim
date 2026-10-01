@@ -45,6 +45,11 @@
   border: 2px solid var(--text);
 }
 .k-field__box--tall { padding: 12px 16px; }
+/* several answers to one question: a box each, and a way to take one back out */
+.k-field__many { display: grid; gap: 8px; }
+.k-field__one { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.k-field__one:first-child { grid-template-columns: minmax(0, 1fr); }
+.k-field__add { margin-top: 4px; }
 /* what is missing, said in words under the box; an icon as well, so it does not rest on colour */
 .k-form__needed { margin: 0; font: var(--weight-regular) 16px/1.5 var(--font-latin); }
 .k-field__error { display: flex; align-items: flex-start; gap: 8px; margin: 8px 0 0; font: var(--weight-strong) 16px/1.4 var(--font-latin); }

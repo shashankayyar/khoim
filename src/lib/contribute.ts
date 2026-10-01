@@ -29,7 +29,8 @@ export function loadContribConfig(): Promise<ContribConfig> {
 export interface Contribution {
   placeId: string;
   kind: ContributionKind;
-  value: string;
+  /** One or more things of this kind. Each is stored as its own item. Empty for a recording. */
+  values: string[];
   how: string;
   name: string;
   consent: boolean;

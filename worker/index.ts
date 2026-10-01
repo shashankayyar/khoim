@@ -27,7 +27,7 @@ const PLACES = new Map<string, KnownPlace>();
 
 const KINDS: Kind[] = ['name', 'say', 'correction', 'voice', 'crops', 'food', 'music', 'landmarks'];
 const STATUSES: Status[] = ['waiting', 'allowed', 'rejected', 'removed'];
-const LIMITS = { value: 200, how: 500, name: 80, body: 10_000, waiting: 2000 };
+const LIMITS = { value: 200, how: 500, name: 80, body: 10_000, waiting: 2000, values: 6 };
 /* A recording: ten seconds at most (a little slack for the browser's clock), about 600 KB at most, which is
    800,000 characters once written as text. Waiting recordings are capped so the free database cannot fill up. */
 const AUDIO = { seconds: 11, minSeconds: 0.4, chars: 800_000, body: 900_000, waiting: 300 };
@@ -121,10 +121,12 @@ async function contribute(request: Request, env: Env): Promise<Response> {
   const place = PLACES.get(String(body.placeId ?? ''));
   const kind = KINDS.find(k => k === body.kind);
   const voice = kind === 'voice';
-  /* a recording has no text of its own; the list shows this word in its place */
-  const value = voice ? 'Recording' : tidy(body.value, LIMITS.value);
+  /* Several things can be sent at once (two crops, three dishes). Each becomes its own item, so a reviewer can
+     allow one and reject another. A recording has no text of its own; the list shows this word in its place. */
+  const typed = Array.isArray(body.values) ? body.values : [body.value];
+  const values = voice ? ['Recording'] : [...new Set(typed.map(v => tidy(v, LIMITS.value)).filter(Boolean))].slice(0, LIMITS.values);
   const how = tidy(body.how, LIMITS.how), name = tidy(body.name, LIMITS.name);
-  if (!place || !kind || !value || !how || body.consent !== true) return fail(400, 'incomplete');
+  if (!place || !kind || !values.length || !how || body.consent !== true) return fail(400, 'incomplete');
 
   let audio: { mime: string; seconds: number; data: string } | null = null;
   if (voice) {
@@ -139,23 +141,26 @@ async function contribute(request: Request, env: Env): Promise<Response> {
   if (!(await turnstileOk(String(body.token ?? ''), env))) return fail(403, 'bot-check');
 
   await ensureSchema(env.DB);
-  if (!voice) {
-    /* The same thing sent again for the same place is counted, not stored twice. */
-    const same = await env.DB.prepare("SELECT id FROM contributions WHERE place_id = ? AND kind = ? AND value = ? AND status = 'waiting'").bind(String(body.placeId), kind, value).first<{ id: string }>();
-    if (same) {
-      await env.DB.prepare('UPDATE contributions SET repeats = repeats + 1 WHERE id = ?').bind(same.id).run();
-      return json({ ok: true });
-    }
-  }
   const waiting = await env.DB.prepare("SELECT COUNT(*) AS n, SUM(kind = 'voice') AS voices FROM contributions WHERE status = 'waiting'").first<{ n: number; voices: number | null }>();
-  if ((waiting?.n ?? 0) >= LIMITS.waiting || (voice && (waiting?.voices ?? 0) >= AUDIO.waiting)) return fail(503, 'queue-full');
+  if ((waiting?.n ?? 0) + values.length > LIMITS.waiting || (voice && (waiting?.voices ?? 0) >= AUDIO.waiting)) return fail(503, 'queue-full');
 
-  const id = crypto.randomUUID();
-  const insert = env.DB.prepare(`INSERT INTO contributions (id, created_at, place_id, place_official, place_where, place_lgd, kind, value, how_known, credit_name, script, flags)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    .bind(id, new Date().toISOString(), String(body.placeId), place.official, place.where, place.lgd, kind, value, how, name || null, scriptOf(value), JSON.stringify(flagsFor(kind, value, how, place)));
-  if (audio) await env.DB.batch([insert, env.DB.prepare('INSERT INTO recordings (id, mime, seconds, data) VALUES (?, ?, ?, ?)').bind(id, audio.mime, audio.seconds, audio.data)]);
-  else await insert.run();
+  const now = new Date().toISOString();
+  for (const value of values) {
+    if (!voice) {
+      /* The same thing sent again for the same place is counted, not stored twice. */
+      const same = await env.DB.prepare("SELECT id FROM contributions WHERE place_id = ? AND kind = ? AND value = ? AND status = 'waiting'").bind(String(body.placeId), kind, value).first<{ id: string }>();
+      if (same) {
+        await env.DB.prepare('UPDATE contributions SET repeats = repeats + 1 WHERE id = ?').bind(same.id).run();
+        continue;
+      }
+    }
+    const id = crypto.randomUUID();
+    const insert = env.DB.prepare(`INSERT INTO contributions (id, created_at, place_id, place_official, place_where, place_lgd, kind, value, how_known, credit_name, script, flags)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+      .bind(id, now, String(body.placeId), place.official, place.where, place.lgd, kind, value, how, name || null, scriptOf(value), JSON.stringify(flagsFor(kind, value, how, place)));
+    if (audio) await env.DB.batch([insert, env.DB.prepare('INSERT INTO recordings (id, mime, seconds, data) VALUES (?, ?, ?, ?)').bind(id, audio.mime, audio.seconds, audio.data)]);
+    else await insert.run();
+  }
   return json({ ok: true });
 }
 

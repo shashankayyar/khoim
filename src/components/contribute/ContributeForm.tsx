@@ -53,6 +53,9 @@ const ASKS: Record<ContributionKind, Asks> = {
   landmarks: { value: 'What is the landmark, and what do people nearby call it?', valueHint: 'For example: a temple, church, mosque or spring', how: ASK_NAME.how, howHint: ASK_NAME.howHint }
 };
 const MISSING_RECORDING = 'Please record the name first.';
+/* Several things can be sent at once: each box becomes its own item for the reviewer. One recording at a time. */
+const MAX_VALUES = 6;
+const ADD_ANOTHER = 'Add another';
 
 /* Confirmed wording, in docs/copy.md. */
 const NEEDED_NOTE = 'The first two answers are needed. Your name is optional.';
@@ -81,7 +84,7 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   const ref = useRef<HTMLDivElement>(null), check = useRef<HTMLDivElement>(null), widget = useRef<string | null>(null);
   const id = useId();
   const [kind, setKind] = useState<ContributionKind>(firstKind);
-  const [value, setValue] = useState(''), [how, setHow] = useState(''), [name, setName] = useState('');
+  const [values, setValues] = useState<string[]>(['']), [how, setHow] = useState(''), [name, setName] = useState('');
   const [recording, setRecording] = useState<Recorded | null>(null);
   const [agree, setAgree] = useState(false);
   const [token, setToken] = useState('');
@@ -93,7 +96,7 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   const placeId = place?.id;
   useEffect(() => {
     if (!placeId) return;
-    setKind(firstKind); setValue(''); setHow(''); setRecording(null); setAgree(false); setState('idle'); setMissing({});
+    setKind(firstKind); setValues(['']); setHow(''); setRecording(null); setAgree(false); setState('idle'); setMissing({});
   }, [placeId, firstKind]);
 
   /* The bot check appears while the form is open and the person has not sent it yet. */
@@ -122,19 +125,32 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   const voice = kind === 'voice';
   const asks = ASKS[kind];
   const pick = (k: ContributionKind) => { setKind(k); setMissing({}); };
+  const typed = values.map(v => v.trim()).filter(Boolean);
+  const valueId = (i: number) => id + 'value' + (i || '');
+  const setValueAt = (i: number, v: string) => { setValues(vs => vs.map((old, j) => (j === i ? v : old))); setMissing(m => ({ ...m, value: false })); };
+  const addValue = () => {
+    setValues(vs => [...vs, '']);
+    /* the cursor goes to the new box once it is on the page */
+    const next = values.length;
+    window.setTimeout(() => document.getElementById(valueId(next))?.focus(), 0);
+  };
+  const removeValue = (i: number) => {
+    setValues(vs => vs.filter((_, j) => j !== i));
+    window.setTimeout(() => document.getElementById(valueId(Math.max(0, i - 1)))?.focus(), 0);
+  };
 
   const canSend = !!token && state !== 'sending';
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
     if (!place) return;
     /* say what is missing, and put the cursor in the first box that needs filling */
-    const gaps: Missing = { value: voice ? !recording : !value.trim(), how: !how.trim(), agree: !agree };
+    const gaps: Missing = { value: voice ? !recording : !typed.length, how: !how.trim(), agree: !agree };
     setMissing(gaps);
     const first = gaps.value ? (voice ? 'record' : 'value') : gaps.how ? 'how' : gaps.agree ? 'agree' : null;
     if (first) { document.getElementById(id + first)?.focus(); return; }
     if (!canSend) return;
     setState('sending');
-    const ok = await sendContribution({ placeId: place.id, kind, value: voice ? '' : value, how, name, consent: agree, token, recording: voice ? recording : null });
+    const ok = await sendContribution({ placeId: place.id, kind, values: voice ? [] : typed, how, name, consent: agree, token, recording: voice ? recording : null });
     setState(ok ? 'sent' : 'failed');
     /* a bot-check pass can be used once; get a new one for the next try */
     if (!ok && widget.current) { setToken(''); window.turnstile?.reset(widget.current); }
@@ -190,13 +206,24 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
                   <div className="k-field">
                     <label htmlFor={id + 'value'}>{asks.value}</label>
                     {asks.valueHint && <p className="k-field__hint" id={id + 'valuehint'}>{asks.valueHint}</p>}
-                    <div className="k-field__box" data-khoim-field="1">
-                      <input id={id + 'value'} type="text" aria-required="true" aria-invalid={missing.value || undefined}
-                        aria-describedby={[asks.valueHint && id + 'valuehint', missing.value && id + 'valueerr'].filter(Boolean).join(' ') || undefined}
-                        maxLength={200} autoComplete="off" autoCapitalize="off" spellCheck={false} value={value}
-                        onChange={e => { setValue(e.target.value); setMissing(m => ({ ...m, value: false })); }} />
+                    <div className="k-field__many">
+                      {values.map((v, i) => (
+                        <div key={i} className="k-field__one">
+                          <div className="k-field__box" data-khoim-field="1">
+                            <input id={valueId(i)} type="text" aria-required={i === 0 ? 'true' : undefined} aria-invalid={(i === 0 && missing.value) || undefined}
+                              aria-label={i > 0 ? `${asks.value} Number ${i + 1}` : undefined}
+                              aria-describedby={i === 0 ? [asks.valueHint && id + 'valuehint', missing.value && id + 'valueerr'].filter(Boolean).join(' ') || undefined : undefined}
+                              maxLength={200} autoComplete="off" autoCapitalize="off" spellCheck={false} value={v}
+                              onChange={e => setValueAt(i, e.target.value)} />
+                          </div>
+                          {i > 0 && <IconButton icon="x" label={`Remove number ${i + 1}`} onClick={() => removeValue(i)} />}
+                        </div>
+                      ))}
                     </div>
                     {missing.value && <FieldError id={id + 'valueerr'} text={MISSING.value} />}
+                    {values.length < MAX_VALUES && (
+                      <div className="k-field__add"><Button variant="ghost" size="m" onClick={addValue}>{ADD_ANOTHER}</Button></div>
+                    )}
                   </div>
                 )}
                 <div className="k-field">
