@@ -1,0 +1,15 @@
+/* Recordings. Values from design/components/layers/VoiceClip.jsx. */
+.k-voice-empty { display: flex; align-items: center; gap: 12px; margin-top: 6px; font: var(--weight-regular) 16px/1.45 var(--font-latin); }
+.k-voice-empty__icon { width: 44px; height: 44px; box-sizing: border-box; border-radius: var(--radius-m); border: 2px dashed currentColor; display: grid; place-items: center; flex: 0 0 auto; }
+
+.k-voice-list { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; }
+.k-voice {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: center;
+  border: 2px solid currentColor; border-radius: var(--radius-l); background: transparent; color: inherit;
+  padding: 6px; cursor: pointer; text-align: left;
+}
+.k-voice__play { width: 48px; height: 48px; border-radius: var(--radius-m); background: var(--house-on, var(--text)); color: var(--house-bg, var(--surface-raised)); display: grid; place-items: center; }
+.k-voice__who { display: grid; }
+.k-voice__speaker { font: var(--weight-strong) 17px/1.3 var(--font-latin); }
+.k-voice__village { font: var(--weight-regular) 15px/1.4 var(--font-latin); }
+.k-voice__duration { font: var(--weight-regular) 15px/1 var(--font-latin); padding-right: 10px; }
