@@ -3,7 +3,8 @@
    - Inside a district: its talukas in their own house colours, named. The other districts stay in their
      district colours, dimmed, and can be tapped to move across.
    - Inside a taluka: its villages as dots.
-   A white trim line always runs between districts. Tapping a place opens it (the parent decides what that means).
+   A white trim line always runs between districts. Labels show the name in the chosen script only.
+   Tapping a place opens it (the parent decides what that means).
    Press and drag scrubs with a loupe. Every label is a real button with a spoken name, so the map works with a
    keyboard and a screen reader. Based on design/components/map/GoaMap.jsx. SVG only: no tiles, no WebGL, no pins. */
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react';
@@ -172,9 +173,9 @@ export function GoaMap({
      collide. On a very small one they show the name only. */
   const mapWidth = bw * s, roomy = mapWidth >= 270, tiny = mapWidth < 230;
 
-  /* The lines under a label (the official spelling, the count) are worth having only where they fit.
-     After laying the labels out, work out where each will sit. A label loses its extra lines if they would run
-     outside its own shape (where the ink may not show against the next colour) or into another label. */
+  /* The line under a district's name (its taluka count) is worth having only where it fits.
+     After laying the labels out, work out where each will sit. A label loses its extra line if it would run
+     outside its own shape or into another label. */
   const view = `${focus}|${script}|${Math.round(s * 1000)}|${w}|${h}`;
   const pass = fit?.view === view ? fit.pass : 0;
   const maxLines = fit?.view === view ? fit.max : {};
@@ -256,7 +257,9 @@ export function GoaMap({
             const p = getPlace(l.id)!, n = nameIn(p, script);
             const [x, y] = P(l.at);
             /* under a Konkani name, the official spelling, for anyone who does not read the script yet */
-            const lines = tiny && level === 'state' ? [] : [n.kind !== 'official' ? p.official : null, l.sub].filter((x): x is string => !!x).slice(0, maxLines[l.id] ?? 2);
+            /* The map shows each name in the script chosen in the toggle, and nothing else. All the forms are on
+               the card. The only second line is a district's taluka count, where it fits. */
+            const lines = tiny || !l.sub ? [] : [l.sub].slice(0, maxLines[l.id] ?? 1);
             const sub = lines.join(' ');
             /* What a screen reader adds after the words on screen: the name forms not shown, what kind of place
                it is, how sure the sources are, and how many places are inside. The spoken name starts with the

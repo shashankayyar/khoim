@@ -15,7 +15,9 @@ import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { getPlace, houseOf, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
+import { CONTACT_EMAIL } from '../data/site';
 import { useDialog } from '../lib/dialog';
+import { useMailFallback } from '../lib/mailFallback';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import { useMediaQuery } from '../lib/motion';
 import { More } from './More';
@@ -64,6 +66,16 @@ function useHeight(ref: RefObject<HTMLElement | null>): number {
 
 function Announcer({ text }: { text: string }) {
   return <div className="k-visually-hidden" role="status" aria-live="polite">{text}</div>;
+}
+
+/* Shown when an email link was pressed but no mail app opened. Wording from the About screen. */
+function MailNote() {
+  const show = useMailFallback();
+  return (
+    <div className="k-mail-note" role="status" aria-live="polite">
+      {show && <p>Write to us at <strong>{CONTACT_EMAIL}</strong>.</p>}
+    </div>
+  );
 }
 
 /** Goa / South Goa / Salcete. Each part takes you to that level. */
@@ -158,6 +170,7 @@ function Phone({ k }: { k: Khoim }) {
       )}
       <SearchScreen k={k} />
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <MailNote />
       <Announcer text={k.announce} />
     </div>
   );
@@ -224,6 +237,7 @@ function Desktop({ k }: { k: Khoim }) {
         </aside>
       </div>
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <MailNote />
       <Announcer text={k.announce} />
     </div>
   );

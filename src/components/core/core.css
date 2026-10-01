@@ -21,7 +21,8 @@
 }
 .k-draft-banner strong { font-weight: 700; }
 .k-draft-banner__action {
-  border: 0; background: transparent; padding: 6px 0; margin: -6px 0;
+  /* 44px tall to touch, without making the banner taller */
+  border: 0; background: transparent; padding: 12px 0; margin: -12px 0;
   color: inherit; font: inherit; font-weight: 700;
   text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
 }

@@ -33,7 +33,7 @@ The reference app in `design/` still shows the earlier behaviour. Where it diffe
 - **One tap opens a place.** Tapping a district or taluka zooms into it and shows its card at peek. There is no "tap again to go inside" and no "Go inside" button. The card's second button shows the count ("47 villages") and puts the card away to reveal the strip. Tapping the place whose card is up opens the card fully.
 - **Links and search open a place at peek**, with the map visible, not with the full card.
 - **Phone:** a breadcrumb row (Goa / South Goa / Salcete) and a search button sit under the header once you leave the first screen. The first screen also has a layers button next to search, and a "Draft for review." link that opens About.
-- **Map labels** show the official spelling (and, for districts, the taluka count) under a Konkani name where there is room inside the shape. Dimmed neighbours can be tapped to move across.
+- **Map labels** show each name in the script chosen in the toggle, and only that script (the card shows every form). Districts also show their taluka count where it fits. Each label carries an outline in its own shape's colour so it reads if it runs past the shape. Dimmed neighbours can be tapped to move across.
 - **Desktop:** the names panel lists the three districts when nothing is selected. The intro reads "Click a district, or press and drag along Goa."
 - **Search** lists and counts every match, not the first 16.
 - **Data:** where the LGD list and the boundary file disagree on a village's taluka, the LGD list wins. Survey of India outlines are joined to LGD entries only through `data/town_outline_matches.csv`.
@@ -45,7 +45,11 @@ Wording settled the same day (Shashank delegated these; each reuses text from `d
 - The village strip carries "Villages show the official name only for now." (`docs/copy.md`, hero subhead).
 - A village with no outline shows "The outline is not available yet." under Boundary.
 - Page titles and descriptions for districts, and for places with no Romi or no Konkani name, follow the taluka template with the missing part left out (`src/data/seo.ts`).
+- Wherever a button opens an email, the address is also shown in plain text ("Write to us at hello@khoim.in."), and a note with the address appears if no mail app opens (`src/lib/mailFallback.ts`).
+- Dark mode search highlight is `#5E4A10`, not the design's `#6B5412`, which fell just short of AAA (6.35:1).
 - Still open, for phase 2: the status wording for a village whose Konkani name has been reviewed (`STATUS_TEXT.reviewed`).
+
+Checking contrast: `scripts/dev/contrast-audit.js` walks every screen and checks every piece of text (AAA) and every touch target (44px). Run it in light and dark, phone and desktop, after any change to colours, labels or layout.
 
 ## Stack
 - **Astro (static output) + React** via `@astrojs/react`. The map app is one React island built from the design components; Astro prerenders a static page per place so links can be shared and Google can index names.

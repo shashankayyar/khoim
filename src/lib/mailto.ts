@@ -4,7 +4,8 @@ import { CONTACT_EMAIL } from '../data/site';
 function mailto(subject: string, bodyFirstLine?: string): string {
   const parts = ['subject=' + encodeURIComponent(subject)];
   // Two line breaks after the first line, so the person starts typing below it.
-  if (bodyFirstLine) parts.push('body=' + encodeURIComponent(bodyFirstLine + '\n\n'));
+  // Written as CR LF, the form the email standard asks for; some mail apps ignore a bare LF.
+  if (bodyFirstLine) parts.push('body=' + encodeURIComponent(bodyFirstLine + '\r\n\r\n'));
   return `mailto:${CONTACT_EMAIL}?${parts.join('&')}`;
 }
 

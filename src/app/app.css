@@ -97,14 +97,15 @@ html[data-app="ready"] #khoim-static { display: none; }
   pointer-events: none;
 }
 .k-desktop-header__left, .k-desktop-header__right { display: flex; align-items: center; pointer-events: auto; }
-.k-desktop-header__left { gap: 16px; }
+/* over the map: keep the page colour behind the words */
+.k-desktop-header__left { gap: 8px; background: var(--surface); border-radius: var(--radius-m); padding-right: 6px; }
 .k-desktop-header__right { gap: 8px; }
 .k-desktop-header__home { border: 0; background: transparent; padding: 4px; border-radius: var(--radius-m); cursor: pointer; }
 
 .k-crumbs { display: flex; gap: 4px; align-items: center; font: var(--weight-strong) 16px/1.4 var(--font-latin); }
 .k-crumbs__link {
   border: 0; background: transparent; color: var(--text);
-  padding: 8px 6px; min-height: 44px; border-radius: var(--radius-s);
+  padding: 8px 6px; min-height: 44px; min-width: 44px; border-radius: var(--radius-s);
   font: inherit; text-decoration: underline; text-underline-offset: 4px; cursor: pointer;
 }
 .k-crumbs__link[aria-current="page"] { text-decoration: none; }
@@ -122,6 +123,11 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-desktop__panel-credit { padding: 14px 24px 18px; border-top: 1px solid var(--line); }
 
 .k-desktop-strip { position: absolute; left: 0; right: 0; bottom: 16px; }
+/* over the map: keep the page colour behind the heading */
+.k-desktop-strip .k-strip__head {
+  justify-self: start; margin: 0 var(--gutter); padding: 2px 10px;
+  background: var(--surface); border-radius: var(--radius-m);
+}
 .k-desktop-card {
   background: var(--house-bg); color: var(--house-on);
   border-radius: var(--radius-sheet); padding: var(--trim-inset);
@@ -132,3 +138,13 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-desktop__panel-intro [lang="gom"] { font-family: var(--font-deva); }
 .k-desktop__panel-list { margin: 12px -24px 0; }
 .k-desktop__panel-list .k-strip__list { flex-wrap: wrap; overflow: visible; }
+
+/* The address, shown when an email link was pressed but no mail app opened. Sits above everything. */
+.k-mail-note { position: absolute; left: 16px; right: 16px; bottom: 20px; z-index: var(--z-banner); display: grid; justify-items: center; pointer-events: none; }
+.k-mail-note p {
+  margin: 0; pointer-events: auto; user-select: all; -webkit-user-select: all;
+  background: var(--surface-invert); color: var(--text-invert);
+  padding: 12px 16px; border-radius: var(--radius-m); box-shadow: var(--shadow-3);
+  font: var(--weight-regular) var(--size-body)/1.4 var(--font-latin);
+  animation: khoim-rise var(--dur-base) var(--ease-out) both;
+}

@@ -6,3 +6,7 @@ body {
   background: var(--surface); color: var(--text);
   font: var(--weight-regular) var(--size-body)/var(--lh-body) var(--font-latin);
 }
+
+/* Dark mode search highlight. The design's #6B5412 gives 6.35:1 behind a highlighted name, just short of the
+   7:1 that WCAG AAA asks for. This is the same gold, a little deeper: 7.45:1. */
+[data-theme="dark"] { --mark: #5E4A10; }
