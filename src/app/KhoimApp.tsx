@@ -17,6 +17,7 @@ import { getPlace, houseOf, nameIn, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import { useMediaQuery } from '../lib/motion';
+import { More } from './More';
 import { useKhoim, type Khoim } from './useKhoim';
 import './app.css';
 
@@ -90,7 +91,7 @@ function Phone({ k }: { k: Khoim }) {
         <div className="k-phone-header__left">
           {k.focus || k.selected
             ? <IconButton icon="arrow-left" label={parent ? 'Back to ' + parent.official : 'Back to Goa'} onClick={k.back} />
-            : <span className="k-phone-header__wordmark"><Wordmark size={22} /></span>}
+            : <button type="button" className="k-phone-header__wordmark" onClick={k.openMore} aria-label="About Khoim"><Wordmark size={22} /></button>}
           {nm && <span className={nm.kind === 'deva' ? 'k-phone-header__place k-phone-header__place--deva' : 'k-phone-header__place'} lang={nm.kind === 'deva' ? 'gom' : undefined}>{nm.text}</span>}
         </div>
         <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} /></div>
@@ -113,6 +114,7 @@ function Phone({ k }: { k: Khoim }) {
         </Sheet>
       )}
       <SearchScreen k={k} />
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
       <Announcer text={k.announce} />
     </div>
   );
@@ -143,6 +145,7 @@ function Desktop({ k }: { k: Khoim }) {
             </div>
             <div className="k-desktop-header__right">
               <ScriptToggle value={k.script} onChange={k.setScript} />
+              <IconButton icon="layers" label="Layers and about" onClick={k.openMore} />
             </div>
           </header>
           {!fp && !sp && (
@@ -177,6 +180,7 @@ function Desktop({ k }: { k: Khoim }) {
           <div className="k-desktop__panel-credit"><Credit /></div>
         </aside>
       </div>
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
       <Announcer text={k.announce} />
     </div>
   );
