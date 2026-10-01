@@ -14,6 +14,7 @@ import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { getPlace, houseOf, nameIn, trailOf } from '../data/khoim';
+import type { RawVillage } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import { useMediaQuery } from '../lib/motion';
 import { useKhoim, type Khoim } from './useKhoim';
@@ -26,9 +27,16 @@ const TITLE = 'Every taluka in Goa, with its Konkani name and how to say it.';
 /* Talukas repaint north to south on the first load only, not when the layout changes. */
 let paintedOnce = false;
 
-export default function KhoimApp() {
+export interface KhoimAppProps {
+  /** The place this page was built for. Missing on the home page and the not-found page. */
+  initialId?: string;
+  /** On a village page: that village's record, so its card can show before the full list loads. */
+  initialVillage?: RawVillage;
+}
+
+export default function KhoimApp({ initialId, initialVillage }: KhoimAppProps) {
   const desktop = useMediaQuery(DESKTOP);
-  const k = useKhoim();
+  const k = useKhoim({ desktop, initialId, initialVillage });
   useEffect(() => {
     paintedOnce = true;
     document.documentElement.dataset.app = 'ready';

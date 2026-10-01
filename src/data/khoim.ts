@@ -17,9 +17,8 @@ let villages: Place[] = [];
 let villagesLoaded = false;
 let loading: Promise<void> | null = null;
 
-export function registerVillages(raw: RawVillage[]): void {
-  if (villagesLoaded) return;
-  villages = raw.map(v => ({
+function toPlace(v: RawVillage): Place {
+  return {
     id: v.id,
     level: 'village',
     parent: v.t,
@@ -38,9 +37,19 @@ export function registerVillages(raw: RawVillage[]): void {
     lp: v.lp ?? null,
     reviewer: v.reviewer,
     reviewedOn: v.reviewedOn
-  }));
+  };
+}
+
+export function registerVillages(raw: RawVillage[]): void {
+  if (villagesLoaded) return;
+  villages = raw.map(toPlace);
   for (const v of villages) byId.set(v.id, v);
   villagesLoaded = true;
+}
+
+/** Makes one village known before the full list arrives: the one a village page opens on. */
+export function registerVillage(raw: RawVillage): void {
+  if (!byId.has(raw.id)) byId.set(raw.id, toPlace(raw));
 }
 
 export function villagesReady(): boolean { return villagesLoaded; }

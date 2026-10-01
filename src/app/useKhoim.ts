@@ -1,10 +1,14 @@
-/* Khoim app state. Shared by the phone and desktop layouts. Ported from design/ui_kits/khoim/state.jsx. */
-import { useEffect, useState } from 'react';
+/* Khoim app state. Shared by the phone and desktop layouts. Ported from design/ui_kits/khoim/state.jsx,
+   with page addresses added: the address bar follows the place you are looking at, and the browser's
+   back button steps back through places and closes search or About. */
+import { useEffect, useRef, useState } from 'react';
 import { loadVillagePaths, type VillagePaths } from '../data/geo';
-import { childCount, childrenOf, getPlace, loadVillages, spokenName, villagesReady } from '../data/khoim';
-import type { Place, Script } from '../data/types';
+import { childCount, childrenOf, getPlace, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
+import { pageMeta } from '../data/seo';
+import type { Place, RawVillage, Script } from '../data/types';
 
 export type Snap = 'peek' | 'full';
+type Overlay = 'search' | 'more' | null;
 
 interface State {
   /** null = all Goa; a district or taluka id when inside one */
@@ -19,8 +23,29 @@ interface State {
   layer: string;
 }
 
+/** What each browser history entry remembers. */
+interface Entry {
+  focus: string | null;
+  selected: string | null;
+  snap: Snap;
+  overlay: Overlay;
+  /** address plus overlay: a new key means a new history entry */
+  key: string;
+  /** how many entries deep we are since the page loaded */
+  idx: number;
+}
+
+export interface KhoimOptions {
+  desktop: boolean;
+  /** The place this page was built for. Missing on the home page and the not-found page. */
+  initialId?: string;
+  /** On a village page: that village's record, so its card can show before the full list loads. */
+  initialVillage?: RawVillage;
+}
+
 const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, layer: 'names' };
 const SCRIPT_KEY = 'khoim-script';
+const SITE = 'https://khoim.in';
 
 function savedScript(): Script {
   try {
@@ -31,15 +56,31 @@ function savedScript(): Script {
   }
 }
 
-export function useKhoim() {
-  const [s, set] = useState<State>(START);
+/** A place opened from a link or from search: shown with its full card, the map on its parent. */
+function opened(p: Place | null): Pick<State, 'focus' | 'selected' | 'snap'> {
+  if (!p || p.level === 'state') return { focus: null, selected: null, snap: 'peek' };
+  return { focus: p.level === 'district' ? null : p.parent, selected: p.id, snap: 'full' };
+}
+
+const queryInAddress = () => new URLSearchParams(window.location.search).get('q') ?? '';
+const entryNow = (): Entry | undefined => window.history.state?.khoim;
+
+export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
+  const [s, set] = useState<State>(() => {
+    if (initialVillage) registerVillage(initialVillage);
+    const query = queryInAddress();
+    return { ...START, ...opened(getPlace(initialId)), query, search: !!query };
+  });
   const [script, setScriptRaw] = useState<Script>(savedScript);
   const [announce, setAnnounce] = useState('');
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
+  /* the next address change replaces the current history entry instead of adding one */
+  const replaceNext = useRef(true);
 
   const up = (o: Partial<State>) => set(v => ({ ...v, ...o }));
   const say = (id: string) => { const p = getPlace(id); if (p) setAnnounce(spokenName(p)); };
+  const needVillages = () => loadVillages().then(() => setVillagesLoaded(true));
 
   /* The village list is not needed for the first screen. Fetch it once the page has settled. */
   useEffect(() => {
@@ -63,6 +104,61 @@ export function useKhoim() {
     return () => { live = false; };
   }, [wantPaths]);
 
+  /* ---------- The address bar follows the place ---------- */
+
+  const place = selectedPlace ?? focusPlace;
+  const overlay: Overlay = s.more ? 'more' : s.search && !desktop ? 'search' : null;
+  useEffect(() => {
+    const path = pathOf(place);
+    const q = s.query && (desktop || s.search) ? '?q=' + encodeURIComponent(s.query) : '';
+    const cur = entryNow();
+    const key = path + '#' + (overlay ?? '');
+    const entry: Entry = { focus: s.focus, selected: s.selected, snap: s.snap, overlay, key, idx: cur?.idx ?? 0 };
+    if (replaceNext.current || !cur || cur.key === key) {
+      window.history.replaceState({ khoim: entry }, '', path + q);
+    } else {
+      entry.idx = cur.idx + 1;
+      window.history.pushState({ khoim: entry }, '', path + q);
+    }
+    replaceNext.current = false;
+
+    const meta = pageMeta(place);
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', SITE + path);
+  }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place]);
+
+  /* The browser's back and forward buttons. */
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const st = e.state?.khoim as Entry | undefined;
+      const query = queryInAddress();
+      if (st && (!st.selected || getPlace(st.selected))) {
+        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', query: query || (st.overlay === 'search' ? v.query : '') }));
+        const p = getPlace(st.selected) ?? getPlace(st.focus);
+        setAnnounce(p ? spokenName(p) : 'All of Goa');
+        return;
+      }
+      /* an address we have no saved state for: work it out from the address itself */
+      const open = () => {
+        const p = placeAtPath(window.location.pathname);
+        set(v => ({ ...v, ...opened(p), hot: null, search: false, more: false, query }));
+      };
+      if (window.location.pathname.split('/').filter(Boolean).length > 2 && !villagesReady()) needVillages().then(open); else open();
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  /* Search and About sit on top of the map. Closing one steps back in history when it was opened here,
+     so the phone's back button and the Cancel button do the same thing. */
+  const closeOverlay = () => {
+    const cur = entryNow();
+    if (cur?.overlay && cur.idx > 0) { window.history.back(); return; }
+    replaceNext.current = true;
+    up({ search: false, more: false });
+  };
+
   const select = (id: string) => { up({ selected: id, snap: 'peek' }); say(id); };
   const goInside = (id: string) => {
     const p = getPlace(id);
@@ -85,12 +181,12 @@ export function useKhoim() {
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),
     /* villages are part of search, so make sure their list is on its way as soon as someone starts */
-    setQuery: (query: string) => { if (query) loadVillages().then(() => setVillagesLoaded(true)); up({ query }); },
+    setQuery: (query: string) => { if (query) needVillages(); up({ query }); },
     setLayer: (layer: string) => up({ layer }),
-    openSearch: () => { loadVillages().then(() => setVillagesLoaded(true)); up({ search: true }); },
-    closeSearch: () => up({ search: false }),
+    openSearch: () => { needVillages(); up({ search: true }); },
+    closeSearch: closeOverlay,
     openMore: () => up({ more: true }),
-    closeMore: () => up({ more: false }),
+    closeMore: closeOverlay,
     select,
     goInside,
     goTo,
@@ -111,8 +207,8 @@ export function useKhoim() {
     /** From search or a link: show the place with its full card. */
     openPlace: (id: string) => {
       const p = getPlace(id);
-      if (!p || p.level === 'state') return up({ search: false, focus: null, selected: null });
-      up({ search: false, focus: p.level === 'district' ? null : p.parent, selected: id, snap: 'full' });
+      if (!p || p.level === 'state') { closeOverlay(); up({ focus: null, selected: null, snap: 'peek' }); return; }
+      up({ search: false, more: false, ...opened(p) });
       say(id);
     }
   };

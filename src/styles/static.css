@@ -1,0 +1,62 @@
+/* The plain page under the app. It is laid out like the app's own screen for the same place, so nothing
+   jumps when the map takes over. Without JavaScript it is the whole site: it scrolls, and every link works. */
+.static { min-height: 100vh; min-height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.static__banner { display: none; }
+html:not(.js) .static__banner { display: block; }
+.static__body { display: grid; grid-template-rows: auto 1fr; }
+
+.static__head { padding: 14px 16px 0; display: flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; min-height: 48px; }
+.static__wordmark { display: inline-flex; align-items: center; min-height: 48px; padding: 0 6px; border-radius: var(--radius-m); color: var(--text); text-decoration: none; }
+.static__crumbs a { color: var(--text); display: inline-block; }
+.static__title {
+  margin: 14px 36px 0 20px;
+  font: var(--weight-strong) var(--size-title)/var(--lh-title) var(--font-latin);
+  letter-spacing: var(--track-title); text-wrap: pretty;
+}
+
+.static__panel { display: grid; grid-template-rows: 1fr auto; }
+/* like the app's full sheet: house colour, rounded top, 56px from the top of the screen */
+.static__card {
+  margin-top: -6px; padding: 28px 16px 28px;
+  background: var(--house-bg); color: var(--house-on);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  min-height: calc(100dvh - 56px); box-sizing: border-box;
+}
+html:not(.js) .static__card { min-height: 0; margin-top: 12px; border-radius: var(--radius-sheet); margin-inline: 12px; }
+
+.static__places { padding: 20px var(--gutter) 8px; }
+.static__places ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.static__places a {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-height: 44px; box-sizing: border-box;
+  padding: 8px 12px; border-radius: var(--radius-m); background: var(--surface-raised);
+  color: var(--text); font: var(--weight-strong) 17px/1.5 var(--font-latin);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.static__deva { font-family: var(--font-deva); font-size: 20px; }
+.static__footer { padding: var(--space-6) var(--gutter) var(--space-10); }
+
+/* With JavaScript the app is about to take over: keep the first paint to what the app itself shows.
+   The lists stay in the page for search engines and screen readers. */
+html.js .static__places, html.js .static__crumbs {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+html.js .static--place .static__footer { display: none; }
+
+@media (min-width: 1180px) {
+  .static__banner { display: block; }
+  .static__body { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) 460px; }
+  .static__head { padding: 20px 28px 0; }
+  .static__wordmark { padding: 0 4px; }
+  .static__wordmark .k-wordmark { --wordmark-size: 26px !important; }
+  html.js .static__crumbs { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; }
+  .static__title { margin: 42px 0 0 32px; width: 330px; font-size: 40px; line-height: 1.1; }
+  .static__panel { border-left: 1px solid var(--line); background: var(--surface-sunk); }
+  .static__panel-body { padding: 92px 24px 20px; }
+  .static__card, html:not(.js) .static__card {
+    margin: 0; min-height: 0; border-radius: var(--radius-sheet);
+    padding: calc(var(--trim-inset) + 10px) calc(var(--trim-inset) + 10px) calc(var(--trim-inset) + 16px);
+    animation: none;
+  }
+  .static__places { padding: 20px 0 0; }
+  .static__footer, html.js .static--place .static__footer { display: block; padding: 14px 24px 18px; border-top: 1px solid var(--line); }
+}

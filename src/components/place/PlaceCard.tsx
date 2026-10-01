@@ -38,10 +38,12 @@ export interface PlaceCardProps {
   onClose?: () => void;
   onGoInside?: (id: string) => void;
   recordings?: Recording[];
-  headingLevel?: 2 | 3;
+  headingLevel?: 1 | 2 | 3;
+  /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
+  plain?: boolean;
 }
 
-export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoInside, recordings, headingLevel = 2 }: PlaceCardProps) {
+export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
   const H = `h${headingLevel}` as const;
   const inside = p.level !== 'village' && !!onGoInside;
@@ -79,7 +81,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
         <div className="k-card__more">
           {p.say ? (
             <Row label="Say it">
-              <SayIt say={p.say} note={p.sayNote} reviewed={p.reviewed} />
+              <SayIt say={p.say} note={p.sayNote} reviewed={p.reviewed} plain={plain} />
               <VoiceClip recordings={recordings} />
             </Row>
           ) : (
@@ -94,8 +96,8 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
           <Row label="Sources">
             <SourceStatus status={p.status} />
             {p.sourceNote && <p className="k-card__body">{p.sourceNote}</p>}
-            {p.sources && <button type="button" className="k-card__disclose" aria-expanded={showSrc} onClick={() => setShowSrc(!showSrc)}>{showSrc ? 'Hide sources' : 'Where this comes from'}</button>}
-            {showSrc && <p className="k-card__body">{p.sources}</p>}
+            {p.sources && !plain && <button type="button" className="k-card__disclose" aria-expanded={showSrc} onClick={() => setShowSrc(!showSrc)}>{showSrc ? 'Hide sources' : 'Where this comes from'}</button>}
+            {p.sources && (showSrc || plain) && <p className="k-card__body">{p.sources}</p>}
           </Row>
           {p.alsoWritten && <><Rule /><Row label="Also written"><span className="k-card__other-deva" lang="gom">{p.alsoWritten.join(', ')}</span></Row></>}
           {p.marathi && <><Rule /><Row label="In Marathi"><span className="k-card__other-deva" lang="mr">{p.marathi}</span></Row></>}
