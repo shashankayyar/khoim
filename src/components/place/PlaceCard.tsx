@@ -36,21 +36,23 @@ export interface PlaceCardProps {
   expanded?: boolean;
   onExpand?: () => void;
   onClose?: () => void;
-  onGoInside?: (id: string) => void;
+  /** Puts the card away to show the strip of places inside this one. Leave out where the strip is already on screen. */
+  onShowInside?: () => void;
   recordings?: Recording[];
   headingLevel?: 1 | 2 | 3;
   /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
   plain?: boolean;
 }
 
-export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
+export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
   const H = `h${headingLevel}` as const;
-  const inside = p.level !== 'village' && !!onGoInside;
-  const kids = childCount(p);
+  const inside = p.level !== 'village' && !!onShowInside;
+  const insideLabel = `${childCount(p)} ${p.level === 'taluka' ? 'villages' : 'talukas'}`;
   const taluka = p.level === 'village' ? getPlace(p.parent) : null;
   return (
     <article className={expanded ? 'k-card is-expanded' : 'k-card'} aria-label={p.official}>
+     <div data-sheet-peek="1">
       <div className="k-card__frame">
         <div className="k-card__top">
           <span className="k-card__where">{whereLabel(p)}</span>
@@ -73,9 +75,10 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
       {!expanded && (
         <div className={inside ? 'k-card__actions k-card__actions--two' : 'k-card__actions'}>
           <Button variant="outline" ink={INK} onClick={onExpand}>{p.say ? 'How to say it' : 'All names'}</Button>
-          {inside && <Button ink={INK} paper={PAPER} iconAfter="arrow-right" onClick={() => onGoInside(p.id)}>Go inside</Button>}
+          {inside && <Button ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>}
         </div>
       )}
+     </div>
 
       {expanded && (
         <div className="k-card__more">
@@ -107,7 +110,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
           {p.level === 'village' && <><Rule /><Row label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
           {inside && (
             <div className="k-card__inside">
-              <Button full ink={INK} paper={PAPER} iconAfter="arrow-right" onClick={() => onGoInside(p.id)}>{`Go inside, ${kids} ${p.level === 'taluka' ? 'villages' : 'talukas'}`}</Button>
+              <Button full ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>
             </div>
           )}
         </div>

@@ -59,7 +59,7 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
       <div class="static__panel">
         <div class="static__panel-body">
           {!home && (
-            <div class="static__card" data-house={houseOf(place).key}>
+            <div class="static__card" data-house={houseOf(place).key} style={`--peek:${place.deva ? 318 : 344}px`}>
               <PlaceCard place={place} expanded plain headingLevel={1} />
             </div>
           )}

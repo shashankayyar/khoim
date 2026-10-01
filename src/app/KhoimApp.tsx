@@ -1,6 +1,6 @@
 /* The Khoim app: one map, two layouts. Phone is the default; desktop adds the names panel on the right.
-   Ported from design/ui_kits/khoim/Screens.jsx. */
-import { Fragment, useEffect, useRef, useState } from 'react';
+   Based on design/ui_kits/khoim/Screens.jsx. */
+import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Icon } from '../components/core/Icon';
@@ -13,8 +13,9 @@ import { PlaceStrip } from '../components/place/PlaceStrip';
 import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
-import { getPlace, houseOf, nameIn, trailOf } from '../data/khoim';
+import { getPlace, houseOf, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
+import { useDialog } from '../lib/dialog';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import { useMediaQuery } from '../lib/motion';
 import { More } from './More';
@@ -46,21 +47,47 @@ export default function KhoimApp({ initialId, initialVillage }: KhoimAppProps) {
   return desktop ? <Desktop k={k} /> : <Phone k={k} />;
 }
 
+/** The height of an element, kept up to date as text wraps or the screen turns. */
+function useHeight(ref: RefObject<HTMLElement | null>): number {
+  const [h, set] = useState(0);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const u = () => set(el.offsetHeight);
+    u();
+    const ro = new ResizeObserver(u);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref]);
+  return h;
+}
+
 function Announcer({ text }: { text: string }) {
   return <div className="k-visually-hidden" role="status" aria-live="polite">{text}</div>;
 }
 
-/* Phone: search is its own screen. It slides up over the map and closes with Cancel or Escape. */
-function SearchScreen({ k }: { k: Khoim }) {
-  const input = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (!k.search) return;
-    const t = window.setTimeout(() => input.current?.focus({ preventScroll: true }), 320);
-    return () => window.clearTimeout(t);
-  }, [k.search]);
+/** Goa / South Goa / Salcete. Each part takes you to that level. */
+function Crumbs({ k }: { k: Khoim }) {
+  const trail = trailOf(k.focus || 'goa');
+  if (trail.length < 2) return null;
   return (
-    <div className={k.search ? 'k-search-screen is-open' : 'k-search-screen'} role="dialog" aria-modal="true" aria-label="Search" aria-hidden={!k.search}
-      onKeyDown={e => { if (e.key === 'Escape') k.closeSearch(); }}>
+    <nav className="k-crumbs" aria-label="Where you are">
+      {trail.map((t, i) => (
+        <Fragment key={t.id}>
+          {i > 0 && <span aria-hidden="true">/</span>}
+          <button type="button" className="k-crumbs__link" aria-current={i === trail.length - 1 ? 'page' : undefined} onClick={() => k.goTo(t.id === 'goa' ? null : t.id)}>{t.official}</button>
+        </Fragment>
+      ))}
+    </nav>
+  );
+}
+
+/* Phone: search is its own screen. It slides up over the map and closes with Cancel, Escape or the back button. */
+function SearchScreen({ k }: { k: Khoim }) {
+  const ref = useRef<HTMLDivElement>(null), input = useRef<HTMLInputElement>(null);
+  useDialog(ref, k.search, k.closeSearch, input);
+  return (
+    <div ref={ref} className={k.search ? 'k-search-screen is-open' : 'k-search-screen'} role="dialog" aria-modal="true" aria-label="Search" aria-hidden={!k.search}>
       <div className="k-search-screen__top"><SearchField inputRef={input} value={k.query} onChange={k.setQuery} onCancel={k.closeSearch} /></div>
       <div className="k-search-screen__results">{k.search && <SearchResults query={k.query} onPick={k.openPlace} villagesLoaded={k.villagesLoaded} />}</div>
     </div>
@@ -71,46 +98,62 @@ function Phone({ k }: { k: Khoim }) {
   const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
-  const nm = fp ? nameIn(fp, k.script) : null;
   const parent = fp && fp.parent && fp.parent !== 'goa' ? getPlace(fp.parent) : null;
   const sheet = sp ? 'place' : fp ? 'strip' : null;
-  /* how much of the sheet shows when collapsed; the map keeps clear of it */
-  const peek = sp ? (sp.deva ? 296 : 336) : fp ? 200 : 0;
-  /* when search is cancelled, the keyboard focus goes back to the button that opened it */
-  const searchButton = useRef<HTMLButtonElement>(null);
-  const wasSearching = useRef(false);
-  useEffect(() => {
-    if (wasSearching.current && !k.search) searchButton.current?.focus({ preventScroll: true });
-    wasSearching.current = k.search;
-  }, [k.search]);
+  /* How much of the card shows when collapsed. The card reports what it needs, because names wrap differently
+     on different phones; until it has, use the design's figure. The map keeps clear of it. */
+  const [measured, setMeasured] = useState<{ id: string; px: number } | null>(null);
+  const cardPeek = sp ? (measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
+  const peek = sp ? cardPeek : fp ? 200 : 0;
+  const spId = sp?.id;
+  const onMeasure = useCallback((px: number) => { if (spId) setMeasured(m => (m && m.id === spId && m.px === px ? m : { id: spId, px })); }, [spId]);
+  /* On the first screen the map sits between the title and the buttons, however many lines they take on this phone. */
+  const title = useRef<HTMLHeadingElement>(null), bottom = useRef<HTMLDivElement>(null);
+  const titleH = useHeight(title), bottomH = useHeight(bottom);
+  const firstTop = titleH ? 76 + titleH + 12 : 176, firstBottom = bottomH ? bottomH + 28 : 190;
   return (
     <div className="k-app k-app--phone">
-      <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-        insetTop={first ? 176 : 72} insetBottom={sheet ? peek + 8 : 108} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+      <main className="k-phone-main">
+        <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
+          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+      </main>
       <header className="k-phone-header">
-        <div className="k-phone-header__left">
-          {k.focus || k.selected
-            ? <IconButton icon="arrow-left" label={parent ? 'Back to ' + parent.official : 'Back to Goa'} onClick={k.back} />
-            : <button type="button" className="k-phone-header__wordmark" onClick={k.openMore} aria-label="About Khoim"><Wordmark size={22} /></button>}
-          {nm && <span className={nm.kind === 'deva' ? 'k-phone-header__place k-phone-header__place--deva' : 'k-phone-header__place'} lang={nm.kind === 'deva' ? 'gom' : undefined}>{nm.text}</span>}
+        <div className="k-phone-header__row">
+          <div className="k-phone-header__left">
+            {first
+              ? <button type="button" className="k-phone-header__wordmark" onClick={k.openMore}><Wordmark size={22} suffix="About Khoim" /></button>
+              : <IconButton icon="arrow-left" label={sp?.level === 'village' && fp ? 'Back to ' + fp.official : parent ? 'Back to ' + parent.official : 'Back to Goa'} onClick={k.back} />}
+          </div>
+          <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} /></div>
         </div>
-        <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} /></div>
+        {!first && (
+          <div className="k-phone-header__row k-phone-header__row--where">
+            <Crumbs k={k} />
+            <IconButton icon="search" label="Search any name, in any script" onClick={k.openSearch} />
+          </div>
+        )}
       </header>
-      <h1 className={first ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first}>{TITLE}</h1>
-      <div className={sheet ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'}>
-        {first && <p className="k-hint">Tap a district, or press and drag along Goa</p>}
-        <button type="button" className="k-search-button" ref={searchButton} onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
+      <h1 ref={title} className={first ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first}>{TITLE}</h1>
+      <div ref={bottom} className={sheet ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'}>
+        <div className="k-phone-bottom__notes">
+          <p className="k-hint">Tap a district, or press and drag along Goa</p>
+          <button type="button" className="k-draft-chip" onClick={k.openMore}>Draft for review.</button>
+        </div>
+        <div className="k-phone-bottom__actions">
+          <button type="button" className="k-search-button" onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
+          <IconButton icon="layers" label="Layers and about" size={58} onClick={k.openMore} />
+        </div>
       </div>
       {sp && (
-        <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} house={houseOf(sp).key}>
+        <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
           <div className="k-phone-card">
-            <PlaceCard place={sp} expanded={k.snap === 'full'} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onGoInside={k.goInside} />
+            <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')} />
           </div>
         </Sheet>
       )}
       {!sp && fp && (
         <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
-          <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} />
+          <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} />
         </Sheet>
       )}
       <SearchScreen k={k} />
@@ -123,7 +166,6 @@ function Phone({ k }: { k: Khoim }) {
 function Desktop({ k }: { k: Khoim }) {
   const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
-  const trail = trailOf(k.focus || 'goa');
   return (
     <div className="k-app k-app--desktop">
       <DraftBanner tellUsHref={tellUsWhatIsWrongHref(window.location.href)} />
@@ -133,15 +175,8 @@ function Desktop({ k }: { k: Khoim }) {
             insetTop={96} insetBottom={fp ? 170 : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
-              <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)} aria-label="Khoim, all of Goa"><Wordmark size={26} /></button>
-              <nav className="k-crumbs" aria-label="Where you are">
-                {trail.length > 1 && trail.map((t, i) => (
-                  <Fragment key={t.id}>
-                    {i > 0 && <span aria-hidden="true">/</span>}
-                    <button type="button" className="k-crumbs__link" aria-current={i === trail.length - 1 ? 'page' : undefined} onClick={() => k.goTo(t.id === 'goa' ? null : t.id)}>{t.official}</button>
-                  </Fragment>
-                ))}
-              </nav>
+              <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>
+              <Crumbs k={k} />
             </div>
             <div className="k-desktop-header__right">
               <ScriptToggle value={k.script} onChange={k.setScript} />
@@ -151,12 +186,12 @@ function Desktop({ k }: { k: Khoim }) {
           {!fp && !sp && (
             <div className="k-desktop-intro">
               <h1>{TITLE}</h1>
-              <p>Click a district, or press and drag along Goa. Click again to go inside.</p>
+              <p>Click a district, or press and drag along Goa.</p>
             </div>
           )}
           {fp && (
             <div className="k-desktop-strip">
-              <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} />
+              <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} headingLevel={sp ? 2 : 1} />
             </div>
           )}
         </main>
@@ -170,11 +205,19 @@ function Desktop({ k }: { k: Khoim }) {
             ) : sp ? (
               <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
                 <div className="k-desktop-card__inner">
-                  <PlaceCard place={sp} expanded onClose={() => k.setSnap('closed')} onGoInside={k.goInside} />
+                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} />
                 </div>
               </div>
             ) : (
-              <p className="k-desktop__panel-intro">Pick a place on the map to see all its names. Search works in any script: try <span lang="gom">साश्टी</span>, Saxtti or Salcete.</p>
+              <>
+                <p className="k-desktop__panel-intro">Pick a place on the map to see all its names. Search works in any script: try <span lang="gom">साश्टी</span>, Saxtti or Salcete.</p>
+                {/* the three districts as a list too, for anyone who would rather pick from names */}
+                {!fp && (
+                  <div className="k-desktop__panel-list">
+                    <PlaceStrip parent={null} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} />
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className="k-desktop__panel-credit"><Credit /></div>

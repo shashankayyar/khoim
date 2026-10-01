@@ -1,10 +1,13 @@
 /* Bottom sheet with two snap points. Drag it (or tap the handle), or press Escape to close.
    It follows the finger 1:1; on release, distance or flick speed decides where it lands.
    Ported from design/components/place/Sheet.jsx. */
-import { useRef, useState, type PointerEvent, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type PointerEvent, type ReactNode } from 'react';
 import type { HouseKey } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
 import './place.css';
+
+/** Height of the handle strip at the top of the sheet. */
+const HANDLE = 28;
 
 export interface SheetProps {
   /** Read by screen readers as the name of this panel. */
@@ -13,6 +16,9 @@ export interface SheetProps {
   onSnap: (snap: 'peek' | 'full' | 'closed') => void;
   /** px of the sheet that shows when collapsed. */
   peek?: number;
+  /** Called with the height the collapsed sheet needs to show everything inside the element marked
+      data-sheet-peek (names wrap differently on different phones). Feed it back in as `peek`. */
+  onMeasure?: (px: number) => void;
   /** Paints the sheet in a house colour. Without it the sheet is white. */
   house?: HouseKey;
   /** False for sheets that only peek (the strip): the handle is then a grip, not a button. */
@@ -20,12 +26,23 @@ export interface SheetProps {
   children: ReactNode;
 }
 
-export function Sheet({ label, snap = 'peek', onSnap, peek = 280, house, expandable = true, children }: SheetProps) {
+export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, house, expandable = true, children }: SheetProps) {
   const reduce = useReducedMotion();
   const box = useRef<HTMLElement>(null);
   const d = useRef<{ y: number; t: number; base: number } | null>(null);
   const [dy, setDy] = useState(0);
   const full = snap === 'full';
+
+  /* Measure only while collapsed: the names are set larger when the card is open. */
+  useLayoutEffect(() => {
+    const mark = box.current?.querySelector<HTMLElement>('[data-sheet-peek]');
+    if (!mark || !onMeasure || full) return;
+    const report = () => onMeasure(HANDLE + mark.offsetHeight + 16);
+    report();
+    const ro = new ResizeObserver(report);
+    ro.observe(mark);
+    return () => ro.disconnect();
+  }, [full, onMeasure]);
 
   const start = (e: PointerEvent<HTMLElement>) => {
     const el = box.current;

@@ -38,7 +38,7 @@ export function SayIt({ say, note, reviewed = false, plain = false }: SayItProps
     <div className="k-say-it">
       {plain
         ? <div className="k-say-it__beats">{beats}</div>
-        : <button type="button" className="k-say-it__beats" onClick={play} aria-label={'Say it: ' + say + '. Show the beat'}>{beats}</button>}
+        : <button type="button" className="k-say-it__beats" onClick={play} aria-label={'Say it: ' + parts.map(p => p.text).join(' ') + '. Show the beat'}>{beats}</button>}
       <p className="k-say-it__note">{'Rough guide' + (note ? ', ' + note : '') + '. ' + (reviewed ? 'Checked by a speaker.' : 'Not yet checked by a speaker.')}</p>
     </div>
   );

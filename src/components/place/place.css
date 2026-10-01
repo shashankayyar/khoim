@@ -17,8 +17,11 @@
   border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
 }
 .k-sheet__grip { display: block; width: 40px; height: 5px; border-radius: 3px; background: currentColor; }
+/* 28px tall to look at, 44px to touch */
+button.k-sheet__handle { position: relative; }
+button.k-sheet__handle::after { content: ""; position: absolute; inset: -8px 0; }
 .k-sheet__scroll { overflow-y: hidden; touch-action: none; overscroll-behavior: contain; }
-.k-sheet__scroll.is-full { overflow-y: auto; touch-action: pan-y; }
+.k-sheet__scroll.is-full { overflow-y: auto; touch-action: pan-y pinch-zoom; }
 
 /* ---------- Place card ---------- */
 .k-card { display: grid; color: var(--house-on); }
@@ -91,7 +94,7 @@
 /* ---------- Place strip ---------- */
 .k-strip { display: grid; gap: 10px; }
 .k-strip__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 10px; padding: 0 var(--gutter); }
-.k-strip__name { font: var(--weight-strong) 26px/1.5 var(--font-latin); }
+.k-strip__name { margin: 0; font: var(--weight-strong) 26px/1.5 var(--font-latin); }
 .k-strip__name--deva { font: var(--weight-strong) 30px/1.5 var(--font-deva); }
 .k-strip__count { font: var(--weight-regular) 16px/1.4 var(--font-latin); white-space: nowrap; }
 .k-strip__list {
