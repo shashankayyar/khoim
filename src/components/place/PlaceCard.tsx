@@ -126,7 +126,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {p.hq && <><Rule /><Row level={sub} label="Headquarters"><p className="k-card__body">{p.hq}</p></Row></>}
           {p.facts && <><Rule />{p.facts.map(f => <Row key={f} level={sub} label="Worth knowing"><p className="k-card__body">{f}.</p></Row>)}</>}
           {p.level === 'village' && <><Rule /><Row level={sub} label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
-          {/* On a place that has a Konkani name: the one way in to the form. TODO(copy): this button's words are new.
+          {/* On a place that has a Konkani name: the one way in to the form (wording in docs/copy.md).
               Without the form: a way to say the name is wrong, by email. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
           {p.deva && (
             <>

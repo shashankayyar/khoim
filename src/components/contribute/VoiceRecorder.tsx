@@ -2,7 +2,7 @@
    Ten seconds at most. Nothing leaves the phone until the form is sent.
 
    Not in the design files: built 1 October 2026 from the pieces the design already has (the button, the
-   recordings row on the card). TODO(copy): the wording here is not in docs/copy.md yet. */
+   recordings row on the card). The wording is in docs/copy.md (confirmed by Shashank, 1 October 2026). */
 import { useEffect, useRef, useState } from 'react';
 import type { Recorded } from '../../lib/contribute';
 import { Button } from '../core/Button';

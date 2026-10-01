@@ -31,8 +31,19 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Village link: Tell us the name
 - Dharbandora pending body: Sources disagree on the Konkani spelling. We are waiting for the Directorate of Official Language to confirm it.
 - Correction form: What should it be? / How do you know? For example: my family is from here / Your name, for credit (optional) / Send
-- Card, with the form on: Add or correct something (one button; a village with no Konkani name keeps "Tell us"). TODO(copy): confirm.
-- Form, layers not on the map yet: wording is in `ContributeForm.tsx` and `VoiceRecorder.tsx`, marked TODO(copy) until confirmed.
+- Card, with the form on: Add or correct something (one button; a village with no Konkani name keeps "Tell us").
+- Form, choices for layers not on the map yet: A recording of the name / A crop grown here / A dish from here / Music or dance from here / A landmark, and what people call it
+- Form, note above those choices: Not on the map yet. What you send now is checked and kept for when each one opens.
+- Form, crops: What is grown here? For example: khazan paddy, cashew, coconut, areca
+- Form, food: What is the dish? Its Konkani name if you know it, and the village or feast it belongs to
+- Form, music: What is sung or danced here? For example: mando, dulpod, deknni, fugdi
+- Form, landmarks: What is the landmark, and what do people nearby call it? For example: a temple, church, mosque or spring
+- Form, several at once: Add another
+- Recording: Say {Official} the way you say it at home. Up to 10 seconds. / Record / Stop / Recording. {n} seconds left. / Listen / Record again / {n} seconds recorded.
+- Recording, village: Which village or town are you from? It is shown with your recording
+- Recording, nothing recorded: Please record the name first.
+- Recording, problems: This browser cannot record sound. Try Chrome or Safari on your phone. / The microphone is switched off for this site. Allow it in your browser settings, then press Record again. / No microphone was found. / That was too short to hear. Please record again.
+- Recording, agree line: I am 18 or older and I agree to my recording being used this way.
 - Correction form, what is needed: The first two answers are needed. Your name is optional.
 - Correction form, something missing: Please fill this in. / Please fill this in. A few words are enough. / Please tick the box if you agree.
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.
