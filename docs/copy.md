@@ -39,12 +39,16 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Form, music: What is sung or danced here? For example: mando, dulpod, deknni, fugdi
 - Form, landmarks: What is the landmark, and what do people nearby call it? For example: a temple, church, mosque or spring
 - Form, several at once: Add another
+- Form, under "What are you adding?": Tick as many as you like. Each one opens a box. TODO(copy): confirm.
+- Form, nothing ticked: Please tick at least one thing to add. TODO(copy): confirm.
+- Form, after sending: You sent: (then the list of what was sent). TODO(copy): confirm.
+- Recording, village missing: Please fill this in. It is shown with your recording. TODO(copy): confirm.
 - Recording: Say {Official} the way you say it at home. Up to 10 seconds. / Record / Stop / Recording. {n} seconds left. / Listen / Record again / {n} seconds recorded.
 - Recording, village: Which village or town are you from? It is shown with your recording
 - Recording, nothing recorded: Please record the name first.
 - Recording, problems: This browser cannot record sound. Try Chrome or Safari on your phone. / The microphone is switched off for this site. Allow it in your browser settings, then press Record again. / No microphone was found. / That was too short to hear. Please record again.
 - Recording, agree line: I am 18 or older and I agree to my recording being used this way.
-- Correction form, what is needed: The first two answers are needed. Your name is optional.
+- Correction form, what is needed: no longer shown (it read "The first two answers are needed. Your name is optional." while the form took one thing at a time).
 - Correction form, something missing: Please fill this in. / Please fill this in. A few words are enough. / Please tick the box if you agree.
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.
 - Errors: The map didn't load. Check your connection and try again. / You're offline. The map will load once you're back online. / That didn't send. Your text is still here, so please try again.

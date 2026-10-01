@@ -28,15 +28,18 @@ export function loadContribConfig(): Promise<ContribConfig> {
 
 export interface Contribution {
   placeId: string;
-  kind: ContributionKind;
-  /** One or more things of this kind. Each is stored as its own item. Empty for a recording. */
-  values: string[];
+  /** Everything in one send: for each kind, one or more things. Each thing is stored as its own item.
+      A recording is { kind: 'voice', values: [] } and comes with `recording`. */
+  items: { kind: ContributionKind; values: string[] }[];
+  /** How the person knows what they typed. Not asked when only a recording is sent. */
   how: string;
+  /** With a recording: the village or town the speaker is from. */
+  village: string;
   name: string;
   consent: boolean;
   /** From the bot check. */
   token: string;
-  /** For kind "voice". */
+  /** With a "voice" item. */
   recording?: Recorded | null;
 }
 

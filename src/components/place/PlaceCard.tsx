@@ -50,7 +50,7 @@ export interface PlaceCardProps {
   /** Opens the contribution form. With it, the card has one way in: a single button, and no email address
       (that lives on the About screen). When missing (the form is not switched on, or the page is being read
       without JavaScript), "Tell us" and "Suggest a correction" open an email instead. */
-  onTell?: (kind: ContributionKind) => void;
+  onTell?: (kind?: ContributionKind) => void;
   recordings?: Recording[];
   headingLevel?: 1 | 2 | 3;
   /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
@@ -133,7 +133,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
               <Rule />
               {onTell ? (
                 <div className="k-card__row k-card__tell">
-                  <Button variant="outline" ink={INK} iconAfter="arrow-right" onClick={() => onTell('correction')}>
+                  <Button variant="outline" ink={INK} iconAfter="arrow-right" onClick={() => onTell()}>
                     Add or correct something<span className="k-visually-hidden"> about {p.official}</span>
                   </Button>
                 </div>
