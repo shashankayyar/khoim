@@ -1,6 +1,8 @@
 ---
-/* Placeholder home for the first deploy. The map app replaces this in phase 1. */
+/* Home: all of Goa. The plain page below is what loads first and what works without JavaScript;
+   the map app then takes over the screen. */
 import Base from '../layouts/Base.astro';
+import KhoimApp from '../app/KhoimApp';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { Button } from '../components/core/Button';
@@ -14,66 +16,77 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <Base title={title} description={description}>
-  <div class="home">
-    <DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} />
-    <main class="home__main">
-      <Wordmark size={40} />
-      <h1 class="home__title">Every taluka in Goa, with its Konkani name and how to say it.</h1>
-      <div class="home__action">
-        <Button icon="mail" href={writeToUsHref()}>Write to us</Button>
-      </div>
+  <div id="khoim-static" class="static">
+    <div class="static__banner"><DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} /></div>
+    <main class="static__main">
+      <div class="static__wordmark"><Wordmark size={22} /></div>
+      <h1 class="static__title">Every taluka in Goa, with its Konkani name and how to say it.</h1>
+      <noscript>
+        <div class="static__action">
+          <Button icon="mail" href={writeToUsHref()}>Write to us</Button>
+        </div>
+      </noscript>
     </main>
-    <footer class="home__footer">
+    <footer class="static__footer">
       <Credit />
     </footer>
   </div>
+  <KhoimApp client:only="react" />
 </Base>
 
 <style>
-  .home {
+  /* Sized and placed like the app's first screen, so nothing jumps when the map takes over. */
+  .static {
     min-height: 100vh;
     min-height: 100dvh;
     display: grid;
     grid-template-rows: auto 1fr auto;
   }
-  .home__main,
-  .home__footer {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 16px var(--gutter);
+  .static__banner {
+    display: none;
   }
-  .home__main {
+  .static__main {
+    padding: 14px 16px 0;
+  }
+  .static__wordmark {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 6px;
   }
-  .home__title {
-    margin: var(--space-12) 0 0;
-    max-width: 22ch;
+  .static__title {
+    margin: 14px 20px 0 4px;
     font: var(--weight-strong) var(--size-title)/var(--lh-title) var(--font-latin);
     letter-spacing: var(--track-title);
-    text-wrap: balance;
+    text-wrap: pretty;
   }
-  .home__action {
-    margin-top: var(--space-8);
+  .static__action {
+    margin: var(--space-8) 4px 0;
   }
-  .home__footer {
-    padding-bottom: var(--space-10);
+  .static__footer {
+    padding: var(--space-6) var(--gutter) var(--space-10);
   }
-  .home__footer > :global(*) {
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--line);
-  }
-  @media (min-width: 768px) {
-    .home__main {
-      padding-top: var(--space-6);
+  @media (min-width: 1180px) {
+    .static__banner {
+      display: block;
     }
-    .home__title {
-      margin-top: var(--space-16);
+    .static__main {
+      padding: 20px 28px 0;
+    }
+    .static__wordmark {
+      padding: 0 4px;
+    }
+    .static__wordmark :global(.k-wordmark) {
+      --wordmark-size: 26px !important;
+    }
+    .static__title {
+      margin: 42px 0 0 4px;
+      width: 330px;
       font-size: 40px;
       line-height: 1.1;
+    }
+    .static__footer {
+      padding: 14px 24px 18px;
     }
   }
 </style>

@@ -200,11 +200,29 @@ const places = PLACES.map(p => ({
   ...(p.level === 'taluka' ? { villageCount: villageCount[p.id] } : null)
 }));
 
+/* The box to zoom to when you go inside a taluka: its own outline, widened to take in any of its villages
+   that the boundary file draws outside it. Only written when it differs from the taluka's box. */
+function viewBox(talukaId) {
+  const b = TALUKA_SHAPES[talukaId].b;
+  const box = [...b];
+  for (const d of Object.values(paths[talukaId])) {
+    for (const m of d.matchAll(/(-?[\d.]+),(-?[\d.]+)/g)) {
+      const x = Number(m[1]), y = Number(m[2]);
+      if (x < box[0]) box[0] = x; if (y < box[1]) box[1] = y;
+      if (x > box[2]) box[2] = x; if (y > box[3]) box[3] = y;
+    }
+  }
+  return box.some((v, i) => Math.abs(v - b[i]) > 2) ? box.map(v => Math.round(v * 10) / 10) : null;
+}
+
 /* Districts are drawn from their talukas, so only the box and label point are kept for them. */
 const geoBase = {
   size: GOA_SIZE,
   districts: Object.fromEntries(Object.entries(DISTRICT_SHAPES).map(([id, s]) => [id, { b: s.b, lp: s.lp }])),
-  talukas: Object.fromEntries(talukas.map(t => { const s = TALUKA_SHAPES[t.id]; return [t.id, { district: s.district, d: s.d, b: s.b, lp: s.lp }]; }))
+  talukas: Object.fromEntries(talukas.map(t => {
+    const s = TALUKA_SHAPES[t.id], view = viewBox(t.id);
+    return [t.id, { district: s.district, d: s.d, b: s.b, lp: s.lp, ...(view ? { view } : null) }];
+  }))
 };
 
 rmSync(out, { recursive: true, force: true });
