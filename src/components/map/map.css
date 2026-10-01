@@ -1,0 +1,56 @@
+/* The map. Values from design/components/map/GoaMap.jsx. */
+.k-map {
+  position: absolute; inset: 0; overflow: hidden;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.k-map__stage { position: absolute; inset: 0; transform-origin: 0 0; }
+.k-map__svg { position: absolute; inset: 0; }
+
+.k-map__empty { fill: var(--map-empty); stroke: var(--map-edge); stroke-width: 1; }
+.k-map__taluka {
+  fill: var(--house-dim); stroke: var(--trim); stroke-linejoin: round;
+  transition: fill var(--dur-base) var(--ease-out);
+}
+.k-map__taluka.is-lit { fill: var(--house-bg); }
+
+/* first load: each taluka is wiped in from the left, north to south */
+.k-map__wipe {
+  transform-box: fill-box; transform-origin: 0% 50%; transform: scaleX(0);
+  transition: transform var(--dur-paint) var(--ease-out);
+}
+.k-map__wipe.is-painted { transform: scaleX(1); }
+
+.k-map__village { fill: none; stroke: var(--trim); stroke-opacity: .45; stroke-width: 1; }
+.k-map__dot { fill: var(--trim); stroke: none; }
+.k-map__dot.is-on { stroke: var(--house-on); }
+.k-map__hit { fill: transparent; cursor: pointer; }
+
+.k-map__labels { position: absolute; inset: 0; pointer-events: none; }
+.k-map__label {
+  position: absolute; transform: translate(-50%, -50%); pointer-events: auto;
+  border: 0; background: transparent; padding: 6px 8px; border-radius: var(--radius-s);
+  cursor: pointer; white-space: nowrap; color: var(--text);
+  font-family: var(--font-latin); font-weight: var(--weight-strong); line-height: 1.5;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.k-map__label--deva { font-family: var(--font-deva); }
+.k-map__label.is-lit { color: var(--house-on); }
+
+/* white tag above the selected village dot */
+.k-map__tag {
+  position: absolute; transform: translate(-50%, -100%);
+  background: var(--surface-raised); color: var(--text);
+  padding: 4px 10px; border-radius: var(--radius-m);
+  font: var(--weight-strong) 15px/1.4 var(--font-latin); white-space: nowrap;
+  box-shadow: var(--shadow-2);
+}
+
+.k-loupe {
+  position: absolute; width: 220px; box-sizing: border-box; pointer-events: none;
+  background: var(--house-bg); color: var(--house-on);
+  border-radius: var(--radius-xl); padding: var(--trim-inset); box-shadow: var(--shadow-3);
+}
+.k-loupe__frame { border: var(--trim-width) solid currentColor; border-radius: var(--radius-l); padding: 6px 12px 8px; }
+.k-loupe__name { font: var(--weight-strong) 26px/1.5 var(--font-latin); }
+.k-loupe__name--deva { font: var(--weight-strong) 32px/1.5 var(--font-deva); }
+.k-loupe__more { font: var(--weight-regular) 15px/1.35 var(--font-latin); }

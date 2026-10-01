@@ -51,3 +51,48 @@
 }
 .k-button:active:not(.k-button--disabled) { transform: scale(var(--press-scale)); }
 .k-button--disabled { border-style: dashed; background: transparent; color: var(--button-ink); cursor: not-allowed; }
+
+/* House colours. Put data-house on any surface painted in a house colour. */
+[data-house="haldi"] { --house-bg: var(--house-haldi); --house-on: var(--house-haldi-on); --house-dim: var(--map-haldi-dim); }
+[data-house="kokum"] { --house-bg: var(--house-kokum); --house-on: var(--house-kokum-on); --house-dim: var(--map-kokum-dim); }
+[data-house="rose"] { --house-bg: var(--house-rose); --house-on: var(--house-rose-on); --house-dim: var(--map-rose-dim); }
+[data-house="green"] { --house-bg: var(--house-green); --house-on: var(--house-green-on); --house-dim: var(--map-green-dim); }
+[data-house="oxide"] { --house-bg: var(--house-oxide); --house-on: var(--house-oxide-on); --house-dim: var(--map-oxide-dim); }
+[data-house="lilac"] { --house-bg: var(--house-lilac); --house-on: var(--house-lilac-on); --house-dim: var(--map-lilac-dim); }
+[data-house="sky"] { --house-bg: var(--house-sky); --house-on: var(--house-sky-on); --house-dim: var(--map-sky-dim); }
+[data-house="neel"] { --house-bg: var(--house-neel); --house-on: var(--house-neel-on); --house-dim: var(--map-neel-dim); }
+[data-house="mustard"] { --house-bg: var(--house-mustard); --house-on: var(--house-mustard-on); --house-dim: var(--map-mustard-dim); }
+
+/* Icon button */
+.k-icon-button {
+  width: var(--icon-button-size, 48px); height: var(--icon-button-size, 48px); flex: 0 0 auto;
+  border-radius: var(--radius-l); border: 0; padding: 0;
+  display: grid; place-items: center; cursor: pointer; color: var(--text);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.k-icon-button--raised { background: var(--surface-raised); box-shadow: var(--shadow-1); }
+.k-icon-button--soft { background: color-mix(in srgb, currentColor 14%, transparent); }
+.k-icon-button--plain { background: transparent; }
+.k-icon-button:active { transform: scale(var(--press-scale)); }
+
+/* Script toggle */
+.k-script-toggle {
+  position: relative; box-sizing: border-box;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  width: var(--script-toggle-width, 220px); height: 48px; padding: 4px;
+  border-radius: var(--radius-l); background: var(--surface-raised); box-shadow: var(--shadow-1);
+}
+.k-script-toggle__thumb {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3);
+  border-radius: var(--radius-m); background: var(--surface-invert);
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+.k-script-toggle[data-index="1"] .k-script-toggle__thumb { transform: translateX(100%); }
+.k-script-toggle[data-index="2"] .k-script-toggle__thumb { transform: translateX(200%); }
+.k-script-toggle__option {
+  position: relative; border: 0; padding: 0; background: transparent; border-radius: var(--radius-m);
+  color: var(--text); font: var(--weight-strong) 15px/1.5 var(--font-latin); cursor: pointer;
+  transition: color var(--dur-fast);
+}
+.k-script-toggle__option--deva { font-family: var(--font-deva); }
+.k-script-toggle__option[aria-checked="true"] { color: var(--text-invert); }

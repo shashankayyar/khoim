@@ -63,7 +63,14 @@ export interface RawVillage {
   reviewedOn?: string;
 }
 
-export interface TalukaShape { district: string; d: string; b: Box; lp: Point }
+export interface TalukaShape {
+  district: string;
+  d: string;
+  b: Box;
+  lp: Point;
+  /** Box to zoom to inside the taluka, when some of its villages are drawn outside its outline. */
+  view?: Box;
+}
 export interface DistrictShape { b: Box; lp: Point }
 export interface GeoBase {
   size: Point;
