@@ -1,0 +1,56 @@
+/* Search. Values from design/components/search/*.jsx and design/ui_kits/khoim/Screens.jsx. */
+.k-search-field { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; }
+.k-search-field--cancel { grid-template-columns: minmax(0, 1fr) auto; }
+.k-search-field__box {
+  display: flex; align-items: center; gap: 10px; height: 56px; box-sizing: border-box;
+  border-radius: var(--radius-l); background: var(--surface-raised); padding: 0 16px;
+  box-shadow: var(--shadow-1); color: var(--text);
+}
+.k-search-field__input {
+  flex: 1; min-width: 0; height: 100%; border: 0; outline: none; padding: 0; background: transparent; color: var(--text);
+  font: var(--weight-regular) 19px/1.5 var(--font-deva);
+  -webkit-appearance: none; appearance: none;
+}
+.k-search-field__input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.k-search-field__cancel {
+  height: 56px; border: 0; background: transparent; color: var(--text);
+  font: var(--weight-strong) 17px/1 var(--font-latin); padding: 0 8px; cursor: pointer; border-radius: var(--radius-m);
+}
+
+.k-search-note { margin: 8px 4px; font: var(--weight-regular) 17px/1.5 var(--font-latin); color: var(--text); }
+.k-search-note--count { font-size: 15px; margin: 4px 4px 10px; }
+
+.k-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.k-results__item { animation: khoim-rise var(--dur-base) var(--ease-out) var(--rise-delay, 0ms) both; }
+.k-result {
+  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 10px minmax(0, 1fr); gap: 14px; align-items: stretch;
+  text-align: left; border: 0; border-radius: var(--radius-l); background: var(--surface-raised);
+  padding: 12px 14px 12px 12px; cursor: pointer; color: var(--text);
+}
+.k-result__tab { border-radius: 5px; background: var(--house-bg); }
+.k-result__text { display: grid; gap: 2px; }
+.k-result__names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 12px; }
+.k-result__deva { font: var(--weight-strong) 28px/1.5 var(--font-deva); }
+.k-result__romi { font: var(--weight-strong) 21px/1.3 var(--font-latin); }
+.k-result__official-head { font: var(--weight-strong) 21px/1.4 var(--font-latin); overflow-wrap: anywhere; }
+.k-result__sub { font: var(--weight-regular) 15px/1.4 var(--font-latin); }
+.k-result__mark { background: var(--mark); color: inherit; border-radius: 4px; padding: 0 1px; }
+
+/* the phone search screen slides up over the map */
+.k-search-screen {
+  position: absolute; inset: 0; z-index: var(--z-search); background: var(--surface);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  transform: translateY(104%); visibility: hidden;
+  transition: transform var(--dur-sheet) var(--ease-standard), visibility 0s linear var(--dur-sheet);
+}
+.k-search-screen.is-open { transform: none; visibility: visible; transition: transform var(--dur-sheet) var(--ease-standard), visibility 0s linear 0s; }
+.k-search-screen__top { padding: 54px 16px 12px; }
+.k-search-screen__results { overflow-y: auto; padding: 4px 16px 40px; overscroll-behavior: contain; }
+
+/* the phone search button, in thumb reach at the bottom of the map */
+.k-search-button {
+  height: 58px; box-sizing: border-box; border-radius: var(--radius-l); border: 0;
+  background: var(--surface-raised); box-shadow: var(--shadow-2);
+  display: flex; align-items: center; gap: 12px; padding: 0 18px;
+  font: var(--weight-regular) 18px/1 var(--font-latin); color: var(--text); cursor: pointer; text-align: left;
+}
