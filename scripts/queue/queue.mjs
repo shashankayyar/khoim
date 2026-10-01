@@ -5,7 +5,7 @@
    under the name "khoim-queue-key", and this script is the only thing that reads it. Nothing here prints it.
 
      node scripts/queue/queue.mjs save-key          take the key from the clipboard, store it, test it, clear the clipboard
-     node scripts/queue/queue.mjs check             is there a key, does khoim.in accept it, how many items are unread
+     node scripts/queue/queue.mjs check             is there a key, does khoim.in accept it, how many items are unread, and how many there are in all
      node scripts/queue/queue.mjs unread            waiting items that have no note from Claude yet (JSON)
      node scripts/queue/queue.mjs notes <file>      post notes from a JSON file: [{ "id", "suggestion", "note" }, ...]
      node scripts/queue/queue.mjs allowed           allowed items that are not on the site yet (JSON)
@@ -65,8 +65,13 @@ if (command === 'save-key') {
   execFileSync('pbcopy', { input: '' });
   console.log('Saved. khoim.in accepts the key, and it is now in this Mac\'s Keychain as "' + SERVICE + '". The clipboard has been cleared.');
 } else if (command === 'check') {
-  const data = await call(needKey(), '/api/queue?unread=1');
-  console.log('The key works. Waiting items with no note from Claude yet: ' + data.items.length + '.');
+  const key = needKey();
+  const unread = (await call(key, '/api/queue?unread=1')).items.length;
+  console.log('The key works. Waiting items with no note from Claude yet: ' + unread + '.');
+  /* the whole queue in one line, so "nothing unread" can be told apart from "nothing arrived" */
+  const counts = [];
+  for (const status of ['waiting', 'allowed', 'rejected', 'removed']) counts.push(status + ' ' + (await call(key, '/api/queue?status=' + status)).items.length);
+  console.log('In the queue now: ' + counts.join(', ') + '.');
 } else if (command === 'unread') {
   const data = await call(needKey(), '/api/queue?unread=1');
   console.log(JSON.stringify(data.items, null, 2));
