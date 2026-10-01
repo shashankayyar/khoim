@@ -27,7 +27,7 @@ const OPEN: { kind: ContributionKind; label: string }[] = [
 ];
 const COMING = LAYERS.filter(l => l.status !== 'live');
 
-/* TODO(copy): these four lines are not in docs/copy.md yet. */
+/* Wording from docs/copy.md (confirmed by Shashank, 1 October 2026). */
 const NEEDED_NOTE = 'The first two answers are needed. Your name is optional.';
 const MISSING = {
   value: 'Please fill this in.',

@@ -31,6 +31,8 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Village link: Tell us the name
 - Dharbandora pending body: Sources disagree on the Konkani spelling. We are waiting for the Directorate of Official Language to confirm it.
 - Correction form: What should it be? / How do you know? For example: my family is from here / Your name, for credit (optional) / Send
+- Correction form, what is needed: The first two answers are needed. Your name is optional.
+- Correction form, something missing: Please fill this in. / Please fill this in. A few words are enough. / Please tick the box if you agree.
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.
 - Errors: The map didn't load. Check your connection and try again. / You're offline. The map will load once you're back online. / That didn't send. Your text is still here, so please try again.
 
