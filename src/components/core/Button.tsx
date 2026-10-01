@@ -20,13 +20,14 @@ export interface ButtonProps {
   href?: string;
   onClick?: () => void;
   type?: 'button' | 'submit';
+  id?: string;
   children?: ReactNode;
 }
 
 /** Soft-square button. */
 export function Button({
   variant = 'solid', size = 'l', ink, paper, icon, iconAfter, full = false, disabled = false,
-  href, onClick, type = 'button', children
+  href, onClick, type = 'button', id, children
 }: ButtonProps) {
   const className = [
     'k-button', `k-button--${variant}`, `k-button--${size}`,
@@ -37,9 +38,9 @@ export function Button({
     ...(paper ? { '--button-paper': paper } : null)
   } as CSSProperties;
   const inner = <>{icon && <Icon name={icon} />}{children}{iconAfter && <Icon name={iconAfter} />}</>;
-  if (href && !disabled) return <a className={className} style={style} href={href}>{inner}</a>;
+  if (href && !disabled) return <a id={id} className={className} style={style} href={href}>{inner}</a>;
   return (
-    <button className={className} style={style} type={type} aria-disabled={disabled || undefined} onClick={disabled ? undefined : onClick}>
+    <button id={id} className={className} style={style} type={type} aria-disabled={disabled || undefined} onClick={disabled ? undefined : onClick}>
       {inner}
     </button>
   );

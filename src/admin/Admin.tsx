@@ -9,7 +9,7 @@ import './admin.css';
 type Status = 'waiting' | 'allowed' | 'rejected' | 'removed';
 interface Item {
   id: string; created_at: string; place_official: string; place_where: string; place_lgd: string | null;
-  kind: 'name' | 'say' | 'correction'; value: string; how_known: string; credit_name: string | null;
+  kind: 'name' | 'say' | 'correction' | 'voice' | 'crops' | 'food' | 'music' | 'landmarks'; value: string; how_known: string; credit_name: string | null;
   script: string; flags: string[]; repeats: number;
   claude_note: string | null; claude_suggestion: string | null;
   status: Status; final_value: string | null; decided_by: string | null; decided_at: string | null;
@@ -18,7 +18,12 @@ interface Item {
 interface Listing { me: { name: string; konkani: boolean }; counts: Partial<Record<Status, number>>; items: Item[] }
 
 const TABS: [Status, string][] = [['waiting', 'Waiting'], ['allowed', 'Allowed'], ['rejected', 'Rejected'], ['removed', 'Removed']];
-const KIND: Record<Item['kind'], string> = { name: 'Konkani name or spelling', say: 'How the name is said', correction: 'Correction' };
+const KIND: Record<Item['kind'], string> = {
+  name: 'Konkani name or spelling', say: 'How the name is said', correction: 'Correction',
+  voice: 'Recording of the name', crops: 'Crop grown here', food: 'Dish from here', music: 'Music or dance from here', landmarks: 'Landmark'
+};
+/* Sent for a layer that is not on the map yet. Allowed items are kept until the layer is built. */
+const FOR_LATER: Item['kind'][] = ['voice', 'crops', 'food', 'music', 'landmarks'];
 const day = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 
 export default function Admin() {
@@ -107,9 +112,13 @@ function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boole
       <p className="a-card__kind">{KIND[i.kind]} · sent {day(i.created_at)}{i.repeats > 1 ? ` · sent ${i.repeats} times` : ''}</p>
       {i.status === 'removed'
         ? <p className="a-card__value">Removed at the contributor's request.</p>
-        : <p className={deva ? 'a-card__value a-card__value--deva' : 'a-card__value'} lang={deva ? 'gom' : undefined}>{i.value}</p>}
+        : i.kind === 'voice'
+          /* only loaded when the reviewer presses play */
+          ? <audio className="a-card__audio" controls preload="none" src={'/api/admin/audio?id=' + encodeURIComponent(i.id)} aria-label={'Recording of ' + i.place_official} />
+          : <p className={deva ? 'a-card__value a-card__value--deva' : 'a-card__value'} lang={deva ? 'gom' : undefined}>{i.value}</p>}
+      {FOR_LATER.includes(i.kind) && i.status !== 'removed' && <p className="a-row"><span>For later</span> This layer is not on the map yet. If you allow it, it is kept until the layer is built.</p>}
       {i.final_value && i.final_value !== i.value && <p className="a-row"><span>Allowed as</span> <span lang={deva ? 'gom' : undefined}>{i.final_value}</span></p>}
-      {i.status !== 'removed' && <p className="a-row"><span>How they know</span> {i.how_known}</p>}
+      {i.status !== 'removed' && <p className="a-row"><span>{i.kind === 'voice' ? 'Where they are from' : 'How they know'}</span> {i.how_known}</p>}
       {i.status !== 'removed' && <p className="a-row"><span>Credit</span> {i.credit_name || 'No name given'}</p>}
       {i.flags.length > 0 && <p className="a-row"><span>Automatic checks</span> {i.flags.join('. ')}.</p>}
       {i.status === 'waiting' && (
@@ -121,7 +130,7 @@ function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boole
       {i.status === 'waiting' && mode === 'idle' && (
         <div className="a-actions">
           <Button size="m" disabled={!konkani || busy} onClick={() => onDecide(i.id, 'allow')}>Allow</Button>
-          <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => { setText(i.value); setMode('edit'); }}>Edit and allow</Button>
+          {i.kind !== 'voice' && <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => { setText(i.value); setMode('edit'); }}>Edit and allow</Button>}
           <Button size="m" variant="outline" disabled={busy} onClick={() => { setText(''); setMode('reject'); }}>Reject</Button>
         </div>
       )}

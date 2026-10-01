@@ -2,6 +2,8 @@
 
 How people send Khoim what it needs, how each thing is checked, and how it reaches the map. Written for Shashank. Stage 1 was built on the same day; `docs/contributions-setup.md` has the steps to switch it on. Two things differ from this plan as built: the form does not ask for an email address, and unused contributions are deleted after 60 days.
 
+**Changed later the same day (Shashank's decision):** the form now also takes the layers that are not on the map yet: a recording of the name, crops, food, music and landmarks. They are collected, checked and kept, and shown when each layer is built. Recordings are collected under the draft wording in 5b, before a lawyer has read it; none is published until one has. The cards no longer carry an email address: the form is the one way in, and "Write to us" lives on the About screen.
+
 ## The idea in one paragraph
 Each place's card gets a "Tell us" form in place of today's email button. What people can send follows the roadmap: only the layers that are open take submissions, and the rest are shown as coming. Everything lands in a queue. Automatic checks run first, then Claude writes a note on each item, then a person presses Allow or Reject on a simple admin page. Allowed items come into the site through the same pull request and preview link you already use. Cost: nothing.
 
