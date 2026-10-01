@@ -79,6 +79,11 @@ function MailNote() {
   );
 }
 
+/* "Tell us what is wrong" on the draft banner: the form, about the place in view (or Goa). An email only when
+   the form is not switched on. */
+const tellUs = (k: Khoim) => (k.contrib.open ? () => k.openForm(k.selected ?? k.focus ?? 'goa', 'correction') : undefined);
+const banner = (k: Khoim) => { const onTellUs = tellUs(k); return onTellUs ? { onTellUs } : { tellUsHref: tellUsWhatIsWrongHref(window.location.href) }; };
+
 /* The contribution form, when it is switched on. */
 function Contribute({ k }: { k: Khoim }) {
   if (!k.contrib.open) return null;
@@ -177,7 +182,7 @@ function Phone({ k }: { k: Khoim }) {
         </Sheet>
       )}
       <SearchScreen k={k} />
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />
@@ -190,7 +195,7 @@ function Desktop({ k }: { k: Khoim }) {
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   return (
     <div className="k-app k-app--desktop">
-      <DraftBanner tellUsHref={tellUsWhatIsWrongHref(window.location.href)} />
+      <DraftBanner {...banner(k)} />
       <div className="k-desktop">
         <main className="k-desktop__map">
           <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
@@ -245,7 +250,7 @@ function Desktop({ k }: { k: Khoim }) {
           <div className="k-desktop__panel-credit"><Credit /></div>
         </aside>
       </div>
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />

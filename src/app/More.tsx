@@ -24,15 +24,17 @@ export interface MoreProps {
   onClose: () => void;
   layer: string;
   onLayer: (id: string) => void;
+  /** Opens the contribution form from the draft banner. When missing, the banner opens an email. */
+  onTellUs?: () => void;
 }
 
-export function More({ open, onClose, layer, onLayer }: MoreProps) {
+export function More({ open, onClose, layer, onLayer, onTellUs }: MoreProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [theme, toggleTheme] = useTheme();
   useDialog(ref, open, onClose);
   return (
     <div ref={ref} className={open ? 'k-more is-open' : 'k-more'} role="dialog" aria-modal="true" aria-label="About Khoim" aria-hidden={!open} tabIndex={-1}>
-      <DraftBanner tellUsHref={tellUsWhatIsWrongHref(window.location.href)} />
+      {onTellUs ? <DraftBanner onTellUs={onTellUs} /> : <DraftBanner tellUsHref={tellUsWhatIsWrongHref(window.location.href)} />}
       <div className="k-more__scroll">
         <div className="k-more__column">
           <div className="k-more__top">

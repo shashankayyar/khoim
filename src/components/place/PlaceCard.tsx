@@ -5,6 +5,7 @@ import { useState, type ReactNode } from 'react';
 import { childCount, getPlace, whereLabel } from '../../data/khoim';
 import { CONTACT_EMAIL } from '../../data/site';
 import type { Place, Recording } from '../../data/types';
+import type { ContributionKind } from '../../lib/contribute';
 import { correctionHref, tellUsNameHref } from '../../lib/mailto';
 import { Button } from '../core/Button';
 import { IconButton } from '../core/IconButton';
@@ -46,9 +47,10 @@ export interface PlaceCardProps {
   onClose?: () => void;
   /** Puts the card away to show the strip of places inside this one. Leave out where the strip is already on screen. */
   onShowInside?: () => void;
-  /** Opens the contribution form. When missing (the form is not switched on, or the page is being read
+  /** Opens the contribution form. With it, the card has one way in: a single button, and no email address
+      (that lives on the About screen). When missing (the form is not switched on, or the page is being read
       without JavaScript), "Tell us" and "Suggest a correction" open an email instead. */
-  onTell?: (kind: 'name' | 'correction') => void;
+  onTell?: (kind: ContributionKind) => void;
   recordings?: Recording[];
   headingLevel?: 1 | 2 | 3;
   /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
@@ -108,7 +110,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
                   Tell us<span className="k-visually-hidden"> how your family says {p.official}</span>
                 </Button>
               </div>
-              <WriteTo />
+              {!onTell && <WriteTo />}
             </Row>
           )}
           <Rule />
@@ -124,16 +126,23 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {p.hq && <><Rule /><Row level={sub} label="Headquarters"><p className="k-card__body">{p.hq}</p></Row></>}
           {p.facts && <><Rule />{p.facts.map(f => <Row key={f} level={sub} label="Worth knowing"><p className="k-card__body">{f}.</p></Row>)}</>}
           {p.level === 'village' && <><Rule /><Row level={sub} label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
-          {/* On a place that has a Konkani name: a way to say it is wrong. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
+          {/* On a place that has a Konkani name: the one way in to the form. TODO(copy): this button's words are new.
+              Without the form: a way to say the name is wrong, by email. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
           {p.deva && (
             <>
               <Rule />
-              <div className="k-card__row">
-                {onTell
-                  ? <button type="button" className="k-card__disclose" onClick={() => onTell('correction')}>Suggest a correction<span className="k-visually-hidden"> for {p.official}</span></button>
-                  : <a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>Suggest a correction<span className="k-visually-hidden"> for {p.official}</span></a>}
-                <WriteTo />
-              </div>
+              {onTell ? (
+                <div className="k-card__row k-card__tell">
+                  <Button variant="outline" ink={INK} iconAfter="arrow-right" onClick={() => onTell('correction')}>
+                    Add or correct something<span className="k-visually-hidden"> about {p.official}</span>
+                  </Button>
+                </div>
+              ) : (
+                <div className="k-card__row">
+                  <a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>Suggest a correction<span className="k-visually-hidden"> for {p.official}</span></a>
+                  <WriteTo />
+                </div>
+              )}
             </>
           )}
           {inside && (

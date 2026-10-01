@@ -33,8 +33,9 @@ export interface Env {
 
 export interface Reviewer { email: string; name: string; konkani: boolean }
 
-/** What people can send in stage 1. All three belong to the Names layer. */
-export type Kind = 'name' | 'say' | 'correction';
+/** What people can send. The first three belong to the Names layer. The rest are for layers that are not on the
+    map yet: collected now, checked, and kept for when each layer opens. "voice" comes with a recording. */
+export type Kind = 'name' | 'say' | 'correction' | 'voice' | 'crops' | 'food' | 'music' | 'landmarks';
 export type Status = 'waiting' | 'allowed' | 'rejected' | 'removed';
 
 export interface Row {
@@ -61,3 +62,6 @@ export interface Row {
   reject_reason: string | null;
   incorporated_at: string | null;
 }
+
+/** A recording, kept apart from its contribution so that lists stay small. `data` is base64. */
+export interface AudioRow { id: string; mime: string; seconds: number; data: string }

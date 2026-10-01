@@ -197,7 +197,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
 
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, contrib,
-    openForm: (placeId: string, kind: ContributionKind) => up({ form: { placeId, kind } }),
+    /* the form takes the place of About if it was opened from there */
+    openForm: (placeId: string, kind: ContributionKind) => up({ more: false, form: { placeId, kind } }),
     closeForm: closeOverlay,
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),
