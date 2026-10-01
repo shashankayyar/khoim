@@ -1,6 +1,11 @@
-/* Khoim app state. Shared by the phone and desktop layouts. Ported from design/ui_kits/khoim/state.jsx,
-   with page addresses added: the address bar follows the place you are looking at, and the browser's
-   back button steps back through places and closes search or About. */
+/* Khoim app state. Shared by the phone and desktop layouts. Based on design/ui_kits/khoim/state.jsx.
+
+   One tap opens a place: the map moves to it and its card comes up. A district or taluka you open is also
+   the level you are now inside, so its talukas or villages show on the map straight away. Closing the card
+   leaves you inside, with the strip of places to browse.
+
+   The address bar follows the place you are looking at, and the browser's back button steps back through
+   places and closes search or About. */
 import { useEffect, useRef, useState } from 'react';
 import { loadVillagePaths, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, getPlace, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
@@ -56,10 +61,16 @@ function savedScript(): Script {
   }
 }
 
-/** A place opened from a link or from search: shown with its full card, the map on its parent. */
+/** A place that has been opened, from the map, the strip, search or a link: its card peeks up and the map
+    shows it. Districts and talukas are entered; a village is shown inside its taluka. */
 function opened(p: Place | null): Pick<State, 'focus' | 'selected' | 'snap'> {
   if (!p || p.level === 'state') return { focus: null, selected: null, snap: 'peek' };
-  return { focus: p.level === 'district' ? null : p.parent, selected: p.id, snap: 'full' };
+  return { focus: p.level === 'village' ? p.parent : p.id, selected: p.id, snap: 'peek' };
+}
+
+/** "3 talukas." or "47 villages." for a place that has places inside it. */
+function insideCount(p: Place): string {
+  return p.level === 'village' ? '' : ' ' + childCount(p) + (p.level === 'taluka' ? ' villages.' : ' talukas.');
 }
 
 const queryInAddress = () => new URLSearchParams(window.location.search).get('q') ?? '';
@@ -79,7 +90,6 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const replaceNext = useRef(true);
 
   const up = (o: Partial<State>) => set(v => ({ ...v, ...o }));
-  const say = (id: string) => { const p = getPlace(id); if (p) setAnnounce(spokenName(p)); };
   const needVillages = () => loadVillages().then(() => setVillagesLoaded(true));
 
   /* The village list is not needed for the first screen. Fetch it once the page has settled. */
@@ -159,17 +169,17 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     up({ search: false, more: false });
   };
 
-  const select = (id: string) => { up({ selected: id, snap: 'peek' }); say(id); };
-  const goInside = (id: string) => {
-    const p = getPlace(id);
-    if (!p) return;
-    up({ focus: id, selected: null, snap: 'peek', hot: null });
-    setAnnounce('Inside ' + p.official + '. ' + childCount(p) + (p.level === 'taluka' ? ' villages.' : ' talukas.'));
-  };
   const goTo = (id: string | null) => {
     up({ focus: id, selected: null, snap: 'peek', hot: null });
     const p = getPlace(id);
-    setAnnounce(p ? 'Inside ' + p.official : 'All of Goa');
+    setAnnounce(p ? 'Inside ' + p.official + '.' + insideCount(p) : 'All of Goa');
+  };
+  /** Opens a place: the map moves to it and its card peeks up. */
+  const select = (id: string) => {
+    const p = getPlace(id);
+    if (!p || p.level === 'state') return goTo(null);
+    up({ ...opened(p), hot: null });
+    setAnnounce(spokenName(p) + insideCount(p));
   };
 
   const inTaluka = focusPlace?.level === 'taluka';
@@ -188,28 +198,26 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     openMore: () => up({ more: true }),
     closeMore: closeOverlay,
     select,
-    goInside,
     goTo,
-    /** A tap on the map or a label. Tapping what is already selected goes inside; a village opens its full card. */
+    /** A tap on the map or a label. Tapping the place whose card is already up opens the card fully. */
     pick: (id: string, scrubbed: boolean) => {
-      if (scrubbed || id !== s.selected) return select(id);
-      const p = getPlace(id);
-      if (!p) return;
-      if (p.level !== 'village') goInside(id); else up({ snap: 'full' });
+      if (!scrubbed && id === s.selected) return up({ snap: 'full' });
+      select(id);
     },
+    /** 'closed' puts the card away. You stay inside the district or taluka, with its strip of places. */
     setSnap: (snap: Snap | 'closed') => snap === 'closed' ? up({ selected: null, snap: 'peek' }) : up({ snap }),
-    /** Clears the selection first, then goes up one level. */
+    /** Puts a village's card away first. Otherwise goes up one level. */
     back: () => {
-      if (s.selected) return up({ selected: null, snap: 'peek' });
+      if (selectedPlace?.level === 'village') return up({ selected: null, snap: 'peek' });
       const p = getPlace(s.focus);
       goTo(p && p.parent && p.parent !== 'goa' ? p.parent : null);
     },
-    /** From search or a link: show the place with its full card. */
+    /** From search: open the place. */
     openPlace: (id: string) => {
       const p = getPlace(id);
       if (!p || p.level === 'state') { closeOverlay(); up({ focus: null, selected: null, snap: 'peek' }); return; }
-      up({ search: false, more: false, ...opened(p) });
-      say(id);
+      up({ search: false, more: false, ...opened(p), hot: null });
+      setAnnounce(spokenName(p) + insideCount(p));
     }
   };
 }

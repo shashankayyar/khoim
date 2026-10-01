@@ -215,10 +215,10 @@ function viewBox(talukaId) {
   return box.some((v, i) => Math.abs(v - b[i]) > 2) ? box.map(v => Math.round(v * 10) / 10) : null;
 }
 
-/* Districts are drawn from their talukas, so only the box and label point are kept for them. */
+/* Districts are filled from their talukas. Their own outline is kept for the trim line drawn between districts. */
 const geoBase = {
   size: GOA_SIZE,
-  districts: Object.fromEntries(Object.entries(DISTRICT_SHAPES).map(([id, s]) => [id, { b: s.b, lp: s.lp }])),
+  districts: Object.fromEntries(Object.entries(DISTRICT_SHAPES).map(([id, s]) => [id, { d: s.d, b: s.b, lp: s.lp }])),
   talukas: Object.fromEntries(talukas.map(t => {
     const s = TALUKA_SHAPES[t.id], view = viewBox(t.id);
     return [t.id, { district: s.district, d: s.d, b: s.b, lp: s.lp, ...(view ? { view } : null) }];

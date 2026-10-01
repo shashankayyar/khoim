@@ -18,9 +18,11 @@ export interface PlaceStripProps {
   active?: string | null;
   onFocusPlace?: (id: string) => void;
   onPick?: (id: string) => void;
+  /** 1 when the strip's name is the main heading on screen (no card showing). */
+  headingLevel?: 1 | 2;
 }
 
-export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPick }: PlaceStripProps) {
+export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPick, headingLevel = 2 }: PlaceStripProps) {
   const fp = getPlace(parent || 'goa')!;
   const items = childrenOf(parent);
   const village = fp.level === 'taluka';
@@ -35,11 +37,14 @@ export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPi
   const touched = () => { moved.current = true; };
   const heading = nameIn(fp, script);
   const count = fp.level === 'state' ? items.length : childCount(fp);
+  const H = `h${headingLevel}` as const;
   return (
     <div className="k-strip">
       <div className="k-strip__head">
-        <span className={heading.kind === 'deva' ? 'k-strip__name k-strip__name--deva' : 'k-strip__name'} lang={heading.kind === 'deva' ? 'gom' : undefined}>{heading.text}</span>
+        <H className={heading.kind === 'deva' ? 'k-strip__name k-strip__name--deva' : 'k-strip__name'} lang={heading.kind === 'deva' ? 'gom' : undefined}>{heading.text}</H>
         <span className="k-strip__count">{count} {village ? 'villages' : fp.level === 'state' ? 'districts' : 'talukas'}</span>
+        {/* so nobody taps through 47 villages expecting Konkani names that are not there yet */}
+        {village && items.length > 0 && items.every(it => !it.deva) && <span className="k-strip__note">Villages show the official name only for now.</span>}
       </div>
       <ul ref={ref} className="k-strip__list" aria-label={'Places in ' + fp.official} onScroll={onScroll} onPointerDown={touched} onWheel={touched} onTouchStart={touched}>
         {items.map(it => {

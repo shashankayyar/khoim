@@ -27,6 +27,26 @@ The design files are references built with in-browser Babel. Rebuild them proper
 7. **Accessibility target is WCAG 2.2 AAA** as specified in `design/guidelines/accessibility.md`. Respect `prefers-reduced-motion` everywhere.
 8. Contact address on the site is **hello@khoim.in**. Credit line, verbatim: "Khoim is a non-profit initiative by Pangolin Marketing. Boundaries and official names: Local Government Directory, Government of India."
 
+## Changes after the design freeze (agreed with Shashank, 1 October 2026)
+The reference app in `design/` still shows the earlier behaviour. Where it differs from this list, this list wins. Do not "fix" these back.
+- **Districts first.** All of Goa shows the three districts in their district colours (North Goa green, South Goa neel, Kushavati oxide) with district names. Talukas appear in their own house colours only inside the district you are in. Outside it they wear their district's colour, with a faint line between them. A trim line always runs between districts.
+- **One tap opens a place.** Tapping a district or taluka zooms into it and shows its card at peek. There is no "tap again to go inside" and no "Go inside" button. The card's second button shows the count ("47 villages") and puts the card away to reveal the strip. Tapping the place whose card is up opens the card fully.
+- **Links and search open a place at peek**, with the map visible, not with the full card.
+- **Phone:** a breadcrumb row (Goa / South Goa / Salcete) and a search button sit under the header once you leave the first screen. The first screen also has a layers button next to search, and a "Draft for review." link that opens About.
+- **Map labels** show the official spelling (and, for districts, the taluka count) under a Konkani name where there is room inside the shape. Dimmed neighbours can be tapped to move across.
+- **Desktop:** the names panel lists the three districts when nothing is selected. The intro reads "Click a district, or press and drag along Goa."
+- **Search** lists and counts every match, not the first 16.
+- **Data:** where the LGD list and the boundary file disagree on a village's taluka, the LGD list wins. Survey of India outlines are joined to LGD entries only through `data/town_outline_matches.csv`.
+- **Fonts** are the design's fonts trimmed to weights 500 to 700 (`data/scripts/trim_fonts.py`).
+
+Wording settled the same day (Shashank delegated these; each reuses text from `docs/` where it exists):
+- Credit on About ends "Khoim's own names and notes: CC BY 4.0. Government codes and official names: GODL-India." (from `docs/copy.md`), replacing "Data licence to be confirmed.", followed by the GODL attribution with the lgdirectory.gov.in link (from `DATA-LICENSE.md`).
+- A named place's card ends with a "Suggest a correction" link (`docs/copy.md`), using the correction email from `docs/email-and-icons.md`. For a district or taluka the subject is "Correction for {Official}".
+- The village strip carries "Villages show the official name only for now." (`docs/copy.md`, hero subhead).
+- A village with no outline shows "The outline is not available yet." under Boundary.
+- Page titles and descriptions for districts, and for places with no Romi or no Konkani name, follow the taluka template with the missing part left out (`src/data/seo.ts`).
+- Still open, for phase 2: the status wording for a village whose Konkani name has been reviewed (`STATUS_TEXT.reviewed`).
+
 ## Stack
 - **Astro (static output) + React** via `@astrojs/react`. The map app is one React island built from the design components; Astro prerenders a static page per place so links can be shared and Google can index names.
   - Routes: `/`, `/{district}/`, `/{district}/{taluka}/`, `/{district}/{taluka}/{village}/`. Each page renders the app opened at that place, with its own `<title>` and description from `docs/copy.md` (SEO section) and real text content (the place's names) in the HTML.

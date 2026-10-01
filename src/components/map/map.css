@@ -1,17 +1,22 @@
 /* The map. Values from design/components/map/GoaMap.jsx. */
 .k-map {
   position: absolute; inset: 0; overflow: hidden;
-  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+  /* one finger scrubs the map; two fingers can still pinch to zoom the page */
+  touch-action: pinch-zoom; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
 }
 .k-map__stage { position: absolute; inset: 0; transform-origin: 0 0; }
 .k-map__svg { position: absolute; inset: 0; }
 
 .k-map__empty { fill: var(--map-empty); stroke: var(--map-edge); stroke-width: 1; }
 .k-map__taluka {
-  fill: var(--house-dim); stroke: var(--trim); stroke-linejoin: round;
+  fill: var(--house-dim); stroke: var(--trim); stroke-width: 3; stroke-linejoin: round;
   transition: fill var(--dur-base) var(--ease-out);
 }
 .k-map__taluka.is-lit { fill: var(--house-bg); }
+/* outside the district you are in, talukas are only hinted at: a faint line, their district's colour */
+.k-map__taluka--hint { stroke: color-mix(in srgb, var(--trim) 30%, transparent); stroke-width: 1; }
+/* the trim between districts is always there */
+.k-map__district { fill: none; stroke: var(--trim); stroke-width: 3.5; stroke-linejoin: round; pointer-events: none; }
 
 /* first load: each taluka is wiped in from the left, north to south */
 .k-map__wipe {
@@ -26,15 +31,22 @@
 .k-map__hit { fill: transparent; cursor: pointer; }
 
 .k-map__labels { position: absolute; inset: 0; pointer-events: none; }
+/* The name is centred on the place's label point, so it sits inside the shape. A second line hangs below it. */
 .k-map__label {
   position: absolute; transform: translate(-50%, -50%); pointer-events: auto;
   border: 0; background: transparent; padding: 6px 8px; border-radius: var(--radius-s);
+  display: grid; place-items: center; min-width: 44px; min-height: 44px;
   cursor: pointer; white-space: nowrap; color: var(--text);
-  font-family: var(--font-latin); font-weight: var(--weight-strong); line-height: 1.5;
   transition: color var(--dur-base) var(--ease-out);
 }
-.k-map__label--deva { font-family: var(--font-deva); }
 .k-map__label.is-lit { color: var(--house-on); }
+.k-map__label-name { font-family: var(--font-latin); font-weight: var(--weight-strong); line-height: 1.5; }
+.k-map__label-name--deva { font-family: var(--font-deva); }
+.k-map__label-sub {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: -12px;
+  display: grid; justify-items: center;
+  font: var(--weight-strong) 14px/1.3 var(--font-latin);
+}
 
 /* white tag above the selected village dot */
 .k-map__tag {

@@ -1,0 +1,4 @@
+# Files under /_astro/ have a fingerprint in their name: when a file changes, its name changes.
+# So browsers can keep them for a year without asking again.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

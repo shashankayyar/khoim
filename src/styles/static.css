@@ -15,14 +15,23 @@ html:not(.js) .static__banner { display: block; }
 }
 
 .static__panel { display: grid; grid-template-rows: 1fr auto; }
-/* like the app's full sheet: house colour, rounded top, 56px from the top of the screen */
+/* The place's card on its house colour. Without JavaScript it is simply part of the page. */
 .static__card {
-  margin-top: -6px; padding: 28px 16px 28px;
+  margin: 12px 12px 0; padding: 20px 16px 28px;
   background: var(--house-bg); color: var(--house-on);
-  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
-  min-height: calc(100dvh - 56px); box-sizing: border-box;
+  border-radius: var(--radius-sheet); box-sizing: border-box;
 }
-html:not(.js) .static__card { min-height: 0; margin-top: 12px; border-radius: var(--radius-sheet); margin-inline: 12px; }
+/* With JavaScript the app is a moment away. Show the card the way the app will: peeking up from the bottom
+   with the names at their smaller size, so nothing jumps when the map arrives. The rest stays in the page
+   for search engines. */
+html.js .static__card {
+  position: fixed; left: 0; right: 0; bottom: 0; margin: 0; height: var(--peek, 318px); overflow: hidden;
+  padding: 28px 16px 0; border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; box-shadow: var(--shadow-sheet);
+}
+html.js .static__card .k-card.is-expanded .k-card__deva { font-size: var(--size-name-xl); }
+html.js .static__card .k-card.is-expanded .k-card__romi { font-size: var(--size-name-m); }
+html.js .static__card .k-card.is-expanded .k-card__official-head { font-size: 48px; }
+html.js .static__card .k-card__more { visibility: hidden; }
 
 .static__places { padding: 20px var(--gutter) 8px; }
 .static__places ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
@@ -37,9 +46,10 @@ html:not(.js) .static__card { min-height: 0; margin-top: 12px; border-radius: va
 
 /* With JavaScript the app is about to take over: keep the first paint to what the app itself shows.
    The lists stay in the page for search engines and screen readers. */
-html.js .static__places, html.js .static__crumbs {
+html.js .static__places {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
+.static__crumbs { flex-basis: 100%; font-size: 15px; padding: 0 6px; }
 html.js .static--place .static__footer { display: none; }
 
 @media (min-width: 1180px) {
@@ -48,15 +58,19 @@ html.js .static--place .static__footer { display: none; }
   .static__head { padding: 20px 28px 0; }
   .static__wordmark { padding: 0 4px; }
   .static__wordmark .k-wordmark { --wordmark-size: 26px !important; }
-  html.js .static__crumbs { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; }
+  .static__crumbs { flex-basis: auto; font-size: 16px; padding: 0; }
   .static__title { margin: 42px 0 0 32px; width: 330px; font-size: 40px; line-height: 1.1; }
   .static__panel { border-left: 1px solid var(--line); background: var(--surface-sunk); }
   .static__panel-body { padding: 92px 24px 20px; }
-  .static__card, html:not(.js) .static__card {
-    margin: 0; min-height: 0; border-radius: var(--radius-sheet);
+  /* desktop: the card sits in the names panel, fully open, exactly as in the app */
+  .static__card, html.js .static__card {
+    position: static; margin: 0; height: auto; overflow: visible; box-shadow: none; border-radius: var(--radius-sheet);
     padding: calc(var(--trim-inset) + 10px) calc(var(--trim-inset) + 10px) calc(var(--trim-inset) + 16px);
-    animation: none;
   }
+  html.js .static__card .k-card.is-expanded .k-card__deva { font-size: var(--size-name-hero); }
+  html.js .static__card .k-card.is-expanded .k-card__romi { font-size: var(--size-name-l); }
+  html.js .static__card .k-card.is-expanded .k-card__official-head { font-size: 64px; }
+  html.js .static__card .k-card__more { visibility: visible; }
   .static__places { padding: 20px 0 0; }
   .static__footer, html.js .static--place .static__footer { display: block; padding: 14px 24px 18px; border-top: 1px solid var(--line); }
 }

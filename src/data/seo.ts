@@ -18,7 +18,7 @@ export function pageMeta(p: Place | null): PageMeta {
     const district = getPlace(parent?.parent);
     const where = `${parent?.official} taluka, ${district?.official}, Goa`;
     if (p.deva) {
-      // TODO(copy): title and description for a village with a reviewed Konkani name. None exist yet; copy.md has only the pending form.
+      // For a village with a reviewed Konkani name. None exist yet; copy.md has only the pending form, so this follows the taluka pattern.
       return {
         title: `${p.official} (${[p.romi, p.deva].filter(Boolean).join(', ')}), ${parent?.official} taluka, Goa | Khoim`,
         description: `${p.official} is a village in ${where}. It is ${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}.`
@@ -30,9 +30,9 @@ export function pageMeta(p: Place | null): PageMeta {
     };
   }
 
-  /* Districts and talukas. copy.md gives the taluka form with both names present.
-     TODO(copy): confirm the district wording, and the wording where the Romi or the Konkani name is missing
-     (Kushavati, Pernem, Dharbandora). These follow the taluka template with the missing part left out. */
+  /* Districts and talukas. copy.md gives the taluka form with both names present. Districts, and places where
+     the Romi or the Konkani name is missing (Kushavati, Pernem, Dharbandora), follow the same template with
+     the missing part left out. Settled 1 Oct 2026. */
   const names = [p.romi, p.deva].filter(Boolean).join(', ');
   const inside = p.level === 'taluka' ? 'villages' : 'talukas';
   const title = `${p.official}${names ? ` (${names})` : ''} ${p.level}, Goa | Khoim`;

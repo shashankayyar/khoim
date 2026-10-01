@@ -4,7 +4,7 @@
 import { useState, type ReactNode } from 'react';
 import { childCount, getPlace, whereLabel } from '../../data/khoim';
 import type { Place, Recording } from '../../data/types';
-import { tellUsNameHref } from '../../lib/mailto';
+import { correctionHref, tellUsNameHref } from '../../lib/mailto';
 import { Button } from '../core/Button';
 import { IconButton } from '../core/IconButton';
 import { SourceStatus } from '../core/SourceStatus';
@@ -15,7 +15,7 @@ import './place.css';
 
 const INK = 'var(--house-on)', PAPER = 'var(--house-bg)';
 
-// TODO(copy): wording for a village the government lists but whose outline we do not have yet. Not in the design.
+/* For a village the government lists but whose outline we do not have. Not in the design; wording settled 1 Oct 2026. */
 const NO_OUTLINE_NOTE = 'The outline is not available yet';
 
 const Rule = () => <hr className="k-card__rule" aria-hidden="true" />;
@@ -36,21 +36,23 @@ export interface PlaceCardProps {
   expanded?: boolean;
   onExpand?: () => void;
   onClose?: () => void;
-  onGoInside?: (id: string) => void;
+  /** Puts the card away to show the strip of places inside this one. Leave out where the strip is already on screen. */
+  onShowInside?: () => void;
   recordings?: Recording[];
   headingLevel?: 1 | 2 | 3;
   /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
   plain?: boolean;
 }
 
-export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
+export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
   const H = `h${headingLevel}` as const;
-  const inside = p.level !== 'village' && !!onGoInside;
-  const kids = childCount(p);
+  const inside = p.level !== 'village' && !!onShowInside;
+  const insideLabel = `${childCount(p)} ${p.level === 'taluka' ? 'villages' : 'talukas'}`;
   const taluka = p.level === 'village' ? getPlace(p.parent) : null;
   return (
     <article className={expanded ? 'k-card is-expanded' : 'k-card'} aria-label={p.official}>
+     <div data-sheet-peek="1">
       <div className="k-card__frame">
         <div className="k-card__top">
           <span className="k-card__where">{whereLabel(p)}</span>
@@ -73,9 +75,10 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
       {!expanded && (
         <div className={inside ? 'k-card__actions k-card__actions--two' : 'k-card__actions'}>
           <Button variant="outline" ink={INK} onClick={onExpand}>{p.say ? 'How to say it' : 'All names'}</Button>
-          {inside && <Button ink={INK} paper={PAPER} iconAfter="arrow-right" onClick={() => onGoInside(p.id)}>Go inside</Button>}
+          {inside && <Button ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>}
         </div>
       )}
+     </div>
 
       {expanded && (
         <div className="k-card__more">
@@ -105,9 +108,11 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onGoI
           {p.hq && <><Rule /><Row label="Headquarters"><p className="k-card__body">{p.hq}</p></Row></>}
           {p.facts && <><Rule />{p.facts.map(f => <Row key={f} label="Worth knowing"><p className="k-card__body">{f}.</p></Row>)}</>}
           {p.level === 'village' && <><Rule /><Row label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
+          {/* On a place that has a Konkani name: a way to say it is wrong. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
+          {p.deva && <><Rule /><div className="k-card__row"><a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>Suggest a correction</a></div></>}
           {inside && (
             <div className="k-card__inside">
-              <Button full ink={INK} paper={PAPER} iconAfter="arrow-right" onClick={() => onGoInside(p.id)}>{`Go inside, ${kids} ${p.level === 'taluka' ? 'villages' : 'talukas'}`}</Button>
+              <Button full ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>
             </div>
           )}
         </div>

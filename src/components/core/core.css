@@ -102,3 +102,5 @@
 .k-source-status__mark { width: 12px; height: 12px; border-radius: 6px; border: 2px solid currentColor; flex: 0 0 auto; box-sizing: border-box; }
 .k-source-status__mark--agree { background: currentColor; }
 .k-source-status__mark--differ { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+/* 40px tall to look at, 48px to touch */
+.k-script-toggle__option::after { content: ""; position: absolute; inset: -4px 0; }

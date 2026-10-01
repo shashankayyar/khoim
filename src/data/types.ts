@@ -71,7 +71,7 @@ export interface TalukaShape {
   /** Box to zoom to inside the taluka, when some of its villages are drawn outside its outline. */
   view?: Box;
 }
-export interface DistrictShape { b: Box; lp: Point }
+export interface DistrictShape { d: string; b: Box; lp: Point }
 export interface GeoBase {
   size: Point;
   districts: Record<string, DistrictShape>;
