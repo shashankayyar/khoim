@@ -5,22 +5,22 @@ import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { Button } from '../components/core/Button';
 import { Credit } from '../components/core/Credit';
-import { CONTACT_EMAIL } from '../data/site';
+import { tellUsWhatIsWrongHref, writeToUsHref } from '../lib/mailto';
 
 // SEO text from docs/copy.md
 const title = "Khoim | Goa's place names in Konkani, and how to say them";
 const description = "A map of Goa's districts, talukas and villages. Official spellings next to Konkani names in Devanagari and Romi, with a guide to saying each one.";
-const mailto = `mailto:${CONTACT_EMAIL}`;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <Base title={title} description={description}>
   <div class="home">
-    <DraftBanner tellUsHref={mailto} />
+    <DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} />
     <main class="home__main">
       <Wordmark size={40} />
       <h1 class="home__title">Every taluka in Goa, with its Konkani name and how to say it.</h1>
       <div class="home__action">
-        <Button icon="mail" href={mailto}>Write to us</Button>
+        <Button icon="mail" href={writeToUsHref()}>Write to us</Button>
       </div>
     </main>
     <footer class="home__footer">
