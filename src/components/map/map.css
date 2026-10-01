@@ -39,7 +39,16 @@
   cursor: pointer; white-space: nowrap; color: var(--text);
   transition: color var(--dur-base) var(--ease-out);
 }
-.k-map__label.is-lit { color: var(--house-on); }
+.k-map__label { --halo: var(--house-dim); }
+.k-map__label.is-lit { color: var(--house-on); --halo: var(--house-bg); }
+/* A name can run past the edge of its shape, onto another colour or onto the page. Each letter therefore
+   carries a hard outline in its own shape's colour, so the ink always sits on the colour it was chosen for
+   (7:1 or better in light and dark). Inside the shape the outline is invisible. */
+.k-map__label-name, .k-map__label-sub {
+  text-shadow:
+    -2px 0 var(--halo), 2px 0 var(--halo), 0 -2px var(--halo), 0 2px var(--halo),
+    -1.5px -1.5px var(--halo), 1.5px -1.5px var(--halo), -1.5px 1.5px var(--halo), 1.5px 1.5px var(--halo);
+}
 .k-map__label-name { font-family: var(--font-latin); font-weight: var(--weight-strong); line-height: 1.5; }
 .k-map__label-name--deva { font-family: var(--font-deva); }
 .k-map__label-sub {
