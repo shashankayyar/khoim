@@ -32,6 +32,7 @@ Ask Claude Code to copy reviewed rows from the sheet into the CSV; send it the u
 - **Reviewing:** open `khoim.in/admin`, type your email, enter the code. Each item shows what was sent, the automatic checks and Claude's note. Press Allow, Edit and allow, or Reject. Only a reviewer who reads Konkani can allow.
 - **Getting allowed items onto the site:** on the Allowed tab, press "Download the allowed items that are not on the site yet" and give the file to Claude Code. It opens a pull request; you check the preview and merge as usual.
 - **Someone wants their contribution removed:** on the Allowed tab press Remove, then Remove for good. If it is already on khoim.in, also tell Claude Code to take it off.
+- **Claude's note on each item:** a scheduled job in the Claude app on your Mac ("Khoim queue reader") reads new items every morning and leaves a note for the reviewer. It runs only while the Claude app is open. It cannot allow or reject anything.
 - **Adding or removing a reviewer, or setting it all up the first time:** `docs/contributions-setup.md`.
 - **Cost:** nothing. If a free daily limit is ever reached, the form stops taking submissions until the next day.
 
@@ -55,7 +56,7 @@ If a Survey of India outline and an LGD village turn out to be the same place, a
 
 To give someone else access, add them on GitHub (repository Settings, Collaborators) and in Cloudflare (Manage Account, Members). Keep two-step login on for both.
 
-The site needs no passwords or secret keys, and none are stored in the code.
+No passwords or secret keys are stored in the code. The contribution form's settings are Secrets in Cloudflare (Worker "khoim", Settings, Variables and Secrets). One of them, the queue key, is also kept in the Keychain on Shashank's Mac so the queue reader can use it (`docs/contributions-setup.md`, step 6).
 
 ## Useful to know
 - **Preview links** look like `https://<branch-name>-khoim.pangolin-account-fb7.workers.dev`.

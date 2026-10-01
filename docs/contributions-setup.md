@@ -52,7 +52,24 @@ Press **Deploy** when asked. The settings take effect in about a minute.
 3. Press Reject on your test.
 
 ## 6. Claude's first read
-Tell Claude Code: "set up the queue reader". It will ask you to paste the `QUEUE_KEY` into the scheduled job's own settings (not into the chat and not into the code). After that, a scheduled run reads new items, compares them with the sources, and leaves a note on each for the reviewer.
+A scheduled job in the Claude app on Shashank's Mac ("Khoim queue reader", every morning) reads new items, compares them with the sources, and leaves a note on each for the reviewer. It can only read and leave notes. It cannot allow, reject or change anything.
+
+The job needs the `QUEUE_KEY`. The key is kept in the Mac's Keychain, not in the chat and not in the code. To store it (once, and again if the key is ever changed):
+
+1. Copy the `QUEUE_KEY` from wherever you kept it. If you did not keep it, make a new long random one, put it in Cloudflare as the `QUEUE_KEY` secret (step 4), and copy that.
+2. Run this. It takes the key from the clipboard, checks that khoim.in accepts it, stores it, and clears the clipboard:
+
+```bash
+cd ~/Projects/Khoim && node scripts/queue/queue.mjs save-key
+```
+
+To check it later:
+
+```bash
+cd ~/Projects/Khoim && node scripts/queue/queue.mjs check
+```
+
+The job runs only while the Claude app is open. If the app was closed at the time, it runs the next time the app opens.
 
 ## Later: adding or removing a reviewer
 Two places, both in the dashboard: the Access policy (step 3.5) so they can log in, and `REVIEWERS` (step 4) so the site knows their name and whether they read Konkani.
