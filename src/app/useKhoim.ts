@@ -84,9 +84,10 @@ export function useKhoim() {
     ...s, script, announce, villagesLoaded, villages, villagePaths,
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),
-    setQuery: (query: string) => up({ query }),
+    /* villages are part of search, so make sure their list is on its way as soon as someone starts */
+    setQuery: (query: string) => { if (query) loadVillages().then(() => setVillagesLoaded(true)); up({ query }); },
     setLayer: (layer: string) => up({ layer }),
-    openSearch: () => up({ search: true }),
+    openSearch: () => { loadVillages().then(() => setVillagesLoaded(true)); up({ search: true }); },
     closeSearch: () => up({ search: false }),
     openMore: () => up({ more: true }),
     closeMore: () => up({ more: false }),

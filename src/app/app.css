@@ -99,3 +99,5 @@ html[data-app="ready"] #khoim-static { display: none; }
   animation: khoim-rise var(--dur-base) var(--ease-out) both;
 }
 .k-desktop-card__inner { padding: 10px 10px 16px; }
+.k-desktop__panel-intro { margin: 8px 4px; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); }
+.k-desktop__panel-intro [lang="gom"] { font-family: var(--font-deva); }
