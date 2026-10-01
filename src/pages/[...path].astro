@@ -1,0 +1,21 @@
+---
+/* One page for every district, taluka and village:
+   /south-goa/, /south-goa/salcete/, /south-goa/salcete/raia/ */
+import PlacePage from '../layouts/PlacePage.astro';
+import villagesJson from '../data/generated/villages.json';
+import { PLACES, allVillages, pathOf, registerVillages } from '../data/khoim';
+import type { RawVillage } from '../data/types';
+
+export function getStaticPaths() {
+  registerVillages(villagesJson as unknown as RawVillage[]);
+  return [...PLACES.filter(p => p.level !== 'state'), ...allVillages()].map(p => ({
+    params: { path: pathOf(p).slice(1, -1) },
+    props: { placeId: p.id }
+  }));
+}
+
+interface Props { placeId: string }
+const { placeId } = Astro.props;
+---
+
+<PlacePage placeId={placeId} />

@@ -1,0 +1,87 @@
+---
+/* One page per place, and the home page. The plain HTML below is what loads first, what search engines read
+   and what works without JavaScript: the place's names, how to say it, where the names come from, and links
+   to the places inside it. The map app then takes over the screen, opened at the same place. */
+import Base from './Base.astro';
+import KhoimApp from '../app/KhoimApp';
+import { Credit } from '../components/core/Credit';
+import { DraftBanner } from '../components/core/DraftBanner';
+import { Wordmark } from '../components/core/Wordmark';
+import { PlaceCard } from '../components/place/PlaceCard';
+import villagesJson from '../data/generated/villages.json';
+import { allVillagesOf, childrenOf, getPlace, houseOf, pathOf, registerVillages, trailOf } from '../data/khoim';
+import { pageMeta } from '../data/seo';
+import type { RawVillage } from '../data/types';
+import { tellUsWhatIsWrongHref } from '../lib/mailto';
+import '../styles/static.css';
+
+interface Props {
+  /** Missing = all of Goa (the home page). */
+  placeId?: string;
+  /** The page shown for an address that does not exist. It opens the map on all of Goa. */
+  notFound?: boolean;
+}
+
+const { placeId, notFound = false } = Astro.props;
+const raw = villagesJson as unknown as RawVillage[];
+registerVillages(raw);
+
+const place = getPlace(placeId ?? 'goa')!;
+const home = place.level === 'state';
+const meta = pageMeta(place);
+const path = pathOf(place);
+const pageUrl = new URL(path, Astro.site).href;
+const trail = trailOf(place.id);
+const inside = place.level === 'taluka' ? allVillagesOf(place.id) : place.level === 'village' ? [] : childrenOf(place.id);
+const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
+---
+
+<Base title={meta.title} description={meta.description} path={path} noindex={notFound}>
+  <div id="khoim-static" class:list={['static', home ? 'static--home' : 'static--place']}>
+    <div class="static__banner"><DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} /></div>
+    <div class="static__body">
+      <div class="static__map">
+        <header class="static__head">
+          <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
+          {!home && (
+            <nav class="k-crumbs static__crumbs" aria-label="Where you are">
+              {trail.map((t, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true">/</span>}
+                  <a class="k-crumbs__link" href={pathOf(t)} aria-current={i === trail.length - 1 ? 'page' : undefined}>{t.official}</a>
+                </>
+              ))}
+            </nav>
+          )}
+        </header>
+        {home && <h1 class="static__title">Every taluka in Goa, with its Konkani name and how to say it.</h1>}
+      </div>
+      <div class="static__panel">
+        <div class="static__panel-body">
+          {!home && (
+            <div class="static__card" data-house={houseOf(place).key}>
+              <PlaceCard place={place} expanded plain headingLevel={1} />
+            </div>
+          )}
+          {inside.length > 0 && (
+            <nav class="static__places" aria-label={'Places in ' + place.official}>
+              <ul>
+                {inside.map(c => (
+                  <li>
+                    <a href={pathOf(c)}>
+                      {c.deva && <span class="static__deva" lang="gom">{c.deva}</span>}
+                      {c.romi && <span lang="gom-Latn">{c.romi}</span>}
+                      <span>{c.official}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+        <footer class="static__footer"><Credit /></footer>
+      </div>
+    </div>
+  </div>
+  <KhoimApp client:only="react" initialId={home ? undefined : place.id} initialVillage={initialVillage} />
+</Base>
