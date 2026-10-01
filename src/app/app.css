@@ -39,8 +39,17 @@ html[data-app="ready"] #khoim-static { display: none; }
   transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-sheet) var(--ease-out), visibility 0s linear var(--dur-base);
 }
 
-.k-phone-bottom { position: absolute; left: 16px; right: 16px; bottom: 20px; z-index: 5; display: grid; gap: 10px; pointer-events: none; }
+.k-phone-bottom {
+  position: absolute; left: 16px; right: 16px; bottom: 20px; z-index: 5; display: grid; gap: 10px; pointer-events: none;
+  transition: opacity var(--dur-fast), transform var(--dur-sheet) var(--ease-standard), visibility 0s linear 0s;
+}
 .k-phone-bottom > * { pointer-events: auto; }
+/* steps aside when a sheet comes up */
+.k-phone-bottom.is-hidden {
+  opacity: 0; visibility: hidden; transform: translateY(20px);
+  transition: opacity var(--dur-fast), transform var(--dur-sheet) var(--ease-standard), visibility 0s linear var(--dur-fast);
+}
+.k-phone-card { padding: 0 16px 28px; }
 .k-hint {
   justify-self: start; margin: 0;
   font: var(--weight-strong) 15px/1.2 var(--font-latin);
@@ -82,3 +91,11 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-desktop__panel-top { padding: 20px 24px 12px; }
 .k-desktop__panel-body { overflow-y: auto; padding: 4px 24px 20px; }
 .k-desktop__panel-credit { padding: 14px 24px 18px; border-top: 1px solid var(--line); }
+
+.k-desktop-strip { position: absolute; left: 0; right: 0; bottom: 16px; }
+.k-desktop-card {
+  background: var(--house-bg); color: var(--house-on);
+  border-radius: var(--radius-sheet); padding: var(--trim-inset);
+  animation: khoim-rise var(--dur-base) var(--ease-out) both;
+}
+.k-desktop-card__inner { padding: 10px 10px 16px; }

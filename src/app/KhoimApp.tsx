@@ -7,7 +7,10 @@ import { IconButton } from '../components/core/IconButton';
 import { ScriptToggle } from '../components/core/ScriptToggle';
 import { Wordmark } from '../components/core/Wordmark';
 import { GoaMap } from '../components/map/GoaMap';
-import { getPlace, nameIn, trailOf } from '../data/khoim';
+import { PlaceCard } from '../components/place/PlaceCard';
+import { PlaceStrip } from '../components/place/PlaceStrip';
+import { Sheet } from '../components/place/Sheet';
+import { getPlace, houseOf, nameIn, trailOf } from '../data/khoim';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import { useMediaQuery } from '../lib/motion';
 import { useKhoim, type Khoim } from './useKhoim';
@@ -37,14 +40,17 @@ function Announcer({ text }: { text: string }) {
 
 function Phone({ k }: { k: Khoim }) {
   const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
-  const fp = getPlace(k.focus);
+  const fp = getPlace(k.focus), sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
   const nm = fp ? nameIn(fp, k.script) : null;
   const parent = fp && fp.parent && fp.parent !== 'goa' ? getPlace(fp.parent) : null;
+  const sheet = sp ? 'place' : fp ? 'strip' : null;
+  /* how much of the sheet shows when collapsed; the map keeps clear of it */
+  const peek = sp ? (sp.deva ? 296 : 336) : fp ? 200 : 0;
   return (
     <div className="k-app k-app--phone">
       <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-        insetTop={first ? 176 : 72} insetBottom={108} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+        insetTop={first ? 176 : 72} insetBottom={sheet ? peek + 8 : 108} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
       <header className="k-phone-header">
         <div className="k-phone-header__left">
           {k.focus || k.selected
@@ -55,9 +61,21 @@ function Phone({ k }: { k: Khoim }) {
         <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} /></div>
       </header>
       <h1 className={first ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first}>{TITLE}</h1>
-      <div className="k-phone-bottom">
+      <div className={sheet ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'}>
         {first && <p className="k-hint">Tap a district, or press and drag along Goa</p>}
       </div>
+      {sp && (
+        <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} house={houseOf(sp).key}>
+          <div className="k-phone-card">
+            <PlaceCard place={sp} expanded={k.snap === 'full'} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onGoInside={k.goInside} />
+          </div>
+        </Sheet>
+      )}
+      {!sp && fp && (
+        <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
+          <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} />
+        </Sheet>
+      )}
       <Announcer text={k.announce} />
     </div>
   );
@@ -96,10 +114,23 @@ function Desktop({ k }: { k: Khoim }) {
               <p>Click a district, or press and drag along Goa. Click again to go inside.</p>
             </div>
           )}
+          {fp && (
+            <div className="k-desktop-strip">
+              <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} />
+            </div>
+          )}
         </main>
         <aside className="k-desktop__panel" aria-label="Names">
           <div className="k-desktop__panel-top" />
-          <div className="k-desktop__panel-body" />
+          <div className="k-desktop__panel-body">
+            {sp && (
+              <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
+                <div className="k-desktop-card__inner">
+                  <PlaceCard place={sp} expanded onClose={() => k.setSnap('closed')} onGoInside={k.goInside} />
+                </div>
+              </div>
+            )}
+          </div>
           <div className="k-desktop__panel-credit"><Credit /></div>
         </aside>
       </div>

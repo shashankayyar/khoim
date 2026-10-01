@@ -1,0 +1,121 @@
+/* Sheets, the place card, say-it beats, pending names and the strip.
+   Values from design/components/place/*.jsx. */
+
+/* ---------- Sheet ---------- */
+.k-sheet {
+  position: absolute; left: 0; right: 0; top: 56px; bottom: 0; z-index: var(--z-sheet);
+  background: var(--surface-raised); color: var(--text);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0; box-shadow: var(--shadow-sheet);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  touch-action: none;
+  transition: transform var(--dur-sheet) var(--ease-standard);
+}
+.k-sheet--house { background: var(--house-bg); color: var(--house-on); }
+.k-sheet__handle {
+  height: 28px; width: 100%; border: 0; padding: 0; background: transparent; color: inherit;
+  display: grid; place-items: center; cursor: grab;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+}
+.k-sheet__grip { display: block; width: 40px; height: 5px; border-radius: 3px; background: currentColor; }
+.k-sheet__scroll { overflow-y: hidden; touch-action: none; overscroll-behavior: contain; }
+.k-sheet__scroll.is-full { overflow-y: auto; touch-action: pan-y; }
+
+/* ---------- Place card ---------- */
+.k-card { display: grid; color: var(--house-on); }
+.k-card__frame { border: var(--trim-width) solid currentColor; border-radius: var(--radius-xl); padding: 14px 16px 18px; }
+.k-card__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; }
+.k-card__where { font: var(--weight-strong) 15px/1.3 var(--font-latin); }
+.k-card__heading { margin: 0; font: inherit; }
+.k-card__deva {
+  display: block; margin-top: 4px;
+  font: var(--weight-strong) var(--size-name-xl)/1.5 var(--font-deva);
+  transition: font-size var(--dur-sheet) var(--ease-standard);
+}
+.k-card.is-expanded .k-card__deva { font-size: var(--size-name-hero); }
+.k-card__official-head { display: block; margin: 8px 0 10px; font: var(--weight-strong) 48px/1.25 var(--font-latin); overflow-wrap: anywhere; }
+.k-card.is-expanded .k-card__official-head { font-size: 64px; }
+.k-card__names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+.k-card__romi { font: var(--weight-strong) var(--size-name-m)/1.3 var(--font-latin); }
+.k-card.is-expanded .k-card__romi { font-size: var(--size-name-l); }
+.k-card__no-romi { font: var(--weight-regular) 17px/1.4 var(--font-latin); }
+.k-card__official { font: var(--weight-regular) 18px/1.3 var(--font-latin); }
+
+.k-card__actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+.k-card__actions--two { grid-template-columns: 1fr 1fr; }
+
+.k-card__more { margin-top: 8px; animation: khoim-rise var(--dur-base) var(--ease-out) both; }
+.k-card__row { display: grid; gap: 6px; padding: 16px 0; }
+.k-card__label { font: var(--weight-strong) 14px/1.3 var(--font-latin); }
+.k-card__rule { border: 0; border-top: 1px solid currentColor; opacity: .35; margin: 0; }
+.k-card__body { margin: 0; font: var(--weight-regular) var(--size-body)/1.5 var(--font-latin); }
+.k-card__tell { margin-top: 6px; }
+.k-card__disclose {
+  justify-self: start; border: 0; background: transparent; color: inherit; padding: 8px 0; min-height: 44px;
+  font: var(--weight-strong) 16px/1.5 var(--font-latin);
+  text-decoration: underline; text-underline-offset: 4px; cursor: pointer; text-align: left;
+}
+.k-card__other-deva { font: var(--weight-regular) 22px/1.6 var(--font-deva); }
+.k-card__inside { padding-top: 8px; }
+
+/* ---------- Say it ---------- */
+.k-say-it { display: grid; gap: 12px; }
+.k-say-it__beats {
+  border: 0; background: transparent; padding: 0; color: inherit; text-align: left; cursor: pointer;
+  display: flex; flex-wrap: wrap; gap: 8px; border-radius: var(--radius-m);
+}
+.k-say-it__beat {
+  padding: 6px 14px; border-radius: var(--radius-m); border: 2px solid currentColor;
+  font: var(--weight-regular) 24px/1.25 var(--font-latin);
+  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-press) linear, color var(--dur-press) linear;
+}
+.k-say-it__beat--stressed { font-weight: var(--weight-heavy); font-size: 30px; }
+/* the border stays the ink colour while the beat fills with it */
+.k-say-it__beat.is-on { background: var(--house-on, var(--text)); border-color: var(--house-on, var(--text)); color: var(--house-bg, var(--surface-raised)); }
+.k-say-it__beat.is-lifted { transform: translateY(-3px); }
+.k-say-it__note { margin: 0; font: var(--weight-regular) 16px/1.5 var(--font-latin); }
+
+/* ---------- Pending name: an oyster-shell window ---------- */
+.k-pending { position: relative; border-radius: var(--radius-l); padding: 6px; border: 2px solid currentColor; }
+.k-pending__panes { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; }
+.k-pending__panes span {
+  aspect-ratio: 1; border-radius: 3px; background: rgba(255, 255, 255, .5);
+  animation: khoim-shell 4.2s var(--pane-delay, 0s) ease-in-out infinite;
+}
+.k-pending__center { position: absolute; inset: 0; display: grid; place-items: center; }
+.k-pending__label {
+  background: var(--surface-raised); color: var(--text);
+  padding: 4px 12px; border-radius: var(--radius-s);
+  font: var(--weight-strong) 15px/1.4 var(--font-latin); text-align: center;
+}
+
+/* ---------- Place strip ---------- */
+.k-strip { display: grid; gap: 10px; }
+.k-strip__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 10px; padding: 0 var(--gutter); }
+.k-strip__name { font: var(--weight-strong) 26px/1.5 var(--font-latin); }
+.k-strip__name--deva { font: var(--weight-strong) 30px/1.5 var(--font-deva); }
+.k-strip__count { font: var(--weight-regular) 16px/1.4 var(--font-latin); white-space: nowrap; }
+.k-strip__list {
+  list-style: none; margin: 0; display: flex; gap: 10px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+  padding: 4px var(--gutter) 8px; scrollbar-width: none; touch-action: pan-x;
+}
+.k-strip__list::-webkit-scrollbar { display: none; }
+.k-strip__item { flex: 0 0 142px; scroll-snap-align: start; }
+.k-strip__card {
+  width: 100%; height: 100px; box-sizing: border-box; border-radius: var(--radius-l); border: 0;
+  background: var(--house-bg); color: var(--house-on); padding: 5px;
+  cursor: pointer; text-align: left;
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+}
+.k-strip__card--plain { background: var(--surface-raised); color: var(--text); border: 2px solid var(--line); padding: 8px 12px; }
+.k-strip__card--plain.is-on { border-color: var(--text); }
+.k-strip__card.is-on { transform: translateY(-4px); }
+.k-strip__inner {
+  display: grid; align-content: space-between; height: 100%; box-sizing: border-box;
+  border-radius: var(--radius-m); border: var(--trim-width) solid currentColor; padding: 6px 10px;
+}
+.k-strip__card--plain .k-strip__inner { border: 0; padding: 0; }
+.k-strip__official { font: var(--weight-strong) 18px/1.25 var(--font-latin); overflow-wrap: anywhere; }
+.k-strip__title { font: var(--weight-strong) 18px/1.5 var(--font-latin); }
+.k-strip__title--deva { font: var(--weight-strong) 24px/1.5 var(--font-deva); }
+.k-strip__sub { font: var(--weight-regular) 14px/1.3 var(--font-latin); }
