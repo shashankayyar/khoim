@@ -28,6 +28,7 @@
 .k-more__credit { display: grid; gap: 4px; }
 .k-more .k-more__licence { margin: 0; max-width: none; font: var(--weight-regular) var(--size-caption)/1.5 var(--font-latin); color: var(--text-2); }
 .k-more__licence a { color: inherit; text-underline-offset: 3px; }
+.k-more__link { display: inline-flex; align-items: center; min-height: 44px; font-weight: var(--weight-strong); }
 
 @media (min-width: 1180px) {
   .k-more__scroll { padding: 24px 48px 48px; }

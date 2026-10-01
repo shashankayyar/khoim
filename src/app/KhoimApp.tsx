@@ -7,6 +7,7 @@ import { Icon } from '../components/core/Icon';
 import { IconButton } from '../components/core/IconButton';
 import { ScriptToggle } from '../components/core/ScriptToggle';
 import { Wordmark } from '../components/core/Wordmark';
+import { ContributeForm } from '../components/contribute/ContributeForm';
 import { GoaMap } from '../components/map/GoaMap';
 import { PlaceCard } from '../components/place/PlaceCard';
 import { PlaceStrip } from '../components/place/PlaceStrip';
@@ -76,6 +77,12 @@ function MailNote() {
       {show && <p>Write to us at <strong>{CONTACT_EMAIL}</strong>.</p>}
     </div>
   );
+}
+
+/* The contribution form, when it is switched on. */
+function Contribute({ k }: { k: Khoim }) {
+  if (!k.contrib.open) return null;
+  return <ContributeForm place={getPlace(k.form?.placeId)} kind={k.form?.kind ?? 'name'} siteKey={k.contrib.siteKey} onClose={k.closeForm} />;
 }
 
 /** Goa / South Goa / Salcete. Each part takes you to that level. */
@@ -159,7 +166,8 @@ function Phone({ k }: { k: Khoim }) {
       {sp && (
         <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
           <div className="k-phone-card">
-            <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')} />
+            <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')}
+              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} />
           </div>
         </Sheet>
       )}
@@ -170,6 +178,7 @@ function Phone({ k }: { k: Khoim }) {
       )}
       <SearchScreen k={k} />
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />
     </div>
@@ -218,7 +227,7 @@ function Desktop({ k }: { k: Khoim }) {
             ) : sp ? (
               <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
                 <div className="k-desktop-card__inner">
-                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} />
+                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} />
                 </div>
               </div>
             ) : (
@@ -237,6 +246,7 @@ function Desktop({ k }: { k: Khoim }) {
         </aside>
       </div>
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} />
+      <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />
     </div>

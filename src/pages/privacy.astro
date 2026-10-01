@@ -1,0 +1,56 @@
+---
+/* Privacy notice. Wording from docs/collaboration-plan.md, section 5c. A draft: not yet read by a lawyer. */
+import Base from '../layouts/Base.astro';
+import { Credit } from '../components/core/Credit';
+import { Wordmark } from '../components/core/Wordmark';
+import { CONTACT_EMAIL } from '../data/site';
+import '../styles/static.css';
+---
+
+<Base title="Privacy notice | Khoim" description="What Khoim collects when you visit or contribute, why, who sees it, and how to have it corrected or removed." path="/privacy/">
+  <div class="doc">
+    <header class="doc__head">
+      <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
+    </header>
+    <main class="doc__main">
+      <h1>Privacy notice</h1>
+      <p class="doc__meta">1 October 2026. This notice is a draft, like the rest of the site.</p>
+
+      <h2>Who we are</h2>
+      <p>Khoim is a non-profit initiative by Pangolin Marketing. Write to <strong>{CONTACT_EMAIL}</strong> about anything on this page.</p>
+
+      <h2>What we collect when you contribute</h2>
+      <p>What you send us: a name, a spelling, a note on how a name is said, or a correction. Your name, if you choose to give it, for credit. Nothing else is asked for. If you write to us by email, we also have your email address.</p>
+
+      <h2>What we collect when you only visit</h2>
+      <p>Nothing that identifies you. Khoim itself sets no cookies. It remembers your choice of script and of light or dark colours on your own device. Cloudflare, which hosts the site, counts visits without identifying visitors, and its bot check looks at your browser when you send the form.</p>
+
+      <h2>Why</h2>
+      <p>To show how Goa's places are named and said, and to credit the people who tell us.</p>
+
+      <h2>Who sees it</h2>
+      <p>Before review: only Khoim's reviewers. After approval: your contribution and, if you gave it, your name are public. An email address you write from is never published and never shared.</p>
+
+      <h2>Where it is kept and for how long</h2>
+      <p>On Cloudflare's servers. Approved contributions are kept for as long as Khoim runs. Contributions we do not use are deleted within 90 days.</p>
+
+      <h2>Your choices</h2>
+      <p>You can ask to see what we hold from you, to correct it, to remove it, or to withdraw your consent, by writing to <strong>{CONTACT_EMAIL}</strong>. We will reply within 7 days. If you are not satisfied, you can complain to the Data Protection Board of India.</p>
+
+      <h2>Children</h2>
+      <p>Khoim takes contributions only from people aged 18 or older.</p>
+    </main>
+    <footer class="doc__foot"><Credit /></footer>
+  </div>
+</Base>
+
+<style>
+  .doc { max-width: 720px; margin: 0 auto; }
+  .doc__head { padding: 14px 16px 0; }
+  .doc__main { padding: 8px var(--gutter) 24px; }
+  .doc__main h1 { margin: 16px 0 4px; font: var(--weight-strong) 40px/1.15 var(--font-latin); letter-spacing: var(--track-title); }
+  .doc__meta { margin: 0 0 8px; color: var(--text-2); font: var(--weight-regular) var(--size-small)/1.5 var(--font-latin); }
+  .doc__main h2 { margin: 28px 0 6px; font: var(--weight-strong) 24px/1.25 var(--font-latin); }
+  .doc__main p { margin: 0 0 12px; max-width: 60ch; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); text-wrap: pretty; }
+  .doc__foot { padding: var(--space-6) var(--gutter) var(--space-10); border-top: 1px solid var(--line); margin: 0 var(--gutter); padding-inline: 0; }
+</style>

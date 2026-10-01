@@ -11,9 +11,10 @@ import { loadVillagePaths, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, getPlace, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
+import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
 
 export type Snap = 'peek' | 'full';
-type Overlay = 'search' | 'more' | null;
+type Overlay = 'search' | 'more' | 'form' | null;
 
 interface State {
   /** null = all Goa; a district or taluka id when inside one */
@@ -25,6 +26,8 @@ interface State {
   search: boolean;
   query: string;
   more: boolean;
+  /** The contribution form: which place it is about and which choice is ticked. Null when closed. */
+  form: { placeId: string; kind: ContributionKind } | null;
   layer: string;
 }
 
@@ -48,7 +51,7 @@ export interface KhoimOptions {
   initialVillage?: RawVillage;
 }
 
-const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, layer: 'names' };
+const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, form: null, layer: 'names' };
 const SCRIPT_KEY = 'khoim-script';
 const SITE = 'https://khoim.in';
 
@@ -86,6 +89,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const [announce, setAnnounce] = useState('');
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
+  /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
+  const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
   /* the next address change replaces the current history entry instead of adding one */
   const replaceNext = useRef(true);
 
@@ -95,7 +100,10 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   /* The village list is not needed for the first screen. Fetch it once the page has settled. */
   useEffect(() => {
     let live = true;
-    const run = () => { loadVillages().then(() => { if (live) setVillagesLoaded(true); }); };
+    const run = () => {
+      loadVillages().then(() => { if (live) setVillagesLoaded(true); });
+      loadContribConfig().then(c => { if (live) setContrib(c); });
+    };
     const idle = window.requestIdleCallback ? window.requestIdleCallback(run, { timeout: 2500 }) : window.setTimeout(run, 1200);
     return () => {
       live = false;
@@ -117,7 +125,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   /* ---------- The address bar follows the place ---------- */
 
   const place = selectedPlace ?? focusPlace;
-  const overlay: Overlay = s.more ? 'more' : s.search && !desktop ? 'search' : null;
+  const overlay: Overlay = s.form ? 'form' : s.more ? 'more' : s.search && !desktop ? 'search' : null;
   useEffect(() => {
     const path = pathOf(place);
     const q = s.query && (desktop || s.search) ? '?q=' + encodeURIComponent(s.query) : '';
@@ -144,7 +152,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
       const st = e.state?.khoim as Entry | undefined;
       const query = queryInAddress();
       if (st && (!st.selected || getPlace(st.selected))) {
-        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', query: query || (st.overlay === 'search' ? v.query : '') }));
+        /* going back or forward never reopens the form: what was typed in it is gone */
+        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', form: null, query: query || (st.overlay === 'search' ? v.query : '') }));
         const p = getPlace(st.selected) ?? getPlace(st.focus);
         setAnnounce(p ? spokenName(p) : 'All of Goa');
         return;
@@ -152,7 +161,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
       /* an address we have no saved state for: work it out from the address itself */
       const open = () => {
         const p = placeAtPath(window.location.pathname);
-        set(v => ({ ...v, ...opened(p), hot: null, search: false, more: false, query }));
+        set(v => ({ ...v, ...opened(p), hot: null, search: false, more: false, form: null, query }));
       };
       if (window.location.pathname.split('/').filter(Boolean).length > 2 && !villagesReady()) needVillages().then(open); else open();
     };
@@ -166,7 +175,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     const cur = entryNow();
     if (cur?.overlay && cur.idx > 0) { window.history.back(); return; }
     replaceNext.current = true;
-    up({ search: false, more: false });
+    up({ search: false, more: false, form: null });
   };
 
   const goTo = (id: string | null) => {
@@ -187,7 +196,9 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const villagePaths = inTaluka && paths?.id === focusPlace.id ? paths.paths : null;
 
   return {
-    ...s, script, announce, villagesLoaded, villages, villagePaths,
+    ...s, script, announce, villagesLoaded, villages, villagePaths, contrib,
+    openForm: (placeId: string, kind: ContributionKind) => up({ form: { placeId, kind } }),
+    closeForm: closeOverlay,
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),
     /* villages are part of search, so make sure their list is on its way as soon as someone starts */
