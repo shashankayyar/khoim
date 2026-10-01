@@ -33,14 +33,18 @@ const canonical = new URL(path, Astro.site);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#E8B23A" />
     <meta name="color-scheme" content="light dark" />
-    <!-- Marks the page as having JavaScript, and sets the dark theme from the phone or computer setting. Runs before paint so the page never flashes light. -->
+    <!-- Marks the page as having JavaScript, and sets light or dark: the person's own pick if they made one on the About screen, otherwise the phone or computer setting. Runs before paint so the page never flashes. -->
     <script is:inline>
       (function () {
-        document.documentElement.classList.add('js');
+        var root = document.documentElement;
+        root.classList.add('js');
         var q = window.matchMedia('(prefers-color-scheme: dark)');
         var set = function () {
-          if (q.matches) document.documentElement.setAttribute('data-theme', 'dark');
-          else document.documentElement.removeAttribute('data-theme');
+          var pick = null;
+          try { pick = localStorage.getItem('khoim-theme'); } catch (e) {}
+          var dark = pick ? pick === 'dark' : q.matches;
+          if (dark) root.setAttribute('data-theme', 'dark');
+          else root.removeAttribute('data-theme');
         };
         set();
         q.addEventListener('change', set);

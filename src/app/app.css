@@ -20,7 +20,7 @@ html[data-app="ready"] #khoim-static { display: none; }
 }
 .k-phone-header__left { pointer-events: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .k-phone-header__right { pointer-events: auto; flex: 0 0 auto; }
-.k-phone-header__wordmark { display: inline-flex; padding: 4px 6px; border-radius: var(--radius-m); min-height: 40px; align-items: center; }
+.k-phone-header__wordmark { display: inline-flex; padding: 4px 6px; border: 0; background: transparent; border-radius: var(--radius-m); min-height: 44px; align-items: center; cursor: pointer; }
 .k-phone-header__place {
   font: var(--weight-strong) 18px/1.5 var(--font-latin);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;

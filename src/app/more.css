@@ -1,0 +1,35 @@
+/* The About screen. Values from design/ui_kits/khoim/More.jsx. */
+.k-more {
+  position: absolute; inset: 0; z-index: var(--z-search);
+  background: var(--surface); color: var(--text);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  transform: translateY(104%); visibility: hidden;
+  transition: transform var(--dur-sheet) var(--ease-standard), visibility 0s linear var(--dur-sheet);
+}
+/* focus lands on the screen itself when it opens; the ring is for controls, not the whole screen */
+.k-more:focus-visible { box-shadow: none; }
+.k-more.is-open { transform: none; visibility: visible; transition: transform var(--dur-sheet) var(--ease-standard), visibility 0s linear 0s; }
+.k-more__scroll { overflow-y: auto; padding: 16px var(--gutter) 40px; overscroll-behavior: contain; }
+.k-more__column { max-width: 720px; margin: 0 auto; }
+.k-more__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.k-more__tools { display: flex; gap: 8px; }
+
+.k-more p { margin: 0 0 12px; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); max-width: 60ch; text-wrap: pretty; }
+.k-more p [lang="gom"] { font-family: var(--font-deva); }
+.k-more .k-more__lead { margin-top: 4px; font-size: var(--size-lead); }
+.k-more__section { padding: 24px 0; border-top: 1px solid var(--line); }
+.k-more h2 { margin: 0 0 8px; font: var(--weight-strong) 24px/1.25 var(--font-latin); }
+
+.k-more__roles { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 8px 0 16px; }
+.k-more__role { background: var(--surface-raised); border-radius: var(--radius-l); padding: 14px 16px; }
+.k-more__role h3 { margin: 0 0 4px; font: var(--weight-strong) 18px/1.3 var(--font-latin); }
+.k-more .k-more__role p { margin: 0; font-size: 16px; }
+
+.k-more__credit { display: grid; gap: 4px; }
+.k-more .k-more__licence { margin: 0; max-width: none; font: var(--weight-regular) var(--size-caption)/1.5 var(--font-latin); color: var(--text-2); }
+.k-more__licence a { color: inherit; text-underline-offset: 3px; }
+
+@media (min-width: 1180px) {
+  .k-more__scroll { padding: 24px 48px 48px; }
+  .k-more__roles { grid-template-columns: 1fr 1fr; }
+}
