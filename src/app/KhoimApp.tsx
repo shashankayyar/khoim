@@ -104,7 +104,7 @@ function Phone({ k }: { k: Khoim }) {
      on different phones; until it has, use the design's figure. The map keeps clear of it. */
   const [measured, setMeasured] = useState<{ id: string; px: number } | null>(null);
   const cardPeek = sp ? (measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
-  const peek = sp ? cardPeek : fp ? 200 : 0;
+  const peek = sp ? cardPeek : fp ? (fp.level === 'taluka' ? 224 : 200) : 0;
   const spId = sp?.id;
   const onMeasure = useCallback((px: number) => { if (spId) setMeasured(m => (m && m.id === spId && m.px === px ? m : { id: spId, px })); }, [spId]);
   /* On the first screen the map sits between the title and the buttons, however many lines they take on this phone. */
@@ -172,7 +172,7 @@ function Desktop({ k }: { k: Khoim }) {
       <div className="k-desktop">
         <main className="k-desktop__map">
           <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-            insetTop={96} insetBottom={fp ? 170 : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>

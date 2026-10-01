@@ -4,7 +4,7 @@
 import { useState, type ReactNode } from 'react';
 import { childCount, getPlace, whereLabel } from '../../data/khoim';
 import type { Place, Recording } from '../../data/types';
-import { tellUsNameHref } from '../../lib/mailto';
+import { correctionHref, tellUsNameHref } from '../../lib/mailto';
 import { Button } from '../core/Button';
 import { IconButton } from '../core/IconButton';
 import { SourceStatus } from '../core/SourceStatus';
@@ -15,7 +15,7 @@ import './place.css';
 
 const INK = 'var(--house-on)', PAPER = 'var(--house-bg)';
 
-// TODO(copy): wording for a village the government lists but whose outline we do not have yet. Not in the design.
+/* For a village the government lists but whose outline we do not have. Not in the design; wording settled 1 Oct 2026. */
 const NO_OUTLINE_NOTE = 'The outline is not available yet';
 
 const Rule = () => <hr className="k-card__rule" aria-hidden="true" />;
@@ -108,6 +108,8 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {p.hq && <><Rule /><Row label="Headquarters"><p className="k-card__body">{p.hq}</p></Row></>}
           {p.facts && <><Rule />{p.facts.map(f => <Row key={f} label="Worth knowing"><p className="k-card__body">{f}.</p></Row>)}</>}
           {p.level === 'village' && <><Rule /><Row label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
+          {/* On a place that has a Konkani name: a way to say it is wrong. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
+          {p.deva && <><Rule /><div className="k-card__row"><a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>Suggest a correction</a></div></>}
           {inside && (
             <div className="k-card__inside">
               <Button full ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>

@@ -39,6 +39,14 @@ The reference app in `design/` still shows the earlier behaviour. Where it diffe
 - **Data:** where the LGD list and the boundary file disagree on a village's taluka, the LGD list wins. Survey of India outlines are joined to LGD entries only through `data/town_outline_matches.csv`.
 - **Fonts** are the design's fonts trimmed to weights 500 to 700 (`data/scripts/trim_fonts.py`).
 
+Wording settled the same day (Shashank delegated these; each reuses text from `docs/` where it exists):
+- Credit on About ends "Khoim's own names and notes: CC BY 4.0. Government codes and official names: GODL-India." (from `docs/copy.md`), replacing "Data licence to be confirmed.", followed by the GODL attribution with the lgdirectory.gov.in link (from `DATA-LICENSE.md`).
+- A named place's card ends with a "Suggest a correction" link (`docs/copy.md`), using the correction email from `docs/email-and-icons.md`. For a district or taluka the subject is "Correction for {Official}".
+- The village strip carries "Villages show the official name only for now." (`docs/copy.md`, hero subhead).
+- A village with no outline shows "The outline is not available yet." under Boundary.
+- Page titles and descriptions for districts, and for places with no Romi or no Konkani name, follow the taluka template with the missing part left out (`src/data/seo.ts`).
+- Still open, for phase 2: the status wording for a village whose Konkani name has been reviewed (`STATUS_TEXT.reviewed`).
+
 ## Stack
 - **Astro (static output) + React** via `@astrojs/react`. The map app is one React island built from the design components; Astro prerenders a static page per place so links can be shared and Google can index names.
   - Routes: `/`, `/{district}/`, `/{district}/{taluka}/`, `/{district}/{taluka}/{village}/`. Each page renders the app opened at that place, with its own `<title>` and description from `docs/copy.md` (SEO section) and real text content (the place's names) in the HTML.

@@ -79,8 +79,8 @@ export function More({ open, onClose, layer, onLayer }: MoreProps) {
 
           <section className="k-more__section k-more__credit">
             <Credit full />
-            {/* TODO(copy): the brief asks for the GODL-India attribution with the lgdirectory.gov.in address on this screen.
-                The design has no line for it. This wording is taken from DATA-LICENSE.md. */}
+            {/* The brief asks for the GODL-India attribution with the lgdirectory.gov.in address on this screen.
+                The design has no line for it, so the wording is taken from DATA-LICENSE.md. */}
             <p className="k-more__licence">
               Village codes and official names: Local Government Directory, Ministry of Panchayati Raj, Government of India (<a href="https://lgdirectory.gov.in/">lgdirectory.gov.in</a>), licensed under the Government Open Data License India (GODL-India). This use is not endorsed by the Government of India.
             </p>
