@@ -9,3 +9,6 @@ dist/
 
 # local preview config (machine-specific path)
 .claude/launch.json
+
+# written by scripts/build-data.mjs on every build
+src/data/generated/
