@@ -23,11 +23,14 @@
 
   "preview_urls": true,
 
-  // Pull request previews ("npx wrangler preview") do not share anything with the live site. They get their
-  // own database, and Cloudflare's published test keys for the bot check, which always pass. These two keys
-  // are test values, not secrets. The admin page does not work on previews: there is no login in front of them.
+  // Pull request previews ("npx wrangler preview") do not share anything with the live site. They get
+  // Cloudflare's published test keys for the bot check, which always pass. These two keys are test values,
+  // not secrets. Previews have no database (the preview command does not create one), so on a preview the
+  // form stays switched off and the cards show their email buttons. To test the form on previews, create a
+  // D1 database called khoim-contributions-preview in the dashboard and add it here with its database_id:
+  //   "d1_databases": [{ "binding": "DB", "database_name": "khoim-contributions-preview", "database_id": "..." }],
+  // The admin page never works on previews: there is no login in front of them.
   "previews": {
-    "d1_databases": [{ "binding": "DB", "database_name": "khoim-contributions-preview" }],
     "vars": {
       "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
       "TURNSTILE_SECRET": "1x0000000000000000000000000000000AA"
