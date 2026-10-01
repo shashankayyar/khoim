@@ -1,0 +1,9 @@
+# Values for testing the server part on your own computer with "npx wrangler dev".
+# Copy this file to .dev.vars (which is never committed). Nothing here is a real secret:
+# the two Turnstile values are Cloudflare's published test keys, which always pass.
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+# Any long made-up string. It only unlocks the queue on this computer.
+QUEUE_KEY=local-testing-key-change-me-0000000000
+# Signs you in to the admin page as this name, on localhost only.
+DEV_ADMIN=Local tester

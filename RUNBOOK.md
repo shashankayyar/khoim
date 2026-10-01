@@ -28,6 +28,13 @@ Ask Claude Code to copy reviewed rows from the sheet into the CSV; send it the u
 - A say-it guide shows "Not yet checked by a speaker" until a speaker has checked it.
 - Villages are matched to the government list by LGD code, never by name.
 
+## Contributions from the public
+- **Reviewing:** open `khoim.in/admin`, type your email, enter the code. Each item shows what was sent, the automatic checks and Claude's note. Press Allow, Edit and allow, or Reject. Only a reviewer who reads Konkani can allow.
+- **Getting allowed items onto the site:** on the Allowed tab, press "Download the allowed items that are not on the site yet" and give the file to Claude Code. It opens a pull request; you check the preview and merge as usual.
+- **Someone wants their contribution removed:** on the Allowed tab press Remove, then Remove for good. If it is already on khoim.in, also tell Claude Code to take it off.
+- **Adding or removing a reviewer, or setting it all up the first time:** `docs/contributions-setup.md`.
+- **Cost:** nothing. If a free daily limit is ever reached, the form stops taking submissions until the next day.
+
 ## When the government list changes
 The official village list is `data/raw/lgd_all_villages_goa_<date>.xlsx`, cleaned into `data/villages_lgd.csv`. If LGD publishes a new list, give the new file to Claude Code. The build checks the village count (429 today) and will stop until the change is looked at.
 

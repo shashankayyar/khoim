@@ -51,6 +51,15 @@ Wording settled the same day (Shashank delegated these; each reuses text from `d
 
 Checking contrast: `scripts/dev/contrast-audit.js` walks every screen and checks every piece of text (AAA) and every touch target (44px). Run it in light and dark, phone and desktop, after any change to colours, labels or layout.
 
+## Contributions (stage 1, built 1 October 2026)
+The plan is `docs/collaboration-plan.md`; the one-time Cloudflare setup is `docs/contributions-setup.md`.
+- **Form:** `src/components/contribute/ContributeForm.tsx`, opened from "Tell us" and "Suggest a correction" on a card. Open choices are the three under the Names layer (name or spelling, how it is said, a correction). Layers that are not live are listed as "Next" or "Planned" from `LAYERS` and cannot be picked. When a layer goes live, open its choice here too.
+- **If the server part is not set up** (`/api/config` says not open), the cards keep their email buttons. Never remove that fallback.
+- **Server:** `worker/`. D1 database `khoim-contributions` (table created on first use). Bot check: Cloudflare Turnstile. Free plan only: no R2, nothing that needs a card.
+- **Order of checks:** automatic checks, then Claude's note (`/api/queue`, advice only, cannot change a status), then a person on `/admin` (Cloudflare Access). Only a reviewer marked `konkani` can allow. Claude never allows, edits or publishes a name.
+- **Onto the site:** allowed items are downloaded from `/admin` (or read from `/api/queue?status=allowed&new=1`) and written into the data files in a pull request, with the contributor and reviewer credited. A village's Konkani name still needs `konkani_deva`, `reviewer` and `reviewed_on` in `data/villages_lgd.csv`. After the merge, mark them with `/api/queue/incorporated`.
+- **Privacy:** adults only; no email address is collected by the form; unused contributions are deleted after 60 days (the notice promises 90). `/privacy/` is the notice. The consent and privacy wording is a draft that a lawyer has not read; do not open voice recordings (stage 2) until one has.
+
 ## Stack
 - **Astro (static output) + React** via `@astrojs/react`. The map app is one React island built from the design components; Astro prerenders a static page per place so links can be shared and Google can index names.
   - Routes: `/`, `/{district}/`, `/{district}/{taluka}/`, `/{district}/{taluka}/{village}/`. Each page renders the app opened at that place, with its own `<title>` and description from `docs/copy.md` (SEO section) and real text content (the place's names) in the HTML.
@@ -59,7 +68,7 @@ Checking contrast: `scripts/dev/contrast-audit.js` walks every screen and checks
 - **Map:** SVG only, from `design/components/data/goaGeo.js` (built from `data/raw/` by `data/scripts/build_geo.py`). No Leaflet, MapLibre, WebGL or tiles. Ship geometry as JSON; load village polygons per taluka.
 - **Fonts:** Anek Devanagari and Anek Latin, weights 500/600/700, self-hosted woff2 subsets (files in `design/assets/fonts/`, others from Google Fonts, OFL). Keep Devanagari GSUB features when subsetting.
 - **Icons:** the 22 Lucide paths in `design/components/core/iconPaths.js`. No icon font.
-- **Hosting:** Cloudflare Worker "khoim" with static assets, built by Cloudflare Workers Builds from GitHub. No Astro adapter (static output needs none). Pin exact dependency versions; commit the lockfile.
+- **Hosting:** Cloudflare Worker "khoim" with static assets, built by Cloudflare Workers Builds from GitHub. No Astro adapter (static output needs none). Pin exact dependency versions; commit the lockfile. Since 1 October 2026 the Worker also has a small server part for contributions: see "Contributions" below.
 - Budget: first load on a mid-range Android over 4G, Lighthouse mobile performance 90 or more; home page JS + CSS + districts/talukas geometry under 250 KB compressed.
 
 ## Phase 1 scope (launch)
@@ -107,8 +116,8 @@ Districts: North Goa = Pernem, Bardez, Tiswadi, Bicholim, Sattari. South Goa = P
 
 ## DEPLOY
 - Hosting: Cloudflare Worker "khoim" with static assets, auto-deployed by Workers Builds from GitHub. Production = `main`. Never run `wrangler deploy`, never ask for or store a Cloudflare API token.
-- Static only: `output: "static"`, no adapter, no server code, no `main` in wrangler.jsonc. Build: `npm run build` into `./dist`.
-- Never commit secrets. The site needs none.
+- Pages are static: `output: "static"`, no adapter. Build: `npm run build` into `./dist`. The only server code is `worker/`, which answers `/api/*` for contributions (`main` in wrangler.jsonc).
+- Never commit secrets. The server part's settings (bot-check keys, the queue key, the reviewer list, the Access details) live in Cloudflare's dashboard as Secrets, never in the repo. `dev.vars.example` holds only published test values.
 - Every change:
   1. `git switch -c feat/<short-name>` from an up-to-date `main`.
   2. `npm run build` locally; fix all errors before pushing.

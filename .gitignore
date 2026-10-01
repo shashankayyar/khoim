@@ -12,3 +12,6 @@ dist/
 
 # written by scripts/build-data.mjs on every build
 src/data/generated/
+
+# copies made by macOS or iCloud sync ("name 2.ext"), never part of the project
+* 2.*

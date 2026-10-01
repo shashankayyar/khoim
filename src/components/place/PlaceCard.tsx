@@ -46,13 +46,16 @@ export interface PlaceCardProps {
   onClose?: () => void;
   /** Puts the card away to show the strip of places inside this one. Leave out where the strip is already on screen. */
   onShowInside?: () => void;
+  /** Opens the contribution form. When missing (the form is not switched on, or the page is being read
+      without JavaScript), "Tell us" and "Suggest a correction" open an email instead. */
+  onTell?: (kind: 'name' | 'correction') => void;
   recordings?: Recording[];
   headingLevel?: 1 | 2 | 3;
   /** For pages read without JavaScript: nothing needs a click. The sources are written out and the beats are text. */
   plain?: boolean;
 }
 
-export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
+export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, onTell, recordings, headingLevel = 2, plain = false }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
   const H = `h${headingLevel}` as const;
   const sub = (headingLevel + 1) as 2 | 3 | 4;
@@ -100,7 +103,8 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             <Row level={sub} label="Konkani name">
               <p className="k-card__body">{p.pendingNote || `Know what ${p.official} is called in Konkani? Tell us how your family says it.`}</p>
               <div className="k-card__tell">
-                <Button ink={INK} paper={PAPER} icon="mail" href={tellUsNameHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>
+                <Button ink={INK} paper={PAPER} icon={onTell ? undefined : 'mail'} iconAfter={onTell ? 'arrow-right' : undefined}
+                  href={onTell ? undefined : tellUsNameHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })} onClick={onTell ? () => onTell('name') : undefined}>
                   Tell us<span className="k-visually-hidden"> how your family says {p.official}</span>
                 </Button>
               </div>
@@ -125,9 +129,9 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             <>
               <Rule />
               <div className="k-card__row">
-                <a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>
-                  Suggest a correction<span className="k-visually-hidden"> for {p.official}</span>
-                </a>
+                {onTell
+                  ? <button type="button" className="k-card__disclose" onClick={() => onTell('correction')}>Suggest a correction<span className="k-visually-hidden"> for {p.official}</span></button>
+                  : <a className="k-card__disclose" href={correctionHref({ official: p.official, taluka: taluka?.official, lgd: p.lgd })}>Suggest a correction<span className="k-visually-hidden"> for {p.official}</span></a>}
                 <WriteTo />
               </div>
             </>

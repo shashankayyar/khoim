@@ -145,7 +145,7 @@ export function sayParts(say: string | null | undefined): { text: string; stress
 
 /** Latin is folded to strip accents (ã = a). Devanagari matches as typed. */
 export function fold(s: string | null | undefined): string {
-  return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’']/g, '').toLowerCase();
+  return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').toLowerCase();
 }
 
 /** Prefix before substring, districts and talukas before villages. Villages are included once loaded. */

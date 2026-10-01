@@ -2,8 +2,38 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "khoim",
   "compatibility_date": "2026-09-29",
-  "assets": { "directory": "./dist", "not_found_handling": "404-page" },
+
+  // The small server part (worker/). It runs only for /api/ addresses: the contribution form, the admin page's
+  // data and the queue. Every page, the map and the fonts are plain files in dist/, served without it.
+  "main": "./worker/index.ts",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // The queue of contributions. Cloudflare creates this database the first time this is deployed.
+  "d1_databases": [{ "binding": "DB", "database_name": "khoim-contributions" }],
+
+  // Everything else the server part needs is set in Cloudflare's dashboard (Worker, Settings, Variables and
+  // Secrets), never here: TURNSTILE_SITE_KEY, TURNSTILE_SECRET, QUEUE_KEY, ACCESS_TEAM, ACCESS_AUD, REVIEWERS.
+  // Until they are set, the form stays switched off and the cards keep their email buttons.
+  // See docs/contributions-setup.md.
+
   "preview_urls": true,
-  // Needed by "npx wrangler preview", which Cloudflare runs for every pull request. Empty: previews use the settings above.
-  "previews": {}
+
+  // Pull request previews ("npx wrangler preview") do not share anything with the live site. They get
+  // Cloudflare's published test keys for the bot check, which always pass. These two keys are test values,
+  // not secrets. Previews have no database (the preview command does not create one), so on a preview the
+  // form stays switched off and the cards show their email buttons. To test the form on previews, create a
+  // D1 database called khoim-contributions-preview in the dashboard and add it here with its database_id:
+  //   "d1_databases": [{ "binding": "DB", "database_name": "khoim-contributions-preview", "database_id": "..." }],
+  // The admin page never works on previews: there is no login in front of them.
+  "previews": {
+    "vars": {
+      "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+      "TURNSTILE_SECRET": "1x0000000000000000000000000000000AA"
+    }
+  }
 }

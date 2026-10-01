@@ -1,0 +1,11 @@
+---
+/* The reviewers' page. On khoim.in it sits behind Cloudflare Access. The page itself holds nothing private:
+   every item comes from /api/admin/, which checks the sign-in again. */
+import Base from '../layouts/Base.astro';
+import Admin from '../admin/Admin';
+---
+
+<Base title="Contributions | Khoim" description="Review contributions to Khoim." path="/admin/" noindex>
+  <Admin client:only="react" />
+  <noscript><p style="padding:20px">This page needs JavaScript.</p></noscript>
+</Base>

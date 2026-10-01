@@ -1,0 +1,37 @@
+/* The reviewers' page. Plain on purpose. Same tokens as the site, so light, dark and contrast carry over. */
+.a-page { max-width: 760px; margin: 0 auto; padding: 14px var(--gutter) 64px; }
+.a-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.a-home { display: inline-flex; align-items: center; min-height: 48px; color: var(--text); text-decoration: none; border-radius: var(--radius-m); }
+.a-me { margin: 0; font: var(--weight-strong) 15px/1.4 var(--font-latin); }
+.a-page h1 { margin: 16px 0 12px; font: var(--weight-strong) 40px/1.15 var(--font-latin); letter-spacing: var(--track-title); }
+
+.a-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.a-tab {
+  min-height: 48px; padding: 0 16px; border-radius: var(--radius-l); border: 2px solid var(--text);
+  background: transparent; color: var(--text); font: var(--weight-strong) 16px/1.2 var(--font-latin); cursor: pointer;
+}
+.a-tab[aria-pressed="true"] { background: var(--surface-invert); color: var(--text-invert); }
+
+.a-note, .a-problem { margin: 0 0 16px; max-width: 60ch; font: var(--weight-regular) var(--size-body)/1.5 var(--font-latin); }
+.a-problem { padding: 12px 16px; border: 2px solid var(--text); border-radius: var(--radius-l); font-weight: var(--weight-strong); }
+.a-link { border: 0; background: transparent; padding: 0; color: inherit; font: inherit; font-weight: var(--weight-strong); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; min-height: 44px; text-align: left; }
+
+.a-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.a-card { background: var(--surface-raised); border-radius: var(--radius-xl); padding: 16px 18px 18px; box-shadow: var(--shadow-1); }
+.a-card p { margin: 0; }
+.a-card__where { font: var(--weight-regular) 16px/1.4 var(--font-latin); }
+.a-card__kind { font: var(--weight-regular) 15px/1.4 var(--font-latin); color: var(--text-2); }
+.a-card__value { margin: 8px 0 10px !important; font: var(--weight-strong) 30px/1.3 var(--font-latin); overflow-wrap: anywhere; }
+.a-card__value--deva { font: var(--weight-strong) 34px/1.5 var(--font-deva); }
+.a-row { padding: 8px 0; border-top: 1px solid var(--line); font: var(--weight-regular) 16px/1.5 var(--font-latin); overflow-wrap: anywhere; }
+.a-row > span:first-child { display: block; font: var(--weight-strong) 14px/1.3 var(--font-latin); }
+.a-row [lang="gom"] { font-family: var(--font-deva); font-size: 20px; }
+
+.a-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.a-form { margin-top: 12px; display: grid; gap: 4px; }
+.a-form p { font: var(--weight-regular) 16px/1.5 var(--font-latin); max-width: 60ch; }
+.a-form label { display: grid; gap: 6px; font: var(--weight-strong) 16px/1.3 var(--font-latin); }
+.a-form input {
+  min-height: 52px; box-sizing: border-box; padding: 0 14px; border: 2px solid var(--text); border-radius: var(--radius-l);
+  background: var(--surface-raised); color: var(--text); font: var(--weight-regular) 19px/1.5 var(--font-deva);
+}
