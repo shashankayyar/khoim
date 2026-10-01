@@ -87,7 +87,7 @@ const banner = (k: Khoim) => { const onTellUs = tellUs(k); return onTellUs ? { o
 /* The contribution form, when it is switched on. */
 function Contribute({ k }: { k: Khoim }) {
   if (!k.contrib.open) return null;
-  return <ContributeForm place={getPlace(k.form?.placeId)} kind={k.form?.kind ?? 'name'} siteKey={k.contrib.siteKey} onClose={k.closeForm} />;
+  return <ContributeForm place={getPlace(k.form?.placeId)} kind={k.form?.kind ?? null} siteKey={k.contrib.siteKey} onClose={k.closeForm} />;
 }
 
 /** Goa / South Goa / Salcete. Each part takes you to that level. */

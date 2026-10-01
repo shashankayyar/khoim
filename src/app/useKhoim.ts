@@ -27,7 +27,7 @@ interface State {
   query: string;
   more: boolean;
   /** The contribution form: which place it is about and which choice is ticked. Null when closed. */
-  form: { placeId: string; kind: ContributionKind } | null;
+  form: { placeId: string; kind: ContributionKind | null } | null;
   layer: string;
 }
 
@@ -198,7 +198,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, contrib,
     /* the form takes the place of About if it was opened from there */
-    openForm: (placeId: string, kind: ContributionKind) => up({ more: false, form: { placeId, kind } }),
+    openForm: (placeId: string, kind: ContributionKind | null = null) => up({ more: false, form: { placeId, kind } }),
     closeForm: closeOverlay,
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),

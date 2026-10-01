@@ -103,6 +103,8 @@ export function VoiceRecorder({ id, official, recording, onChange }: VoiceRecord
 
   const play = () => {
     if (playing) { stopPlayback(); return; }
+    /* the recorder was put away and brought back (its row unticked and ticked again) */
+    if (!url.current && recording) url.current = URL.createObjectURL(recording.blob);
     if (!url.current) return;
     const a = new Audio(url.current);
     audio.current = a;
