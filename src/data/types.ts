@@ -42,8 +42,6 @@ export interface Place {
   boundarySource?: 'LGD' | 'SOI' | null;
   /** Label point on the map. Null when there is no outline yet. */
   lp?: Point | null;
-  /** Set when the LGD list files the village under another taluka than the boundary file draws it in. */
-  listTaluka?: string;
   reviewer?: string;
   reviewedOn?: string;
 }
@@ -58,7 +56,6 @@ export interface RawVillage {
   town?: boolean;
   src?: 'LGD' | 'SOI';
   lp?: Point;
-  listTaluka?: string;
   deva?: string;
   romi?: string;
   say?: string;

@@ -36,7 +36,6 @@ export function registerVillages(raw: RawVillage[]): void {
     town: !!v.town,
     boundarySource: v.src ?? null,
     lp: v.lp ?? null,
-    listTaluka: v.listTaluka,
     reviewer: v.reviewer,
     reviewedOn: v.reviewedOn
   }));

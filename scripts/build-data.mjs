@@ -5,11 +5,14 @@
    - design/components/data/goaGeo.js       map shapes (derived from LGD boundaries, CC0)
    - data/villages_lgd.csv                  official LGD village list (GODL-India), plus reviewed Konkani names
    - data/names_districts_talukas.csv       cross-check for the 16 named units
+   - data/town_outline_matches.csv          Survey of India outlines confirmed, by a person, to be an LGD town
 
    Output: src/data/generated/ (not committed).
 
    Rules this script enforces:
-   - Villages are joined on LGD codes, never on names.
+   - Villages are joined on LGD codes, never on names. A Survey of India outline is given to an LGD
+     entry only through a row of data/town_outline_matches.csv that a person has confirmed.
+   - A village belongs to the taluka the LGD list files it under, even where the boundary file draws it elsewhere.
    - No name is created, changed or transliterated here. A village gets a Konkani name only from a
      reviewed row of data/villages_lgd.csv (konkani_deva, reviewer and reviewed_on all filled).
    - The build stops with a plain message if the sources disagree with each other. */
@@ -100,25 +103,40 @@ for (const v of VILLAGES) {
   has.d += v.d;
 }
 
+/* Survey of India outlines that a person has confirmed are the same place as an LGD entry with no outline. */
+const outlineFor = new Map();
+for (const m of readCsv('data/town_outline_matches.csv')) {
+  const shape = shapes.get(m.outline_id), row = lgdByCode.get(m.lgd_code);
+  const where = `data/town_outline_matches.csv, ${m.outline_id} to ${m.lgd_code}`;
+  if (!shape || !row) { check(false, `${where}: ${!shape ? 'no outline with that id' : 'no LGD village with that code'}.`); continue; }
+  check(shape.src === 'SOI', `${where}: the outline is not a Survey of India one.`);
+  check(!shapes.has(m.lgd_code), `${where}: that LGD village already has its own outline.`);
+  check(!!m.confirmed_by && !!m.confirmed_on, `${where}: confirmed_by and confirmed_on must be filled.`);
+  check(talukaIdByOfficial[row.taluka] === shape.t, `${where}: the outline is in ${shape.t} but the LGD list says ${row.taluka}.`);
+  check(!outlineFor.has(m.lgd_code), `${where}: this LGD code is matched twice.`);
+  outlineFor.set(m.lgd_code, shape);
+  shapes.delete(m.outline_id);
+}
+
 const villages = [];
 const paths = Object.fromEntries(talukas.map(t => [t.id, {}]));
-const listTalukaDiffers = [];
+const mapTalukaDiffers = [];
 
 /* 1. Every village in the LGD list, with its outline when the boundary file has one for that code. */
 for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_code))) {
   const listTaluka = talukaIdByOfficial[row.taluka];
   if (!listTaluka) { check(false, `LGD village ${row.lgd_code} is in taluka "${row.taluka}", which is not in places.js.`); continue; }
   check(placeById[placeById[listTaluka].parent].official === row.district, `LGD village ${row.lgd_code}: district "${row.district}" does not match places.js for ${row.taluka}.`);
-  const shape = shapes.get(row.lgd_code);
-  check(!!shape === (row.has_boundary === 'True'), `LGD village ${row.lgd_code} (${row.official}): has_boundary is ${row.has_boundary} but the map ${shape ? 'has' : 'has no'} shape for it.`);
-  if (shape) check(shape.src === 'LGD', `Shape ${row.lgd_code} is in the LGD list but marked ${shape.src}.`);
-  /* The map decides where a village sits: its outline lies inside that taluka's outline. */
-  const taluka = shape ? shape.t : listTaluka;
-  if (shape && shape.t !== listTaluka) listTalukaDiffers.push(`${row.lgd_code} ${row.official}: LGD list says ${row.taluka}, boundary file draws it inside ${placeById[shape.t].official}`);
+  const own = shapes.get(row.lgd_code);
+  check(!!own === (row.has_boundary === 'True'), `LGD village ${row.lgd_code} (${row.official}): has_boundary is ${row.has_boundary} but the map ${own ? 'has' : 'has no'} shape for it.`);
+  if (own) check(own.src === 'LGD', `Shape ${row.lgd_code} is in the LGD list but marked ${own.src}.`);
+  const shape = own || outlineFor.get(row.lgd_code);
+  /* The LGD list decides the taluka. */
+  const taluka = listTaluka;
+  if (shape && shape.t !== listTaluka) mapTalukaDiffers.push(`${row.lgd_code} ${row.official}: filed under ${row.taluka} as the LGD list says; the boundary file draws it inside ${placeById[shape.t].official}`);
   const v = { id: 'v' + row.lgd_code, t: taluka, n: row.official, lgd: row.lgd_code };
   if (row.lgd_type === 'Ct') v.town = true;
-  if (shape) { v.src = 'LGD'; v.lp = shape.lp; paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
-  if (shape && shape.t !== listTaluka) v.listTaluka = listTaluka;
+  if (shape) { v.src = shape.src; v.lp = shape.lp; paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
   /* A Konkani name appears only when a reviewer has signed the row. */
   if (row.konkani_deva && row.reviewer && row.reviewed_on) {
     v.deva = row.konkani_deva;
@@ -157,9 +175,10 @@ for (const v of villages) {
 const withShape = villages.filter(v => v.src);
 const counts = {
   lgd: lgdRows.length,
-  lgdWithShape: villages.filter(v => v.src === 'LGD').length,
+  lgdWithShape: villages.filter(v => v.lgd && v.src === 'LGD').length,
+  lgdWithSoiShape: villages.filter(v => v.lgd && v.src === 'SOI').length,
   lgdWithoutShape: villages.filter(v => v.lgd && !v.src).length,
-  soi: villages.filter(v => v.src === 'SOI').length,
+  soiOnly: villages.filter(v => !v.lgd).length,
   reviewed: villages.filter(v => v.deva).length
 };
 check(counts.lgd === 429, `Expected 429 LGD villages, found ${counts.lgd}. If the LGD list changed, update this check and CLAUDE.md.`);
@@ -197,9 +216,10 @@ write('villages.json', villages);
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
 console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villages ` +
-  `(${counts.lgdWithShape} LGD with outline, ${counts.lgdWithoutShape} LGD without, ${counts.soi} Survey of India), ` +
+  `(LGD list: ${counts.lgdWithShape} with an LGD outline, ${counts.lgdWithSoiShape} with a Survey of India outline, ${counts.lgdWithoutShape} with none; ` +
+  `${counts.soiOnly} more from Survey of India maps only), ` +
   `${counts.reviewed} reviewed Konkani village names.`);
-if (listTalukaDiffers.length) {
-  console.log(`Note: ${listTalukaDiffers.length} villages sit in a different taluka on the map than in the LGD list:`);
-  for (const line of listTalukaDiffers) console.log('  - ' + line);
+if (mapTalukaDiffers.length) {
+  console.log(`Note: the boundary file draws ${mapTalukaDiffers.length} villages inside a different taluka than the LGD list files them under:`);
+  for (const line of mapTalukaDiffers) console.log('  - ' + line);
 }
