@@ -1,6 +1,6 @@
 import { useEffect, useRef, type RefObject } from 'react';
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE = 'a[href], button:not([disabled]), input, textarea, [tabindex]:not([tabindex="-1"])';
 
 /** For a screen that covers the app (About, search): moves the keyboard focus onto it when it opens (give the
     element tabIndex={-1}), or onto focusFirst if given; keeps Tab inside it; closes on Escape; and hands the

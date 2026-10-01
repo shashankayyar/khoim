@@ -4,8 +4,11 @@
    not live yet are listed too, marked "Next" or "Planned", so people can see what is coming; they cannot be
    picked. The same list (LAYERS in src/data/khoim.ts) drives the Layers screen, so the two always agree.
 
-   Field wording, the thank-you and the error are from docs/copy.md. The consent wording is section 5a of
-   docs/collaboration-plan.md. */
+   Field wording, the thank-you and the "didn't send" error are from docs/copy.md. The consent wording is
+   section 5a of docs/collaboration-plan.md.
+
+   The form checks itself and says what is missing in words, next to the box. (The browser's own "fill this in"
+   bubble did not show on this screen, so a missed box looked like nothing had happened.) */
 import { useEffect, useId, useRef, useState, type SyntheticEvent } from 'react';
 import { LAYERS, whereLabel } from '../../data/khoim';
 import { CONTACT_EMAIL } from '../../data/site';
@@ -23,6 +26,19 @@ const OPEN: { kind: ContributionKind; label: string }[] = [
   { kind: 'correction', label: 'A correction' }
 ];
 const COMING = LAYERS.filter(l => l.status !== 'live');
+
+/* TODO(copy): these four lines are not in docs/copy.md yet. */
+const NEEDED_NOTE = 'The first two answers are needed. Your name is optional.';
+const MISSING = {
+  value: 'Please fill this in.',
+  how: 'Please fill this in. A few words are enough.',
+  agree: 'Please tick the box if you agree.'
+};
+type Missing = Partial<Record<keyof typeof MISSING, boolean>>;
+
+function FieldError({ id, text }: { id: string; text: string }) {
+  return <p className="k-field__error" id={id}><Icon name="info" size={20} /><span>{text}</span></p>;
+}
 
 export interface ContributeFormProps {
   /** The place the form is about. Null when the form is closed. */
@@ -42,13 +58,14 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   const [agree, setAgree] = useState(false);
   const [token, setToken] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  const [missing, setMissing] = useState<Missing>({});
   useDialog(ref, open, onClose);
 
   /* A fresh form each time it opens for a place. The person's name is kept, to save typing it again. */
   const placeId = place?.id;
   useEffect(() => {
     if (!placeId) return;
-    setKind(firstKind); setValue(''); setHow(''); setAgree(false); setState('idle');
+    setKind(firstKind); setValue(''); setHow(''); setAgree(false); setState('idle'); setMissing({});
   }, [placeId, firstKind]);
 
   /* The bot check appears while the form is open and the person has not sent it yet. */
@@ -77,7 +94,13 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   const canSend = !!token && state !== 'sending';
   const submit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (!place || !canSend) return;
+    if (!place) return;
+    /* say what is missing, and put the cursor in the first box that needs filling */
+    const gaps: Missing = { value: !value.trim(), how: !how.trim(), agree: !agree };
+    setMissing(gaps);
+    const first = gaps.value ? 'value' : gaps.how ? 'how' : gaps.agree ? 'agree' : null;
+    if (first) { document.getElementById(id + first)?.focus(); return; }
+    if (!canSend) return;
     setState('sending');
     const ok = await sendContribution({ placeId: place.id, kind, value, how, name, consent: agree, token });
     setState(ok ? 'sent' : 'failed');
@@ -106,7 +129,7 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
                 <Button onClick={onClose}>Close</Button>
               </div>
             ) : (
-              <form onSubmit={submit}>
+              <form onSubmit={submit} noValidate>
                 <fieldset className="k-form__kinds">
                   <legend>What are you adding?</legend>
                   {OPEN.map(o => (
@@ -128,18 +151,26 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
                   </ul>
                 </fieldset>
 
+                <p className="k-form__needed">{NEEDED_NOTE}</p>
+
                 <div className="k-field">
                   <label htmlFor={id + 'value'}>What should it be?</label>
                   <div className="k-field__box" data-khoim-field="1">
-                    <input id={id + 'value'} type="text" required maxLength={200} autoComplete="off" autoCapitalize="off" spellCheck={false} value={value} onChange={e => setValue(e.target.value)} />
+                    <input id={id + 'value'} type="text" aria-required="true" aria-invalid={missing.value || undefined} aria-describedby={missing.value ? id + 'valueerr' : undefined}
+                      maxLength={200} autoComplete="off" autoCapitalize="off" spellCheck={false} value={value}
+                      onChange={e => { setValue(e.target.value); setMissing(m => ({ ...m, value: false })); }} />
                   </div>
+                  {missing.value && <FieldError id={id + 'valueerr'} text={MISSING.value} />}
                 </div>
                 <div className="k-field">
                   <label htmlFor={id + 'how'}>How do you know?</label>
                   <p className="k-field__hint" id={id + 'howhint'}>For example: my family is from here</p>
                   <div className="k-field__box k-field__box--tall" data-khoim-field="1">
-                    <textarea id={id + 'how'} required maxLength={500} rows={3} aria-describedby={id + 'howhint'} value={how} onChange={e => setHow(e.target.value)} />
+                    <textarea id={id + 'how'} aria-required="true" aria-invalid={missing.how || undefined} aria-describedby={id + 'howhint' + (missing.how ? ' ' + id + 'howerr' : '')}
+                      maxLength={500} rows={3} value={how}
+                      onChange={e => { setHow(e.target.value); setMissing(m => ({ ...m, how: false })); }} />
                   </div>
+                  {missing.how && <FieldError id={id + 'howerr'} text={MISSING.how} />}
                 </div>
                 <div className="k-field">
                   <label htmlFor={id + 'name'}>Your name, for credit (optional)</label>
@@ -153,9 +184,11 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
                   <p>A Konkani speaker will check it before anything changes on the map. If it is used, Khoim will publish it under the Creative Commons Attribution licence (CC BY 4.0), so that anyone can reuse it with credit. If you give your name, we will credit you next to it.</p>
                   <p>You can ask us to correct or remove your contribution at any time: write to <strong>{CONTACT_EMAIL}</strong>.</p>
                   <label className="k-form__agree">
-                    <input type="checkbox" required checked={agree} onChange={e => setAgree(e.target.checked)} />
+                    <input id={id + 'agree'} type="checkbox" aria-required="true" aria-invalid={missing.agree || undefined} aria-describedby={missing.agree ? id + 'agreeerr' : undefined}
+                      checked={agree} onChange={e => { setAgree(e.target.checked); setMissing(m => ({ ...m, agree: false })); }} />
                     <span>I agree.</span>
                   </label>
+                  {missing.agree && <FieldError id={id + 'agreeerr'} text={MISSING.agree} />}
                   <p><a href="/privacy/" target="_blank" rel="noopener">Privacy notice<span className="k-visually-hidden"> (opens in a new tab)</span></a></p>
                 </div>
 
