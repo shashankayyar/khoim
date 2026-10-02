@@ -1,8 +1,11 @@
 /* The reviewers' page: what has been sent in, what the automatic checks and Claude said about it, and
-   Allow / Reject. Deliberately plain. Only a Konkani reviewer can allow; Claude's note is advice. */
+   Allow / Reject. Deliberately plain. Only a Konkani reviewer can allow; Claude's note is advice.
+   A recording can be clipped to just the name before it is allowed (ClipEditor.tsx). */
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '../components/core/Button';
 import { Wordmark } from '../components/core/Wordmark';
+import { ClipEditor, ClipPlayer, clipWords, parseClip } from './ClipEditor';
+import type { Clip } from './ClipEditor';
 import '../components/core/core.css';
 import './admin.css';
 
@@ -15,6 +18,8 @@ interface Item {
   status: Status; final_value: string | null; decided_by: string | null; decided_at: string | null;
   reject_reason: string | null; incorporated_at: string | null;
 }
+type Action = 'allow' | 'clip' | 'reject' | 'remove';
+interface Extra { value?: string; reason?: string; clip?: Clip | null }
 interface Listing { me: { name: string; konkani: boolean }; counts: Partial<Record<Status, number>>; items: Item[] }
 
 const TABS: [Status, string][] = [['waiting', 'Waiting'], ['allowed', 'Allowed'], ['rejected', 'Rejected'], ['removed', 'Removed']];
@@ -46,7 +51,7 @@ export default function Admin() {
   }, []);
   useEffect(() => { void load(status); }, [load, status]);
 
-  const decide = async (id: string, action: 'allow' | 'reject' | 'remove', extra: { value?: string; reason?: string } = {}) => {
+  const decide = async (id: string, action: Action, extra: Extra = {}) => {
     setBusy(true);
     try {
       const r = await fetch('/api/admin/decide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, action, ...extra }) });
@@ -102,10 +107,11 @@ export default function Admin() {
   );
 }
 
-function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boolean; busy: boolean; onDecide: (id: string, action: 'allow' | 'reject' | 'remove', extra?: { value?: string; reason?: string }) => void }) {
-  const [mode, setMode] = useState<'idle' | 'edit' | 'reject' | 'remove'>('idle');
+function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boolean; busy: boolean; onDecide: (id: string, action: Action, extra?: Extra) => void }) {
+  const [mode, setMode] = useState<'idle' | 'edit' | 'clip' | 'reject' | 'remove'>('idle');
   const [text, setText] = useState('');
   const deva = i.script === 'deva' || i.script === 'mixed';
+  const clip = i.kind === 'voice' ? parseClip(i.final_value) : null;
   return (
     <article className="a-card" aria-label={`${i.place_official}, ${KIND[i.kind]}`}>
       <p className="a-card__where"><strong>{i.place_official}</strong> · {i.place_where}{i.place_lgd ? ` · LGD ${i.place_lgd}` : ''}</p>
@@ -117,7 +123,8 @@ function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boole
           ? <audio className="a-card__audio" controls preload="none" src={'/api/admin/audio?id=' + encodeURIComponent(i.id)} aria-label={'Recording of ' + i.place_official} />
           : <p className={deva ? 'a-card__value a-card__value--deva' : 'a-card__value'} lang={deva ? 'gom' : undefined}>{i.value}</p>}
       {FOR_LATER.includes(i.kind) && i.status !== 'removed' && <p className="a-row"><span>For later</span> This layer is not on the map yet. If you allow it, it is kept until the layer is built.</p>}
-      {i.final_value && i.final_value !== i.value && <p className="a-row"><span>Allowed as</span> <span lang={deva ? 'gom' : undefined}>{i.final_value}</span></p>}
+      {i.kind !== 'voice' && i.final_value && i.final_value !== i.value && <p className="a-row"><span>Allowed as</span> <span lang={deva ? 'gom' : undefined}>{i.final_value}</span></p>}
+      {clip && i.status === 'allowed' && <p className="a-row"><span>Clip</span> {clipWords(clip)}. Only this part will be used.</p>}
       {i.status !== 'removed' && <p className="a-row"><span>{i.kind === 'voice' ? 'Where they are from' : 'How they know'}</span> {i.how_known}</p>}
       {i.status !== 'removed' && <p className="a-row"><span>Credit</span> {i.credit_name || 'No name given'}</p>}
       {i.flags.length > 0 && <p className="a-row"><span>Automatic checks</span> {i.flags.join('. ')}.</p>}
@@ -130,12 +137,22 @@ function Card({ item: i, konkani, busy, onDecide }: { item: Item; konkani: boole
       {i.status === 'waiting' && mode === 'idle' && (
         <div className="a-actions">
           <Button size="m" disabled={!konkani || busy} onClick={() => onDecide(i.id, 'allow')}>Allow</Button>
-          {i.kind !== 'voice' && <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => { setText(i.value); setMode('edit'); }}>Edit and allow</Button>}
+          {i.kind === 'voice'
+            ? <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => setMode('clip')}>Clip and allow</Button>
+            : <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => { setText(i.value); setMode('edit'); }}>Edit and allow</Button>}
           <Button size="m" variant="outline" disabled={busy} onClick={() => { setText(''); setMode('reject'); }}>Reject</Button>
         </div>
       )}
       {i.status === 'allowed' && mode === 'idle' && (
-        <div className="a-actions"><Button size="m" variant="outline" disabled={busy} onClick={() => setMode('remove')}>Remove</Button></div>
+        <div className="a-actions">
+          {clip && <ClipPlayer id={i.id} clip={clip} />}
+          {i.kind === 'voice' && !i.incorporated_at && <Button size="m" variant="outline" disabled={!konkani || busy} onClick={() => setMode('clip')}>{clip ? 'Change the clip' : 'Clip'}</Button>}
+          <Button size="m" variant="outline" disabled={busy} onClick={() => setMode('remove')}>Remove</Button>
+        </div>
+      )}
+      {mode === 'clip' && (
+        <ClipEditor id={i.id} official={i.place_official} clip={clip} busy={busy} saveLabel={i.status === 'waiting' ? 'Allow this clip' : 'Save this clip'}
+          onSave={c => { onDecide(i.id, i.status === 'waiting' ? 'allow' : 'clip', { clip: c }); setMode('idle'); }} onCancel={() => setMode('idle')} />
       )}
       {mode === 'edit' && (
         <form className="a-form" onSubmit={e => { e.preventDefault(); onDecide(i.id, 'allow', { value: text }); setMode('idle'); }}>

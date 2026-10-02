@@ -64,6 +64,7 @@ It shows one list, newest first, with a filter for Waiting, Allowed and Rejected
 - the automatic checks and Claude's note
 - for a recording: a play button
 - **Allow**, **Edit and allow**, **Reject** (with a reason)
+- for a recording, **Clip and allow** in place of Edit and allow (added 2 October 2026): the reviewer marks where the name starts and ends and listens to that part. The recording is kept whole; the marks are saved with the item and the cut is made when the recording goes onto the site.
 
 Also on the page: "Remove" for anything already allowed (for withdrawals), and a count of what is waiting.
 

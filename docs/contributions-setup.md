@@ -44,6 +44,8 @@ you@example.com | Shashank ; reviewer@example.com | Their Name | konkani
 
 The name is what gets credited as the reviewer, so write it the way they want it shown.
 
+If you are the only reviewer, mark yourself `konkani` (`you@example.com | Shashank | konkani`). With nobody marked, Allow stays greyed out for everyone.
+
 Press **Deploy** when asked. The settings take effect in about a minute.
 
 ## 5. Check it works
