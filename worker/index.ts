@@ -32,6 +32,17 @@ const LIMITS = { value: 200, how: 500, name: 80, body: 10_000, waiting: 2000, va
    800,000 characters once written as text. Waiting recordings are capped so the free database cannot fill up. */
 const AUDIO = { seconds: 11, minSeconds: 0.4, chars: 800_000, body: 900_000, waiting: 300 };
 const AUDIO_TYPES = ['audio/webm', 'audio/mp4', 'audio/ogg'];
+/* A reviewer may keep only part of a recording (the name, without the silence or the talk around it). The
+   recording itself is never cut here: the part to keep is written down as "Clip 0.85-2.40" (seconds) in the
+   item's final_value, the way an edited spelling is, and the cut is made when the recording goes onto the site. */
+const CLIP_MIN_SECONDS = 0.3;
+function clipText(clip: unknown): string | null | false {
+  if (clip == null) return null;
+  const c = clip as Record<string, unknown>;
+  const start = Math.round(Number(c.start) * 100) / 100, end = Math.round(Number(c.end) * 100) / 100;
+  if (!(start >= 0 && end <= AUDIO.seconds && end - start >= CLIP_MIN_SECONDS)) return false;
+  return `Clip ${start.toFixed(2)}-${end.toFixed(2)}`;
+}
 /** Rejected and removed items are deleted after this many days (well inside the 90 the privacy notice promises). */
 const KEEP_UNUSED_DAYS = 60;
 
@@ -230,7 +241,7 @@ async function adminDecide(request: Request, env: Env): Promise<Response> {
   if (!env.DB) return fail(503, 'not-open');
   if (!sameSite(request)) return fail(403, 'wrong-site');
   const body = await readBody(request);
-  const action = body && ['allow', 'reject', 'remove'].find(a => a === body.action);
+  const action = body && ['allow', 'clip', 'reject', 'remove'].find(a => a === body.action);
   if (!body || !action) return fail(400, 'bad-request');
   await ensureSchema(env.DB);
   const row = await env.DB.prepare('SELECT * FROM contributions WHERE id = ?').bind(String(body.id ?? '')).first<Row>();
@@ -241,9 +252,18 @@ async function adminDecide(request: Request, env: Env): Promise<Response> {
     /* Only someone who reads Konkani may allow a name, a say-it guide or a correction to one. */
     if (!me.konkani) return fail(403, 'needs-konkani-reviewer');
     if (row.status !== 'waiting') return fail(409, 'already-decided');
-    const final = row.kind === 'voice' ? row.value : tidy(body.value ?? row.value, LIMITS.value);
+    const clip = row.kind === 'voice' ? clipText(body.clip) : null;
+    if (clip === false) return fail(400, 'bad-clip');
+    const final = row.kind === 'voice' ? clip ?? row.value : tidy(body.value ?? row.value, LIMITS.value);
     if (!final) return fail(400, 'incomplete');
     await env.DB.prepare("UPDATE contributions SET status = 'allowed', final_value = ?, decided_by = ?, decided_at = ? WHERE id = ?").bind(final, who, now, row.id).run();
+  } else if (action === 'clip') {
+    /* Changing the part to keep of a recording that is already allowed, until it is on the site. No clip means the whole recording. */
+    if (!me.konkani) return fail(403, 'needs-konkani-reviewer');
+    if (row.kind !== 'voice' || row.status !== 'allowed' || row.incorporated_at) return fail(409, 'already-decided');
+    const clip = clipText(body.clip);
+    if (clip === false) return fail(400, 'bad-clip');
+    await env.DB.prepare('UPDATE contributions SET final_value = ? WHERE id = ?').bind(clip ?? row.value, row.id).run();
   } else if (action === 'reject') {
     if (row.status !== 'waiting') return fail(409, 'already-decided');
     await env.DB.prepare("UPDATE contributions SET status = 'rejected', reject_reason = ?, decided_by = ?, decided_at = ? WHERE id = ?").bind(tidy(body.reason, LIMITS.how) || null, who, now, row.id).run();
