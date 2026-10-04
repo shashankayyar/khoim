@@ -194,12 +194,13 @@ export function placeAtPath(pathname: string): Place | null {
 
 /* ---------- Layers ---------- */
 
-/** Layers planned for Khoim. When one goes live, flip its status here. */
+/** Khoim's layers. Names is part of the site itself. The others fill in from what people send and a reviewer
+    allows (src/lib/live.ts): live since 4 October 2026. */
 export const LAYERS: Layer[] = [
   { id: 'names', label: 'Names', icon: 'languages', status: 'live', note: 'Districts and talukas now. Village names in Konkani next.' },
-  { id: 'voices', label: 'Voices', icon: 'mic', status: 'next', note: 'People from each taluka saying the names of the places near them.' },
-  { id: 'crops', label: 'Crops', icon: 'wheat', status: 'planned', note: 'Khazan paddy, cashew, coconut and areca, on the villages that grow them.' },
-  { id: 'food', label: 'Food', icon: 'soup', status: 'planned', note: 'Dishes tied to one village or feast, under their Konkani names.' },
-  { id: 'music', label: 'Music', icon: 'music', status: 'planned', note: 'Where mando, dulpod, deknni and fugdi are sung and danced.' },
-  { id: 'landmarks', label: 'Landmarks', icon: 'landmark', status: 'planned', note: 'Temples, churches, mosques and springs, by the names people nearby call them.' }
+  { id: 'voices', label: 'Voices', icon: 'mic', status: 'live', note: 'People from each taluka saying the names of the places near them.' },
+  { id: 'crops', label: 'Crops', icon: 'wheat', status: 'live', note: 'Khazan paddy, cashew, coconut and areca, on the villages that grow them.' },
+  { id: 'food', label: 'Food', icon: 'soup', status: 'live', note: 'Dishes tied to one village or feast, under their Konkani names.' },
+  { id: 'music', label: 'Music', icon: 'music', status: 'live', note: 'Where mando, dulpod, deknni and fugdi are sung and danced.' },
+  { id: 'landmarks', label: 'Landmarks', icon: 'landmark', status: 'live', note: 'Temples, churches, mosques and springs, by the names people nearby call them.' }
 ];

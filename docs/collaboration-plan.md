@@ -4,6 +4,8 @@ How people send Khoim what it needs, how each thing is checked, and how it reach
 
 **Changed later the same day (Shashank's decision):** the form now also takes the layers that are not on the map yet: a recording of the name, crops, food, music and landmarks. They are collected, checked and kept, and shown when each layer is built. Recordings are collected under the draft wording in 5b, before a lawyer has read it; none is published until one has. The cards no longer carry an email address: the form is the one way in, and "Write to us" lives on the About screen.
 
+**Changed on 4 October 2026 (Shashank's decision):** the other layers are live. A recording, or a note for crops, food, music or landmarks, shows on khoim.in within a few minutes of a reviewer allowing it, with no pull request, and comes off as fast when it is removed. Names, say-it guides and corrections keep the pull request route described below. Shashank confirmed that a lawyer has read the consent wording for recordings (5a and 5b). How the layers look was built from the existing design pieces, not drawn in Claude Design first. Section 8 has the details.
+
 ## The idea in one paragraph
 Each place's card gets a "Tell us" form in place of today's email button. What people can send follows the roadmap: only the layers that are open take submissions, and the rest are shown as coming. Everything lands in a queue. Automatic checks run first, then Claude writes a note on each item, then a person presses Allow or Reject on a simple admin page. Allowed items come into the site through the same pull request and preview link you already use. Cost: nothing.
 
@@ -35,7 +37,7 @@ When a layer opens, its choice opens with it. One switch in the code (`LAYERS` i
 Rules that do not change:
 - Claude never allows a name, a say-it guide or a recording. Only a person does. Claude's note is advice.
 - A Konkani name is allowed only by someone who reads Konkani. The admin page has two roles: "reviewer" (can decide on names) and "helper" (can clear spam, cannot allow names).
-- Nothing reaches khoim.in without a merged pull request, as now.
+- No name reaches khoim.in without a merged pull request, as now. (Until 4 October 2026 this was true of everything. Recordings and the notes for the other layers now go live when a reviewer allows them: section 8.)
 
 ## 3. Where it is kept, at no cost
 Checked against Cloudflare's published limits on 1 October 2026.
@@ -141,6 +143,27 @@ The database is created automatically the first time the new version deploys.
 And two decisions:
 - Who the first reviewers are (emails), and which of them read Konkani.
 - Whether the consent wording in 5a is good to go live for text. If you say nothing, I will use it as drafted.
+
+## 8. The other layers, live (4 October 2026)
+
+**What a visitor sees.**
+- On a place's card: recordings of its name under "Say it", each with the speaker's name and village, or "A speaker from" the village when no name was given. Then a row each for Crops, Food, Music and Landmarks, when there is something in it, with "Added by" and the name if one was given.
+- In "Layers and about": the six layers, each saying how many things it holds so far. One layer is on at a time. Choosing one closes the screen and shows the map.
+- On the map, with a layer other than Names on: a small white tile with the layer's icon and a count on every district, taluka and village that has something (a district counts what is in its talukas and villages). The tile is not a button; tapping the place opens its card, where that layer's row comes first.
+- The layers button wears the icon of the layer that is on. On a phone it sits next to the script toggle once you leave the first screen.
+
+**How it gets there.**
+- The server part answers one public question, `/api/live`: everything allowed for these layers, for all of Goa. Cloudflare keeps the answer for a minute, so the database is asked about once a minute however many people visit.
+- What is public: the thing itself, the contributor's name if given, and for a recording the village they said they are from. "How do you know" is never public.
+- A recording is never public whole unless the reviewer allows it whole. When the reviewer presses Allow, their browser copies the part between the marks into a small sound file (WAV, which every phone plays) and sends that. It is kept in its own table, `clips`. The recording it was cut from stays private in `recordings`.
+- Remove deletes the recording, the clip, the text and the name. The site stops listing it within a minute or two.
+
+**What did not change.** Claude cannot allow anything. Only a Konkani reviewer can. Names, say-it guides and corrections come in through a pull request. Cost: nothing.
+
+**Still open.**
+- A reviewer cannot yet correct a typing mistake in someone's name or village before allowing. For now: reject it, or allow it and tell Claude Code.
+- An allowed note cannot be edited afterwards, only removed.
+- The privacy page still calls itself a draft. Say if the lawyer has cleared that page too.
 
 ## Sources
 - Cloudflare D1 pricing and limits: https://developers.cloudflare.com/d1/platform/pricing/ and https://developers.cloudflare.com/d1/platform/limits/

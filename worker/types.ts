@@ -31,10 +31,14 @@ export interface Env {
   DEV_ADMIN?: string;
 }
 
+/** Lets work carry on after the answer has been sent (here: keeping a copy of a public answer). */
+export interface Ctx { waitUntil(promise: Promise<unknown>): void }
+
 export interface Reviewer { email: string; name: string; konkani: boolean }
 
-/** What people can send. The first three belong to the Names layer. The rest are for layers that are not on the
-    map yet: collected now, checked, and kept for when each layer opens. "voice" comes with a recording. */
+/** What people can send. The first three belong to the Names layer and reach the site through a pull request.
+    The rest belong to the other layers and show on khoim.in as soon as a reviewer allows them.
+    "voice" comes with a recording. */
 export type Kind = 'name' | 'say' | 'correction' | 'voice' | 'crops' | 'food' | 'music' | 'landmarks';
 export type Status = 'waiting' | 'allowed' | 'rejected' | 'removed';
 
@@ -65,3 +69,7 @@ export interface Row {
 
 /** A recording, kept apart from its contribution so that lists stay small. `data` is base64. */
 export interface AudioRow { id: string; mime: string; seconds: number; data: string }
+
+/** The part of an allowed recording that plays on khoim.in: cut by the reviewer's browser, a WAV file as base64.
+    The recording it was cut from stays whole in `recordings`. */
+export interface ClipRow { id: string; mime: string; seconds: number; made_at: string; data: string }
