@@ -19,7 +19,6 @@
 
 .k-form__kinds { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; min-width: 0; }
 .k-form__kinds legend, .k-field label { padding: 0; margin: 0 0 8px; font: var(--weight-strong) 18px/1.3 var(--font-latin); }
-.k-form__coming-note { margin: 12px 0 0; font: var(--weight-regular) 16px/1.5 var(--font-latin); }
 
 .k-form__pick-hint { margin: -4px 0 4px; font: var(--weight-regular) 16px/1.5 var(--font-latin); }
 /* One thing that can be added: a row to tick, and under it, once ticked, what to fill in. */

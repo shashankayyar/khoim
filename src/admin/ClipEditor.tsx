@@ -1,9 +1,10 @@
 /* Clipping a recording on the reviewers' page: see the sound, mark where the name starts and ends, listen
    to that part, allow it. Built 2 October 2026 with what the browser already has (no outside code).
 
-   The recording itself is never cut here. Only the two marks are saved, as "Clip 0.85-2.40" (seconds) in the
-   item's final_value, so a clip that turns out too tight can be changed. The cut is made when the recording
-   goes onto the site. */
+   The recording itself is never cut. The two marks are saved, as "Clip 0.85-2.40" (seconds) in the item's
+   final_value, so a clip that turns out too tight can be changed. What plays on khoim.in is a copy of just that
+   part, made here in the reviewer's browser when they allow it (cutWav) and sent along: a small WAV file, which
+   every phone can play. Nothing outside the marks leaves the reviewers' page. */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
 import { Button } from '../components/core/Button';
@@ -33,6 +34,38 @@ async function loadRecording(id: string): Promise<AudioBuffer> {
   return context().decodeAudioData(await r.arrayBuffer());
 }
 
+/** The part of a recording that goes onto khoim.in. */
+export interface CutClip { mime: 'audio/wav'; seconds: number; data: string }
+
+/** Copies the part between the marks (or the whole recording) into a WAV file: one channel, 16 bit, 24,000
+    samples a second at most, which is plenty for a spoken name and keeps ten seconds under half a megabyte.
+    The first and last few thousandths of a second are faded so the cut does not click. */
+export function cutWav(buffer: AudioBuffer, clip: Clip | null): CutClip {
+  const rate = buffer.sampleRate, step = Math.max(1, Math.ceil(rate / 24000)), outRate = Math.round(rate / step);
+  const from = clip ? Math.max(0, Math.floor(clip.start * rate)) : 0, to = Math.min(buffer.length, clip ? Math.ceil(clip.end * rate) : buffer.length);
+  const count = Math.max(1, Math.floor((to - from) / step)), fade = Math.min(Math.floor(outRate * 0.005), count >> 1);
+  const channels = Array.from({ length: buffer.numberOfChannels }, (_, c) => buffer.getChannelData(c));
+  const bytes = new Uint8Array(44 + count * 2), view = new DataView(bytes.buffer);
+  const word = (at: number, text: string) => { for (let i = 0; i < text.length; i++) bytes[at + i] = text.charCodeAt(i); };
+  word(0, 'RIFF'); view.setUint32(4, 36 + count * 2, true); word(8, 'WAVE');
+  word(12, 'fmt '); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+  view.setUint32(24, outRate, true); view.setUint32(28, outRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  word(36, 'data'); view.setUint32(40, count * 2, true);
+  for (let i = 0; i < count; i++) {
+    /* each new sample is the average of the old ones it stands for, across both ears */
+    let sum = 0;
+    for (let j = 0; j < step; j++) for (const ch of channels) sum += ch[from + i * step + j] ?? 0;
+    const edge = fade ? Math.min(1, (i + 1) / fade, (count - i) / fade) : 1;
+    view.setInt16(44 + i * 2, Math.round(clamp((sum / (step * channels.length)) * edge, -1, 1) * 32767), true);
+  }
+  let text = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) text += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return { mime: 'audio/wav', seconds: round(count / outRate), data: btoa(text) };
+}
+
+/** Opens a recording and cuts it: for "Allow" without the clip screen, and for a recording allowed earlier. */
+export const cutRecording = async (id: string, clip: Clip | null): Promise<CutClip> => cutWav(await loadRecording(id), clip);
+
 /** Plays one part of a recording, exactly from mark to mark. */
 function usePlayer() {
   const [playing, setPlaying] = useState(false);
@@ -57,7 +90,7 @@ function usePlayer() {
   return { playing, play, stop };
 }
 
-const CANNOT_OPEN = 'This browser could not open the recording. Try Chrome.';
+export const CANNOT_OPEN = 'This browser could not open the recording. Try Chrome.';
 
 /** On an allowed recording that has a clip: hear just that part. */
 export function ClipPlayer({ id, clip }: { id: string; clip: Clip }) {
@@ -88,8 +121,8 @@ export interface ClipEditorProps {
   clip: Clip | null;
   saveLabel: string;
   busy: boolean;
-  /** null means the whole recording. */
-  onSave: (clip: Clip | null) => void;
+  /** The marks (null means the whole recording) and the part between them, ready for the site. */
+  onSave: (clip: Clip | null, audio: CutClip) => void;
   onCancel: () => void;
 }
 
@@ -195,7 +228,7 @@ export function ClipEditor({ id, official, clip, saveLabel, busy, onSave, onCanc
   const whole = start <= 0.005 && end >= length - 0.005;
   return (
     <div className="a-form a-clip" role="group" aria-label={'Clip the recording of ' + official}>
-      <p>Keep only the name. Drag the two lines, or use the sliders, then listen. The recording itself is not cut, so you can change the clip later.</p>
+      <p>Keep only the name. Drag the two lines, or use the sliders, then listen. Only this part plays on khoim.in. The recording itself is not cut, so you can change the clip later.</p>
       <canvas ref={canvas} className="a-clip__wave" height={HEIGHT} aria-hidden="true"
         onPointerDown={down} onPointerMove={move} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }} />
       <label>
@@ -212,7 +245,7 @@ export function ClipEditor({ id, official, clip, saveLabel, busy, onSave, onCanc
       </p>
       <div className="a-actions">
         <Button size="m" variant="outline" icon={playing ? 'pause' : 'play'} onClick={() => (playing ? stop() : play(buffer, { start, end }))}>{playing ? 'Stop' : 'Play the clip'}</Button>
-        <Button size="m" disabled={busy} onClick={() => { stop(); onSave(whole ? null : { start, end }); }}>{saveLabel}</Button>
+        <Button size="m" disabled={busy} onClick={() => { stop(); const kept = whole ? null : { start, end }; onSave(kept, cutWav(buffer, kept)); }}>{saveLabel}</Button>
         <Button size="m" variant="ghost" onClick={() => { stop(); onCancel(); }}>Cancel</Button>
       </div>
     </div>

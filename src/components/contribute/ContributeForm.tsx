@@ -5,10 +5,9 @@
    name, a recording, two crops and a dance in one go. What the server receives is still one item per thing,
    so a reviewer can allow one and reject another.
 
-   What can be sent follows the roadmap (LAYERS in src/data/khoim.ts). The three things under the Names layer
-   come first. Under them are the layers that are not on the map yet: since 1 October 2026 these can be sent
-   too (Shashank's decision), so that there is something to show when each layer opens. What is sent for them
-   is checked and kept; nothing appears on the map until the layer is built.
+   What can be sent follows the layers (LAYERS in src/data/khoim.ts). The three things under the Names layer
+   come first. Under them are the other layers: a recording of the name, crops, food, music, landmarks. Since
+   4 October 2026 those show on the site once a reviewer has allowed them (src/lib/live.ts).
 
    Wording is in docs/copy.md. The consent wording is sections 5a and 5b of docs/collaboration-plan.md.
 
@@ -34,7 +33,7 @@ const NAMES: Choice[] = [
   { kind: 'say', label: 'How the name is said' },
   { kind: 'correction', label: 'A correction' }
 ];
-/* The layers that are not on the map yet. The examples are taken from the layer notes in LAYERS. */
+/* The layers other than Names. The examples are taken from the layer notes in LAYERS. */
 const LAYER_CHOICE: Record<string, { kind: ContributionKind; label: string }> = {
   voices: { kind: 'voice', label: 'A recording of the name' },
   crops: { kind: 'crops', label: 'A crop grown here' },
@@ -42,9 +41,8 @@ const LAYER_CHOICE: Record<string, { kind: ContributionKind; label: string }> = 
   music: { kind: 'music', label: 'Music or dance from here' },
   landmarks: { kind: 'landmarks', label: 'A landmark, and what people call it' }
 };
-const COMING: Choice[] = LAYERS.filter(l => l.status !== 'live' && LAYER_CHOICE[l.id]).map(l => ({ ...LAYER_CHOICE[l.id], icon: l.icon }));
-const CHOICES = [...NAMES, ...COMING];
-const COMING_NOTE = 'Not on the map yet. What you send now is checked and kept for when each one opens.';
+const OTHERS: Choice[] = LAYERS.filter(l => LAYER_CHOICE[l.id]).map(l => ({ ...LAYER_CHOICE[l.id], icon: l.icon }));
+const CHOICES = [...NAMES, ...OTHERS];
 
 const ASK: Record<TextKind, { label: string; hint?: string }> = {
   name: { label: 'What should it be?' },
@@ -279,8 +277,7 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
                   <p className="k-form__pick-hint">{PICK_HINT}</p>
                   {missing.pick && <FieldError id={id + 'pickerr'} text={MISSING_PICK} alert />}
                   {NAMES.map(c => row(c, place.official))}
-                  {COMING.length > 0 && <p className="k-form__coming-note">{COMING_NOTE}</p>}
-                  {COMING.map(c => row(c, place.official))}
+                  {OTHERS.map(c => row(c, place.official))}
                 </fieldset>
 
                 {/* asked once, for everything typed above; a recording asks for the speaker's village instead */}

@@ -20,7 +20,7 @@ html[data-app="ready"] #khoim-static { display: none; }
 }
 .k-phone-header__row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .k-phone-header__left { pointer-events: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
-.k-phone-header__right { pointer-events: auto; flex: 0 0 auto; }
+.k-phone-header__right { pointer-events: auto; flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
 .k-phone-header__wordmark { display: inline-flex; padding: 4px 6px; border: 0; background: transparent; border-radius: var(--radius-m); min-height: 48px; align-items: center; cursor: pointer; }
 /* second row, once you have left the first screen: where you are, and search */
 .k-phone-header__row--where > * { pointer-events: auto; }
@@ -73,6 +73,7 @@ html[data-app="ready"] #khoim-static { display: none; }
   .k-app--phone { --script-toggle-width: 184px; }
   .k-app--phone .k-script-toggle__option { font-size: 14px; }
   .k-phone-header { padding-inline: 12px; }
+  .k-phone-header__right { gap: 6px; }
   .k-phone-header__wordmark { padding-inline: 2px; }
   .k-phone-header__wordmark .k-wordmark { --wordmark-size: 18px !important; }
   .k-phone-title { font-size: 25px; left: 16px; right: 20px; }

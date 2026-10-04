@@ -5,6 +5,8 @@
 import { useRef } from 'react';
 import { childCount, childrenOf, getPlace, houseOf, nameIn } from '../../data/khoim';
 import type { Script } from '../../data/types';
+import { Icon } from '../core/Icon';
+import type { IconName } from '../core/iconPaths';
 import './place.css';
 
 /** Card width plus the gap, for working out which card a swipe has landed on. */
@@ -20,9 +22,14 @@ export interface PlaceStripProps {
   onPick?: (id: string) => void;
   /** 1 when the strip's name is the main heading on screen (no card showing). */
   headingLevel?: 1 | 2;
+  /** With a layer other than Names on: how many things each place holds in it (counting the places inside it),
+      and that layer's icon and name. A place with something gets a small white tile. */
+  marks?: Record<string, number> | null;
+  markIcon?: IconName;
+  markLabel?: string;
 }
 
-export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPick, headingLevel = 2 }: PlaceStripProps) {
+export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPick, headingLevel = 2, marks, markIcon, markLabel }: PlaceStripProps) {
   const fp = getPlace(parent || 'goa')!;
   const items = childrenOf(parent);
   const village = fp.level === 'taluka';
@@ -51,6 +58,7 @@ export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPi
           const on = it.id === active, n = nameIn(it, script);
           /* A village with no Konkani name yet is a white tile showing its official name. */
           const plain = village && !it.deva;
+          const mark = (markIcon && marks?.[it.id]) || 0;
           return (
             <li key={it.id} className="k-strip__item">
               <button type="button" className={'k-strip__card' + (plain ? ' k-strip__card--plain' : '') + (on ? ' is-on' : '')} data-house={plain ? undefined : houseOf(it).key}
@@ -61,6 +69,7 @@ export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPi
                     : <span className={n.kind === 'deva' ? 'k-strip__title k-strip__title--deva' : 'k-strip__title'} lang={n.kind === 'deva' ? 'gom' : undefined}>{n.text}</span>}
                   <span className="k-strip__sub">{plain ? 'Official name only' : (n.kind === 'official' ? (it.romi || '') : it.official)}</span>
                 </span>
+                {mark > 0 && markIcon && <span className="k-strip__mark"><Icon name={markIcon} size={16} /><span className="k-visually-hidden">. {markLabel}: </span>{mark}</span>}
               </button>
             </li>
           );

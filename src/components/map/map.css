@@ -57,6 +57,18 @@
   font: var(--weight-strong) 14px/1.3 var(--font-latin);
 }
 
+/* A layer's mark: a white tile with the layer's icon and how many things the place holds. It sits just above a
+   district's or taluka's name, and on a village's dot. Taps go through it to the place underneath. */
+.k-map__mark {
+  position: absolute; transform: translate(-50%, -100%); pointer-events: none;
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--surface-raised); color: var(--text);
+  padding: 3px 7px; border-radius: var(--radius-s);
+  font: var(--weight-strong) 14px/1.3 var(--font-latin); white-space: nowrap;
+  box-shadow: var(--shadow-2);
+}
+.k-map__mark--village { transform: translate(-50%, -50%); padding: 4px 6px; }
+
 /* white tag above the selected village dot */
 .k-map__tag {
   position: absolute; transform: translate(-50%, -100%);

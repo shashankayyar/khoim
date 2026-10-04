@@ -78,7 +78,7 @@ export interface GeoBase {
   talukas: Record<string, TalukaShape>;
 }
 
-/** Future recordings. Always credited by name and village. */
+/** A recording of a place's name. Credited by name and village, or as "A speaker from" the village (then `village` is empty). */
 export interface Recording { speaker: string; village: string; src: string; duration?: string }
 
 export interface Layer {

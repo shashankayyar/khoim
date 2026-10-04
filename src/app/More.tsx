@@ -24,11 +24,13 @@ export interface MoreProps {
   onClose: () => void;
   layer: string;
   onLayer: (id: string) => void;
+  /** How many things each layer holds so far. Null until the server has answered. */
+  layerCounts?: Record<string, number> | null;
   /** Opens the contribution form from the draft banner. When missing, the banner opens an email. */
   onTellUs?: () => void;
 }
 
-export function More({ open, onClose, layer, onLayer, onTellUs }: MoreProps) {
+export function More({ open, onClose, layer, onLayer, layerCounts, onTellUs }: MoreProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [theme, toggleTheme] = useTheme();
   useDialog(ref, open, onClose);
@@ -48,8 +50,10 @@ export function More({ open, onClose, layer, onLayer, onTellUs }: MoreProps) {
 
           <section className="k-more__section" aria-labelledby="k-layers">
             <h2 id="k-layers">Layers</h2>
-            <p>Names are live. The rest are coming, one at a time, each credited to the people who give them.</p>
-            <LayerSwitch value={layer} onChange={onLayer} />
+            {/* The design read "Names are live. The rest are coming, one at a time, each credited to the people who
+                give them." The other layers went live on 4 October 2026 (wording in docs/copy.md). */}
+            <p>Pick a layer to see it on the map. The layers fill in as people send what they know, each credited to the people who give them.</p>
+            <LayerSwitch value={layer} onChange={onLayer} counts={layerCounts} />
           </section>
 
           <section className="k-more__section" aria-labelledby="k-why">

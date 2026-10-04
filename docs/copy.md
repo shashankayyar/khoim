@@ -48,6 +48,16 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Recording, nothing recorded: Please record the name first.
 - Recording, problems: This browser cannot record sound. Try Chrome or Safari on your phone. / The microphone is switched off for this site. Allow it in your browser settings, then press Record again. / No microphone was found. / That was too short to hear. Please record again.
 - Recording, agree line: I am 18 or older and I agree to my recording being used this way.
+- Form, note above the layer choices ("Not on the map yet. What you send now is checked and kept for when each one opens."): no longer shown since the layers went live on 4 October 2026.
+- Layers, live (4 October 2026; written by Claude from the surrounding text, for Shashank to confirm or change):
+  - About, under "Layers": Pick a layer to see it on the map. The layers fill in as people send what they know, each credited to the people who give them. (Was: Names are live. The rest are coming, one at a time, each credited to the people who give them.)
+  - Layer list, count: {n} so far / None yet
+  - Card, button when a layer is on and the place has something in it: {Layer} ({n}), for example Food (2)
+  - Card, row labels: the layer names (Crops, Food, Music, Landmarks). Recordings sit under "Say it".
+  - Card, credit under a note: Added by {name}
+  - Recording with no name given: A speaker from {village} (from the consent wording)
+  - Layers button while a layer is on: Layers and about. {Layer} layer is on
+  - Read out when a layer is chosen: {Layer} layer on. {n} so far. / {Layer} layer on. None yet.
 - Correction form, what is needed: no longer shown (it read "The first two answers are needed. Your name is optional." while the form took one thing at a time).
 - Correction form, something missing: Please fill this in. / Please fill this in. A few words are enough. / Please tick the box if you agree.
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.
@@ -82,6 +92,8 @@ Konkani is written in Devanagari, the official script under the Goa, Daman and D
 | Food | Dishes tied to one village or feast, listed under their Konkani names. | Planned |
 | Music | Where mando, dulpod, deknni and fugdi are sung and danced, by village. | Planned |
 | Landmarks | Temples, churches, mosques and springs, by the names people nearby call them. | Planned |
+
+Since 4 October 2026 Voices, Crops, Food, Music and Landmarks are live on the site and fill in from what people send. The statuses above are the wording as first written.
 
 ## Help us (titles 2 words, bodies 27 words)
 Intro: Write to us at hello@khoim.in. Everyone who contributes is credited by name, if they want to be.

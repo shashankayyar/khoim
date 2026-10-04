@@ -9,7 +9,7 @@ One page for running khoim.in. Written for Shashank; no coding needed for anythi
 4. If it is right, tap **Squash and merge** in GitHub (the mobile app works), or type "ship it" to Claude Code.
 5. khoim.in updates about 2 minutes later.
 
-Nothing reaches khoim.in without step 4. If a preview looks wrong, say what is wrong and it gets fixed on the same pull request.
+No name and no change to the site itself reaches khoim.in without step 4. The one exception, since 4 October 2026: recordings and notes for crops, food, music and landmarks that you allow on `khoim.in/admin` show on the site within a few minutes (see "Contributions from the public"). If a preview looks wrong, say what is wrong and it gets fixed on the same pull request.
 
 ## How to update a name
 
@@ -30,10 +30,13 @@ Ask Claude Code to copy reviewed rows from the sheet into the CSV; send it the u
 
 ## Contributions from the public
 - **Reviewing:** open `khoim.in/admin`, type your email, enter the code. Each item shows what was sent, the automatic checks and Claude's note. Press Allow, Edit and allow, or Reject. Only a reviewer who reads Konkani can allow: if Allow is greyed out, your line in the `REVIEWERS` setting is missing `| konkani` (see `docs/contributions-setup.md`, step 4).
-- **Clipping a recording:** on a recording, press "Clip and allow". Drag the two lines on the picture of the sound (or use the sliders) until only the name is left, press "Play the clip" to hear it, then "Allow this clip". The recording itself is not cut: only the two marks are saved, so "Change the clip" on the Allowed tab lets you redo it.
-- **Getting allowed items onto the site:** on the Allowed tab, press "Download the allowed items that are not on the site yet" and give the file to Claude Code. It opens a pull request; you check the preview and merge as usual.
-- **Someone wants their contribution removed:** on the Allowed tab press Remove, then Remove for good. If it is already on khoim.in, also tell Claude Code to take it off.
-- **What people can send:** names, spellings, how a name is said, corrections, and, for the parts of the map that are not built yet, a recording of the name (up to ten seconds), crops, food, music and landmarks. The second group is kept until that part of the map opens. People tick as many kinds as they like and send them together (a name, a recording, two crops and a dance in one go); each thing arrives as its own item. On the admin page a recording has a play button.
+- **Clipping a recording:** on a recording, press "Clip and allow". Drag the two lines on the picture of the sound (or use the sliders) until only the name is left, press "Play the clip" to hear it, then "Allow this clip". Only that part plays on khoim.in. The recording itself is kept whole and private, so "Change the clip" on the Allowed tab lets you redo it. Plain "Allow" puts the whole recording on the site. Use Chrome for this: Safari cannot open recordings made on Android phones.
+- **What goes live when you press Allow:** a recording, or a note for crops, food, music or landmarks, is on khoim.in within a few minutes, with the person's name if they gave one (and, for a recording, the village they said they are from). Read the name and the village as carefully as the thing itself: they are published too. You are the last check.
+- **Where it shows:** on the place's card (recordings under "Say it", the rest in their own rows), and on the map when that layer is switched on in "Layers and about".
+- **What still needs a pull request:** names, say-it guides and corrections. On the Allowed tab, press "Download the allowed names that are not on the site yet" and give the file to Claude Code. It opens a pull request; you check the preview and merge as usual.
+- **Someone wants their contribution removed:** on the Allowed tab press Remove, then Remove for good. A recording or a layer note comes off khoim.in within a few minutes (a recording someone has just played can linger in their own browser for up to an hour). For a name that is already on khoim.in, also tell Claude Code to take it off.
+- **A recording allowed before 4 October 2026** says "Not yet" under "On khoim.in". Press "Put on khoim.in" on it.
+- **What people can send:** names, spellings, how a name is said, corrections, a recording of the name (up to ten seconds), crops, food, music and landmarks. People tick as many kinds as they like and send them together (a name, a recording, two crops and a dance in one go); each thing arrives as its own item. On the admin page a recording has a play button.
 - **Claude's note on each item:** a scheduled job in the Claude app on your Mac ("Khoim queue reader") reads new items every morning and leaves a note for the reviewer. It runs only while the Claude app is open. It cannot allow or reject anything.
 - **Adding or removing a reviewer, or setting it all up the first time:** `docs/contributions-setup.md`.
 - **Cost:** nothing. If a free daily limit is ever reached, the form stops taking submissions until the next day.

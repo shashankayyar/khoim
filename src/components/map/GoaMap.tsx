@@ -6,12 +6,18 @@
    A white trim line always runs between districts. Labels show the name in the chosen script only.
    Tapping a place opens it (the parent decides what that means).
    Press and drag scrubs with a loupe. Every label is a real button with a spoken name, so the map works with a
-   keyboard and a screen reader. Based on design/components/map/GoaMap.jsx. SVG only: no tiles, no WebGL, no pins. */
+   keyboard and a screen reader. Based on design/components/map/GoaMap.jsx. SVG only: no tiles, no WebGL, no pins.
+
+   With a layer other than Names switched on, a place that has something in that layer carries a small white
+   tile with the layer's icon and a count (the design's plan for layer marks: white trim tiles, never pins).
+   The tile is not a button of its own: tapping the place opens its card, where the things are. */
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react';
 import { DISTRICT_IDS, GEO, TALUKA_IDS, type VillagePaths } from '../../data/geo';
 import { STATUS_TEXT, childCount, getPlace, houseOf, nameIn, whereLabel } from '../../data/khoim';
 import type { Box, Place, Point, Script } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
+import { Icon } from '../core/Icon';
+import type { IconName } from '../core/iconPaths';
 import './map.css';
 
 const T = GEO.talukas, D = GEO.districts;
@@ -66,11 +72,16 @@ export interface GoaMapProps {
   villages?: Place[];
   /** Outlines of those villages, once loaded. */
   villagePaths?: VillagePaths | null;
+  /** With a layer other than Names on: how many things each place holds in it (counting the places inside it),
+      and that layer's icon and name. */
+  marks?: Record<string, number> | null;
+  markIcon?: IconName;
+  markLabel?: string;
 }
 
 export function GoaMap({
   focus = null, selected = null, hot = null, script = 'deva', onSelect, onHot,
-  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, paintIn = false, villages, villagePaths
+  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, paintIn = false, villages, villagePaths, marks, markIcon, markLabel
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null), stage = useRef<HTMLDivElement>(null), labelLayer = useRef<HTMLDivElement>(null);
@@ -167,6 +178,7 @@ export function GoaMap({
   const inv = s ? 1 / s : 1;
   const selV = level === 'taluka' && act && act[0] === 'v' ? getPlace(act) : null;
   const scrubP = scrub && scrub.u ? getPlace(scrub.u) : null;
+  const markAt = (id: string) => (markIcon && marks?.[id]) || 0;
   const allPainted = painted.size === TALUKA_IDS.length;
 
   /* On a small map (a narrow or short phone) Goa's district labels shrink and drop their count, so they do not
@@ -271,7 +283,8 @@ export function GoaMap({
               p.romi && n.kind !== 'romi' ? 'Romi ' + p.romi : null,
               whereLabel(p),
               STATUS_TEXT[p.status] || null,
-              level === 'state' && !(l.sub && lines.includes(l.sub)) ? `${childCount(p)} talukas` : null
+              level === 'state' && !(l.sub && lines.includes(l.sub)) ? `${childCount(p)} talukas` : null,
+              markAt(l.id) ? `${markLabel}: ${markAt(l.id)}` : null
             ].filter(Boolean).join('. ') + '.';
             return (
               <button key={l.id} type="button" data-id={l.id}
@@ -286,6 +299,15 @@ export function GoaMap({
                 <span className="k-visually-hidden">. {more}</span>
               </button>
             );
+          })}
+          {/* the layer that is on: a tile above the name of each place that has something in it, and on each such village */}
+          {s > 0 && markIcon && labels.filter(l => l.shownNow && markAt(l.id) > 0).map(l => {
+            const [x, y] = P(l.at);
+            return <span key={'m' + l.id} className="k-map__mark" aria-hidden="true" style={{ left: x, top: y - l.size * 0.75 - 4 }}><Icon name={markIcon} size={16} />{markAt(l.id)}</span>;
+          })}
+          {s > 0 && markIcon && shown.filter(v => markAt(v.id) > 0 && v.id !== selV?.id).map(v => {
+            const [x, y] = P(v.lp!);
+            return <span key={'m' + v.id} className="k-map__mark k-map__mark--village" aria-hidden="true" style={{ left: x, top: y }}><Icon name={markIcon} size={16} />{markAt(v.id) > 1 ? markAt(v.id) : null}</span>;
           })}
           {selV && selV.lp && (() => {
             const [x, y] = P(selV.lp);

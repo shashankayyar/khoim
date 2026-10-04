@@ -90,6 +90,14 @@ function Contribute({ k }: { k: Khoim }) {
   return <ContributeForm place={getPlace(k.form?.placeId)} kind={k.form?.kind ?? null} siteKey={k.contrib.siteKey} onClose={k.closeForm} />;
 }
 
+/* The way in to the layers and About. While a layer other than Names is on, the button wears that layer's icon
+   and says so, which is how you can tell why there are marks on the map and where to switch them off. */
+function LayersButton({ k, size }: { k: Khoim; size?: number }) {
+  return <IconButton icon={k.litLayer ? k.litLayer.icon : 'layers'} label={'Layers and about' + (k.litLayer ? `. ${k.litLayer.label} layer is on` : '')} size={size} onClick={k.openMore} />;
+}
+/* What the map and the strip need to mark the places that have something in the layer that is on. */
+const marksOf = (k: Khoim) => (k.litLayer && k.marks ? { marks: k.marks, markIcon: k.litLayer.icon, markLabel: k.litLayer.label } : {});
+
 /** Goa / South Goa / Salcete. Each part takes you to that level. */
 function Crumbs({ k }: { k: Khoim }) {
   const trail = trailOf(k.focus || 'goa');
@@ -139,7 +147,7 @@ function Phone({ k }: { k: Khoim }) {
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
         <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} {...marksOf(k)} />
       </main>
       <header className="k-phone-header">
         <div className="k-phone-header__row">
@@ -148,7 +156,8 @@ function Phone({ k }: { k: Khoim }) {
               ? <button type="button" className="k-phone-header__wordmark" onClick={k.openMore}><Wordmark size={22} suffix="About Khoim" /></button>
               : <IconButton icon="arrow-left" label={sp?.level === 'village' && fp ? 'Back to ' + fp.official : parent ? 'Back to ' + parent.official : 'Back to Goa'} onClick={k.back} />}
           </div>
-          <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} /></div>
+          {/* past the first screen (which has its own layers button by the search box) the way in to layers sits here */}
+          <div className="k-phone-header__right"><ScriptToggle value={k.script} onChange={k.setScript} />{!first && <LayersButton k={k} />}</div>
         </div>
         {!first && (
           <div className="k-phone-header__row k-phone-header__row--where">
@@ -165,24 +174,24 @@ function Phone({ k }: { k: Khoim }) {
         </div>
         <div className="k-phone-bottom__actions">
           <button type="button" className="k-search-button" onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
-          <IconButton icon="layers" label="Layers and about" size={58} onClick={k.openMore} />
+          <LayersButton k={k} size={58} />
         </div>
       </div>
       {sp && (
         <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
           <div className="k-phone-card">
             <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')}
-              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} />
+              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} />
           </div>
         </Sheet>
       )}
       {!sp && fp && (
         <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
-          <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} />
+          <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} {...marksOf(k)} />
         </Sheet>
       )}
       <SearchScreen k={k} />
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} onTellUs={tellUs(k)} />
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />
@@ -199,7 +208,7 @@ function Desktop({ k }: { k: Khoim }) {
       <div className="k-desktop">
         <main className="k-desktop__map">
           <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} />
+            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} {...marksOf(k)} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>
@@ -207,7 +216,7 @@ function Desktop({ k }: { k: Khoim }) {
             </div>
             <div className="k-desktop-header__right">
               <ScriptToggle value={k.script} onChange={k.setScript} />
-              <IconButton icon="layers" label="Layers and about" onClick={k.openMore} />
+              <LayersButton k={k} />
             </div>
           </header>
           {!fp && !sp && (
@@ -218,7 +227,7 @@ function Desktop({ k }: { k: Khoim }) {
           )}
           {fp && (
             <div className="k-desktop-strip">
-              <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} headingLevel={sp ? 2 : 1} />
+              <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} headingLevel={sp ? 2 : 1} {...marksOf(k)} />
             </div>
           )}
         </main>
@@ -232,7 +241,7 @@ function Desktop({ k }: { k: Khoim }) {
             ) : sp ? (
               <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
                 <div className="k-desktop-card__inner">
-                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} />
+                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} />
                 </div>
               </div>
             ) : (
@@ -241,7 +250,7 @@ function Desktop({ k }: { k: Khoim }) {
                 {/* the three districts as a list too, for anyone who would rather pick from names */}
                 {!fp && (
                   <div className="k-desktop__panel-list">
-                    <PlaceStrip parent={null} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} />
+                    <PlaceStrip parent={null} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} {...marksOf(k)} />
                   </div>
                 )}
               </>
@@ -250,7 +259,7 @@ function Desktop({ k }: { k: Khoim }) {
           <div className="k-desktop__panel-credit"><Credit /></div>
         </aside>
       </div>
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} onTellUs={tellUs(k)} />
+      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />

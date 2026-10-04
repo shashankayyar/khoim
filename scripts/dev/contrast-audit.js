@@ -103,5 +103,13 @@ export async function tour() {
   // About
   if (desktop) q('[aria-label="Layers and about"]').click(); else { byText('.k-crumbs__link', 'Goa').click(); await wait(1000); q('.k-phone-bottom .k-icon-button').click(); }
   await wait(1000); await run('9 About', '.k-more__scroll');
+  // A layer other than Names: its marks on the map and the strip, and its button on the card. These steps only
+  // have something to check where allowed contributions exist (the local test database, or the live site).
+  byText('.k-layer', 'Food').click(); await wait(1200); await run('10 Food layer, where About was opened', desktop ? '.k-desktop__panel-body' : undefined);
+  if (q('.k-crumbs__link')) { byText('.k-crumbs__link', 'Goa').click(); await wait(1000); }
+  await run('10 Food layer, Goa');
+  label('दक्षिण').click(); await wait(1300); await run('10 Food layer, South Goa');
+  label('साश्टी').click(); await wait(2200); await run('10 Food layer, Salcete');
+  q(desktop ? '.k-desktop-card .k-icon-button' : '.k-sheet .k-icon-button').click(); await wait(800); await run('10 Food layer, strip of villages');
   return res;
 }

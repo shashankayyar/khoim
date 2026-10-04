@@ -12,6 +12,7 @@ import { childCount, childrenOf, getPlace, loadVillages, pathOf, placeAtPath, re
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
 import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
+import { LIVE_LAYERS, NO_LIVE, loadLive, type Live } from '../lib/live';
 
 export type Snap = 'peek' | 'full';
 type Overlay = 'search' | 'more' | 'form' | null;
@@ -91,6 +92,10 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
   const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
+  /* What reviewers have allowed for the layers other than Names. Null until the server has answered. */
+  const [liveData, setLiveData] = useState<Live | null>(null);
+  /* what to read out once About has closed, in place of the name of the place underneath */
+  const sayNext = useRef<string | null>(null);
   /* the next address change replaces the current history entry instead of adding one */
   const replaceNext = useRef(true);
 
@@ -103,6 +108,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     const run = () => {
       loadVillages().then(() => { if (live) setVillagesLoaded(true); });
       loadContribConfig().then(c => { if (live) setContrib(c); });
+      loadLive().then(l => { if (live) setLiveData(l); });
     };
     const idle = window.requestIdleCallback ? window.requestIdleCallback(run, { timeout: 2500 }) : window.setTimeout(run, 1200);
     return () => {
@@ -155,7 +161,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
         /* going back or forward never reopens the form: what was typed in it is gone */
         set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', form: null, query: query || (st.overlay === 'search' ? v.query : '') }));
         const p = getPlace(st.selected) ?? getPlace(st.focus);
-        setAnnounce(p ? spokenName(p) : 'All of Goa');
+        setAnnounce(sayNext.current ?? (p ? spokenName(p) : 'All of Goa'));
+        sayNext.current = null;
         return;
       }
       /* an address we have no saved state for: work it out from the address itself */
@@ -195,8 +202,14 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const villages: Place[] | undefined = inTaluka && villagesLoaded ? childrenOf(focusPlace.id) : undefined;
   const villagePaths = inTaluka && paths?.id === focusPlace.id ? paths.paths : null;
 
+  /* The layer that is on, if it is one that people add to: its marks go on the map and the strip. */
+  const litLayer = LIVE_LAYERS.find(l => l.id === s.layer) ?? null;
+  const layerCounts = liveData ? Object.fromEntries(LIVE_LAYERS.map(l => [l.id, liveData.total(l.id)])) : null;
+
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, contrib,
+    live: liveData ?? NO_LIVE, litLayer, layerCounts,
+    marks: litLayer && liveData ? liveData.marks(litLayer.id) : null,
     /* the form takes the place of About if it was opened from there */
     openForm: (placeId: string, kind: ContributionKind | null = null) => up({ more: false, form: { placeId, kind } }),
     closeForm: closeOverlay,
@@ -204,7 +217,17 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     setHot: (hot: string | null) => up({ hot }),
     /* villages are part of search, so make sure their list is on its way as soon as someone starts */
     setQuery: (query: string) => { if (query) needVillages(); up({ query }); },
-    setLayer: (layer: string) => up({ layer }),
+    /* Choosing a layer puts About away, so the map with that layer's marks is what you see next. */
+    setLayer: (layer: string) => {
+      const l = LIVE_LAYERS.find(x => x.id === layer), n = l && liveData ? liveData.total(l.id) : null;
+      const words = l ? `${l.label} layer on.${n === null ? '' : n ? ` ${n} so far.` : ' None yet.'}` : 'Names layer on.';
+      set(v => ({ ...v, layer }));
+      setAnnounce(words);
+      /* closing About steps back in history, which would read out the place's name instead */
+      const cur = entryNow();
+      if (cur?.overlay && cur.idx > 0) sayNext.current = words;
+      closeOverlay();
+    },
     openSearch: () => { needVillages(); up({ search: true }); },
     closeSearch: closeOverlay,
     openMore: () => up({ more: true }),
