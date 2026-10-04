@@ -1,6 +1,7 @@
 /* The place card. Sits in a Sheet on phones or in the names panel on desktop, on the place's house colour.
    Order is fixed: Devanagari (largest), Romi, official spelling; then say it, sources, details.
-   Missing names show PendingName; never a guess. Ported from design/components/place/PlaceCard.jsx.
+   Missing names show PendingName; never a guess. A name recorded in one script only leads with that script
+   and says the other is not recorded yet (Romi only: since 4 October 2026, for names people send in). Ported from design/components/place/PlaceCard.jsx.
 
    Since 4 October 2026 the card also shows what people have sent about the place and a reviewer has allowed:
    recordings of the name under "Say it", and a row each for crops, food, music and landmarks. A row appears
@@ -25,6 +26,13 @@ const INK = 'var(--house-on)', PAPER = 'var(--house-bg)';
 
 /* For a village the government lists but whose outline we do not have. Not in the design; wording settled 1 Oct 2026. */
 const NO_OUTLINE_NOTE = 'The outline is not available yet';
+
+/* "2026-10-03" as "3 October 2026" */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function plainDate(iso: string | undefined): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso ?? '');
+  return m && MONTHS[Number(m[2]) - 1] ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : '';
+}
 
 const Rule = () => <hr className="k-card__rule" aria-hidden="true" />;
 /* One section of the card. Its label is a real heading, one level under the place's name, so the card can be
@@ -73,6 +81,9 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
   const inside = p.level !== 'village' && !!onShowInside;
   const insideLabel = `${childCount(p)} ${p.level === 'taluka' ? 'villages' : 'talukas'}`;
   const taluka = p.level === 'village' ? getPlace(p.parent) : null;
+  /* a Konkani name in at least one script */
+  const named = !!(p.deva || p.romi);
+  const reviewedOn = plainDate(p.reviewedOn);
   const recordings = recordingsOf(live);
   /* the layer that is on, if this place has something in it */
   const lit = LIVE_LAYERS.find(l => l.id === layer);
@@ -90,7 +101,9 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
         <H className="k-card__heading">
           {p.deva
             ? <span className="k-card__deva" lang="gom">{p.deva}</span>
-            : <span className="k-card__official-head">{p.official}</span>}
+            : p.romi
+              ? <span className="k-card__official-head" lang="gom-Latn">{p.romi}</span>
+              : <span className="k-card__official-head">{p.official}</span>}
         </H>
         {p.deva && (
           <div className="k-card__names">
@@ -98,7 +111,13 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             <span className="k-card__official">{p.official}</span>
           </div>
         )}
-        {!p.deva && <PendingName label={p.pendingNote ? 'Spelling not settled yet' : 'Konkani name not recorded yet'} />}
+        {!p.deva && p.romi && (
+          <div className="k-card__names">
+            <span className="k-card__no-romi">Devanagari not recorded yet</span>
+            <span className="k-card__official">{p.official}</span>
+          </div>
+        )}
+        {!named && <PendingName label={p.pendingNote ? 'Spelling not settled yet' : 'Konkani name not recorded yet'} />}
       </div>
 
       {!expanded && (
@@ -119,7 +138,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
               <SayIt say={p.say} note={p.sayNote} reviewed={p.reviewed} plain={plain} />
               <VoiceClip recordings={recordings} />
             </Row>
-          ) : (
+          ) : named ? null : (
             <Row level={sub} label="Konkani name">
               <p className="k-card__body">{p.pendingNote || `Know what ${p.official} is called in Konkani? Tell us how your family says it.`}</p>
               <div className="k-card__tell">
@@ -132,10 +151,14 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             </Row>
           )}
           {/* a place with no say-it guide can still have recordings of its name */}
-          {!p.say && recordings.length > 0 && <><Rule /><Row level={sub} label="Say it"><VoiceClip recordings={recordings} /></Row></>}
+          {!p.say && recordings.length > 0 && <>{!named && <Rule />}<Row level={sub} label="Say it"><VoiceClip recordings={recordings} /></Row></>}
+          {/* what is missing, said plainly, so someone who knows it can send it with the button at the foot of the card */}
+          {!p.deva && p.romi && <>{(p.say || recordings.length > 0) && <Rule />}<Row level={sub} label="Devanagari"><p className="k-card__body">Not recorded yet. Know how {p.romi} is written in Devanagari? Tell us.</p></Row></>}
           <Rule />
           <Row level={sub} label="Sources">
             <SourceStatus status={p.status} />
+            {/* a name that came through the form: who sent it, if they gave their name, and who reviewed it */}
+            {p.level === 'village' && p.reviewer && <p className="k-card__body">{p.contributor ? `Added by ${p.contributor}.` : 'Sent in by a contributor.'} Reviewed by {p.reviewer}{reviewedOn ? ', ' + reviewedOn : ''}.</p>}
             {p.sourceNote && <p className="k-card__body">{p.sourceNote}</p>}
             {p.sources && !plain && <button type="button" className="k-card__disclose" aria-expanded={showSrc} onClick={() => setShowSrc(!showSrc)}>{showSrc ? 'Hide sources' : 'Where this comes from'}</button>}
             {p.sources && (showSrc || plain) && <p className="k-card__body">{p.sources}</p>}
@@ -149,7 +172,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {rest.map(n => <Fragment key={n.layer.id}><Rule /><Row level={sub} label={n.layer.label}><LayerNotes items={n.items} /></Row></Fragment>)}
           {/* On a place that has a Konkani name: the one way in to the form (wording in docs/copy.md).
               Without the form: a way to say the name is wrong, by email. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
-          {p.deva && (
+          {named && (
             <>
               <Rule />
               {onTell ? (

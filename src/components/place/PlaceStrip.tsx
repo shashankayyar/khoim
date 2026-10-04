@@ -51,13 +51,13 @@ export function PlaceStrip({ parent, script = 'deva', active, onFocusPlace, onPi
         <H className={heading.kind === 'deva' ? 'k-strip__name k-strip__name--deva' : 'k-strip__name'} lang={heading.kind === 'deva' ? 'gom' : undefined}>{heading.text}</H>
         <span className="k-strip__count">{count} {village ? 'villages' : fp.level === 'state' ? 'districts' : 'talukas'}</span>
         {/* so nobody taps through 47 villages expecting Konkani names that are not there yet */}
-        {village && items.length > 0 && items.every(it => !it.deva) && <span className="k-strip__note">Villages show the official name only for now.</span>}
+        {village && items.length > 0 && items.every(it => !it.deva && !it.romi) && <span className="k-strip__note">Villages show the official name only for now.</span>}
       </div>
       <ul ref={ref} className="k-strip__list" aria-label={'Places in ' + fp.official} onScroll={onScroll} onPointerDown={touched} onWheel={touched} onTouchStart={touched}>
         {items.map(it => {
           const on = it.id === active, n = nameIn(it, script);
-          /* A village with no Konkani name yet is a white tile showing its official name. */
-          const plain = village && !it.deva;
+          /* A village with no Konkani name yet, in either script, is a white tile showing its official name. */
+          const plain = village && !it.deva && !it.romi;
           const mark = (markIcon && marks?.[it.id]) || 0;
           return (
             <li key={it.id} className="k-strip__item">

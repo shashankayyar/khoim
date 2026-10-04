@@ -160,6 +160,8 @@ And two decisions:
 
 **What did not change.** Claude cannot allow anything. Only a Konkani reviewer can. Names, say-it guides and corrections come in through a pull request. Cost: nothing.
 
+**Names in one script (4 October 2026).** The first two village names to come through the form (Chicalim, Sancoale) were sent in Roman letters only. Shashank chose to show them rather than wait: the card leads with the Romi name, says "Devanagari not recorded yet", and asks for it. The name, who sent it (if they gave their name) and who reviewed it are on the card under Sources. Names still come in through a pull request.
+
 **Still open.**
 - A reviewer cannot yet correct a typing mistake in someone's name or village before allowing. For now: reject it, or allow it and tell Claude Code.
 - An allowed note cannot be edited afterwards, only removed.
