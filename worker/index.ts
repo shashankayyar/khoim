@@ -341,6 +341,17 @@ async function adminDecide(request: Request, env: Env): Promise<Response> {
    visit, the database is asked about once a minute, which keeps the free daily allowance safe. */
 const LIVE_SECONDS = 60, CLIP_SECONDS = 3600;
 const store = () => (globalThis as unknown as { caches?: { default?: Cache } }).caches?.default;
+/* Cloudflare hands a kept copy back with its own, much longer "keep this in the browser" time (four hours on
+   this account), so a visitor's browser would go on showing an old list long after something was allowed or
+   removed. The copy is sent on with our own instruction instead. */
+const sendKept = (kept: Response, cacheControl: string) => {
+  const headers = new Headers(kept.headers);
+  headers.set('cache-control', cacheControl);
+  headers.delete('expires');
+  return new Response(kept.body, { status: kept.status, headers });
+};
+/* The list: a browser never keeps it, and asks each time a page is opened. Cloudflare's copy does the saving. */
+const LIST_IN_BROWSER = 'no-store';
 
 interface LiveRow { id: string; place_id: string; kind: Kind; value: string; final_value: string | null; how_known: string; credit_name: string | null; seconds: number | null; made_at: string | null }
 
@@ -349,7 +360,7 @@ interface LiveRow { id: string; place_id: string; kind: Kind; value: string; fin
     recording the village they said they are from. Never "how do you know", never the recording itself. */
 async function live(request: Request, env: Env, ctx: Ctx): Promise<Response> {
   const key = new URL('/api/live', request.url).href, kept = await store()?.match(key).catch(() => undefined);
-  if (kept) return kept;
+  if (kept) return sendKept(kept, LIST_IN_BROWSER);
   let items: unknown[] = [];
   if (env.DB) {
     await ensureSchema(env.DB);
@@ -366,18 +377,18 @@ async function live(request: Request, env: Env, ctx: Ctx): Promise<Response> {
       return [{ ...base, text, script: scriptOf(text) }];
     });
   }
-  const res = json({ ok: true, items });
-  res.headers.set('cache-control', `public, max-age=${LIVE_SECONDS}`);
+  /* two copies: one for Cloudflare to keep for a minute, one for this visitor's browser, which keeps nothing */
+  const body = JSON.stringify({ ok: true, items }), type = 'application/json; charset=utf-8';
   const cache = store();
-  if (cache) ctx.waitUntil(cache.put(key, res.clone()).catch(() => undefined));
-  return res;
+  if (cache) ctx.waitUntil(cache.put(key, new Response(body, { headers: { 'content-type': type, 'cache-control': `public, max-age=${LIVE_SECONDS}` } })).catch(() => undefined));
+  return new Response(body, { headers: { 'content-type': type, 'cache-control': LIST_IN_BROWSER } });
 }
 
 /** The clip of one allowed recording. Phones ask for a sound file in pieces ("Range"), so pieces are answered. */
 async function liveAudio(request: Request, env: Env, ctx: Ctx): Promise<Response> {
   const url = new URL(request.url), id = url.searchParams.get('id') ?? '';
   const cache = store(), kept = await cache?.match(request).catch(() => undefined);
-  if (kept) return kept;
+  if (kept) return sendKept(kept, `public, max-age=${CLIP_SECONDS}`);
   if (!env.DB || !/^[0-9a-f-]{36}$/.test(id)) return fail(404, 'not-found');
   await ensureSchema(env.DB);
   const row = await env.DB.prepare("SELECT k.mime, k.data FROM clips k JOIN contributions c ON c.id = k.id WHERE k.id = ? AND c.status = 'allowed' AND c.kind = 'voice'").bind(id).first<Pick<ClipRow, 'mime' | 'data'>>();
