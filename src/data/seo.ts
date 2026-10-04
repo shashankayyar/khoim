@@ -17,11 +17,12 @@ export function pageMeta(p: Place | null): PageMeta {
   if (p.level === 'village') {
     const district = getPlace(parent?.parent);
     const where = `${parent?.official} taluka, ${district?.official}, Goa`;
-    if (p.deva) {
-      // For a village with a reviewed Konkani name. None exist yet; copy.md has only the pending form, so this follows the taluka pattern.
+    if (p.deva || p.romi) {
+      /* A village with a reviewed name. copy.md has only the pending form, so this follows the taluka pattern,
+         with the script that is not recorded left out. */
       return {
         title: `${p.official} (${[p.romi, p.deva].filter(Boolean).join(', ')}), ${parent?.official} taluka, Goa | Khoim`,
-        description: `${p.official} is a village in ${where}. It is ${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}.`
+        description: `${p.official} is a village in ${where}. It is ${p.deva ? `${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}` : `${p.romi} in Romi`}.`
       };
     }
     return {

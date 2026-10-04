@@ -14,7 +14,9 @@
      entry only through a row of data/town_outline_matches.csv that a person has confirmed.
    - A village belongs to the taluka the LGD list files it under, even where the boundary file draws it elsewhere.
    - No name is created, changed or transliterated here. A village gets a Konkani name only from a
-     reviewed row of data/villages_lgd.csv (konkani_deva, reviewer and reviewed_on all filled).
+     reviewed row of data/villages_lgd.csv: reviewer and reviewed_on filled, and konkani_deva or romi or both.
+     A name known in one script only is shown in that script, and the card says the other is not recorded yet
+     (Shashank's decision, 4 October 2026). The other script is never worked out from the one we have.
    - The build stops with a plain message if the sources disagree with each other. */
 
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -138,12 +140,14 @@ for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_
   if (row.lgd_type === 'Ct') v.town = true;
   if (shape) { v.src = shape.src; v.lp = shape.lp; paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
   /* A Konkani name appears only when a reviewer has signed the row. */
-  if (row.konkani_deva && row.reviewer && row.reviewed_on) {
-    v.deva = row.konkani_deva;
+  if ((row.konkani_deva || row.romi) && row.reviewer && row.reviewed_on) {
+    if (row.konkani_deva) v.deva = row.konkani_deva;
     if (row.romi) v.romi = row.romi;
     if (row.say) v.say = row.say;
     v.reviewer = row.reviewer;
     v.reviewedOn = row.reviewed_on;
+    /* the person who sent the name in, when they gave their name for credit */
+    if (row.contributor) v.by = row.contributor;
   } else {
     check(!row.konkani_deva && !row.romi && !row.say, `LGD village ${row.lgd_code} (${row.official}) has a Konkani name, Romi name or say-it guide but no reviewer and date. Fill reviewer and reviewed_on, or clear the name.`);
   }

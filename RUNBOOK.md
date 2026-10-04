@@ -18,7 +18,7 @@ These live in two files that must say the same thing: `design/components/data/pl
 
 **A village's Konkani name**
 1. A Konkani reviewer fills in the review sheet, `data/village_names_review.xlsx`.
-2. For each village they have checked, the name goes into `data/villages_lgd.csv` in the columns `konkani_deva`, `romi`, `say`, with the reviewer's name in `reviewer` and the date in `reviewed_on`.
+2. For each village they have checked, the name goes into `data/villages_lgd.csv` in the columns `konkani_deva`, `romi`, `say`, with the reviewer's name in `reviewer` and the date in `reviewed_on`. If the name is known in one script only, the other column stays empty and the card says it is "not recorded yet". If the person who sent the name gave their name, it goes in `contributor` and the card credits them.
 3. The site shows a village's Konkani name **only** when the name, the reviewer and the date are all filled in. A name without a reviewer and date stops the build.
 
 Ask Claude Code to copy reviewed rows from the sheet into the CSV; send it the updated sheet.

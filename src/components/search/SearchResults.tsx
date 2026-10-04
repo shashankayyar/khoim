@@ -38,11 +38,14 @@ export function SearchResults({ query, onPick, villagesLoaded }: SearchResultsPr
                     <span className="k-result__deva" lang="gom">{field === 'deva' ? mark(p.deva, query) : p.deva}</span>
                     {p.romi && <span className="k-result__romi" lang="gom-Latn">{field === 'romi' ? mark(p.romi, query) : p.romi}</span>}
                   </span>
+                ) : p.romi ? (
+                  /* a name recorded in Romi only: Romi leads, as Devanagari does elsewhere */
+                  <span className="k-result__official-head" lang="gom-Latn">{field === 'romi' ? mark(p.romi, query) : p.romi}</span>
                 ) : (
                   <span className="k-result__official-head">{mark(p.official, query)}</span>
                 )}
                 <span className="k-result__sub">
-                  {p.deva ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : 'Official name only · '}{whereLabel(p)}
+                  {p.deva || p.romi ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : 'Official name only · '}{whereLabel(p)}
                 </span>
               </span>
             </button>

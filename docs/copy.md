@@ -58,6 +58,12 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
   - Recording with no name given: A speaker from {village} (from the consent wording)
   - Layers button while a layer is on: Layers and about. {Layer} layer is on
   - Read out when a layer is chosen: {Layer} layer on. {n} so far. / {Layer} layer on. None yet.
+- A village name recorded in one script only (4 October 2026; Shashank chose to show these, wording by Claude from the existing "Romi not recorded yet"):
+  - Card, under a Romi name: Devanagari not recorded yet
+  - Card, row "Devanagari": Not recorded yet. Know how {Romi} is written in Devanagari? Tell us.
+  - Card, Sources, status: Checked by a speaker
+  - Card, Sources, credit: Added by {name}. Reviewed by {reviewer}, {date}. / Sent in by a contributor. Reviewed by {reviewer}, {date}. (the second when no name was given)
+  - Page title and description: {Official} ({Romi}), {Taluka} taluka, Goa | Khoim / {Official} is a village in {Taluka} taluka, {District}, Goa. It is {Romi} in Romi.
 - Correction form, what is needed: no longer shown (it read "The first two answers are needed. Your name is optional." while the form took one thing at a time).
 - Correction form, something missing: Please fill this in. / Please fill this in. A few words are enough. / Please tick the box if you agree.
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.

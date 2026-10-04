@@ -322,7 +322,9 @@ export function GoaMap({
 
 /* Follows the finger while scrubbing: the name under it, on its house colour, inside a trim frame. */
 function Loupe({ p, x, y, w, script }: { p: Place; x: number; y: number; w: number; script: Script }) {
-  const n = nameIn(p, script === 'official' ? 'deva' : script);
+  const first = nameIn(p, script === 'official' ? 'deva' : script);
+  /* a name recorded in Romi only still shows as a Konkani name, whichever script is chosen */
+  const n = first.fallback && p.romi ? nameIn(p, 'romi') : first;
   const second = (p.romi && n.kind === 'deva' ? p.romi + ' · ' : '') + p.official;
   return (
     <div className="k-loupe" aria-hidden="true" data-house={houseOf(p).key} style={{ left: Math.max(12, Math.min(w - 232, x - 110)), top: Math.max(8, y - 150) }}>

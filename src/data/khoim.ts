@@ -27,8 +27,8 @@ function toPlace(v: RawVillage): Place {
     deva: v.deva ?? null,
     romi: v.romi ?? null,
     say: v.say ?? null,
-    // TODO(design): a village with a reviewed Konkani name has no source status in the design yet.
-    status: v.deva ? 'reviewed' : 'pending',
+    /* a name in either script, signed by a reviewer */
+    status: v.deva || v.romi ? 'reviewed' : 'pending',
     house: houseOfId(v.t),
     reviewed: !!v.reviewer,
     slug: v.slug,
@@ -36,7 +36,8 @@ function toPlace(v: RawVillage): Place {
     boundarySource: v.src ?? null,
     lp: v.lp ?? null,
     reviewer: v.reviewer,
-    reviewedOn: v.reviewedOn
+    reviewedOn: v.reviewedOn,
+    contributor: v.by
   };
 }
 
@@ -118,14 +119,16 @@ export function nameIn(p: Place | null, script: Script): NameForm {
   return { text: p.official, kind: 'official', fallback: false };
 }
 
-// TODO(copy): wording for a village whose Konkani name has been reviewed (status "reviewed"). None exist yet.
-export const STATUS_TEXT: Record<Status, string> = { agree: 'Sources agree', differ: 'Sources differ', pending: 'Official name only', reviewed: '' };
+/* "reviewed": a village name that came from a contributor and was allowed by a Konkani reviewer. The words are
+   the ones the say-it note already uses (settled 4 October 2026, in docs/copy.md). */
+export const STATUS_TEXT: Record<Status, string> = { agree: 'Sources agree', differ: 'Sources differ', pending: 'Official name only', reviewed: 'Checked by a speaker' };
 
 /** One sentence for screen readers: "Canacona. Konkani काणकोण, Romi Kannkonn. Taluka in Kushavati. Sources agree." */
 export function spokenName(p: Place | null): string {
   if (!p) return '';
   const bits = [p.official + '.'];
   if (p.deva) bits.push('Konkani ' + p.deva + (p.romi ? ', Romi ' + p.romi : '') + '.');
+  else if (p.romi) bits.push('Romi ' + p.romi + '.');
   bits.push(whereLabel(p) + '.');
   if (STATUS_TEXT[p.status]) bits.push(STATUS_TEXT[p.status] + '.');
   return bits.join(' ');

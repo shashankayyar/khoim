@@ -92,6 +92,12 @@ export async function tour() {
   byText('.k-strip__card', 'Raia').click(); await wait(800); await run('7 Raia peek');
   if (!desktop) { byText('.k-app button', 'All names').click(); await wait(700); }
   await run('7 Raia full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
+  // a village whose name is recorded in Romi only (Chicalim, in Mormugao)
+  byText('.k-crumbs__link', 'South Goa').click(); await wait(1300); q('.k-map__label[data-id="mormugao"]').click(); await wait(2200);
+  q(desktop ? '.k-desktop-card .k-icon-button' : '.k-sheet .k-icon-button').click(); await wait(800); await run('7b Mormugao strip of villages');
+  byText('.k-strip__card', 'Chicalim').click(); await wait(800); await run('7b Chicalim peek');
+  if (!desktop) { byText('.k-app button', 'How to say it').click(); await wait(700); }
+  await run('7b Chicalim full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
   // search
   if (!desktop) { q('.k-phone-header__row--where .k-icon-button').click(); await wait(900); }
   const input = q(desktop ? '.k-desktop__panel input' : '.k-search-screen input');

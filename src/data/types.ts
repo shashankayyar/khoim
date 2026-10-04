@@ -44,6 +44,8 @@ export interface Place {
   lp?: Point | null;
   reviewer?: string;
   reviewedOn?: string;
+  /** Who sent the name in, if they gave their name for credit. */
+  contributor?: string;
 }
 
 /** A village as written by scripts/build-data.mjs (short keys, to keep the file small). */
@@ -61,6 +63,8 @@ export interface RawVillage {
   say?: string;
   reviewer?: string;
   reviewedOn?: string;
+  /** Who sent the name in, if they gave their name for credit. */
+  by?: string;
 }
 
 export interface TalukaShape {
