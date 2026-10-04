@@ -70,7 +70,9 @@ const usable = (it: Partial<LiveItem>): it is LiveItem =>
 let asked: Promise<Live | null> | null = null;
 /** Null when the answer did not come: nothing is known, which is not the same as "nothing yet". */
 export function loadLive(): Promise<Live | null> {
-  asked ??= fetch('/api/live', { headers: { accept: 'application/json' } })
+  /* never from the browser's own store: an old list would hide what has just been allowed, or show what has
+     just been removed. Cloudflare keeps the answer for a minute, which is what spares the database. */
+  asked ??= fetch('/api/live', { cache: 'no-store', headers: { accept: 'application/json' } })
     .then(r => (r.ok ? r.json() : null))
     .then((d: { ok?: boolean; items?: Partial<LiveItem>[] } | null) => (d && d.ok && Array.isArray(d.items) ? build(d.items.filter(usable)) : null))
     .catch(() => null);
