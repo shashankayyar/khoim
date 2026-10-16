@@ -1,15 +1,15 @@
 app_no,product,village_tie,village_code,checked,match_note,locality_of,source,source_url
 120,Feni (cashew),Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
-618,Khola Chilli,"Cola (Khola), Canacona",627022,no,exact name; the phase 2 design data also uses this code. Waiting for Shashank to confirm,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
+618,Khola Chilli,"Cola (Khola), Canacona",627022,yes,"exact LGD name, confirmed by Shashank on 16 October 2026",,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 642,Harmal Chilli,"Arambol (Harmal), Pernem",626658,yes,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 655,Goan Khaje,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
-680,Myndoli Banana,"Moira, Bardez",626692,no,exact name; the phase 2 design data also uses this code. Waiting for Shashank to confirm,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
+680,Myndoli Banana,"Moira, Bardez",626692,yes,"exact LGD name, confirmed by Shashank on 16 October 2026",,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 714,Goa Cashew,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 728,Goa Mankurad Mango,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 746,Goan Bebinca,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 763,Agsechi Vayingim (Agassaim brinjal),Agassaim,,no,"a locality, not an LGD village; its origin is for its own name, so it is not attached to the village it lies in",,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 790,Sat Shiro Bheno,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
-878,Taleigao Vayingim,Taleigao,645598,no,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
+878,Taleigao Vayingim,Taleigao,645598,yes,"exact LGD name, confirmed by Shashank on 16 October 2026",,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 879,Goa Hilario Mango,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 916,Goa Korgut Rice,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 1079,Goa Kaju Apple,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
