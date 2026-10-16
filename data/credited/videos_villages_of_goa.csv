@@ -1,6 +1,6 @@
 place,village_code,place_id,checked,match_note,title,url,video_id,uploaded,channel,channel_url
 Assagao,626672,,no,,Shree Ghateshwar Mandir,https://youtu.be/aRapVtNhWBg,aRapVtNhWBg,2026-07-01,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
-Bandora,626869,,yes,keyed by LGD code in the phase 2 design data (design/components/data/villageFacts.js),Shree Mahalaxmi Mandir,https://youtu.be/ho03VQfgEcg,ho03VQfgEcg,2026-07-06,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
+Bandora,626869,,no,exact name; the phase 2 design data also uses this code. Waiting for Shashank to confirm,Shree Mahalaxmi Mandir,https://youtu.be/ho03VQfgEcg,ho03VQfgEcg,2026-07-06,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
 Usgao (Bondla),626873,,no,,Bondla wildlife sanctuary,https://youtu.be/IDTKfiH0t-g,IDTKfiH0t-g,2024-10-06,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
 Dhamshem,626831,,yes,LGD writes it Damocem (Sattari),Dhamshem village,https://youtu.be/eqF7O8xs2oE,eqF7O8xs2oE,2025-11-15,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
 Dhavem,626801,,yes,LGD writes it Davem (Sattari),Dhavem village,https://youtu.be/_Jz80enyCfk,_Jz80enyCfk,2025-11-10,Villages of Goa,https://www.youtube.com/@Villages_of_Goa
