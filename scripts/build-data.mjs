@@ -225,7 +225,6 @@ console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villa
   `${counts.soiOnly} more from Survey of India maps only), ` +
   `${counts.reviewed} reviewed Konkani village names.`);
 console.log(index.summary);
-if (index.notIndexed.length) console.log(`Not indexed (no Konkani name and fewer than two sourced facts): ${index.notIndexed.join(', ')}.`);
 if (mapTalukaDiffers.length) {
   console.log(`Note: the boundary file draws ${mapTalukaDiffers.length} villages inside a different taluka than the LGD list files them under:`);
   for (const line of mapTalukaDiffers) console.log('  - ' + line);
