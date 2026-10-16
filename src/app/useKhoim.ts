@@ -10,12 +10,13 @@
    Inside a taluka, "See all as a list" opens every village as a sortable list (phase 2), at the taluka's
    address plus villages/: /north-goa/bardez/villages/. */
 import { useEffect, useRef, useState } from 'react';
-import { loadMapExtra, loadVillagePaths, type MapExtra, type VillagePaths } from '../data/geo';
+import { TALUKA_IDS, loadMapExtra, loadVillagePaths, type MapExtra, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
 import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
 import { LIVE_LAYERS, NO_LIVE, loadLive, type Live } from '../lib/live';
+import { NAMES_LAYER, layerFromQuery, layerHeadline, layerQuery, type MapLayer } from '../lib/layers';
 
 export type Snap = 'peek' | 'full';
 type Overlay = 'search' | 'more' | 'form' | 'list' | null;
@@ -35,6 +36,8 @@ interface State {
   layer: string;
   /** The taluka's villages as a list, over the map. Only inside a taluka. */
   list: boolean;
+  /** The phase 2 map view (Names, Name parts, Feasts and zatras, Names we need). Travels in the address. */
+  mapLayer: MapLayer;
 }
 
 /** What each browser history entry remembers. */
@@ -59,7 +62,7 @@ export interface KhoimOptions {
   initialList?: boolean;
 }
 
-const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, form: null, layer: 'names', list: false };
+const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, form: null, layer: 'names', list: false, mapLayer: NAMES_LAYER };
 const SCRIPT_KEY = 'khoim-script';
 const SITE = 'https://khoim.in';
 
@@ -98,7 +101,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [s, set] = useState<State>(() => {
     if (initialVillage) registerVillage(initialVillage);
     const query = queryInAddress();
-    const start = { ...START, ...opened(getPlace(initialId)), query, search: !!query };
+    const start = { ...START, ...opened(getPlace(initialId)), query, search: !!query, mapLayer: layerFromQuery(window.location.search) };
     return initialList && getPlace(initialId)?.level === 'taluka' ? { ...start, selected: null, list: true } : start;
   });
   const [script, setScriptRaw] = useState<Script>(savedScript);
@@ -106,6 +109,8 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
   const [extra, setExtra] = useState<{ id: string; extra: MapExtra } | null>(null);
+  /* every village outline in Goa: a map view colours them all */
+  const [allPaths, setAllPaths] = useState<VillagePaths | null>(null);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
   const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
   /* What reviewers have allowed for the layers other than Names. Null until the server has answered. */
@@ -145,11 +150,21 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     return () => { live = false; };
   }, [wantPaths]);
 
+  /* A map view needs every village, their outlines and their facts. Fetched the first time a view is chosen. */
+  const layered = s.mapLayer.id !== 'names';
+  useEffect(() => {
+    if (!layered || allPaths) return;
+    let live = true;
+    loadVillages().then(() => { if (live) setVillagesLoaded(true); });
+    Promise.all(TALUKA_IDS.map(loadVillagePaths)).then(all => { if (live) setAllPaths(Object.assign({}, ...all)); });
+    return () => { live = false; };
+  }, [layered, allPaths]);
+
   /* A village's phase 2 facts load the first time a village is selected. */
   const [factsLoaded, setFactsLoaded] = useState(false);
   /* the list needs them too, to mark the villages whose Konkani form is waiting for review, and so does the map
      inside a taluka, for the glyphs of what each village is known for */
-  const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka') && !factsLoaded;
+  const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka' || layered) && !factsLoaded;
   useEffect(() => {
     if (!wantFacts) return;
     let live = true;
@@ -164,7 +179,8 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const overlay: Overlay = s.form ? 'form' : s.more ? 'more' : s.search && !desktop ? 'search' : listOpen ? 'list' : null;
   useEffect(() => {
     const path = listOpen ? pathOf(focusPlace) + LIST_SLUG + '/' : pathOf(place);
-    const q = s.query && (desktop || s.search) ? '?q=' + encodeURIComponent(s.query) : '';
+    const params = [s.query && (desktop || s.search) ? 'q=' + encodeURIComponent(s.query) : '', layerQuery(s.mapLayer)].filter(Boolean);
+    const q = params.length ? '?' + params.join('&') : '';
     const cur = entryNow();
     const key = path + '#' + (overlay ?? '');
     const entry: Entry = { focus: s.focus, selected: s.selected, snap: s.snap, overlay, key, idx: cur?.idx ?? 0 };
@@ -180,7 +196,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     document.title = listOpen ? listTitle(focusPlace!) : meta.title;
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', SITE + path);
-  }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place, listOpen]);
+  }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place, listOpen, s.mapLayer]);
 
   /* The browser's back and forward buttons. */
   useEffect(() => {
@@ -189,7 +205,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
       const query = queryInAddress();
       if (st && (!st.selected || getPlace(st.selected))) {
         /* going back or forward never reopens the form: what was typed in it is gone */
-        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', list: st.overlay === 'list', form: null, query: query || (st.overlay === 'search' ? v.query : '') }));
+        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', list: st.overlay === 'list', form: null, query: query || (st.overlay === 'search' ? v.query : ''), mapLayer: layerFromQuery(window.location.search) }));
         const p = getPlace(st.selected) ?? getPlace(st.focus);
         setAnnounce(sayNext.current ?? (p ? spokenName(p) : 'All of Goa'));
         sayNext.current = null;
@@ -240,6 +256,15 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
 
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, mapExtra, contrib,
+    layered,
+    /** Every village outline, once a map view has asked for them. */
+    allPaths: layered ? allPaths : null,
+    /** Choosing a map view keeps a selected village's card; anything else steps back to the map. */
+    setMapLayer: (mapLayer: MapLayer) => {
+      replaceNext.current = true;
+      set(v => ({ ...v, mapLayer, selected: v.selected && v.selected[0] === 'v' ? v.selected : null, snap: 'peek', list: false }));
+      setAnnounce(mapLayer.id === 'names' ? 'Names.' : layerHeadline(mapLayer) + '.');
+    },
     live: liveData ?? NO_LIVE, litLayer, layerCounts,
     marks: litLayer && liveData ? liveData.marks(litLayer.id) : null,
     /* the form takes the place of About if it was opened from there */

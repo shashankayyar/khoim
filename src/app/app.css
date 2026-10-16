@@ -31,7 +31,7 @@ html[data-app="ready"] #khoim-static { display: none; }
 }
 
 .k-phone-title {
-  position: absolute; top: 76px; left: 20px; right: 36px; margin: 0; max-width: 520px;
+  position: absolute; top: 128px; left: 20px; right: 36px; margin: 0; max-width: 520px;
   font: var(--weight-strong) var(--size-title)/var(--lh-title) var(--font-latin);
   letter-spacing: var(--track-title); text-wrap: pretty; pointer-events: none;
   transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-sheet) var(--ease-out), visibility 0s linear 0s;
@@ -171,3 +171,12 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-desktop__map .k-list-screen__top { padding: 20px 28px 8px; }
 .k-desktop__map .k-list-screen__body { padding: 8px 28px 40px; }
 @media (prefers-reduced-motion: reduce) { .k-list-screen, .k-list-screen.is-open { transition: none; } }
+
+/* ---------- Phase 2 map views ---------- */
+.k-phone-header .k-layer-row { margin: 0 -16px; }
+/* on the first screen, with a view on, its headline takes the title's place */
+.k-phone-title--layer { font: var(--weight-strong) 22px/1.25 var(--font-latin); letter-spacing: 0; }
+.k-desktop-layers { position: absolute; top: 84px; left: 12px; right: 12px; pointer-events: none; }
+.k-desktop-layers .k-layer-row { padding-inline: 16px; }
+.k-desktop__panel-layer { display: grid; gap: 4px; }
+.k-desktop__panel-headline { margin: 0; padding: 4px var(--gutter) 6px; font: var(--weight-strong) 22px/1.25 var(--font-latin); }
