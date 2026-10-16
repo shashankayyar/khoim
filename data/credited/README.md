@@ -4,7 +4,10 @@ Facts that come from someone else's work, or that we put together by hand. Nothi
 
 ## Rules
 - **Joined on codes.** `village_code` is the LGD village code. Every match here was made by name, so each row stays `checked=no` until Shashank confirms it. A row only shows on the site once it says `checked=yes`.
-- **Blank code = not matched yet.** `match_note` says why: no LGD village by that name, or more than one. These are never guessed.
+- **Blank code = not matched.** `match_note` says why: no LGD village by that name, more than one, or a locality. These are never guessed.
+- **Localities are not villages.** Ashwem, Baga, Dona Paula, Banastarim, Ribandar and Agassaim are places inside a village. Their origins and products are about the locality's own name, so they are never attached to the village. `locality_of` holds the village's LGD code where known, for a later localities layer.
+- **Pages without an LGD code.** `place_id` points at a page that has no LGD code, such as the Mapusa town page (a Survey of India outline).
+- Matches confirmed by Shashank on 16 October 2026 are in `docs/phase2-decisions.md`.
 - **Our words, with credit.** `origin` is our summary. The author's prose is never copied. Every row keeps author, publication, date and link so the site can credit it.
 - **Hedges are kept.** `hedge` is the source's own caution ("believed", "legend", "one theory"). The site shows it with the origin.
 
@@ -14,7 +17,7 @@ Facts that come from someone else's work, or that we put together by hand. Nothi
 | `origins_luis_2026.csv` | Where village names come from | Dr Alvarinho J. Luis, The Goan (2026), and the Gazetteer of the Union Territory Goa, Daman and Diu, Part 1 (1979). Facts restated in our words, credited. |
 | `videos_villages_of_goa.csv` | Videos about villages | YouTube channel Villages of Goa (@Villages_of_Goa). Linked and credited, never copied. |
 | `gi_products.csv` | Geographical Indication products | GI Registry, search.ipindia.gov.in |
-| `stations_wikidata.csv` | The 23 railway stations in Goa | Wikidata (CC0). `osm_check` compares each with OpenStreetMap. |
+| `stations_wikidata.csv` | The 23 railway stations in Goa | Wikidata (CC0). `osm_check` compares each with OpenStreetMap. Wikidata's points are kept even where they differ: Kalem is about 500 m from OpenStreetMap's point, which does not show at map scale, and Marmagao (MRH) is missing from OpenStreetMap as a station (checked 16 October 2026). |
 | `wikidata_units.csv` | Wikidata IDs for Goa, districts, talukas | Wikidata (CC0) |
 | `monuments.csv` | Protected monuments | ASI and state lists, transcribed by hand (empty for now) |
 | `parishes.csv` | Parishes and their feast rules | UCA News parish directory |

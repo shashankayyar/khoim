@@ -182,6 +182,8 @@ for (const v of villages) {
 for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWith('.csv'))) {
   for (const r of readCsv('data/credited/' + file)) {
     if (r.village_code) check(lgdByCode.has(r.village_code), `data/credited/${file}: village_code ${r.village_code} is not in data/villages_lgd.csv.`);
+    if (r.locality_of) check(lgdByCode.has(r.locality_of), `data/credited/${file}: locality_of ${r.locality_of} is not in data/villages_lgd.csv.`);
+    if (r.place_id) check(villages.some(v => v.id === r.place_id), `data/credited/${file}: place_id ${r.place_id} is not a village page.`);
     if ('checked' in r && r.village_code) check(['yes', 'no'].includes(r.checked), `data/credited/${file}: checked must be yes or no (row for ${r.village_code}).`);
   }
 }
