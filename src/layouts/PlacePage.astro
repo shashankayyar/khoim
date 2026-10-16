@@ -8,13 +8,13 @@ import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { PlaceCard } from '../components/place/PlaceCard';
-import VillageTable from '../components/static/VillageTable.astro';
 import villagesJson from '../data/generated/villages.json';
 import { allVillagesOf, childrenOf, getPlace, houseOf, pathOf, registerVillages, trailOf } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { RawVillage } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import '../styles/static.css';
+import VillageTable from '../components/static/VillageTable.astro';
 
 interface Props {
   /** Missing = all of Goa (the home page). */
