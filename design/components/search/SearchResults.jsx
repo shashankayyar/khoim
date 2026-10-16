@@ -1,5 +1,5 @@
 import React from 'react';
-import { searchPlaces, whereLabel, houseOf } from '../data/khoim.js';
+import { searchPlaces, whereLabel, houseOf, STATUS_TEXT } from '../data/khoim.js';
 import { useReducedMotion } from '../core/motion.js';
 function mark(text, q) {
   const fold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -27,7 +27,7 @@ export function SearchResults({ query = '', onPick, limit = 16, style }) {
                     {p.romi && <span lang="gom-Latn" style={{ font: 'var(--weight-strong) 21px/1.3 var(--font-latin)' }}>{field === 'romi' ? mark(p.romi, query) : p.romi}</span>}
                   </span>
                   : <span style={{ font: 'var(--weight-strong) 21px/1.4 var(--font-latin)' }}>{mark(p.official, query)}</span>}
-                <span style={{ font: 'var(--weight-regular) 15px/1.4 var(--font-latin)' }}>{p.deva ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : 'Official name only · '}{whereLabel(p)}</span>
+                <span style={{ font: 'var(--weight-regular) 15px/1.4 var(--font-latin)' }}>{p.deva ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : STATUS_TEXT[p.status] + ' · '}{whereLabel(p)}</span>
               </span>
             </button>
           </li>

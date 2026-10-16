@@ -1,0 +1,20 @@
+<!-- @dsCard group="Components" viewport="700x760" name="Village sheet" subtitle="Blocks: meaning, split, spellings, vaddos, facts, known for, video" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--surface);color:var(--text);font-family:var(--font-latin)}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const K = window.GoemDesignSystem_26c22a;
+
+const { VillageSheet, MeaningBlock, NameSplit, SpellingTimeline, KnownFor, VideoFacade, VaddoList, KhoimData: D } = K;
+const H = id => D.houseOf(D.getPlace(id));
+const Box = ({id, children}) => <div style={{background:H(id).bg,color:H(id).on,'--sheet-bg':H(id).bg,borderRadius:24,padding:16,display:'grid',gap:10,alignContent:'start'}}>{children}</div>;
+const f = id => D.villageFacts(D.getPlace(id));
+ReactDOM.createRoot(document.getElementById('root')).render(<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,padding:12}}>
+<Box id="v626704"><VillageSheet place="v626704" onExpand={()=>{}} onShare={()=>{}} onClose={()=>{}} /></Box>
+<Box id="v626695"><b>Calangute, meaning</b><MeaningBlock meaning={f('v626695').meaning} /><b>Name split</b><NameSplit split={f('v626695').split} /></Box>
+<Box id="v626869"><b>Bandora, spellings over time</b><SpellingTimeline spellings={f('v626869').spellings} /><VideoFacade video={f('v626869').video} /></Box>
+<Box id="v626690"><b>Siolim, known for</b><KnownFor items={f('v626690').knownFor} /><b>Parra, vaddos</b><VaddoList vaddos={f('v626675').vaddos} /></Box>
+</div>);
+</script></body></html>

@@ -59,14 +59,20 @@ Credit (verbatim): *Khoim is a non-profit initiative by Pangolin Marketing. Boun
 - `SKILL.md`, `thumbnail.html`.
 
 ## Components
-- core: **Wordmark**, **Icon**, **Button**, **IconButton**, **ScriptToggle**, **SourceStatus**, **DraftBanner**, **Credit**
-- map: **GoaMap**
-- place: **Sheet**, **PlaceCard**, **SayIt**, **PendingName**, **PlaceStrip**
+- core: **Wordmark**, **Icon**, **Button**, **IconButton**, **ScriptToggle**, **SourceStatus** (agree, differ, pending, review), **DraftBanner**, **Credit**
+- map: **GoaMap** (layers, neighbour labels, river and rail lines, glyph tiles)
+- nav (phase 2): **Breadcrumb**, **LayerRow**, **TapHint**
+- place: **Sheet** (with place name in the handle row), **PlaceCard**, **SayIt**, **PendingName**, **PlaceStrip**
+- village (phase 2): **VillageSheet**, **MeaningBlock**, **NameSplit**, **SpellingTimeline**, **VaddoList**, **VillageFacts**, **PopulationDots**, **KnownFor**, **FeastStrip**, **VideoFacade**, **DataPending**, **VillageTable**
+- layers: **LayerSwitch**, **VoiceClip**, **LayerPanel** (phase 2), **MonthSlider** (phase 2)
 - search: **SearchField**, **SearchResults**
-- layers (future-ready): **LayerSwitch**, **VoiceClip**
+- share (phase 2): **ShareSheet**, **ShareCard**, **Toast**
 
 ### Intentional additions
 - `KhoimData` (not a component): one place for names, fallbacks, search and spoken labels.
+
+## Phase 2 (16 Oct 2026)
+Village facts, map layers, clearer touch cues, sharing. Same tokens, fonts and house colours. New tokens in `tokens/layers.css`. Verified content lives in `components/data/villageFacts.js`; nothing there is unsourced. Census 2011, PIN, panchayat, station, river and railway geometry are marked placeholders (TODO(data)). Full spec in `design_handoff_khoim/README.md`. Rule: unreviewed Konkani names (p.devaUnreviewed) appear only in the village sheet name block, labelled "Needs review"; maps, cards, titles and lists use reviewed names only.
 
 ## Open items
 - Say-it guides are all unreviewed drafts. Dharbandora's Konkani is pending. Pernem and Kushavati have no Romi.
