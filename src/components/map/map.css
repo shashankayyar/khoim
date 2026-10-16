@@ -132,3 +132,12 @@
 }
 .k-map__credit a span { background: var(--surface-raised); padding: 2px 7px; border-radius: var(--radius-xs); }
 @media (prefers-reduced-motion: reduce) { .k-map__near:active .k-map__near-name, .k-map__glyph:active .k-map__glyph-tile { transform: none; } }
+
+/* ---------- Phase 2 map views ---------- */
+.k-map__lv { stroke-linejoin: round; }
+.k-map__lv--lit { fill: var(--house-bg); stroke: var(--map-lit-outline); stroke-width: 1.75; }
+.k-map__lv--need.k-map__lv--lit { stroke: var(--trim); stroke-width: 1; }
+.k-map__lv--dim { fill: var(--map-fade); stroke: var(--map-fade-edge); stroke-width: 1; }
+.k-map__lv--review { fill: var(--house-dim); stroke: var(--map-outline); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.k-map__lv--outline { fill: var(--map-unlit); stroke: var(--map-outline); stroke-width: .6; }
+.k-map__lt { fill: none; stroke: var(--map-fade-edge); stroke-width: 1.5; pointer-events: none; }

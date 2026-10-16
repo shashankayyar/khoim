@@ -16,6 +16,9 @@ import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
+import { LayerPanel } from '../components/layers/LayerPanel';
+import { LayerRow } from '../components/layers/LayerRow';
+import { MAP_LAYERS, layerHeadline, layerWith, mappedVillages } from '../lib/layers';
 import { getPlace, houseOf, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
 import { CONTACT_EMAIL } from '../data/site';
@@ -118,6 +121,16 @@ function Crumbs({ k }: { k: Khoim }) {
   );
 }
 
+/* The phase 2 map views: the row, and what the map needs for them. */
+function Layers({ k }: { k: Khoim }) {
+  return <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />;
+}
+const layerMap = (k: Khoim) => ({ mapLayer: k.mapLayer, layerVillages: k.layered && k.villagesLoaded ? mappedVillages() : undefined, allPaths: k.allPaths });
+function Panel({ k }: { k: Khoim }) {
+  return <LayerPanel layer={k.mapLayer} onChange={k.setMapLayer} onPickPlace={k.openPlace}
+    onHelp={k.contrib.open ? () => k.openForm(k.selected ?? k.focus ?? 'goa', 'name') : undefined} helpHref={k.contrib.open ? undefined : tellUsWhatIsWrongHref(window.location.href)} />;
+}
+
 /* "See all as a list", under the strip of a taluka's villages (phase 2). */
 function ListButton({ k }: { k: Khoim }) {
   const fp = getPlace(k.focus);
@@ -171,23 +184,25 @@ function Phone({ k }: { k: Khoim }) {
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
   const parent = fp && fp.parent && fp.parent !== 'goa' ? getPlace(fp.parent) : null;
-  const sheet = sp ? 'place' : fp ? 'strip' : null;
+  const sheet = sp ? 'place' : k.layered ? 'layer' : fp ? 'strip' : null;
   /* How much of the card shows when collapsed. The card reports what it needs, because names wrap differently
      on different phones; until it has, use the design's figure. The map keeps clear of it. */
   const [measured, setMeasured] = useState<{ id: string; px: number } | null>(null);
   const cardPeek = sp ? (measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
-  const peek = sp ? cardPeek : fp ? (fp.level === 'taluka' ? 224 : 200) : 0;
+  const peek = sp ? cardPeek : k.layered ? (k.mapLayer.id === 'feasts' ? 300 : 280) : fp ? (fp.level === 'taluka' ? 224 : 200) : 0;
   const spId = sp?.id;
   const onMeasure = useCallback((px: number) => { if (spId) setMeasured(m => (m && m.id === spId && m.px === px ? m : { id: spId, px })); }, [spId]);
   /* On the first screen the map sits between the title and the buttons, however many lines they take on this phone. */
   const title = useRef<HTMLHeadingElement>(null), bottom = useRef<HTMLDivElement>(null);
   const titleH = useHeight(title), bottomH = useHeight(bottom);
-  const firstTop = titleH ? 76 + titleH + 12 : 176, firstBottom = bottomH ? bottomH + 28 : 190;
+  /* the layer row sits under the header's first row on the first screen, and under the second row elsewhere */
+  const firstTop = titleH ? 128 + titleH + 12 : 228, firstBottom = bottomH ? bottomH + 28 : 190;
+  const headline = first && k.layered ? layerHeadline(k.mapLayer) : null;
   return (
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
         <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} {...marksOf(k)} />
+          insetTop={first ? firstTop : 176} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} {...marksOf(k)} {...layerMap(k)} />
       </main>
       <header className="k-phone-header">
         <div className="k-phone-header__row">
@@ -205,8 +220,10 @@ function Phone({ k }: { k: Khoim }) {
             <IconButton icon="search" label="Search any name, in any script" onClick={k.openSearch} />
           </div>
         )}
+        <Layers k={k} />
       </header>
-      <h1 ref={title} className={first ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first}>{TITLE}</h1>
+      <h1 ref={title} className={first && !headline ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || !!headline}>{TITLE}</h1>
+      {headline && <p className="k-phone-title k-phone-title--layer" role="status">{headline}</p>}
       <div ref={bottom} className={sheet ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'}>
         <div className="k-phone-bottom__notes">
           <p className="k-hint">Tap a district, or press and drag along Goa</p>
@@ -225,7 +242,12 @@ function Phone({ k }: { k: Khoim }) {
           </div>
         </Sheet>
       )}
-      {!sp && fp && (
+      {!sp && k.layered && (
+        <Sheet key={'l' + k.mapLayer.id} label={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} snap={k.snap} onSnap={sn => (sn === 'closed' ? k.setMapLayer(layerWith('names')) : k.setSnap(sn))} peek={peek}>
+          <Panel k={k} />
+        </Sheet>
+      )}
+      {!sp && !k.layered && fp && (
         <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
           <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} {...marksOf(k)} />
           <ListButton k={k} />
@@ -250,7 +272,7 @@ function Desktop({ k }: { k: Khoim }) {
       <div className="k-desktop">
         <main className="k-desktop__map">
           <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} creditAt="top" {...marksOf(k)} />
+            insetTop={148} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} creditAt="top" {...layerMap(k)} {...marksOf(k)} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>
@@ -261,7 +283,8 @@ function Desktop({ k }: { k: Khoim }) {
               <LayersButton k={k} />
             </div>
           </header>
-          {!fp && !sp && (
+          <div className="k-desktop-layers"><Layers k={k} /></div>
+          {!fp && !sp && !k.layered && (
             <div className="k-desktop-intro">
               <h1>{TITLE}</h1>
               <p>Click a district, or press and drag along Goa.</p>
@@ -287,6 +310,11 @@ function Desktop({ k }: { k: Khoim }) {
                 <div className="k-desktop-card__inner">
                   <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} />
                 </div>
+              </div>
+            ) : k.layered ? (
+              <div className="k-desktop__panel-layer">
+                <h1 className="k-desktop__panel-headline">{layerHeadline(k.mapLayer)}</h1>
+                <Panel k={k} />
               </div>
             ) : (
               <>

@@ -15,12 +15,19 @@
    Phase 2, inside a taluka: rivers and railway from OpenStreetMap (credited on the map) with the stations, and a
    glyph tile beside each village known for something (a parish feast, a zatra, a GI product). Each glyph is a
    button that opens its village. A selected village is framed with its neighbours: it gets a trim outline and its
-   name, and each neighbour gets a small name tag that moves you across. */
+   name, and each neighbour gets a small name tag that moves you across.
+
+   Phase 2 map views (Name parts, Feasts and zatras, Names we need): every village in view is drawn on its own.
+   Matching villages keep their taluka's house colour with a dark outline on top; the rest go to one neutral
+   (design revision 7: the outline is what keeps 3:1 against the neutral, never remove it). Under Names we need,
+   checked names are filled, unchecked forms are tinted with a dashed edge, and the rest are outlined.
+   Tapping a village opens it, at every level. */
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react';
 import { DISTRICT_IDS, GEO, TALUKA_IDS, type MapExtra, type VillagePaths } from '../../data/geo';
 import { STATUS_TEXT, childCount, factsOf, getPlace, houseOf, nameIn, spokenName, whereLabel } from '../../data/khoim';
 import type { Box, Place, Point, Script } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
+import { layerState, type MapLayer } from '../../lib/layers';
 import { Icon } from '../core/Icon';
 import type { IconName } from '../core/iconPaths';
 import './map.css';
@@ -97,12 +104,16 @@ export interface GoaMapProps {
   factsReady?: boolean;
   /** Where OpenStreetMap's credit sits: above the sheet on phones, under the header on desktop (the strip is below). */
   creditAt?: 'top' | 'bottom';
+  /** A phase 2 map view, and what it needs: every village with an outline, and all their outlines. */
+  mapLayer?: MapLayer;
+  layerVillages?: Place[];
+  allPaths?: VillagePaths | null;
 }
 
 export function GoaMap({
   focus = null, selected = null, hot = null, script = 'deva', onSelect, onHot,
   insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, paintIn = false, villages, villagePaths, marks, markIcon, markLabel,
-  extra = null, factsReady = false, creditAt = 'bottom'
+  extra = null, factsReady = false, creditAt = 'bottom', mapLayer, layerVillages, allPaths
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null), stage = useRef<HTMLDivElement>(null), labelLayer = useRef<HTMLDivElement>(null);
@@ -209,7 +220,13 @@ export function GoaMap({
   const lines = level === 'taluka' && extra ? extra.lines : [];
   const stations = level === 'taluka' && extra ? extra.stations : [];
   const scrubP = scrub && scrub.u ? getPlace(scrub.u) : null;
-  const markAt = (id: string) => (markIcon && marks?.[id]) || 0;
+  /* a map view: the villages in the area you are looking at, each drawn by how it answers the view */
+  const layered = !!(mapLayer && mapLayer.id !== 'names' && allPaths && layerVillages);
+  const today = new Date();
+  const inArea = (v: Place) => level === 'state' || (level === 'district' ? districtOf(v.parent!) === focus : v.parent === focus);
+  const layerVs = layered ? layerVillages!.filter(v => allPaths![v.id] && inArea(v)).map(v => ({ v, st: layerState(v, mapLayer!, today) }))
+    .sort((a, b) => Number(a.st === 'lit') - Number(b.st === 'lit')) : [];
+  const markAt = (id: string) => (!layered && markIcon && marks?.[id]) || 0;
   const allPainted = painted.size === TALUKA_IDS.length;
 
   /* On a small map (a narrow or short phone) Goa's district labels shrink and drop their count, so they do not
@@ -252,7 +269,8 @@ export function GoaMap({
 
   /* Labels: districts over all of Goa, talukas inside a district. Each is a button. */
   const labels: { id: string; at: Point; size: number; sub: string | null; on: boolean; shownNow: boolean }[] =
-    level === 'state'
+    level === 'state' && layered ? []
+    : level === 'state'
       ? DISTRICT_IDS.map(id => ({ id, at: labelPoint(id, D[id].lp), size: roomy ? 24 : tiny ? 18 : 20, sub: roomy ? `${childCount(getPlace(id)!)} talukas` : null, on: !act || act === id, shownNow: allPainted }))
       : level === 'district'
         ? TALUKA_IDS.filter(detailed).map(id => ({ id, at: labelPoint(id, T[id].lp), size: act === id ? 24 : 20, sub: null, on: lit(id), shownNow: painted.has(id) }))
@@ -276,13 +294,17 @@ export function GoaMap({
             </defs>
             <g transform={`translate(${ox},${oy}) scale(${s})`}>
               {TALUKA_IDS.map(id => <path key={'e' + id} className="k-map__empty" d={T[id].d} vectorEffect="non-scaling-stroke" />)}
-              {TALUKA_IDS.map(id => (
+              {layerVs.map(({ v, st }) => (
+                <path key={'lv' + v.id} className={`k-map__lv k-map__lv--${st} k-map__lv--${mapLayer!.id}`} data-house={houseKey(v.parent!)} d={allPaths![v.id]} vectorEffect="non-scaling-stroke" />
+              ))}
+              {layered && TALUKA_IDS.map(id => <path key={'lt' + id} className="k-map__lt" d={T[id].d} vectorEffect="non-scaling-stroke" />)}
+              {!layered && TALUKA_IDS.map(id => (
                 <path key={id} data-shape={detailed(id) ? id : undefined} className={'k-map__taluka' + (lit(id) ? ' is-lit' : '') + (detailed(id) ? '' : ' k-map__taluka--hint')}
                   data-house={houseKey(detailed(id) ? id : districtOf(id))} d={T[id].d}
                   clipPath={`url(#khoim-paint-${id})`} vectorEffect="non-scaling-stroke" />
               ))}
               {DISTRICT_IDS.map(id => <path key={'d' + id} data-shape={level === 'state' ? id : undefined} className="k-map__district" d={D[id].d} vectorEffect="non-scaling-stroke" />)}
-              {shown.map(v => <path key={'vp' + v.id} className={nbrIds.includes(v.id) ? 'k-map__village is-near' : 'k-map__village'} d={villagePaths![v.id]} vectorEffect="non-scaling-stroke" />)}
+              {!layered && shown.map(v => <path key={'vp' + v.id} className={nbrIds.includes(v.id) ? 'k-map__village is-near' : 'k-map__village'} d={villagePaths![v.id]} vectorEffect="non-scaling-stroke" />)}
               {selV && villagePaths?.[selV.id] && <path className="k-map__village-on" d={villagePaths[selV.id]} vectorEffect="non-scaling-stroke" />}
               {/* rivers and railway, OpenStreetMap: a casing under each so it reads on every house colour */}
               {lines.map((l, i) => (
@@ -300,7 +322,8 @@ export function GoaMap({
               </g>
               {/* what a tap lands on: every taluka shape, then the villages on top inside a taluka */}
               {TALUKA_IDS.filter(id => id !== focus).map(id => <path key={'h' + id} className="k-map__hit" data-unit={targetOf(id)} d={T[id].d} />)}
-              {shown.map(v => <path key={'h' + v.id} className="k-map__hit" data-unit={v.id} d={villagePaths![v.id]} />)}
+              {!layered && shown.map(v => <path key={'h' + v.id} className="k-map__hit" data-unit={v.id} d={villagePaths![v.id]} />)}
+              {layerVs.map(({ v }) => <path key={'lh' + v.id} className="k-map__hit" data-unit={v.id} d={allPaths![v.id]} />)}
             </g>
           </svg>
         )}
