@@ -1,0 +1,92 @@
+---
+/* Every village in a taluka (or in Kushavati), as a plain table in the page's HTML: official name, Konkani names
+   where a reviewer has signed them, and the Census 2011 and panchayat facts once those files are loaded
+   (phase 2 brief, A5). A fact column appears only when at least one village in the table has a value for it
+   (Shashank, 16 October 2026). These pages are indexable, so a village still missing a value in a shown column
+   gets an empty cell, never a "To load" placeholder (docs/phase2-decisions.md). It is what search engines and readers without
+   JavaScript see. With JavaScript the map app replaces the page; the phase 2 VillageTable brings the list into
+   the app, with sorting. Until the phase 2 design lands this uses the existing tokens. */
+import { STATUS_TEXT, getPlace, pathOf } from '../../data/khoim';
+import type { Place } from '../../data/types';
+
+/** Census and LGD facts for a village, keyed by place id. Empty until data/build/village_facts.json exists (A2). */
+export interface VillageFacts { population?: number; panchayat?: string; kind?: 'village' | 'town' }
+
+interface Props {
+  villages: Place[];
+  /** The taluka or district the table is for. */
+  place: Place;
+  facts?: Record<string, VillageFacts>;
+}
+
+const { villages, place, facts = {} } = Astro.props;
+const showTaluka = place.level === 'district';
+const rows = [...villages].sort((a, b) =>
+  showTaluka ? (getPlace(a.parent)!.official.localeCompare(getPlace(b.parent)!.official) || a.official.localeCompare(b.official)) : a.official.localeCompare(b.official));
+const has = (key: keyof VillageFacts) => rows.some(v => facts[v.id]?.[key] != null);
+const showPopulation = has('population'), showPanchayat = has('panchayat'), showKind = has('kind');
+const KIND = { village: 'Village', town: 'Census Town' } as const; // TODO(copy)
+---
+
+<section class="vtable" aria-labelledby="vtable-title">
+  {/* TODO(copy): table title and column headings */}
+  <h2 id="vtable-title" class="vtable__title">{'Villages in ' + place.official}</h2>
+  <div class="vtable__scroll" tabindex="0" role="region" aria-labelledby="vtable-title">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Village</th>
+          {showTaluka && <th scope="col">Taluka</th>}
+          <th scope="col">Konkani</th>
+          {showPopulation && <th scope="col">Population (Census 2011)</th>}
+          {showPanchayat && <th scope="col">Panchayat</th>}
+          {showKind && <th scope="col">Village or Census Town</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(v => {
+          const f = facts[v.id] ?? {};
+          return (
+            <tr>
+              <th scope="row"><a href={pathOf(v)}>{v.official}</a></th>
+              {showTaluka && <td>{getPlace(v.parent)?.official}</td>}
+              <td>
+                {v.deva || v.romi ? (
+                  <>
+                    {v.deva && <span class="vtable__deva" lang="gom">{v.deva}</span>}
+                    {v.romi && <span lang="gom-Latn">{v.romi}</span>}
+                  </>
+                ) : STATUS_TEXT.pending}
+              </td>
+              {showPopulation && <td class="vtable__num">{f.population != null ? f.population.toLocaleString('en-IN') : null}</td>}
+              {showPanchayat && <td>{f.panchayat ?? null}</td>}
+              {showKind && <td>{f.kind ? KIND[f.kind] : null}</td>}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .vtable { padding: 20px var(--gutter) 8px; }
+  .vtable__title { margin: 0 0 12px; font: var(--weight-strong) var(--size-lead)/var(--lh-latin) var(--font-latin); }
+  .vtable__scroll { overflow-x: auto; border-radius: var(--radius-m); background: var(--surface-raised); }
+  .vtable__scroll:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  table { border-collapse: collapse; width: 100%; font: var(--weight-regular) var(--size-body)/var(--lh-body) var(--font-latin); color: var(--text); }
+  th, td { padding: 10px 12px; text-align: left; vertical-align: top; white-space: nowrap; border-bottom: 1px solid var(--line); }
+  thead th { font-weight: var(--weight-strong); white-space: nowrap; border-bottom-color: var(--line-strong); }
+  tbody tr:last-child > * { border-bottom: 0; }
+  tbody th { font-weight: var(--weight-strong); }
+  tbody th { padding-block: 0; }
+  tbody th a { display: flex; align-items: center; min-height: var(--tap-min, 44px); color: var(--text); text-decoration: underline; text-underline-offset: 4px; }
+  td span { display: block; }
+  .vtable__deva { font-family: var(--font-deva); font-size: 1.1em; line-height: var(--lh-deva); letter-spacing: 0; }
+  .vtable__num { font-variant-numeric: tabular-nums; }
+  @media (min-width: 1180px) { .vtable { padding: 20px 0 0; } }
+  /* With JavaScript the app is about to take over: keep the table for search engines and screen readers only. */
+  :global(html.js) .vtable {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+</style>

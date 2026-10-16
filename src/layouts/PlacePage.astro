@@ -15,6 +15,7 @@ import { pageMeta } from '../data/seo';
 import type { PageIndex, RawVillage } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import '../styles/static.css';
+import VillageTable from '../components/static/VillageTable.astro';
 
 interface Props {
   /** Missing = all of Goa (the home page). */
@@ -35,7 +36,10 @@ const indexable = (pagesJson as PageIndex).places[place.id]?.index ?? false;
 const path = pathOf(place);
 const pageUrl = new URL(path, Astro.site).href;
 const trail = trailOf(place.id);
-const inside = place.level === 'taluka' ? allVillagesOf(place.id) : place.level === 'village' ? [] : childrenOf(place.id);
+/* A taluka lists its villages as a table; Kushavati lists its talukas and then all their villages (phase 2, A5). */
+const inside = place.level === 'taluka' || place.level === 'village' ? [] : childrenOf(place.id);
+const tableOf = place.level === 'taluka' ? allVillagesOf(place.id)
+  : place.id === 'kushavati' ? childrenOf(place.id).flatMap(t => allVillagesOf(t.id)) : [];
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
 ---
 
@@ -81,6 +85,7 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
               </ul>
             </nav>
           )}
+          {tableOf.length > 0 && <VillageTable villages={tableOf} place={place} />}
         </div>
         <footer class="static__footer"><Credit /></footer>
       </div>
