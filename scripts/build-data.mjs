@@ -229,7 +229,7 @@ write('villages.json', villages);
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
 /* Read only when the pages are built, never sent to the browser. */
-const index = await pageIndex(root, { places, villages });
+const index = await pageIndex(root, { places, villages, geoBase });
 write('pages.json', index.pages);
 
 console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villages ` +

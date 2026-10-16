@@ -10,12 +10,14 @@
 
    A page's day is the latest change to its own rows; a taluka also takes its villages' days, a district its
    talukas', and the home page everything. */
-import { parseCsv } from './lib/csv.mjs';
+import { parseCsv, readCsv } from './lib/csv.mjs';
 import { openHistory } from './lib/history.mjs';
+import { openProjection } from './lib/projection.mjs';
+import { join } from 'node:path';
 
 const latest = days => days.filter(Boolean).sort().at(-1) ?? null;
 
-export async function pageIndex(root, { places, villages }) {
+export async function pageIndex(root, { places, villages, geoBase }) {
   const history = openHistory(root);
 
   const placeDays = await history.moduleRowDays('design/components/data/places.js', m => m.PLACES.map(p => [p.id, p]));
@@ -49,6 +51,17 @@ export async function pageIndex(root, { places, villages }) {
   const summary = `Search engines: ${yes.length} of ${list.length} place pages can be indexed ` +
     `(home ${count('home')}, districts ${count('district')}, talukas ${count('taluka')}, villages ${count('village')}).` +
     (history.ok ? '' : ` Sitemap dates left out: ${history.why}.`);
+  /* For each page's structured data: a point from our own shapes (the label point, which always lies inside the
+     outline), and the Wikidata item for Goa, the districts and the talukas. Villages without an outline get no point. */
+  const { toLatLon } = openProjection(root);
+  const qid = Object.fromEntries(readCsv(join(root, 'data/credited/wikidata_units.csv')).map(r => [r.place_id, r.qid]));
+  for (const v of villages) if (v.lp) pages[v.id].geo = toLatLon(v.lp);
+  for (const p of places) {
+    const lp = p.level === 'taluka' ? geoBase.talukas[p.id]?.lp : p.level === 'district' ? geoBase.districts[p.id]?.lp : null;
+    if (lp) pages[p.id].geo = toLatLon(lp);
+    if (qid[p.id]) pages[p.id].qid = qid[p.id];
+  }
+
   /* Pages that are not places, listed in the sitemap with their own file's day. */
   const other = { '/privacy/': history.fileDay('src/pages/privacy.astro') };
   return { pages: { places: pages, other }, summary };
