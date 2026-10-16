@@ -19,42 +19,22 @@
      (Shashank's decision, 4 October 2026). The other script is never worked out from the one we have.
    - The build stops with a plain message if the sources disagree with each other. */
 
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readdirSync } from 'node:fs';
 import { PLACES, HOUSE_OF } from '../design/components/data/places.js';
 import { GOA_SIZE, DISTRICT_SHAPES, TALUKA_SHAPES, VILLAGES } from '../design/components/data/goaGeo.js';
+import { readCsv as readCsvAt } from './lib/csv.mjs';
+import { pageIndex } from './pages.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'src/data/generated');
 
+const readCsv = file => readCsvAt(join(root, file));
+
 const problems = [];
 const check = (ok, message) => { if (!ok) problems.push(message); };
-
-/* Small CSV reader: handles quoted fields with commas and doubled quotes. */
-function readCsv(file) {
-  const text = readFileSync(join(root, file), 'utf8').replace(/^﻿/, '');
-  const rows = [];
-  let row = [], field = '', quoted = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (quoted) {
-      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
-      else if (c === '"') quoted = false;
-      else field += c;
-    } else if (c === '"') quoted = true;
-    else if (c === ',') { row.push(field); field = ''; }
-    else if (c === '\n' || c === '\r') {
-      if (c === '\r' && text[i + 1] === '\n') i++;
-      row.push(field); field = '';
-      if (row.some(v => v !== '')) rows.push(row);
-      row = [];
-    } else field += c;
-  }
-  if (field !== '' || row.length) { row.push(field); if (row.some(v => v !== '')) rows.push(row); }
-  const [header, ...body] = rows;
-  return body.map(r => Object.fromEntries(header.map((h, i) => [h, (r[i] ?? '').trim()])));
-}
 
 const slugify = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
@@ -176,6 +156,17 @@ for (const v of villages) {
   v.slug = slug;
 }
 
+/* Credited and hand-built datasets (data/credited/). A village code there must be a real LGD code. Rows stay off
+   the site until checked=yes (a person has confirmed the match); this only stops typos. */
+for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWith('.csv'))) {
+  for (const r of readCsv('data/credited/' + file)) {
+    if (r.village_code) check(lgdByCode.has(r.village_code), `data/credited/${file}: village_code ${r.village_code} is not in data/villages_lgd.csv.`);
+    if (r.locality_of) check(lgdByCode.has(r.locality_of), `data/credited/${file}: locality_of ${r.locality_of} is not in data/villages_lgd.csv.`);
+    if (r.place_id) check(!!placeById[r.place_id] || villages.some(v => v.id === r.place_id), `data/credited/${file}: place_id ${r.place_id} is not a page on the site.`);
+    if ('checked' in r && r.village_code) check(['yes', 'no'].includes(r.checked), `data/credited/${file}: checked must be yes or no (row for ${r.village_code}).`);
+  }
+}
+
 const withShape = villages.filter(v => v.src);
 const counts = {
   lgd: lgdRows.length,
@@ -237,10 +228,15 @@ write('geo-base.json', geoBase);
 write('villages.json', villages);
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
+/* Read only when the pages are built, never sent to the browser. */
+const index = await pageIndex(root, { places, villages });
+write('pages.json', index.pages);
+
 console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villages ` +
   `(LGD list: ${counts.lgdWithShape} with an LGD outline, ${counts.lgdWithSoiShape} with a Survey of India outline, ${counts.lgdWithoutShape} with none; ` +
   `${counts.soiOnly} more from Survey of India maps only), ` +
   `${counts.reviewed} reviewed Konkani village names.`);
+console.log(index.summary);
 if (mapTalukaDiffers.length) {
   console.log(`Note: the boundary file draws ${mapTalukaDiffers.length} villages inside a different taluka than the LGD list files them under:`);
   for (const line of mapTalukaDiffers) console.log('  - ' + line);
