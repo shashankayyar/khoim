@@ -8,6 +8,7 @@ import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { PlaceCard } from '../components/place/PlaceCard';
+import VillageTable from '../components/static/VillageTable.astro';
 import villagesJson from '../data/generated/villages.json';
 import { allVillagesOf, childrenOf, getPlace, houseOf, pathOf, registerVillages, trailOf } from '../data/khoim';
 import { pageMeta } from '../data/seo';
@@ -32,7 +33,10 @@ const meta = pageMeta(place);
 const path = pathOf(place);
 const pageUrl = new URL(path, Astro.site).href;
 const trail = trailOf(place.id);
-const inside = place.level === 'taluka' ? allVillagesOf(place.id) : place.level === 'village' ? [] : childrenOf(place.id);
+/* A taluka lists its villages as a table; Kushavati lists its talukas and then all their villages (phase 2, A5). */
+const inside = place.level === 'taluka' || place.level === 'village' ? [] : childrenOf(place.id);
+const tableOf = place.level === 'taluka' ? allVillagesOf(place.id)
+  : place.id === 'kushavati' ? childrenOf(place.id).flatMap(t => allVillagesOf(t.id)) : [];
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
 ---
 
@@ -78,6 +82,7 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
               </ul>
             </nav>
           )}
+          {tableOf.length > 0 && <VillageTable villages={tableOf} place={place} />}
         </div>
         <footer class="static__footer"><Credit /></footer>
       </div>
