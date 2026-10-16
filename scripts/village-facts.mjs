@@ -10,6 +10,7 @@
      Lunar dates are never turned into a day; only their months are shown.
    - The Gazetteer's Devanagari is unreviewed. It goes only to the village sheet, labelled (rule 6), never into
      p.deva, titles, labels or link previews. */
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { readCsv } from './lib/csv.mjs';
 import { readSheet } from './lib/xlsx.mjs';
@@ -90,6 +91,17 @@ export function villageFacts(root, { lgdCodes, check }) {
     known(r.village_code, { kind: 'monument', icon: 'castle', title: r.name, detail: r.protection || null, source: r.protection || 'Protected monument', url: link(r.source_url) });
   }
 
+  /* Videos, credited to the channel. Shown as a still (public/video-thumbs/, fetched once and kept here) until
+     someone taps play; nothing loads from YouTube before that. A row may point at a page without an LGD code
+     (the Mapusa town page) through place_id. */
+  for (const r of csv('videos_villages_of_goa.csv')) {
+    const id = r.village_code ? 'v' + r.village_code : r.place_id;
+    if (r.checked !== 'yes' || !id || (r.village_code && !lgdCodes.has(r.village_code))) continue;
+    check(existsSync(join(root, 'public/video-thumbs', r.video_id + '.jpg')), `data/credited/videos_villages_of_goa.csv: no still for video ${r.video_id} in public/video-thumbs/.`);
+    (facts[id] ??= {}).videos ??= [];
+    facts[id].videos.push({ id: r.video_id, title: r.title, channel: r.channel, channelUrl: r.channel_url, url: r.url, uploaded: r.uploaded });
+  }
+
   /* The Gazetteer's 1970 spelling list, transcribed by hand into the review sheet. */
   for (const r of readSheet(join(root, 'data/village_names_review.xlsx'), 'Review')) {
     const code = String(r['LGD code']).replace(/\.0$/, '');
@@ -114,6 +126,7 @@ export function villageFacts(root, { lgdCodes, check }) {
     for (const r of f.meaning?.readings ?? []) add(r.credit.startsWith(GAZETTEER) ? GAZETTEER : r.credit, r.url);
     if (f.vaddos) add(f.vaddos.source, f.vaddos.url);
     for (const k of f.knownFor ?? []) add(k.source, k.url);
+    for (const v of f.videos ?? []) add(`${v.channel}, ${v.title}`, v.url);
     f.sources = list;
   }
   return facts;
