@@ -140,7 +140,9 @@ Districts: North Goa = Pernem, Bardez, Tiswadi, Bicholim, Sattari. South Goa = P
   2. `npm run build` locally; fix all errors before pushing.
   3. Push the branch, open a PR with `gh pr create`. PR body in plain English for a non-developer: what changed, what to check, on phone and desktop.
   4. Wait for Cloudflare's preview URL comment and paste it to Shashank.
-  5. Do not merge. Shashank merges on GitHub. Only if he types "ship it" in this session, run `gh pr merge --squash --delete-branch`.
+  5. Merge it yourself once all of these hold: the Cloudflare build check is green, you have opened the preview and checked the change on phone and desktop, and no other open PR it depends on is still unmerged. Then run `gh pr merge --squash --delete-branch`.
+  6. After each merge, wait for the production build, open khoim.in and check the changed pages. If anything is broken, open a revert PR at once (`gh pr revert` or a new branch), merge it the same way, and tell Shashank what happened.
+  7. Stop and ask Shashank instead of merging when a PR deletes or renames place pages, changes a name that reviewers checked, touches the server code in `worker/` or its secrets, or when a check fails twice.
 - Never push to `main` after the first-session push, never force-push, never rewrite history.
 - Keep `wrangler` in devDependencies and `name` in wrangler.jsonc equal to "khoim".
 - Licences: LICENSE (MIT, code), DATA-LICENSE.md. Pages showing LGD data carry the GODL-India attribution with the lgdirectory.gov.in URL (put it on the About screen). No government emblems.
