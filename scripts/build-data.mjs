@@ -19,9 +19,10 @@
      (Shashank's decision, 4 October 2026). The other script is never worked out from the one we have.
    - The build stops with a plain message if the sources disagree with each other. */
 
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readdirSync } from 'node:fs';
 import { PLACES, HOUSE_OF } from '../design/components/data/places.js';
 import { GOA_SIZE, DISTRICT_SHAPES, TALUKA_SHAPES, VILLAGES } from '../design/components/data/goaGeo.js';
 
