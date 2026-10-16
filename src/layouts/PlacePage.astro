@@ -30,12 +30,12 @@ registerVillages(raw);
 const place = getPlace(placeId ?? 'goa')!;
 const home = place.level === 'state';
 const meta = pageMeta(place);
+/* Village pages without a reviewed name or two sourced facts stay out of search results (scripts/pages.mjs). */
+const indexable = (pagesJson as PageIndex).places[place.id]?.index ?? false;
 const path = pathOf(place);
 const pageUrl = new URL(path, Astro.site).href;
 const trail = trailOf(place.id);
 const inside = place.level === 'taluka' ? allVillagesOf(place.id) : place.level === 'village' ? [] : childrenOf(place.id);
-/* Pages with no Konkani name and fewer than two sourced facts stay out of search results (scripts/pages.mjs). */
-const indexable = (pagesJson as PageIndex).places[place.id]?.index ?? false;
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
 ---
 
