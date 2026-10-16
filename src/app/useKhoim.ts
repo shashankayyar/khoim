@@ -8,7 +8,7 @@
    places and closes search or About. */
 import { useEffect, useRef, useState } from 'react';
 import { loadVillagePaths, type VillagePaths } from '../data/geo';
-import { childCount, childrenOf, getPlace, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
+import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
 import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
@@ -128,6 +128,16 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     return () => { live = false; };
   }, [wantPaths]);
 
+  /* A village's phase 2 facts load the first time a village is selected. */
+  const [factsLoaded, setFactsLoaded] = useState(false);
+  const wantFacts = selectedPlace?.level === 'village' && !factsLoaded;
+  useEffect(() => {
+    if (!wantFacts) return;
+    let live = true;
+    loadVillageFacts().then(() => { if (live) setFactsLoaded(true); });
+    return () => { live = false; };
+  }, [wantFacts]);
+
   /* ---------- The address bar follows the place ---------- */
 
   const place = selectedPlace ?? focusPlace;
@@ -234,6 +244,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     closeMore: closeOverlay,
     select,
     goTo,
+    /** The selected village's phase 2 facts, once loaded. */
+    facts: factsLoaded && selectedPlace?.level === 'village' ? factsOf(selectedPlace.id) : null,
     /** A tap on the map or a label. Tapping the place whose card is already up opens the card fully. */
     pick: (id: string, scrubbed: boolean) => {
       if (!scrubbed && id === s.selected) return up({ snap: 'full' });

@@ -1,6 +1,7 @@
 export type Level = 'state' | 'district' | 'taluka' | 'village';
-/** pending = official name only; no reliable Konkani name yet. reviewed = a village name signed off by a reviewer (none yet). */
-export type Status = 'agree' | 'differ' | 'pending' | 'reviewed';
+/** pending = official name only; no reliable Konkani name yet. reviewed = a village name signed off by a reviewer.
+    review = a Konkani form exists in a source (the Gazetteer) but nobody has checked it; village sheet only. */
+export type Status = 'agree' | 'differ' | 'pending' | 'reviewed' | 'review';
 export type Script = 'official' | 'deva' | 'romi';
 export type HouseKey = 'haldi' | 'kokum' | 'rose' | 'green' | 'oxide' | 'lilac' | 'sky' | 'neel' | 'mustard';
 export type Point = [number, number];
@@ -46,6 +47,8 @@ export interface Place {
   reviewedOn?: string;
   /** Who sent the name in, if they gave their name for credit. */
   contributor?: string;
+  /** Straight-line km to Panaji and to Margao from the label point. Null for the town itself; missing without an outline. */
+  km?: [number | null, number | null];
 }
 
 /** A village as written by scripts/build-data.mjs (short keys, to keep the file small). */
@@ -65,6 +68,34 @@ export interface RawVillage {
   reviewedOn?: string;
   /** Who sent the name in, if they gave their name for credit. */
   by?: string;
+  /** Straight-line km to Panaji and to Margao. */
+  km?: [number | null, number | null];
+}
+
+/* ---------- Phase 2: what a village's sheet shows beyond its names (scripts/village-facts.mjs) ---------- */
+
+/** A feast date as a rule: a fixed day, the nth Saturday after Easter, or a lunar date (months only, never a day). */
+export type FeastWhen = { month: number; day: number } | { easterSaturday: number } | { lunar: true; months: number[] };
+export interface Reading { text: string; hedge: string | null; credit: string; url: string | null }
+export interface KnownForItem {
+  kind: 'parish' | 'zatra' | 'festival' | 'gi' | 'monument';
+  icon: string;
+  title: string;
+  detail?: string | null;
+  when?: FeastWhen;
+  whenText?: string;
+  source: string;
+  url: string | null;
+}
+export interface Spelling { form: string; source: string; lang?: string; note?: string }
+export interface VillageFacts {
+  meaning?: { differ: boolean; readings: Reading[] };
+  vaddos?: { source: string; url: string | null; items: string[] };
+  knownFor?: KnownForItem[];
+  spellings?: { items: Spelling[]; page: string | null };
+  /** The Gazetteer's Devanagari, 1979. Unreviewed: shown on the village sheet only, labelled (phase 2 rule 6). */
+  gazetteerDeva?: string;
+  sources: { title: string; url: string | null }[];
 }
 
 export interface TalukaShape {

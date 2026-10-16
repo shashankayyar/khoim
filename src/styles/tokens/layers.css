@@ -1,0 +1,19 @@
+/* Phase 2: map lines, glyphs, layers, placeholders, share cards. Added 16 Oct 2026. */
+:root{
+--map-river:var(--house-sky);--map-river-casing:var(--trim);--map-rail:var(--ink-900);--map-rail-tie:var(--trim);
+--map-line-width:2.5px;--map-rail-width:2px;
+--map-lit-outline:var(--ink-900);--map-outline:var(--ink-700);--map-outline-width:1.25px;--map-unlit:var(--lime-50);--map-fade:#E4E1D9;--map-fade-edge:var(--lime-50);
+--pop-1:#DDE1E7;--pop-2:#B9C2D7;--pop-3:#90A1C7;--pop-4:#627BB4;--pop-5:#294C9C;
+--glyph-bg:var(--lime-50);--glyph-ink:var(--ink-900);--glyph-tile:30px;/* @kind spacing */--glyph-icon:18px;/* @kind spacing */--glyph-hit:44px;/* @kind spacing */
+--label-hit:44px;/* @kind spacing */
+--chip-height:44px;/* @kind spacing */--chip-radius:var(--radius-m);
+--placeholder-border:2px dashed currentColor;/* @kind other */
+--toast-bg:var(--surface-invert);--toast-text:var(--text-invert);
+--hint-bg:var(--surface-invert);--hint-text:var(--text-invert);
+--dur-demo:2400ms;/* @kind other */--dur-pressed:0ms;/* @kind other */
+--og-width:1200px;/* @kind spacing */--og-height:630px;/* @kind spacing */--square-size:1080px;/* @kind spacing */--story-width:1080px;/* @kind spacing */--story-height:1920px;/* @kind spacing */
+}
+[data-theme="dark"]{
+--map-rail:var(--chalk-100);--map-outline:var(--chalk-300);--map-lit-outline:var(--chalk-100);--map-unlit:var(--soot-900);--map-fade:#2A2721;--map-fade-edge:var(--soot-950);
+--pop-1:#202F30;--pop-2:#29484D;--pop-3:#34646E;--pop-4:#3F8392;--pop-5:#50AEC5;
+}

@@ -1,7 +1,7 @@
 /* Khoim data: one place for names, fallbacks, search, spoken labels and page addresses.
    Ported from design/components/data/khoim.js. The JSON it reads is written by scripts/build-data.mjs. */
 import placesJson from './generated/places.json';
-import type { House, HouseKey, Layer, NameForm, Place, RawVillage, Script, SearchHit, Status } from './types';
+import type { House, HouseKey, Layer, NameForm, Place, RawVillage, Script, SearchHit, Status, VillageFacts } from './types';
 
 export { SITE, CONTACT_EMAIL } from './site';
 
@@ -37,7 +37,8 @@ function toPlace(v: RawVillage): Place {
     lp: v.lp ?? null,
     reviewer: v.reviewer,
     reviewedOn: v.reviewedOn,
-    contributor: v.by
+    contributor: v.by,
+    km: v.km
   };
 }
 
@@ -61,6 +62,21 @@ export function loadVillages(): Promise<void> {
   loading ??= import('./generated/villages.json').then(m => registerVillages(m.default as unknown as RawVillage[]));
   return loading;
 }
+
+/* ---------- Village facts (phase 2): loaded when a village's sheet first opens ---------- */
+
+let villageFacts: Record<string, VillageFacts> | null = null;
+let loadingFacts: Promise<void> | null = null;
+
+/** Fetches the village facts once. Safe to call many times. */
+export function loadVillageFacts(): Promise<void> {
+  if (villageFacts) return Promise.resolve();
+  loadingFacts ??= import('./generated/village-facts.json').then(m => { villageFacts = m.default as unknown as Record<string, VillageFacts>; });
+  return loadingFacts;
+}
+/** For the pages built ahead of time, which have the file already. */
+export function registerVillageFacts(all: Record<string, VillageFacts>): void { villageFacts ??= all; }
+export function factsOf(id: string | null | undefined): VillageFacts | null { return (id && villageFacts?.[id]) || null; }
 
 /* ---------- Lookups ---------- */
 
@@ -121,7 +137,7 @@ export function nameIn(p: Place | null, script: Script): NameForm {
 
 /* "reviewed": a village name that came from a contributor and was allowed by a Konkani reviewer. The words are
    the ones the say-it note already uses (settled 4 October 2026, in docs/copy.md). */
-export const STATUS_TEXT: Record<Status, string> = { agree: 'Sources agree', differ: 'Sources differ', pending: 'Official name only', reviewed: 'Checked by a speaker' };
+export const STATUS_TEXT: Record<Status, string> = { agree: 'Sources agree', differ: 'Sources differ', pending: 'Official name only', reviewed: 'Checked by a speaker', review: 'Needs review' };
 
 /** One sentence for screen readers: "Canacona. Konkani काणकोण, Romi Kannkonn. Taluka in Kushavati. Sources agree." */
 export function spokenName(p: Place | null): string {

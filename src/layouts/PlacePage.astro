@@ -10,10 +10,11 @@ import { Wordmark } from '../components/core/Wordmark';
 import { PlaceCard } from '../components/place/PlaceCard';
 import { PAGE_INDEX } from '../data/pageIndex';
 import villagesJson from '../data/generated/villages.json';
-import { allVillagesOf, childrenOf, getPlace, houseOf, pathOf, registerVillages, trailOf } from '../data/khoim';
+import factsJson from '../data/generated/village-facts.json';
+import { allVillagesOf, childrenOf, factsOf, getPlace, houseOf, pathOf, registerVillageFacts, registerVillages, trailOf } from '../data/khoim';
 import { jsonLdText, structuredData } from '../data/jsonld';
 import { ogImagePath, pageMeta } from '../data/seo';
-import type { RawVillage } from '../data/types';
+import type { RawVillage, VillageFacts } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import '../styles/static.css';
 import VillageTable from '../components/static/VillageTable.astro';
@@ -28,6 +29,7 @@ interface Props {
 const { placeId, notFound = false } = Astro.props;
 const raw = villagesJson as unknown as RawVillage[];
 registerVillages(raw);
+registerVillageFacts(factsJson as unknown as Record<string, VillageFacts>);
 
 const place = getPlace(placeId ?? 'goa')!;
 const home = place.level === 'state';
@@ -71,7 +73,7 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
         <div class="static__panel-body">
           {!home && (
             <div class="static__card" data-house={houseOf(place).key} style={`--peek:${place.deva ? 318 : 344}px`}>
-              <PlaceCard place={place} expanded plain headingLevel={1} />
+              <PlaceCard place={place} expanded plain headingLevel={1} facts={factsOf(place.id)} />
             </div>
           )}
           {inside.length > 0 && (

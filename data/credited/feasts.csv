@@ -1,2 +1,3 @@
-name,village,village_code,checked,rule,calendar,source,source_url
-Lairai zatra,"Sirigao (Shirgao), Bicholim",626746,yes,Vaishakh Shuddh Panchami,lunar,"Gazetteer 1979, Part 1, pp. 847-48",https://archive.org/details/dli.ministry.08183
+name,kind,icon,village,village_code,checked,rule,calendar,source,source_url
+Lairai zatra,zatra,flame,"Sirigao (Shirgao), Bicholim",626746,yes,Vaishakh Shuddh Panchami,lunar,"Gazetteer 1979, Part 1, pp. 847-48",https://archive.org/details/dli.ministry.08183
+Sao Joao boat parade,festival,sailboat,Siolim,626690,yes,24 June,gregorian,Goa Tourism; Herald,
