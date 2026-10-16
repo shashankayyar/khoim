@@ -3,7 +3,10 @@
 Shashank's answers to everything open in PRs 1 to 3. Apply them, then carry on with the brief (`docs/phase2-brief.md`).
 
 ## Merging: you do it now
-Shashank no longer merges. `CLAUDE.md` DEPLOY steps 5 to 7 now say when you merge yourself and when you stop and ask. This replaces "never merge yourself" in the brief. Commit the `CLAUDE.md` change in PR 1. Merge order: PR 1, then 2, then 3, then the design PR, rebasing each on `main` before merging. Then continue through A6, A7 and Part B the same way: PR, preview check, merge, check khoim.in.
+Shashank no longer merges. `CLAUDE.md` DEPLOY steps 5 to 7 now say when you merge yourself and when you stop and ask. This replaces "never merge yourself" in the brief. Commit the `CLAUDE.md` change in PR 1. Merge order: PR 1, then 2, then 3, then the design PR, bringing each up to date by merging `main` into the branch (not rebasing, no force-push) before merging. Then continue through A6, A7 and Part B the same way: PR, preview check, merge, check khoim.in.
+
+## Permissions
+`.claude/settings.json` now starts sessions in auto mode and no longer asks before `gh pr merge`, `rm` or `git rebase`. Commit it in PR 1 along with `CLAUDE.md`. It still asks before `gh api`, `git reset`, `npm uninstall`, and edits to workflows, `wrangler.jsonc` or the settings file.
 
 ## PR 1 (A1, indexing)
 - District and taluka pages are always indexable, whatever their name status, because they now carry village lists. Dharbandora goes back in the sitemap. Villages keep the rule as written.

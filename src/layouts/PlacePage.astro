@@ -24,9 +24,12 @@ interface Props {
   placeId?: string;
   /** The page shown for an address that does not exist. It opens the map on all of Goa. */
   notFound?: boolean;
+  /** A taluka's village list (/north-goa/bardez/villages/). The same content as the taluka's page, so it is kept
+      out of search results and points to the taluka's page as the one to show. */
+  list?: boolean;
 }
 
-const { placeId, notFound = false } = Astro.props;
+const { placeId, notFound = false, list = false } = Astro.props;
 const raw = villagesJson as unknown as RawVillage[];
 registerVillages(raw);
 registerVillageFacts(factsJson as unknown as Record<string, VillageFacts>);
@@ -34,6 +37,8 @@ registerVillageFacts(factsJson as unknown as Record<string, VillageFacts>);
 const place = getPlace(placeId ?? 'goa')!;
 const home = place.level === 'state';
 const meta = pageMeta(place);
+/* TODO(copy): the list's title, from the design's "Villages in {taluka}" */
+const title = list ? `Villages in ${place.official} | Khoim` : meta.title;
 /* Village pages without a reviewed name or two sourced facts stay out of search results (scripts/pages.mjs). */
 const indexable = PAGE_INDEX.places[place.id]?.index ?? false;
 const jsonLd = notFound ? undefined : jsonLdText(structuredData(place, PAGE_INDEX, Astro.site!));
@@ -49,7 +54,7 @@ const tableOf = place.level === 'taluka' ? allVillagesOf(place.id)
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
 ---
 
-<Base title={meta.title} description={meta.description} path={path} noindex={notFound || !indexable} ogImage={ogImagePath(place)} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
+<Base title={title} description={meta.description} path={path} noindex={notFound || list || !indexable} ogImage={ogImagePath(place)} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
   <div id="khoim-static" class:list={['static', home ? 'static--home' : 'static--place']}>
     <div class="static__banner"><DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} /></div>
     <div class="static__body">
@@ -97,5 +102,5 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
       </div>
     </div>
   </div>
-  <KhoimApp client:only="react" initialId={home ? undefined : place.id} initialVillage={initialVillage} />
+  <KhoimApp client:only="react" initialId={home ? undefined : place.id} initialVillage={initialVillage} initialList={list} />
 </Base>

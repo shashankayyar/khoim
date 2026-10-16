@@ -5,7 +5,10 @@
    leaves you inside, with the strip of places to browse.
 
    The address bar follows the place you are looking at, and the browser's back button steps back through
-   places and closes search or About. */
+   places and closes search or About.
+
+   Inside a taluka, "See all as a list" opens every village as a sortable list (phase 2), at the taluka's
+   address plus villages/: /north-goa/bardez/villages/. */
 import { useEffect, useRef, useState } from 'react';
 import { loadVillagePaths, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
@@ -15,7 +18,7 @@ import { loadContribConfig, type ContribConfig, type ContributionKind } from '..
 import { LIVE_LAYERS, NO_LIVE, loadLive, type Live } from '../lib/live';
 
 export type Snap = 'peek' | 'full';
-type Overlay = 'search' | 'more' | 'form' | null;
+type Overlay = 'search' | 'more' | 'form' | 'list' | null;
 
 interface State {
   /** null = all Goa; a district or taluka id when inside one */
@@ -30,6 +33,8 @@ interface State {
   /** The contribution form: which place it is about and which choice is ticked. Null when closed. */
   form: { placeId: string; kind: ContributionKind | null } | null;
   layer: string;
+  /** The taluka's villages as a list, over the map. Only inside a taluka. */
+  list: boolean;
 }
 
 /** What each browser history entry remembers. */
@@ -50,9 +55,11 @@ export interface KhoimOptions {
   initialId?: string;
   /** On a village page: that village's record, so its card can show before the full list loads. */
   initialVillage?: RawVillage;
+  /** On a taluka's villages/ page: open with the list showing. */
+  initialList?: boolean;
 }
 
-const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, form: null, layer: 'names' };
+const START: State = { focus: null, selected: null, snap: 'peek', hot: null, search: false, query: '', more: false, form: null, layer: 'names', list: false };
 const SCRIPT_KEY = 'khoim-script';
 const SITE = 'https://khoim.in';
 
@@ -77,14 +84,22 @@ function insideCount(p: Place): string {
   return p.level === 'village' ? '' : ' ' + childCount(p) + (p.level === 'taluka' ? ' villages.' : ' talukas.');
 }
 
+/* TODO(copy): the list's page title. "Villages in {taluka}" is the design's title for the list. */
+const listTitle = (t: Place) => `Villages in ${t.official} | Khoim`;
+
 const queryInAddress = () => new URLSearchParams(window.location.search).get('q') ?? '';
 const entryNow = (): Entry | undefined => window.history.state?.khoim;
 
-export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
+/** A taluka's list address ends in villages/. */
+const LIST_SLUG = 'villages';
+const isListPath = (path: string) => { const parts = path.split('/').filter(Boolean); return parts.length === 3 && parts[2] === LIST_SLUG; };
+
+export function useKhoim({ desktop, initialId, initialVillage, initialList = false }: KhoimOptions) {
   const [s, set] = useState<State>(() => {
     if (initialVillage) registerVillage(initialVillage);
     const query = queryInAddress();
-    return { ...START, ...opened(getPlace(initialId)), query, search: !!query };
+    const start = { ...START, ...opened(getPlace(initialId)), query, search: !!query };
+    return initialList && getPlace(initialId)?.level === 'taluka' ? { ...start, selected: null, list: true } : start;
   });
   const [script, setScriptRaw] = useState<Script>(savedScript);
   const [announce, setAnnounce] = useState('');
@@ -130,7 +145,8 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
 
   /* A village's phase 2 facts load the first time a village is selected. */
   const [factsLoaded, setFactsLoaded] = useState(false);
-  const wantFacts = selectedPlace?.level === 'village' && !factsLoaded;
+  /* the list needs them too, to mark the villages whose Konkani form is waiting for review */
+  const wantFacts = (selectedPlace?.level === 'village' || s.list) && !factsLoaded;
   useEffect(() => {
     if (!wantFacts) return;
     let live = true;
@@ -141,9 +157,10 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   /* ---------- The address bar follows the place ---------- */
 
   const place = selectedPlace ?? focusPlace;
-  const overlay: Overlay = s.form ? 'form' : s.more ? 'more' : s.search && !desktop ? 'search' : null;
+  const listOpen = s.list && focusPlace?.level === 'taluka';
+  const overlay: Overlay = s.form ? 'form' : s.more ? 'more' : s.search && !desktop ? 'search' : listOpen ? 'list' : null;
   useEffect(() => {
-    const path = pathOf(place);
+    const path = listOpen ? pathOf(focusPlace) + LIST_SLUG + '/' : pathOf(place);
     const q = s.query && (desktop || s.search) ? '?q=' + encodeURIComponent(s.query) : '';
     const cur = entryNow();
     const key = path + '#' + (overlay ?? '');
@@ -157,10 +174,10 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     replaceNext.current = false;
 
     const meta = pageMeta(place);
-    document.title = meta.title;
+    document.title = listOpen ? listTitle(focusPlace!) : meta.title;
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', SITE + path);
-  }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place]);
+  }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place, listOpen]);
 
   /* The browser's back and forward buttons. */
   useEffect(() => {
@@ -169,7 +186,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
       const query = queryInAddress();
       if (st && (!st.selected || getPlace(st.selected))) {
         /* going back or forward never reopens the form: what was typed in it is gone */
-        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', form: null, query: query || (st.overlay === 'search' ? v.query : '') }));
+        set(v => ({ ...v, focus: st.focus, selected: st.selected, snap: st.snap, hot: null, search: st.overlay === 'search', more: st.overlay === 'more', list: st.overlay === 'list', form: null, query: query || (st.overlay === 'search' ? v.query : '') }));
         const p = getPlace(st.selected) ?? getPlace(st.focus);
         setAnnounce(sayNext.current ?? (p ? spokenName(p) : 'All of Goa'));
         sayNext.current = null;
@@ -177,8 +194,9 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
       }
       /* an address we have no saved state for: work it out from the address itself */
       const open = () => {
-        const p = placeAtPath(window.location.pathname);
-        set(v => ({ ...v, ...opened(p), hot: null, search: false, more: false, form: null, query }));
+        const path = window.location.pathname, list = isListPath(path);
+        const p = placeAtPath(list ? path.replace(/villages\/?$/, '') : path);
+        set(v => ({ ...v, ...opened(p), ...(list && p?.level === 'taluka' ? { selected: null } : null), list: list && p?.level === 'taluka', hot: null, search: false, more: false, form: null, query }));
       };
       if (window.location.pathname.split('/').filter(Boolean).length > 2 && !villagesReady()) needVillages().then(open); else open();
     };
@@ -192,11 +210,11 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     const cur = entryNow();
     if (cur?.overlay && cur.idx > 0) { window.history.back(); return; }
     replaceNext.current = true;
-    up({ search: false, more: false, form: null });
+    up({ search: false, more: false, form: null, list: false });
   };
 
   const goTo = (id: string | null) => {
-    up({ focus: id, selected: null, snap: 'peek', hot: null });
+    up({ focus: id, selected: null, snap: 'peek', hot: null, list: false });
     const p = getPlace(id);
     setAnnounce(p ? 'Inside ' + p.official + '.' + insideCount(p) : 'All of Goa');
   };
@@ -204,7 +222,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
   const select = (id: string) => {
     const p = getPlace(id);
     if (!p || p.level === 'state') return goTo(null);
-    up({ ...opened(p), hot: null });
+    up({ ...opened(p), hot: null, list: false });
     setAnnounce(spokenName(p) + insideCount(p));
   };
 
@@ -241,6 +259,11 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     openSearch: () => { needVillages(); up({ search: true }); },
     closeSearch: closeOverlay,
     openMore: () => up({ more: true }),
+    /** The taluka's villages as a list. */
+    listOpen,
+    factsLoaded,
+    openList: () => { needVillages(); up({ list: true, selected: null, hot: null }); if (focusPlace) setAnnounce(listTitle(focusPlace).replace(' | Khoim', '.')); },
+    closeList: closeOverlay,
     closeMore: closeOverlay,
     select,
     goTo,
@@ -255,6 +278,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     setSnap: (snap: Snap | 'closed') => snap === 'closed' ? up({ selected: null, snap: 'peek' }) : up({ snap }),
     /** Puts a village's card away first. Otherwise goes up one level. */
     back: () => {
+      if (listOpen) return closeOverlay();
       if (selectedPlace?.level === 'village') return up({ selected: null, snap: 'peek' });
       const p = getPlace(s.focus);
       goTo(p && p.parent && p.parent !== 'goa' ? p.parent : null);
@@ -263,7 +287,7 @@ export function useKhoim({ desktop, initialId, initialVillage }: KhoimOptions) {
     openPlace: (id: string) => {
       const p = getPlace(id);
       if (!p || p.level === 'state') { closeOverlay(); up({ focus: null, selected: null, snap: 'peek' }); return; }
-      up({ search: false, more: false, ...opened(p), hot: null });
+      up({ search: false, more: false, list: false, ...opened(p), hot: null });
       setAnnounce(spokenName(p) + insideCount(p));
     }
   };
