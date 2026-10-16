@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"GoemDesignSystem_26c22a","components":[{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Credit","sourcePath":"components/core/Credit.jsx"},{"name":"DraftBanner","sourcePath":"components/core/DraftBanner.jsx"},{"name":"Icon","sourcePath":"components/core/Icon.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"ScriptToggle","sourcePath":"components/core/ScriptToggle.jsx"},{"name":"SourceStatus","sourcePath":"components/core/SourceStatus.jsx"},{"name":"Wordmark","sourcePath":"components/core/Wordmark.jsx"},{"name":"ICON_PATHS","sourcePath":"components/core/iconPaths.js"},{"name":"GOA_SIZE","sourcePath":"components/data/goaGeo.js"},{"name":"DISTRICT_SHAPES","sourcePath":"components/data/goaGeo.js"},{"name":"TALUKA_SHAPES","sourcePath":"components/data/goaGeo.js"},{"name":"VILLAGES","sourcePath":"components/data/goaGeo.js"},{"name":"SITE","sourcePath":"components/data/khoim.js"},{"name":"STATUS_TEXT","sourcePath":"components/data/khoim.js"},{"name":"LAYERS","sourcePath":"components/data/khoim.js"},{"name":"KhoimData","sourcePath":"components/data/khoim.js"},{"name":"PLACES","sourcePath":"components/data/places.js"},{"name":"HOUSE_OF","sourcePath":"components/data/places.js"},{"name":"LayerSwitch","sourcePath":"components/layers/LayerSwitch.jsx"},{"name":"VoiceClip","sourcePath":"components/layers/VoiceClip.jsx"},{"name":"GoaMap","sourcePath":"components/map/GoaMap.jsx"},{"name":"PendingName","sourcePath":"components/place/PendingName.jsx"},{"name":"PlaceCard","sourcePath":"components/place/PlaceCard.jsx"},{"name":"PlaceStrip","sourcePath":"components/place/PlaceStrip.jsx"},{"name":"SayIt","sourcePath":"components/place/SayIt.jsx"},{"name":"Sheet","sourcePath":"components/place/Sheet.jsx"},{"name":"SearchField","sourcePath":"components/search/SearchField.jsx"},{"name":"SearchResults","sourcePath":"components/search/SearchResults.jsx"}],"sourceHashes":{"components/core/Button.jsx":"f0c75fe53045","components/core/Credit.jsx":"eb5e0da123b4","components/core/DraftBanner.jsx":"d22ed89a5061","components/core/Icon.jsx":"d9690c93ebeb","components/core/IconButton.jsx":"ad76926fa1b8","components/core/ScriptToggle.jsx":"62e16a26d92a","components/core/SourceStatus.jsx":"31b765133fc5","components/core/Wordmark.jsx":"9cc9a95ff297","components/core/iconPaths.js":"669054346d62","components/core/motion.js":"185a17633a6f","components/data/goaGeo.js":"30471b5844a1","components/data/khoim.js":"8f364f2ddb8b","components/data/places.js":"03a9972a9177","components/layers/LayerSwitch.jsx":"9d987ece2120","components/layers/VoiceClip.jsx":"180e25b7f791","components/map/GoaMap.jsx":"c43d854a154a","components/place/PendingName.jsx":"4957863cad76","components/place/PlaceCard.jsx":"0dab31f02786","components/place/PlaceStrip.jsx":"c6288790c30b","components/place/SayIt.jsx":"0bf8239957ff","components/place/Sheet.jsx":"b8f5c0ddf4d8","components/search/SearchField.jsx":"2fdafa2b9b64","components/search/SearchResults.jsx":"938fb0e2720e","ui_kits/khoim/More.jsx":"5a1218ee1ee0","ui_kits/khoim/Screens.jsx":"6c5355e7a681","ui_kits/khoim/state.jsx":"875601b35b96"},"inlinedExternals":[],"unexposedExports":[{"name":"childrenOf","sourcePath":"components/data/khoim.js"},{"name":"getPlace","sourcePath":"components/data/khoim.js"},{"name":"houseOf","sourcePath":"components/data/khoim.js"},{"name":"levelLabel","sourcePath":"components/data/khoim.js"},{"name":"nameIn","sourcePath":"components/data/khoim.js"},{"name":"sayParts","sourcePath":"components/data/khoim.js"},{"name":"searchPlaces","sourcePath":"components/data/khoim.js"},{"name":"shapeOf","sourcePath":"components/data/khoim.js"},{"name":"spokenName","sourcePath":"components/data/khoim.js"},{"name":"trailOf","sourcePath":"components/data/khoim.js"},{"name":"usePress","sourcePath":"components/core/motion.js"},{"name":"useReducedMotion","sourcePath":"components/core/motion.js"},{"name":"whereLabel","sourcePath":"components/data/khoim.js"}]} */
+/* @ds-bundle: {"format":4,"namespace":"GoemDesignSystem_26c22a","components":[{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Credit","sourcePath":"components/core/Credit.jsx"},{"name":"DraftBanner","sourcePath":"components/core/DraftBanner.jsx"},{"name":"Icon","sourcePath":"components/core/Icon.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"ScriptToggle","sourcePath":"components/core/ScriptToggle.jsx"},{"name":"SourceStatus","sourcePath":"components/core/SourceStatus.jsx"},{"name":"Wordmark","sourcePath":"components/core/Wordmark.jsx"},{"name":"ICON_PATHS","sourcePath":"components/core/iconPaths.js"},{"name":"GOA_SIZE","sourcePath":"components/data/goaGeo.js"},{"name":"DISTRICT_SHAPES","sourcePath":"components/data/goaGeo.js"},{"name":"TALUKA_SHAPES","sourcePath":"components/data/goaGeo.js"},{"name":"VILLAGES","sourcePath":"components/data/goaGeo.js"},{"name":"SITE","sourcePath":"components/data/khoim.js"},{"name":"STATUS_TEXT","sourcePath":"components/data/khoim.js"},{"name":"LAYERS","sourcePath":"components/data/khoim.js"},{"name":"DISTANCE_IS_PLACEHOLDER","sourcePath":"components/data/khoim.js"},{"name":"PANAJI","sourcePath":"components/data/khoim.js"},{"name":"MARGAO","sourcePath":"components/data/khoim.js"},{"name":"NAME_PARTS","sourcePath":"components/data/khoim.js"},{"name":"MAP_LAYERS","sourcePath":"components/data/khoim.js"},{"name":"KhoimData","sourcePath":"components/data/khoim.js"},{"name":"NEIGHBOURS","sourcePath":"components/data/neighbours.js"},{"name":"PLACES","sourcePath":"components/data/places.js"},{"name":"HOUSE_OF","sourcePath":"components/data/places.js"},{"name":"VILLAGE_FACTS","sourcePath":"components/data/villageFacts.js"},{"name":"EXTRA_VILLAGES","sourcePath":"components/data/villageFacts.js"},{"name":"UNMATCHED","sourcePath":"components/data/villageFacts.js"},{"name":"LINES","sourcePath":"components/data/villageFacts.js"},{"name":"CENSUS","sourcePath":"components/data/villageFacts.js"},{"name":"KM_PER_UNIT","sourcePath":"components/data/villageFacts.js"},{"name":"LayerPanel","sourcePath":"components/layers/LayerPanel.jsx"},{"name":"LayerSwitch","sourcePath":"components/layers/LayerSwitch.jsx"},{"name":"MonthSlider","sourcePath":"components/layers/MonthSlider.jsx"},{"name":"VoiceClip","sourcePath":"components/layers/VoiceClip.jsx"},{"name":"GoaMap","sourcePath":"components/map/GoaMap.jsx"},{"name":"Breadcrumb","sourcePath":"components/nav/Breadcrumb.jsx"},{"name":"LayerRow","sourcePath":"components/nav/LayerRow.jsx"},{"name":"TapHint","sourcePath":"components/nav/TapHint.jsx"},{"name":"PendingName","sourcePath":"components/place/PendingName.jsx"},{"name":"PlaceCard","sourcePath":"components/place/PlaceCard.jsx"},{"name":"PlaceStrip","sourcePath":"components/place/PlaceStrip.jsx"},{"name":"SayIt","sourcePath":"components/place/SayIt.jsx"},{"name":"Sheet","sourcePath":"components/place/Sheet.jsx"},{"name":"SearchField","sourcePath":"components/search/SearchField.jsx"},{"name":"SearchResults","sourcePath":"components/search/SearchResults.jsx"},{"name":"ShareCard","sourcePath":"components/share/ShareCard.jsx"},{"name":"ShareSheet","sourcePath":"components/share/ShareSheet.jsx"},{"name":"Toast","sourcePath":"components/share/Toast.jsx"},{"name":"DataPending","sourcePath":"components/village/DataPending.jsx"},{"name":"FeastStrip","sourcePath":"components/village/FeastStrip.jsx"},{"name":"KnownFor","sourcePath":"components/village/KnownFor.jsx"},{"name":"MeaningBlock","sourcePath":"components/village/MeaningBlock.jsx"},{"name":"NameSplit","sourcePath":"components/village/NameSplit.jsx"},{"name":"PopulationDots","sourcePath":"components/village/PopulationDots.jsx"},{"name":"SpellingTimeline","sourcePath":"components/village/SpellingTimeline.jsx"},{"name":"VaddoList","sourcePath":"components/village/VaddoList.jsx"},{"name":"VideoFacade","sourcePath":"components/village/VideoFacade.jsx"},{"name":"VillageFacts","sourcePath":"components/village/VillageFacts.jsx"},{"name":"VillageSheet","sourcePath":"components/village/VillageSheet.jsx"},{"name":"VillageTable","sourcePath":"components/village/VillageTable.jsx"}],"sourceHashes":{"components/core/Button.jsx":"f0c75fe53045","components/core/Credit.jsx":"eb5e0da123b4","components/core/DraftBanner.jsx":"d22ed89a5061","components/core/Icon.jsx":"d9690c93ebeb","components/core/IconButton.jsx":"ad76926fa1b8","components/core/ScriptToggle.jsx":"62e16a26d92a","components/core/SourceStatus.jsx":"d2df3663c751","components/core/Wordmark.jsx":"9cc9a95ff297","components/core/iconPaths.js":"c288a6d6b41c","components/core/motion.js":"185a17633a6f","components/data/goaGeo.js":"30471b5844a1","components/data/khoim.js":"57c4af9d3b6a","components/data/neighbours.js":"a9c62ff704fd","components/data/places.js":"03a9972a9177","components/data/villageFacts.js":"2a217e2681ad","components/layers/LayerPanel.jsx":"add46ee67928","components/layers/LayerSwitch.jsx":"9d987ece2120","components/layers/MonthSlider.jsx":"5dccd03954bb","components/layers/VoiceClip.jsx":"180e25b7f791","components/map/GoaMap.jsx":"5b7fbaa16bf2","components/nav/Breadcrumb.jsx":"6cdbcbd866cf","components/nav/LayerRow.jsx":"8900ba340e67","components/nav/TapHint.jsx":"5d2ef4442250","components/place/PendingName.jsx":"4957863cad76","components/place/PlaceCard.jsx":"6c8ed9282de2","components/place/PlaceStrip.jsx":"c6288790c30b","components/place/SayIt.jsx":"0bf8239957ff","components/place/Sheet.jsx":"962cc59beebb","components/search/SearchField.jsx":"2fdafa2b9b64","components/search/SearchResults.jsx":"53fdbbb24b57","components/share/ShareCard.jsx":"eeba6a69850e","components/share/ShareSheet.jsx":"91ffce258317","components/share/Toast.jsx":"166380635115","components/village/DataPending.jsx":"8acd22e89b19","components/village/FeastStrip.jsx":"416c8d6074d0","components/village/KnownFor.jsx":"23ce3276b785","components/village/MeaningBlock.jsx":"854fb5f08084","components/village/NameSplit.jsx":"241e156bab1f","components/village/PopulationDots.jsx":"9e8df0dc9059","components/village/SpellingTimeline.jsx":"1839dfd914ea","components/village/VaddoList.jsx":"1fe93ab4ced6","components/village/VideoFacade.jsx":"9bc1e46834c5","components/village/VillageFacts.jsx":"49018697d976","components/village/VillageSheet.jsx":"8051049b0428","components/village/VillageTable.jsx":"42fb124f4f6f","ui_kits/khoim/Cards.jsx":"c30fd241a4c0","ui_kits/khoim/Desktop.jsx":"141c794c8437","ui_kits/khoim/More.jsx":"5a1218ee1ee0","ui_kits/khoim/Phone.jsx":"3815e62595e4","ui_kits/khoim/state.jsx":"171ad634d91e"},"inlinedExternals":[],"unexposedExports":[{"name":"allFeasts","sourcePath":"components/data/khoim.js"},{"name":"childrenOf","sourcePath":"components/data/khoim.js"},{"name":"distanceKm","sourcePath":"components/data/khoim.js"},{"name":"easter","sourcePath":"components/data/khoim.js"},{"name":"feastDate","sourcePath":"components/data/khoim.js"},{"name":"feastMonths","sourcePath":"components/data/khoim.js"},{"name":"getPlace","sourcePath":"components/data/khoim.js"},{"name":"glyphsFor","sourcePath":"components/data/khoim.js"},{"name":"houseOf","sourcePath":"components/data/khoim.js"},{"name":"layerState","sourcePath":"components/data/khoim.js"},{"name":"layerUrl","sourcePath":"components/data/khoim.js"},{"name":"levelLabel","sourcePath":"components/data/khoim.js"},{"name":"linesFor","sourcePath":"components/data/khoim.js"},{"name":"nameIn","sourcePath":"components/data/khoim.js"},{"name":"neighboursOf","sourcePath":"components/data/khoim.js"},{"name":"nextFeastDate","sourcePath":"components/data/khoim.js"},{"name":"populationStep","sourcePath":"components/data/khoim.js"},{"name":"sayParts","sourcePath":"components/data/khoim.js"},{"name":"searchPlaces","sourcePath":"components/data/khoim.js"},{"name":"shapeOf","sourcePath":"components/data/khoim.js"},{"name":"spokenName","sourcePath":"components/data/khoim.js"},{"name":"trailOf","sourcePath":"components/data/khoim.js"},{"name":"upcomingMonths","sourcePath":"components/data/khoim.js"},{"name":"usePress","sourcePath":"components/core/motion.js"},{"name":"useReducedMotion","sourcePath":"components/core/motion.js"},{"name":"villageFacts","sourcePath":"components/data/khoim.js"},{"name":"whereLabel","sourcePath":"components/data/khoim.js"}]} */
 
 (() => {
 
@@ -154,7 +154,8 @@ try { (() => {
 const TXT = {
   agree: 'Sources agree',
   differ: 'Sources differ',
-  pending: 'Official name only'
+  pending: 'Official name only',
+  review: 'Needs review'
 };
 function SourceStatus({
   status = 'agree',
@@ -162,18 +163,20 @@ function SourceStatus({
   size = 17,
   style
 }) {
-  const dot = {
+  const ring = {
     width: 12,
     height: 12,
     borderRadius: 6,
     border: '2px solid ' + color,
     flex: '0 0 auto',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    display: 'grid',
+    placeItems: 'center'
   };
   const fill = status === 'agree' ? {
     background: color
   } : status === 'differ' ? {
-    background: `linear-gradient(90deg, ${color} 50%, transparent 50%)`
+    background: 'linear-gradient(90deg, ' + color + ' 50%, transparent 50%)'
   } : null;
   return /*#__PURE__*/React.createElement("span", {
     style: {
@@ -181,16 +184,24 @@ function SourceStatus({
       alignItems: 'center',
       gap: 10,
       color,
-      font: `var(--weight-strong) ${size}px/1.4 var(--font-latin)`,
+      font: 'var(--weight-strong) ' + size + 'px/1.4 var(--font-latin)',
       ...style
     }
   }, /*#__PURE__*/React.createElement("span", {
     "aria-hidden": "true",
     style: {
-      ...dot,
-      ...fill
+      ...ring,
+      ...fill,
+      borderStyle: status === 'review' ? 'dashed' : 'solid'
     }
-  }), TXT[status]);
+  }, status === 'review' && /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 4,
+      height: 4,
+      borderRadius: 2,
+      background: color
+    }
+  })), TXT[status]);
 }
 Object.assign(__ds_scope, { SourceStatus });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/core/SourceStatus.jsx", error: String((e && e.message) || e) }); }
@@ -220,7 +231,34 @@ const ICON_PATHS = {
   "sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"></circle> <path d=\"M12 2v2\"></path> <path d=\"M12 20v2\"></path> <path d=\"m4.93 4.93 1.41 1.41\"></path> <path d=\"m17.66 17.66 1.41 1.41\"></path> <path d=\"M2 12h2\"></path> <path d=\"M20 12h2\"></path> <path d=\"m6.34 17.66-1.41 1.41\"></path> <path d=\"m19.07 4.93-1.41 1.41\"></path>",
   "volume-2": "<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"></path> <path d=\"M16 9a5 5 0 0 1 0 6\"></path> <path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"></path>",
   "wheat": "<path d=\"M2 22 16 8\"></path> <path d=\"M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\"></path> <path d=\"M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\"></path> <path d=\"M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\"></path> <path d=\"M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z\"></path> <path d=\"M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\"></path> <path d=\"M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\"></path> <path d=\"M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\"></path>",
-  "x": "<path d=\"M18 6 6 18\"></path> <path d=\"m6 6 12 12\"></path>"
+  "x": "<path d=\"M18 6 6 18\"></path> <path d=\"m6 6 12 12\"></path>",
+  "church": "<path d=\"M10 9h4\" /> <path d=\"M12 7v5\" /> <path d=\"M14 22v-4a2 2 0 0 0-4 0v4\" /> <path d=\"M18 22V5.618a1 1 0 0 0-.553-.894l-4.553-2.277a2 2 0 0 0-1.788 0L6.553 4.724A1 1 0 0 0 6 5.618V22\" /> <path d=\"m18 7 3.447 1.724a1 1 0 0 1 .553.894V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.618a1 1 0 0 1 .553-.894L6 7\" />",
+  "sprout": "<path d=\"M7 20h10\" /> <path d=\"M10 20c5.5-2.5.8-6.4 3-10\" /> <path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\" /> <path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\" />",
+  "banana": "<path d=\"M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5\" /> <path d=\"M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z\" />",
+  "share-2": "<circle cx=\"18\" cy=\"5\" r=\"3\" /> <circle cx=\"6\" cy=\"12\" r=\"3\" /> <circle cx=\"18\" cy=\"19\" r=\"3\" /> <line x1=\"8.59\" x2=\"15.42\" y1=\"13.51\" y2=\"17.49\" /> <line x1=\"15.41\" x2=\"8.59\" y1=\"6.51\" y2=\"10.49\" />",
+  "copy": "<rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\" /> <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\" />",
+  "link": "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\" /> <path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\" />",
+  "download": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\" /> <polyline points=\"7 10 12 15 17 10\" /> <line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\" />",
+  "image": "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" ry=\"2\" /> <circle cx=\"9\" cy=\"9\" r=\"2\" /> <path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\" />",
+  "train-front": "<path d=\"M8 3.1V7a4 4 0 0 0 8 0V3.1\" /> <path d=\"m9 15-1-1\" /> <path d=\"m15 15 1-1\" /> <path d=\"M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z\" /> <path d=\"m8 19-2 3\" /> <path d=\"m16 19 2 3\" />",
+  "waves": "<path d=\"M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1\" /> <path d=\"M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1\" /> <path d=\"M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1\" />",
+  "list": "<path d=\"M3 12h.01\" /> <path d=\"M3 18h.01\" /> <path d=\"M3 6h.01\" /> <path d=\"M8 12h13\" /> <path d=\"M8 18h13\" /> <path d=\"M8 6h13\" />",
+  "arrow-up-down": "<path d=\"m21 16-4 4-4-4\" /> <path d=\"M17 20V4\" /> <path d=\"m3 8 4-4 4 4\" /> <path d=\"M7 4v16\" />",
+  "calendar-days": "<path d=\"M8 2v4\" /> <path d=\"M16 2v4\" /> <rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\" /> <path d=\"M3 10h18\" /> <path d=\"M8 14h.01\" /> <path d=\"M12 14h.01\" /> <path d=\"M16 14h.01\" /> <path d=\"M8 18h.01\" /> <path d=\"M12 18h.01\" /> <path d=\"M16 18h.01\" />",
+  "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\" />",
+  "sailboat": "<path d=\"M22 18H2a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4Z\" /> <path d=\"M21 14 10 2 3 14h18Z\" /> <path d=\"M10 2v16\" />",
+  "puzzle": "<path d=\"M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z\" />",
+  "circle-dashed": "<path d=\"M10.1 2.182a10 10 0 0 1 3.8 0\" /> <path d=\"M13.9 21.818a10 10 0 0 1-3.8 0\" /> <path d=\"M17.609 3.721a10 10 0 0 1 2.69 2.7\" /> <path d=\"M2.182 13.9a10 10 0 0 1 0-3.8\" /> <path d=\"M20.279 17.609a10 10 0 0 1-2.7 2.69\" /> <path d=\"M21.818 10.1a10 10 0 0 1 0 3.8\" /> <path d=\"M3.721 6.391a10 10 0 0 1 2.7-2.69\" /> <path d=\"M6.391 20.279a10 10 0 0 1-2.69-2.7\" />",
+  "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <path d=\"M16 3.13a4 4 0 0 1 0 7.75\" />",
+  "external-link": "<path d=\"M15 3h6v6\" /> <path d=\"M10 14 21 3\" /> <path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\" />",
+  "chevron-right": "<path d=\"m9 18 6-6-6-6\" />",
+  "castle": "<path d=\"M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z\" /> <path d=\"M18 11V4H6v7\" /> <path d=\"M15 22v-4a3 3 0 0 0-3-3a3 3 0 0 0-3 3v4\" /> <path d=\"M22 11V9\" /> <path d=\"M2 11V9\" /> <path d=\"M6 4V2\" /> <path d=\"M18 4V2\" /> <path d=\"M10 4V2\" /> <path d=\"M14 4V2\" />",
+  "house": "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /> <path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />",
+  "ruler": "<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z\" /> <path d=\"m14.5 12.5 2-2\" /> <path d=\"m11.5 9.5 2-2\" /> <path d=\"m8.5 6.5 2-2\" /> <path d=\"m17.5 15.5 2-2\" />",
+  "hand": "<path d=\"M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2\" /> <path d=\"M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2\" /> <path d=\"M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8\" /> <path d=\"M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15\" />",
+  "square": "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" />",
+  "rectangle-vertical": "<rect width=\"12\" height=\"20\" x=\"6\" y=\"2\" rx=\"2\" />",
+  "hash": "<line x1=\"4\" x2=\"20\" y1=\"9\" y2=\"9\" /> <line x1=\"4\" x2=\"20\" y1=\"15\" y2=\"15\" /> <line x1=\"10\" x2=\"8\" y1=\"3\" y2=\"21\" /> <line x1=\"16\" x2=\"14\" y1=\"3\" y2=\"21\" />"
 };
 Object.assign(__ds_scope, { ICON_PATHS });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/core/iconPaths.js", error: String((e && e.message) || e) }); }
@@ -3246,6 +3284,398 @@ const VILLAGES = [{
 Object.assign(__ds_scope, { GOA_SIZE, DISTRICT_SHAPES, TALUKA_SHAPES, VILLAGES });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/data/goaGeo.js", error: String((e && e.message) || e) }); }
 
+// components/data/neighbours.js
+try { (() => {
+// Village adjacency, computed from shared boundary points in goaGeo.js (tolerance 2.5 map units). Regenerate when boundaries change.
+const NEIGHBOURS = {
+  "626635": [],
+  "626636": ["626637"],
+  "626637": ["626658", "626636", "626638"],
+  "626638": ["626658", "626637", "626655", "803241", "626659", "626660"],
+  "626640": ["803241", "626642", "626644"],
+  "626642": ["626640", "803241", "626653", "626652", "626648", "626647", "626651", "626644"],
+  "626644": ["626640", "626647", "626642", "626645"],
+  "626645": ["626647", "626644", "626646"],
+  "626646": ["626647", "626645"],
+  "626647": ["626648", "626651", "626642", "626644", "626645", "626646"],
+  "626648": ["626649", "626647", "626651", "626642"],
+  "626649": ["626742", "626741", "626650", "626743", "626648", "626651"],
+  "626650": ["626743", "626649"],
+  "626651": ["626652", "626649", "626648", "626647", "626642"],
+  "626652": ["626653", "626665", "626667", "626741", "626651", "626642"],
+  "626653": ["626654", "626655", "803241", "626663", "626691", "626652", "626665", "626642"],
+  "626654": ["626655", "803241", "626653"],
+  "626655": ["626654", "803241", "626638", "626660", "626663", "626653"],
+  "626657": ["626659", "626660", "626662"],
+  "626658": ["626637", "626638", "626659"],
+  "626659": ["626658", "626638", "626660", "626657", "626661"],
+  "626660": ["626655", "626638", "626659", "626657", "626663"],
+  "626661": ["626659", "626662", "626690"],
+  "626662": ["626657", "626661", "626690", "626663"],
+  "626663": ["626655", "626660", "626662", "626690", "626691", "626653"],
+  "626665": ["626691", "626653", "626652", "626667"],
+  "626667": ["626670", "626691", "626652", "626665", "626742", "626741", "626744", "626745"],
+  "626668": ["626669", "626744", "626745", "626747"],
+  "626669": ["626670", "626745", "626668"],
+  "626670": ["626669", "626691", "626667", "626745", "626704", "626692", "803242"],
+  "626671": ["626690", "803242", "626672"],
+  "626672": ["626690", "626671", "803242", "626675", "626676", "626694"],
+  "626673": ["626675", "626694", "626695", "626674"],
+  "626674": ["626675", "626673", "626695", "626696"],
+  "626675": ["626693", "626676", "626672", "626694", "626673", "626696", "626674"],
+  "626676": ["803242", "626693", "626675", "626672", "626694"],
+  "626679": ["626681", "626693", "626703"],
+  "626681": ["626692", "626682", "626679", "626693", "626703"],
+  "626682": ["626681", "626687", "626704", "626692"],
+  "626683": ["626747", "626685", "626752", "626704"],
+  "626685": ["626753", "626752", "626707", "626704", "626683"],
+  "626686": ["626707", "626687", "626704"],
+  "626687": ["626707", "626702", "626686", "626704", "626682", "626703"],
+  "626688": ["626693", "626696", "626703", "626700"],
+  "626689": ["626695", "626698", "626696", "626700"],
+  "626690": ["626662", "626661", "626671", "626663", "803242", "626672"],
+  "626691": ["626663", "626670", "626653", "626665", "626667", "803242"],
+  "626692": ["626670", "626681", "626704", "626682", "803242", "626693"],
+  "626693": ["626681", "626692", "803242", "626679", "626675", "626676", "626696", "626688", "626703"],
+  "626694": ["626675", "626676", "626672", "626673", "626695"],
+  "626695": ["626694", "626673", "n17", "626698", "626689", "626696", "626674"],
+  "626696": ["626693", "626675", "626695", "626689", "626674", "626688", "626700"],
+  "626697": ["626701", "n17", "626698", "803243"],
+  "626698": ["626701", "626695", "n17", "626689", "626700", "626697"],
+  "626700": ["626701", "626702", "626698", "626689", "626696", "626688", "626703"],
+  "626701": ["626707", "626702", "626698", "626700", "626697", "803243"],
+  "626702": ["626707", "626701", "626687", "626703", "626700"],
+  "626703": ["626702", "626681", "626687", "626679", "626693", "626688", "626700"],
+  "626704": ["626670", "626685", "626707", "626687", "626686", "626683", "626692", "626682"],
+  "626707": ["n13", "626685", "626753", "626752", "626755", "626708", "626709", "626701", "626702", "626687", "626686", "626704", "803243"],
+  "626708": ["626755", "626707"],
+  "626709": ["n13", "n15", "626715", "626714", "626710", "626707"],
+  "626710": ["626714", "626711", "626709"],
+  "626711": ["626714", "626727", "626755", "626710"],
+  "626714": ["626717", "626715", "n16", "626729", "626728", "626727", "626711", "626710", "626709"],
+  "626715": ["626716", "626717", "n15", "626714", "n16", "626709"],
+  "626716": ["626734", "626723", "626731", "626730", "626717", "n15", "626715", "626721", "626725"],
+  "626717": ["626716", "626715", "626714", "626719", "n16", "626721"],
+  "626718": ["626734", "626724", "626733", "626732", "803243", "645598"],
+  "626719": ["626717", "n16", "626720", "626721"],
+  "626720": ["626719", "n16", "626721", "626726"],
+  "626721": ["626716", "626717", "626719", "626720", "626725", "626726"],
+  "626723": ["626734", "626724", "626733", "626731", "n14", "626716"],
+  "626724": ["626734", "626723", "626733", "626718"],
+  "626725": ["626734", "626716", "626721", "626735", "626726"],
+  "626726": ["626876", "626734", "n16", "626720", "626721", "626725", "626735", "626867"],
+  "626727": ["626714", "626728", "626843", "626865", "626756", "626755", "626711"],
+  "626728": ["626714", "626729", "626843", "626727"],
+  "626729": ["626714", "n16", "626847", "626855", "626728", "626843"],
+  "626730": ["626731", "n13", "626716", "n15"],
+  "626731": ["626723", "626732", "n11", "n12", "n13", "626730", "n14", "626716", "803243"],
+  "626732": ["626733", "626718", "626731", "n14", "803243", "n18", "645598"],
+  "626733": ["626724", "626723", "626718", "626732", "n14"],
+  "626734": ["626886", "626724", "626723", "626718", "626716", "626725", "626735", "626726"],
+  "626735": ["626734", "626725", "626726"],
+  "626741": ["626652", "626667", "626742", "626649"],
+  "626742": ["626667", "626741", "626743", "626744", "626649"],
+  "626743": ["626742", "626650", "626744", "626649"],
+  "626744": ["626667", "626742", "626743", "626745", "626668", "626747", "626748", "626749", "924814"],
+  "626745": ["626670", "626669", "626667", "626744", "626668"],
+  "626747": ["626744", "626668", "803244", "924814", "626752", "626683"],
+  "626748": ["626744", "626749", "924814"],
+  "626749": ["626744", "626748", "626750", "626751", "924814"],
+  "626750": ["626749", "626765", "626766", "626763", "626751"],
+  "626751": ["626749", "626756", "626750", "626763", "803244", "924814"],
+  "626752": ["626747", "626756", "803244", "626685", "626753", "626754", "626755", "626707", "626683"],
+  "626753": ["626685", "626752", "626707"],
+  "626754": ["626752", "626755"],
+  "626755": ["626727", "626756", "626754", "626752", "626711", "626708", "626707"],
+  "626756": ["626865", "626727", "626758", "924826", "626763", "626751", "803244", "626752", "626755"],
+  "626757": ["626842", "626810", "626761", "626758", "924826", "626759", "917385", "803245"],
+  "626758": ["626865", "626756", "924826", "626759", "626757"],
+  "626759": ["626846", "626761", "626845", "626844", "626758", "626757"],
+  "626760": ["626846", "626851", "626761"],
+  "626761": ["626810", "626762", "626764", "626873", "626846", "626851", "626760", "626759", "626757"],
+  "626762": ["626810", "626826", "626764", "626761"],
+  "626763": ["626756", "924826", "803245", "626765", "626766", "626750", "626751"],
+  "626764": ["626827", "626762", "626826", "626852", "626873", "626761"],
+  "626765": ["803245", "626766", "626750", "626763"],
+  "626766": ["626767", "626786", "917385", "803245", "626765", "626750", "626763"],
+  "626767": ["626769", "626768", "626786", "626766"],
+  "626768": ["626767", "626769", "626785", "626786"],
+  "626769": ["626767", "626768", "626770", "626785"],
+  "626770": ["626769", "626771", "626784", "626785"],
+  "626771": ["626770", "626773", "626784"],
+  "626773": ["626771", "626774", "626782", "626784"],
+  "626774": ["626773", "626775", "626782"],
+  "626775": ["626774", "626776", "626782"],
+  "626776": ["626775", "626781", "626777", "626782"],
+  "626777": ["626781", "626776", "626778", "626780"],
+  "626778": ["626777", "626779", "626780"],
+  "626779": ["626778", "626798", "626797", "626780"],
+  "626780": ["626781", "626777", "626778", "626779", "626797", "626796", "626795"],
+  "626781": ["626777", "626776", "626780", "626795", "626782"],
+  "626782": ["626773", "626774", "626775", "626781", "626776", "626794", "626795", "626792", "626783", "626784"],
+  "626783": ["626782", "626792", "626791", "626784", "626788"],
+  "626784": ["626770", "626771", "626773", "626782", "626783", "626785", "626788"],
+  "626785": ["626769", "626768", "626770", "626784", "626786", "626787", "626788"],
+  "626786": ["626767", "626768", "626785", "626787", "626842", "917385", "626766"],
+  "626787": ["626785", "626786", "626788", "626807", "626842"],
+  "626788": ["626791", "626783", "626784", "626785", "626787", "626807", "626806"],
+  "626791": ["626805", "626792", "626783", "626788", "626806", "n3"],
+  "626792": ["626793", "626794", "626782", "626805", "626791", "626783"],
+  "626793": ["626801", "626803", "626796", "626794", "626805", "626792"],
+  "626794": ["626793", "626796", "626795", "626782", "626792"],
+  "626795": ["626781", "626796", "626780", "626794", "626782"],
+  "626796": ["626801", "626793", "626800", "626797", "626780", "626794", "626795"],
+  "626797": ["626779", "626798", "n1", "626800", "626796", "626780"],
+  "626798": ["626779", "n1", "626797"],
+  "626800": ["n1", "626820", "626817", "626801", "626797", "626796"],
+  "626801": ["626820", "626817", "626816", "626802", "626803", "626793", "626800", "626796"],
+  "626802": ["626816", "626822", "626801", "626803", "n3", "803246"],
+  "626803": ["626802", "626801", "626793", "626805", "n3"],
+  "626805": ["626803", "626793", "626792", "626791", "n3"],
+  "626806": ["626791", "626788", "626808", "626813", "n3", "803246"],
+  "626807": ["626787", "626788", "626809", "626808"],
+  "626808": ["626807", "626809", "626812", "626813", "626806", "626811"],
+  "626809": ["626807", "626842", "626810", "626808", "626811"],
+  "626810": ["626842", "626809", "626811", "626762", "626761", "626757"],
+  "626811": ["626809", "626810", "626808", "626812", "626827", "626826"],
+  "626812": ["626808", "n2", "626813", "626824", "626825", "626827", "626811"],
+  "626813": ["626808", "626812", "n2", "626806"],
+  "626816": ["626820", "626817", "626821", "626822", "626802", "626801"],
+  "626817": ["626820", "626816", "626801", "626800"],
+  "626818": ["n1", "626819"],
+  "626819": ["n1", "626818", "626820"],
+  "626820": ["626819", "626817", "626816", "626821", "626801", "626800", "626835", "626836", "626974"],
+  "626821": ["626820", "626816", "626822", "626833"],
+  "626822": ["626816", "626821", "626802", "803246", "626823", "626832", "626833"],
+  "626823": ["626822", "n2", "803246", "626832", "626830", "626824"],
+  "626824": ["626812", "n2", "626823", "626832", "626830", "626825"],
+  "626825": ["626812", "626829", "626830", "626824", "626827"],
+  "626826": ["626827", "626811", "626762", "626764"],
+  "626827": ["626812", "626828", "626829", "626825", "626811", "626826", "626764", "626852"],
+  "626828": ["626831", "626829", "626827", "626852", "626840"],
+  "626829": ["626831", "626828", "626830", "626825", "626827"],
+  "626830": ["626823", "626832", "626831", "626829", "626824", "626825"],
+  "626831": ["626832", "626828", "626829", "626830", "626840"],
+  "626832": ["626822", "626823", "626831", "626830", "626824", "626840", "626833"],
+  "626833": ["626821", "626822", "626832", "626840", "626839", "626837", "626835", "626836"],
+  "626835": ["626820", "626833", "626836"],
+  "626836": ["626820", "626837", "626833", "626835", "626974"],
+  "626837": ["626838", "626839", "626833", "626836", "626974"],
+  "626838": ["626973", "626839", "626837", "626974"],
+  "626839": ["626840", "626838", "626837", "626833"],
+  "626840": ["626832", "626831", "626828", "626852", "626973", "626839", "626833", "626971"],
+  "626842": ["626786", "626787", "626809", "626810", "917385", "626757"],
+  "626843": ["626844", "626847", "626729", "626728", "626865", "626727"],
+  "626844": ["626850", "626846", "626847", "626843", "626865", "626759"],
+  "626845": ["626846", "626759"],
+  "626846": ["626850", "626851", "626760", "626761", "626845", "626844", "626759"],
+  "626847": ["626850", "626844", "626855", "626729", "626843"],
+  "626849": ["626868", "626850", "626855"],
+  "626850": ["626868", "626853", "626846", "626851", "626844", "626847", "626849", "626855"],
+  "626851": ["626873", "626853", "626850", "626846", "626760", "626761"],
+  "626852": ["626828", "626827", "626764", "626873", "626840", "626971"],
+  "626853": ["626873", "626860", "626859", "803247", "626868", "626869", "626850", "626851"],
+  "626854": ["626867", "626868", "626869", "626855"],
+  "626855": ["n16", "626867", "626868", "626854", "626850", "626847", "626849", "626729"],
+  "626856": ["803247", "626857", "626858"],
+  "626857": ["803247", "626856", "626858", "626889", "626876", "626869"],
+  "626858": ["803247", "626857", "626856", "n7"],
+  "626859": ["626861", "626860", "626872", "803247", "626853"],
+  "626860": ["626873", "626971", "626861", "626859", "626853"],
+  "626861": ["626862", "626983", "626981", "626971", "626860", "626859", "626872", "626863"],
+  "626862": ["626861", "626863"],
+  "626863": ["626864", "626902", "626862", "626983", "626861", "626872", "626926"],
+  "626864": ["626985", "627021", "803252", "626903", "626935", "626982", "626902", "626983", "626863"],
+  "626865": ["626844", "626843", "626727", "626756", "626758"],
+  "626867": ["626876", "626726", "626854", "626869", "626855"],
+  "626868": ["626854", "626869", "626853", "626850", "626849", "626855"],
+  "626869": ["803247", "626857", "626876", "626867", "626868", "626854", "626853"],
+  "626872": ["626861", "626859", "803247", "n7", "626889", "626863"],
+  "626873": ["626764", "626852", "626971", "626860", "626853", "626851", "626761"],
+  "626874": ["626886", "626879", "626880", "626885"],
+  "626876": ["626857", "626889", "626888", "626887", "626886", "626726", "626867", "626869"],
+  "626878": ["626882", "626886"],
+  "626879": ["626886", "626880", "626874"],
+  "626880": ["626879", "626885", "626874"],
+  "626882": ["626883", "626888", "626887", "626886", "626878"],
+  "626883": ["626884", "626882", "626888"],
+  "626884": ["626893", "626923", "626883", "626888"],
+  "626885": ["626880", "626874", "803248"],
+  "626886": ["626882", "626887", "626876", "626878", "626879", "626874", "626734"],
+  "626887": ["626882", "626888", "626876", "626886"],
+  "626888": ["626889", "626923", "626884", "626883", "626882", "626887", "626876"],
+  "626889": ["626872", "626857", "n7", "626924", "626890", "626925", "626926", "626923", "626888", "626876"],
+  "626890": ["626889", "626925", "626926"],
+  "626891": ["626924", "626895", "626892"],
+  "626892": ["626924", "626895", "626893", "626894", "626891", "626923"],
+  "626893": ["626892", "626923", "626884"],
+  "626894": ["626895", "626892"],
+  "626895": ["626924", "626900", "626897", "626896", "626898", "626894", "626892", "626891"],
+  "626896": ["626897", "626895"],
+  "626897": ["626900", "n10", "626896", "626895", "626905", "626898"],
+  "626898": ["n10", "626897", "626895", "626905", "626904", "626906", "626931"],
+  "626900": ["626924", "n10", "626897", "626895"],
+  "626902": ["626903", "626864", "626863", "626926"],
+  "626903": ["626938", "626934", "626935", "626864", "626902", "626926", "626910", "626927"],
+  "626904": ["626898", "626906", "626931"],
+  "626905": ["626897", "626898", "626906", "626931"],
+  "626906": ["626905", "626898", "626904", "626931"],
+  "626907": ["626908", "626918", "626932", "626916", "626930"],
+  "626908": ["626927", "626909", "626929", "626914", "626918", "626907", "626930"],
+  "626909": ["n9", "626927", "626929", "626908", "626928"],
+  "626910": ["626938", "626903", "626913", "626927"],
+  "626912": ["n5", "803251", "n6", "626939", "626913", "n20", "626947"],
+  "626913": ["626910", "626912", "626927", "626914", "n20"],
+  "626914": ["626913", "626927", "626908", "626918", "626933", "803250", "n20"],
+  "626916": ["626918", "626932", "626907", "626917"],
+  "626917": ["626918", "626932", "626916", "626920", "626933"],
+  "626918": ["626908", "626914", "626916", "626907", "626917", "626933"],
+  "626919": ["626950", "626921", "626920", "626933", "803250"],
+  "626920": ["626932", "626921", "626917", "626933", "626919"],
+  "626921": ["626951", "626950", "626920", "626919"],
+  "626923": ["626889", "626924", "626893", "626892", "626884", "626888"],
+  "626924": ["626889", "626925", "803249", "626900", "n10", "626895", "626892", "626891", "626923"],
+  "626925": ["626889", "626924", "626890", "626926", "803249"],
+  "626926": ["626903", "626902", "626889", "626890", "626925", "626863", "n8", "626927", "626928", "803249"],
+  "626927": ["626903", "626926", "n8", "n9", "626910", "626913", "626909", "626908", "626914"],
+  "626928": ["626926", "n8", "n9", "626909", "626929", "803249"],
+  "626929": ["626909", "626908", "626930", "626928", "803249"],
+  "626930": ["626929", "626908", "626932", "626907", "803249", "626931"],
+  "626931": ["626932", "626930", "803249", "n10", "626905", "626898", "626904", "626906"],
+  "626932": ["626916", "626907", "626930", "626931", "626920", "626917"],
+  "626933": ["626914", "626918", "626920", "626917", "626919", "803250"],
+  "626934": ["626969", "626938", "626903", "626935"],
+  "626935": ["803252", "626969", "626903", "626934", "626864"],
+  "626938": ["626969", "n5", "626939", "626940", "626903", "626934", "626910"],
+  "626939": ["n5", "626940", "626938", "626912"],
+  "626940": ["n5", "626939", "626938"],
+  "626941": ["626942", "803252-2", "626969", "803251", "627014", "n22", "626946"],
+  "626942": ["627000", "803252-2", "626941", "626946", "626943"],
+  "626943": ["627000", "626942", "626946", "626944"],
+  "626944": ["627000", "626946", "626943", "626945", "627001", "627002", "627012"],
+  "626945": ["626946", "627013", "626944", "627012"],
+  "626946": ["626942", "626941", "627014", "626943", "626945", "627013", "626944"],
+  "626947": ["n6", "626912", "803250", "n20", "626948", "n22"],
+  "626948": ["803250", "626947", "626955", "626949", "626957", "627014"],
+  "626949": ["626951", "626950", "803250", "626955", "626959", "626957", "626948"],
+  "626950": ["626951", "626921", "626919", "803250", "626949"],
+  "626951": ["626952", "626950", "626921", "626949", "626960", "627022", "626959"],
+  "626952": ["n19", "626951", "627022"],
+  "626955": ["626949", "626957", "626948"],
+  "626957": ["626955", "626949", "626964", "626963", "626962", "626959", "627014", "626948"],
+  "626959": ["626951", "626949", "626961", "626960", "626962", "626957"],
+  "626960": ["626951", "626961", "627022", "626959"],
+  "626961": ["626960", "627022", "627023", "803254", "626962", "626959"],
+  "626962": ["626961", "803254", "626963", "n21", "626959", "626957"],
+  "626963": ["626966", "626964", "n21", "626962", "626957"],
+  "626964": ["626966", "626967", "626963", "626957", "627014", "627013", "626965"],
+  "626965": ["626966", "626967", "626964", "627013", "627015", "627016"],
+  "626966": ["627025", "626967", "626964", "626963", "n21", "626965"],
+  "626967": ["627025", "626966", "626964", "627016", "626965", "626968"],
+  "626968": ["627025", "626967", "627018", "627016", "627019"],
+  "626969": ["803252", "803252-2", "626941", "n5", "803251", "626938", "626934", "626935"],
+  "626971": ["626852", "626873", "626840", "626973", "626972", "626979", "626981", "626861", "626860"],
+  "626972": ["626973", "n4", "626974", "626975", "626979", "626971"],
+  "626973": ["626840", "n4", "626838", "626974", "626972", "626971"],
+  "626974": ["626820", "626973", "n4", "626838", "626837", "626836", "626975", "626972"],
+  "626975": ["626974", "626972", "626979", "626977", "626976"],
+  "626976": ["626975", "626977", "626989"],
+  "626977": ["626975", "626979", "626978", "626988", "626990", "626989", "626976"],
+  "626978": ["626979", "626988", "626977"],
+  "626979": ["626975", "626972", "626978", "626988", "626977", "626987", "626981", "626971"],
+  "626981": ["626979", "626984", "626983", "626987", "626971", "626861"],
+  "626982": ["626984", "626985", "626864", "626983"],
+  "626983": ["626982", "626864", "626981", "626861", "626863"],
+  "626984": ["626985", "626982", "626987", "626981"],
+  "626985": ["626984", "627021", "626986", "626982", "626864", "626987"],
+  "626986": ["626985", "627021", "626998", "626997", "626987"],
+  "626987": ["626979", "626988", "626995", "626984", "626985", "626997", "626986", "626981"],
+  "626988": ["626979", "626978", "626977", "626991", "626992", "626995", "626987", "626990"],
+  "626989": ["626977", "626990", "626976"],
+  "626990": ["626988", "626977", "626991", "626989"],
+  "626991": ["626988", "626992", "626990"],
+  "626992": ["626988", "626991", "626993", "626995", "626994"],
+  "626993": ["626992", "627004", "627003", "626994"],
+  "626994": ["626992", "626993", "627003", "626996", "626995"],
+  "626995": ["626988", "626992", "627003", "626996", "626994", "626997", "626987"],
+  "626996": ["627003", "626995", "626994", "626997", "626999"],
+  "626997": ["626996", "626995", "626998", "626986", "626999", "626987"],
+  "626998": ["627021", "803252", "626997", "626986", "626999", "803252-2"],
+  "626999": ["627003", "626996", "626998", "626997", "803253", "803252-2"],
+  "627000": ["627003", "803253", "626942", "803252-2", "626943", "626944", "627001"],
+  "627001": ["627003", "627000", "626944", "627002"],
+  "627002": ["627003", "626944", "627001", "627012", "627006"],
+  "627003": ["627004", "626993", "626996", "626995", "626994", "626999", "803253", "627000", "627001", "627002", "627006"],
+  "627004": ["626993", "627003", "627006", "627005"],
+  "627005": ["627004", "627006"],
+  "627006": ["627004", "627003", "627002", "627012", "627008", "627010", "627007", "627005"],
+  "627007": ["627006", "627008", "627009", "627017"],
+  "627008": ["627006", "627009", "627010", "627007"],
+  "627009": ["627011", "627008", "627010", "627017", "627007"],
+  "627010": ["627011", "627012", "627006", "627008", "627009"],
+  "627011": ["627015", "627012", "627009", "627010", "627017", "627018", "627016"],
+  "627012": ["626945", "627013", "627015", "627011", "626944", "627002", "627006", "627010"],
+  "627013": ["626964", "627014", "626946", "626945", "627015", "627012", "626965"],
+  "627014": ["626941", "626964", "626957", "626948", "n22", "626946", "627013"],
+  "627015": ["627013", "627011", "627012", "627016", "626965"],
+  "627016": ["626967", "627015", "627011", "627018", "626965", "626968"],
+  "627017": ["627011", "627009", "627018", "627007"],
+  "627018": ["627011", "627017", "627016", "626968", "627019", "627020"],
+  "627019": ["627025", "627018", "626968", "627020", "627028"],
+  "627020": ["627018", "627019", "627028"],
+  "627021": ["626985", "803252", "626998", "626986", "626864"],
+  "627022": ["n19", "626952", "626951", "626961", "626960", "627023"],
+  "627023": ["626961", "627022", "627029", "803254"],
+  "627025": ["803254", "626966", "626967", "n21", "626968", "627019", "627028", "627026"],
+  "627026": ["627029", "803254", "627025", "627028", "627027"],
+  "627027": ["627028", "627026"],
+  "627028": ["627025", "627019", "627020", "627026", "627027"],
+  "627029": ["627023", "803254", "627026"],
+  "645598": ["626718", "626732", "803243", "n18"],
+  "803241": ["626640", "626654", "626655", "626638", "626653", "626642"],
+  "803242": ["626690", "626671", "626670", "626691", "626692", "626693", "626676", "626672"],
+  "803243": ["626718", "626732", "626731", "n13", "626707", "626701", "626697", "645598"],
+  "803244": ["626747", "626756", "626751", "924814", "626752"],
+  "803245": ["924826", "917385", "626757", "626765", "626766", "626763"],
+  "803246": ["626822", "626802", "n2", "626806", "n3", "626823"],
+  "803247": ["626859", "626872", "626857", "626856", "626858", "n7", "626869", "626853"],
+  "803248": ["626885"],
+  "803249": ["626924", "626925", "626926", "626929", "626930", "626928", "n10", "626931"],
+  "803250": ["626914", "626950", "626933", "626919", "n20", "626947", "626949", "626948"],
+  "803251": ["626969", "626941", "n5", "626912", "n22"],
+  "803252": ["627021", "626998", "803252-2", "626969", "626935", "626864"],
+  "803253": ["627003", "626999", "627000", "803252-2"],
+  "803254": ["626961", "627023", "627029", "627025", "n21", "626962", "627026"],
+  "917385": ["626786", "626842", "803245", "626757", "626766"],
+  "924814": ["626744", "626747", "626748", "626749", "626751", "803244"],
+  "924826": ["626756", "626758", "803245", "626757", "626763"],
+  "n1": ["626798", "626819", "626818", "626800", "626797"],
+  "n2": ["626812", "626813", "803246", "626823", "626824"],
+  "n3": ["626802", "626803", "626805", "626791", "626806", "803246"],
+  "n4": ["626973", "626974", "626972"],
+  "803252-2": ["803252", "626998", "626999", "803253", "627000", "626942", "626969", "626941"],
+  "n5": ["626969", "803251", "626939", "626940", "626938", "626912"],
+  "n6": ["626912", "626947", "n22"],
+  "n7": ["626872", "803247", "626858", "626889"],
+  "n8": ["626926", "n9", "626927", "626928"],
+  "n9": ["n8", "626927", "626909", "626928"],
+  "n10": ["626924", "803249", "626900", "626897", "626898", "626931"],
+  "n11": ["626731"],
+  "n12": ["626731"],
+  "n13": ["626731", "626730", "n15", "626707", "626709", "803243"],
+  "n14": ["626723", "626733", "626732", "626731"],
+  "n15": ["n13", "626730", "626716", "626715", "626709"],
+  "n16": ["626717", "626715", "626714", "626719", "626720", "626726", "626855", "626729"],
+  "n17": ["626695", "626698", "626697"],
+  "n18": ["626732", "645598"],
+  "n19": ["626952", "627022"],
+  "n20": ["626912", "626913", "626914", "803250", "626947"],
+  "n21": ["803254", "627025", "626966", "626963", "626962"],
+  "n22": ["626941", "803251", "n6", "626947", "627014"]
+};
+Object.assign(__ds_scope, { NEIGHBOURS });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/data/neighbours.js", error: String((e && e.message) || e) }); }
+
 // components/data/places.js
 try { (() => {
 // Khoim place names. Source: assets/names_districts_talukas.csv and the Goem draft of 30 Sept 2026.
@@ -3536,6 +3966,230 @@ const HOUSE_OF = {
 Object.assign(__ds_scope, { PLACES, HOUSE_OF });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/data/places.js", error: String((e && e.message) || e) }); }
 
+// components/data/villageFacts.js
+try { (() => {
+// Khoim phase 2: verified village content. Only the examples given in the phase 2 brief (16 Oct 2026). Never add facts here without a source.
+// Village keys are place ids ('v' + LGD code). Census figures are not loaded yet: every Census field is null and renders as a marked placeholder.
+const VILLAGE_FACTS = {
+  v626704: {
+    deva: 'हळदोणें',
+    devaSource: 'Gazetteer, 1979',
+    devaReviewed: false,
+    spellings: {
+      ordered: false,
+      caption: 'Columns of the 1970 spelling list in the Gazetteer of Goa, Daman and Diu, 1979.',
+      items: [{
+        form: 'Aldona',
+        source: 'Government spelling'
+      }, {
+        form: 'Aldona',
+        source: 'Survey of India spelling'
+      }, {
+        form: 'Haldone',
+        source: 'Advisory Body spelling'
+      }, {
+        form: 'हळदोणें',
+        source: 'Devanagari',
+        lang: 'gom',
+        note: 'pending review'
+      }]
+    },
+    meaning: {
+      kind: 'roots',
+      readings: [{
+        text: 'Haldona',
+        roots: [{
+          from: 'hal',
+          gloss: 'plough'
+        }, {
+          from: 'haldi',
+          gloss: 'turmeric'
+        }],
+        note: 'Two options.',
+        source: 'Dr Alvarinho J. Luis, The Goan, 21 Feb 2026'
+      }]
+    },
+    sources: [{
+      title: 'Local Government Directory, Government of India',
+      url: 'https://lgdirectory.gov.in/'
+    }, {
+      title: 'Gazetteer of the Union Territory Goa, Daman and Diu, Part 1, 1979 (spellings and Devanagari)',
+      url: 'https://archive.org/details/dli.ministry.08183'
+    }, {
+      title: 'Dr Alvarinho J. Luis, The Goan, 21 Feb 2026',
+      url: 'https://www.thegoan.net/life-sunday/goa%E2%80%99s-village-names-hidden-stories-behind-them/143881.html'
+    }, {
+      title: 'UCA News parish directory',
+      url: 'https://www.ucanews.com/directory/'
+    }],
+    knownFor: [{
+      kind: 'parish',
+      icon: 'church',
+      title: 'St Thomas parish',
+      detail: 'Parish feast',
+      when: {
+        easterSaturday: 3
+      },
+      whenText: 'Third Saturday after Easter',
+      source: 'UCA News directory'
+    }]
+  },
+  v626869: {
+    spellings: {
+      ordered: true,
+      items: [{
+        form: 'Bandhavatika',
+        source: 'Gazetteer, 1979'
+      }, {
+        form: 'Bandawada',
+        source: 'Gazetteer, 1979'
+      }, {
+        form: 'Bandiwade',
+        source: 'Gazetteer, 1979'
+      }, {
+        form: 'Bandora',
+        source: 'Gazetteer, 1979'
+      }]
+    },
+    video: {
+      title: 'Shree Mahalaxmi Mandir',
+      channel: 'Villages of Goa',
+      youtubeId: 'ho03VQfgEcg',
+      url: 'https://youtu.be/ho03VQfgEcg'
+    }
+  },
+  v626695: {
+    meaning: {
+      kind: 'differ',
+      readings: [{
+        text: 'Kalyanagudi',
+        source: 'Alfred Bragança, 1964'
+      }, {
+        text: 'Koli-gutti',
+        gloss: 'land of fishermen',
+        source: 'Dr Alvarinho J. Luis, 2026'
+      }]
+    },
+    split: {
+      whole: 'Koli-gutti',
+      source: 'Dr Alvarinho J. Luis, 2026',
+      parts: [{
+        part: 'Koli',
+        sharedWith: []
+      }, {
+        part: 'gutti',
+        sharedWith: []
+      }]
+    }
+  },
+  v627014: {
+    meaning: {
+      kind: 'tradition',
+      readings: [{
+        text: 'Rishivan',
+        gloss: 'dwelling of sages',
+        source: 'Gazetteer, 1979'
+      }]
+    }
+  },
+  v626690: {
+    knownFor: [{
+      kind: 'festival',
+      icon: 'sailboat',
+      title: 'Sao Joao boat parade',
+      when: {
+        month: 6,
+        day: 24
+      },
+      whenText: '24 June',
+      source: 'Goa Tourism; Herald'
+    }]
+  },
+  v626692: {
+    meaning: {
+      kind: 'single',
+      readings: [{
+        text: 'Moriya',
+        gloss: 'a Mauryan settlement',
+        source: 'Dr Alvarinho J. Luis, 2026'
+      }]
+    },
+    knownFor: [{
+      kind: 'gi',
+      icon: 'banana',
+      title: 'Myndoli banana',
+      detail: 'GI no. 680',
+      source: 'GI Registry'
+    }]
+  },
+  v627022: {
+    knownFor: [{
+      kind: 'gi',
+      icon: 'sprout',
+      title: 'Khola chilli',
+      detail: 'GI no. 618',
+      source: 'GI Registry'
+    }]
+  },
+  v626675: {
+    vaddos: {
+      source: 'CEO Goa electoral roll',
+      items: ['Britto Vaddo', 'Jackney Vaddo (I)', 'Jackney Vaddo (II)']
+    }
+  }
+};
+/* Villages in Goa's village list that have no polygon in our boundary file yet.
+   Sirigao (Shirgao): government and Gazetteer spelling, Bicholim taluka. TODO(data): its LGD code and boundary, or a point, so it can be drawn. */
+const EXTRA_VILLAGES = [{
+  id: 'vsirigao',
+  official: 'Sirigao',
+  taluka: 'bicholim',
+  alsoKnownAs: 'Shirgao',
+  lgd: null,
+  lp: null,
+  facts: {
+    knownFor: [{
+      kind: 'zatra',
+      icon: 'flame',
+      title: 'Lairai zatra',
+      detail: "Dhonds' fire-walk",
+      when: {
+        lunar: true,
+        months: [4, 5]
+      },
+      whenText: 'Vaishakh Shuddh Panchami',
+      source: 'Gazetteer, 1979'
+    }]
+  }
+}];
+const UNMATCHED = [];
+/* River and railway lines. TODO(data): load from OpenStreetMap at build. These two are PLACEHOLDER geometry, drawn only to show the style. */
+const LINES = [{
+  id: 'river-bardez',
+  kind: 'river',
+  taluka: 'bardez',
+  placeholder: true,
+  label: 'River',
+  d: 'M318,196C312,240 330,280 318,322S296,392 300,430S278,478 262,508'
+}, {
+  id: 'rail-bardez',
+  kind: 'rail',
+  taluka: 'bardez',
+  placeholder: true,
+  label: 'Railway',
+  d: 'M336,190C326,250 340,300 322,350S330,440 344,505',
+  station: {
+    at: [327, 298],
+    label: 'Station'
+  }
+}];
+/* Census 2011. TODO(data): load the village directory. Until then every value is null. */
+const CENSUS = {};
+/* Approximate km per map unit (map plane is about 100 km tall). TODO(data): compute from latitude and longitude at build. */
+const KM_PER_UNIT = 0.0707;
+Object.assign(__ds_scope, { VILLAGE_FACTS, EXTRA_VILLAGES, UNMATCHED, LINES, CENSUS, KM_PER_UNIT });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/data/villageFacts.js", error: String((e && e.message) || e) }); }
+
 // components/data/khoim.js
 try { (() => {
 /* Khoim site identity. खंय confirmed by the team, 30 Sept 2026. */
@@ -3564,6 +4218,43 @@ const villagePlaces = __ds_scope.VILLAGES.map(v => ({
   lp: v.lp
 }));
 villagePlaces.forEach(p => {
+  byId[p.id] = p;
+  const f = __ds_scope.VILLAGE_FACTS[p.id];
+  if (f) {
+    p.facts2 = f;
+    if (f.deva) {
+      p.devaSource = f.devaSource;
+      if (f.devaReviewed) {
+        p.deva = f.deva;
+        p.status = 'agree';
+      } else {
+        p.devaUnreviewed = f.deva;
+        p.status = 'review';
+      }
+    }
+  }
+  p.census = __ds_scope.CENSUS[p.id] || null;
+});
+/* RULE: p.deva and p.romi hold reviewed names only. Unreviewed forms live in p.devaUnreviewed and appear only inside the village sheet's name block, labelled "Needs review". */
+__ds_scope.EXTRA_VILLAGES.forEach(x => {
+  const p = {
+    id: x.id,
+    level: 'village',
+    parent: x.taluka,
+    lgd: x.lgd,
+    official: x.official,
+    alsoKnownAs: x.alsoKnownAs,
+    deva: null,
+    romi: null,
+    say: null,
+    status: 'pending',
+    house: __ds_scope.HOUSE_OF[x.taluka],
+    lp: x.lp,
+    noShape: true,
+    facts2: x.facts,
+    census: null
+  };
+  villagePlaces.push(p);
   byId[p.id] = p;
 });
 function getPlace(id) {
@@ -3642,7 +4333,8 @@ function spokenName(p) {
 const STATUS_TEXT = {
   agree: 'Sources agree',
   differ: 'Sources differ',
-  pending: 'Official name only'
+  pending: 'Official name only',
+  review: 'Needs review'
 };
 function houseOf(p) {
   const k = p ? p.house || __ds_scope.HOUSE_OF[p.parent] || 'neel' : 'neel';
@@ -3668,7 +4360,7 @@ function searchPlaces(q, limit = 20) {
   if (!f) return [];
   const res = [];
   for (const p of __ds_scope.PLACES.concat(villagePlaces)) {
-    const fields = [['deva', p.deva], ['romi', p.romi], ['official', p.official], ['alsoWritten', p.alsoWritten && p.alsoWritten.join(' ')], ['marathi', p.marathi]];
+    const fields = [['deva', p.deva], ['devaUnreviewed', p.devaUnreviewed], ['alsoKnownAs', p.alsoKnownAs], ['romi', p.romi], ['official', p.official], ['alsoWritten', p.alsoWritten && p.alsoWritten.join(' ')], ['marathi', p.marathi]];
     let hit = null,
       rank = 9;
     for (const [k, v] of fields) {
@@ -3728,12 +4420,178 @@ const LAYERS = [{
   status: 'planned',
   note: 'Temples, churches, mosques and springs, by the names people nearby call them.'
 }];
+/* ---------- phase 2 ---------- */
+function neighboursOf(id) {
+  return (__ds_scope.NEIGHBOURS[String(id).replace(/^v/, '')] || []).map(n => byId['v' + n]).filter(Boolean);
+}
+function villageFacts(p) {
+  return p && p.facts2 ? p.facts2 : null;
+}
+/* PLACEHOLDER: measured on the map with an approximate scale. Replace with lat/long great-circle distance at build. */
+const DISTANCE_IS_PLACEHOLDER = true;
+function distanceKm(p, toId) {
+  const t = byId[toId];
+  if (!p || !p.lp || !t || !t.lp) return null;
+  return Math.round(Math.hypot(p.lp[0] - t.lp[0], p.lp[1] - t.lp[1]) * __ds_scope.KM_PER_UNIT);
+}
+const PANAJI = 'v803243';
+const MARGAO = 'v803249';
+function easter(y) {
+  const a = y % 19,
+    b = Math.floor(y / 100),
+    c = y % 100,
+    d = Math.floor(b / 4),
+    e = b % 4,
+    f = Math.floor((b + 8) / 25),
+    g = Math.floor((b - f + 1) / 3),
+    h = (19 * a + b - d - g + 15) % 30,
+    i = Math.floor(c / 4),
+    k = c % 4,
+    l = (32 + 2 * e + 2 * i - h - k) % 7,
+    m = Math.floor((a + 11 * h + 22 * l) / 451),
+    month = Math.floor((h + l - 7 * m + 114) / 31),
+    day = (h + l - 7 * m + 114) % 31 + 1;
+  return new Date(y, month - 1, day);
+}
+/* Date of a feast in a given year, or null for lunar feasts (their months are in when.months). */
+function feastDate(when, year) {
+  if (!when || when.lunar) return null;
+  if (when.month) return new Date(year, when.month - 1, when.day);
+  if (when.easterSaturday) {
+    const e = easter(year);
+    const d = new Date(e);
+    d.setDate(e.getDate() + (6 - e.getDay() || 7) + 7 * (when.easterSaturday - 1));
+    return d;
+  }
+  return null;
+}
+function feastMonths(when, year) {
+  if (!when) return [];
+  if (when.lunar) return when.months;
+  const d = feastDate(when, year);
+  return d ? [d.getMonth() + 1] : [];
+}
+/* The next time a feast happens on or after today (this year's date if still to come, else next year's). */
+function nextFeastDate(when, today = new Date()) {
+  const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const d = feastDate(when, t.getFullYear());
+  if (!d) return null;
+  return d >= t ? d : feastDate(when, t.getFullYear() + 1);
+}
+function upcomingMonths(when, today = new Date()) {
+  if (!when) return [];
+  if (when.lunar) return when.months;
+  const d = nextFeastDate(when, today);
+  return d ? [d.getMonth() + 1] : [];
+}
+/* Every dated item across Goa: [{ place (or null), name, item }] */
+function allFeasts() {
+  const out = [];
+  villagePlaces.forEach(p => (p.facts2 && p.facts2.knownFor || []).forEach(it => {
+    if (it.when) out.push({
+      place: p,
+      name: p.official,
+      item: it
+    });
+  }));
+  __ds_scope.UNMATCHED.forEach(u => u.knownFor.forEach(it => out.push({
+    place: null,
+    name: u.name,
+    taluka: u.taluka,
+    item: it
+  })));
+  return out;
+}
+function glyphsFor(p) {
+  return p && p.facts2 && p.facts2.knownFor ? p.facts2.knownFor : [];
+}
+function linesFor(talukaId) {
+  return __ds_scope.LINES.filter(l => l.taluka === talukaId);
+}
+/* Name parts, matched on official spellings. TODO(source): what each part means. */
+const NAME_PARTS = [{
+  id: 'em',
+  label: '-em',
+  test: n => /em$/i.test(n)
+}, {
+  id: 'im',
+  label: '-im',
+  test: n => /im$/i.test(n)
+}, {
+  id: 'gao',
+  label: '-gao',
+  test: n => /gaon?$/i.test(n)
+}, {
+  id: 'ona',
+  label: '-ona',
+  test: n => /ona$/i.test(n)
+}, {
+  id: 'ora',
+  label: '-ora',
+  test: n => /ora$/i.test(n)
+}].map(x => ({
+  ...x,
+  count: villagePlaces.filter(v => x.test(v.official)).length
+}));
+const MAP_LAYERS = [{
+  id: 'names',
+  label: 'Names',
+  icon: 'languages'
+}, {
+  id: 'parts',
+  label: 'Name parts',
+  icon: 'puzzle'
+}, {
+  id: 'feasts',
+  label: 'Feasts and zatras',
+  icon: 'calendar-days'
+}, {
+  id: 'need',
+  label: 'Names we need',
+  icon: 'circle-dashed'
+}, {
+  id: 'population',
+  label: 'Population',
+  icon: 'users'
+}];
+const hash = s => {
+  let h = 7;
+  for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  return h;
+};
+/* PLACEHOLDER until Census 2011 loads: a stable fake step 1..5 per village, only for drawing the population layer. */
+function populationStep(p) {
+  return p.census ? p.census.step : 1 + hash(p.id) % 5;
+}
+/* How a village is drawn under a map layer: 'lit' | 'dim' | 'review' | 'outline' | 'step1'..'step5' */
+function layerState(p, layer, year) {
+  if (!layer || layer.id === 'names') return 'lit';
+  if (layer.id === 'parts') {
+    const part = NAME_PARTS.find(x => x.id === layer.part);
+    return part && part.test(p.official) ? 'lit' : 'dim';
+  }
+  if (layer.id === 'feasts') return glyphsFor(p).some(it => upcomingMonths(it.when).includes(layer.month)) ? 'lit' : 'dim';
+  if (layer.id === 'need') return p.deva ? 'lit' : p.devaUnreviewed ? 'review' : 'outline';
+  if (layer.id === 'population') return 'step' + populationStep(p);
+  return 'lit';
+}
+function layerUrl(place, layer) {
+  const base = 'https://khoim.in/' + (place ? trailOf(place.id).slice(1).map(x => x.official.toLowerCase().replace(/[^a-z0-9]+/g, '-')).join('/') : '');
+  if (!layer || layer.id === 'names') return base;
+  const q = layer.id === 'parts' ? '?layer=parts&part=' + layer.part : layer.id === 'feasts' ? '?layer=feasts&month=' + layer.month : '?layer=' + layer.id;
+  return base + q;
+}
 const KhoimData = {
   SITE,
   PLACES: __ds_scope.PLACES,
   VILLAGES: villagePlaces,
   LAYERS,
+  MAP_LAYERS,
+  NAME_PARTS,
+  LINES: __ds_scope.LINES,
   STATUS_TEXT,
+  PANAJI,
+  MARGAO,
   getPlace,
   childrenOf,
   trailOf,
@@ -3744,9 +4602,23 @@ const KhoimData = {
   houseOf,
   shapeOf,
   sayParts,
-  searchPlaces
+  searchPlaces,
+  neighboursOf,
+  villageFacts,
+  distanceKm,
+  easter,
+  feastDate,
+  feastMonths,
+  nextFeastDate,
+  upcomingMonths,
+  allFeasts,
+  glyphsFor,
+  linesFor,
+  layerState,
+  populationStep,
+  layerUrl
 };
-Object.assign(__ds_scope, { SITE, getPlace, childrenOf, trailOf, levelLabel, whereLabel, nameIn, spokenName, STATUS_TEXT, houseOf, shapeOf, sayParts, searchPlaces, LAYERS, KhoimData });
+Object.assign(__ds_scope, { SITE, getPlace, childrenOf, trailOf, levelLabel, whereLabel, nameIn, spokenName, STATUS_TEXT, houseOf, shapeOf, sayParts, searchPlaces, LAYERS, neighboursOf, villageFacts, DISTANCE_IS_PLACEHOLDER, distanceKm, PANAJI, MARGAO, easter, feastDate, feastMonths, nextFeastDate, upcomingMonths, allFeasts, glyphsFor, linesFor, NAME_PARTS, MAP_LAYERS, populationStep, layerState, layerUrl, KhoimData });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/data/khoim.js", error: String((e && e.message) || e) }); }
 
 // components/core/Wordmark.jsx
@@ -3860,6 +4732,383 @@ function LayerSwitch({
 }
 Object.assign(__ds_scope, { LayerSwitch });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/layers/LayerSwitch.jsx", error: String((e && e.message) || e) }); }
+
+// components/layers/MonthSlider.jsx
+try { (() => {
+const NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/* Month picker for the Feasts layer. One large slider: drag along it, tap a month, or use the arrow keys. */
+function MonthSlider({
+  value = 1,
+  onChange,
+  counts = [],
+  style
+}) {
+  const ref = React.useRef(null),
+    drag = React.useRef(false);
+  const at = x => {
+    const r = ref.current.getBoundingClientRect();
+    return Math.max(1, Math.min(12, Math.floor((x - r.left) / r.width * 12) + 1));
+  };
+  const set = m => {
+    if (m !== value && onChange) onChange(m);
+  };
+  const key = e => {
+    const d = {
+      ArrowRight: 1,
+      ArrowUp: 1,
+      ArrowLeft: -1,
+      ArrowDown: -1
+    }[e.key];
+    if (d) {
+      e.preventDefault();
+      set((value - 1 + d + 12) % 12 + 1);
+    } else if (e.key === 'Home') set(1);else if (e.key === 'End') set(12);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 8,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      justifyContent: 'space-between'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 26px/1.2 var(--font-latin)'
+    }
+  }, NAMES[value - 1]), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 15px/1.3 var(--font-latin)'
+    }
+  }, (counts[value - 1] || 0) + ((counts[value - 1] || 0) === 1 ? ' place' : ' places'))), /*#__PURE__*/React.createElement("div", {
+    ref: ref,
+    role: "slider",
+    tabIndex: 0,
+    "aria-label": "Month",
+    "aria-valuemin": 1,
+    "aria-valuemax": 12,
+    "aria-valuenow": value,
+    "aria-valuetext": NAMES[value - 1] + ', ' + (counts[value - 1] || 0) + ' places',
+    onKeyDown: key,
+    onPointerDown: e => {
+      drag.current = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
+      set(at(e.clientX));
+    },
+    onPointerMove: e => drag.current && set(at(e.clientX)),
+    onPointerUp: () => {
+      drag.current = false;
+    },
+    style: {
+      position: 'relative',
+      height: 52,
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--surface-sunk)',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(12,1fr)',
+      touchAction: 'none',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      position: 'absolute',
+      top: 4,
+      bottom: 4,
+      left: 'calc(' + (value - 1) / 12 * 100 + '% + 2px)',
+      width: 'calc(' + 100 / 12 + '% - 4px)',
+      borderRadius: 'var(--radius-s)',
+      background: 'var(--surface-invert)',
+      transition: 'left var(--dur-fast) var(--ease-out)'
+    }
+  }), NAMES.map((n, i) => /*#__PURE__*/React.createElement("span", {
+    key: n,
+    "aria-hidden": "true",
+    style: {
+      position: 'relative',
+      display: 'grid',
+      placeItems: 'center',
+      gap: 2,
+      font: 'var(--weight-strong) 13px/1 var(--font-latin)',
+      color: i + 1 === value ? 'var(--text-invert)' : 'var(--text)'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, n[0]), /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 5,
+      height: 5,
+      borderRadius: 3,
+      background: 'currentColor',
+      visibility: counts[i] ? 'visible' : 'hidden'
+    }
+  })))));
+}
+Object.assign(__ds_scope, { MonthSlider });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/layers/MonthSlider.jsx", error: String((e && e.message) || e) }); }
+
+// components/layers/LayerPanel.jsx
+try { (() => {
+const D = __ds_scope.KhoimData;
+const fmtNext = d => d.toLocaleDateString('en-IN', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+});
+const p16 = {
+  margin: 0,
+  font: 'var(--weight-regular) 16px/1.5 var(--font-latin)'
+};
+/* Controls and readout for the chosen map layer. Goes in the bottom sheet (phone) or side panel (desktop). */
+function LayerPanel({
+  layer,
+  onChange,
+  onShare,
+  onPickPlace,
+  onHelp,
+  year = new Date().getFullYear(),
+  style
+}) {
+  if (!layer || layer.id === 'names') return null;
+  const box = {
+    display: 'grid',
+    gap: 14,
+    padding: '0 var(--gutter) 20px',
+    ...style
+  };
+  const share = onShare && /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    variant: "outline",
+    icon: "share-2",
+    onClick: onShare
+  }, "Share this view");
+  if (layer.id === 'parts') {
+    const part = D.NAME_PARTS.find(x => x.id === layer.part) || D.NAME_PARTS[0];
+    return /*#__PURE__*/React.createElement("div", {
+      style: box
+    }, /*#__PURE__*/React.createElement("p", {
+      style: p16
+    }, "Pick an ending. Every village whose official spelling ends with it lights up."), /*#__PURE__*/React.createElement("div", {
+      role: "radiogroup",
+      "aria-label": "Name part",
+      style: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8
+      }
+    }, D.NAME_PARTS.map(x => {
+      const on = x.id === part.id;
+      return /*#__PURE__*/React.createElement("button", {
+        key: x.id,
+        type: "button",
+        role: "radio",
+        "aria-checked": on,
+        onClick: () => onChange({
+          ...layer,
+          part: x.id
+        }),
+        style: {
+          minHeight: 48,
+          padding: '0 14px',
+          borderRadius: 'var(--radius-m)',
+          border: '2px solid ' + (on ? 'var(--text)' : 'var(--line)'),
+          background: on ? 'var(--surface-invert)' : 'var(--surface-raised)',
+          color: on ? 'var(--text-invert)' : 'var(--text)',
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'baseline',
+          gap: 8
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          font: 'var(--weight-strong) 20px/1 var(--font-latin)'
+        }
+      }, x.label), /*#__PURE__*/React.createElement("span", {
+        style: {
+          font: 'var(--weight-regular) 14px/1 var(--font-latin)'
+        }
+      }, x.count));
+    })), /*#__PURE__*/React.createElement("p", {
+      style: {
+        ...p16,
+        fontWeight: 600,
+        fontSize: 18
+      }
+    }, part.count + ' villages end in ' + part.label), /*#__PURE__*/React.createElement("p", {
+      style: {
+        ...p16,
+        fontSize: 15
+      }
+    }, "Matched on official spellings. What each part means still needs a source."), share);
+  }
+  if (layer.id === 'feasts') {
+    const all = D.allFeasts();
+    const counts = Array.from({
+      length: 12
+    }, (_, i) => all.filter(f => D.upcomingMonths(f.item.when).includes(i + 1)).length);
+    const now = all.filter(f => D.upcomingMonths(f.item.when).includes(layer.month));
+    return /*#__PURE__*/React.createElement("div", {
+      style: box
+    }, /*#__PURE__*/React.createElement(__ds_scope.MonthSlider, {
+      value: layer.month,
+      onChange: m => onChange({
+        ...layer,
+        month: m
+      }),
+      counts: counts
+    }), now.length ? /*#__PURE__*/React.createElement("ul", {
+      style: {
+        listStyle: 'none',
+        margin: 0,
+        padding: 0,
+        display: 'grid',
+        gap: 8
+      }
+    }, now.map((f, i) => {
+      const d = D.nextFeastDate(f.item.when);
+      return /*#__PURE__*/React.createElement("li", {
+        key: i
+      }, /*#__PURE__*/React.createElement("button", {
+        type: "button",
+        disabled: !f.place,
+        onClick: () => f.place && onPickPlace && onPickPlace(f.place.id),
+        style: {
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: '10px minmax(0,1fr)',
+          gap: 12,
+          alignItems: 'stretch',
+          textAlign: 'left',
+          border: 0,
+          borderRadius: 'var(--radius-l)',
+          background: 'var(--surface-raised)',
+          color: 'var(--text)',
+          padding: '12px 14px 12px 12px',
+          cursor: f.place ? 'pointer' : 'default',
+          boxShadow: 'var(--shadow-1)'
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        "aria-hidden": "true",
+        style: {
+          borderRadius: 5,
+          background: 'var(--house-' + D.houseOf(f.place || {
+            parent: f.taluka
+          }).key + ')'
+        }
+      }), /*#__PURE__*/React.createElement("span", {
+        style: {
+          display: 'grid',
+          gap: 2
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          font: 'var(--weight-strong) 18px/1.3 var(--font-latin)'
+        }
+      }, f.item.title), /*#__PURE__*/React.createElement("span", {
+        style: {
+          font: 'var(--weight-strong) 15px/1.4 var(--font-latin)'
+        }
+      }, f.name), /*#__PURE__*/React.createElement("span", {
+        style: {
+          font: 'var(--weight-regular) 15px/1.45 var(--font-latin)'
+        }
+      }, f.item.whenText + '. ' + (d ? 'Next: ' + fmtNext(d) + '.' : 'Lunar date, so it moves each year.')))));
+    })) : /*#__PURE__*/React.createElement("p", {
+      style: p16
+    }, "No feast or zatra recorded for this month yet. Know one? Tell us."), share);
+  }
+  if (layer.id === 'need') {
+    const V = D.VILLAGES,
+      rev = V.filter(v => v.deva && v.status !== 'review').length,
+      rv = V.filter(v => v.status === 'review').length,
+      none = V.length - rev - rv;
+    const sw = st => ({
+      width: 28,
+      height: 20,
+      borderRadius: 4,
+      flex: '0 0 auto',
+      background: st === 'lit' ? 'var(--house-kokum)' : st === 'review' ? 'var(--map-kokum-dim)' : 'var(--map-unlit)',
+      border: st === 'lit' ? 0 : '1.5px ' + (st === 'review' ? 'dashed' : 'solid') + ' var(--map-outline)'
+    });
+    const row = (st, n, t) => /*#__PURE__*/React.createElement("li", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        font: 'var(--weight-regular) 16px/1.4 var(--font-latin)'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true",
+      style: sw(st)
+    }), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", {
+      style: {
+        fontWeight: 700
+      }
+    }, n), ' ' + t));
+    return /*#__PURE__*/React.createElement("div", {
+      style: box
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        ...p16,
+        fontWeight: 600,
+        fontSize: 18
+      }
+    }, rev + ' of ' + V.length + ' villages have a checked Konkani name.'), /*#__PURE__*/React.createElement("ul", {
+      style: {
+        listStyle: 'none',
+        margin: 0,
+        padding: 0,
+        display: 'grid',
+        gap: 8
+      }
+    }, row('lit', rev, 'checked by a speaker'), row('review', rv, 'written down, not checked yet'), row('outline', none, 'with no Konkani name yet')), /*#__PURE__*/React.createElement("p", {
+      style: p16
+    }, "If you know how your village is written in Devanagari or Romi, tap it and tell us."), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement(__ds_scope.Button, {
+      icon: "mail",
+      onClick: onHelp
+    }, "Help fill this in"), share));
+  }
+  if (layer.id === 'population') {
+    return /*#__PURE__*/React.createElement("div", {
+      style: box
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(5,1fr)',
+        gap: 4
+      }
+    }, [1, 2, 3, 4, 5].map(i => /*#__PURE__*/React.createElement("span", {
+      key: i,
+      style: {
+        height: 22,
+        borderRadius: 4,
+        background: 'var(--pop-' + i + ')',
+        border: '1px solid var(--line)'
+      }
+    }))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        font: 'var(--weight-regular) 15px/1.3 var(--font-latin)'
+      }
+    }, /*#__PURE__*/React.createElement("span", null, "Fewer people"), /*#__PURE__*/React.createElement("span", null, "More")), /*#__PURE__*/React.createElement("p", {
+      style: {
+        ...p16,
+        fontWeight: 600
+      }
+    }, "Placeholder shading. Census 2011 figures are not loaded yet."), share);
+  }
+  return null;
+}
+Object.assign(__ds_scope, { LayerPanel });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/layers/LayerPanel.jsx", error: String((e && e.message) || e) }); }
 
 // components/layers/VoiceClip.jsx
 try { (() => {
@@ -4000,12 +5249,14 @@ Object.assign(__ds_scope, { VoiceClip });
 
 // components/map/GoaMap.jsx
 try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const TIDS = Object.keys(__ds_scope.TALUKA_SHAPES);
 const DIDS = Object.keys(__ds_scope.DISTRICT_SHAPES);
 const GOA = [20, 30, 985, 1400];
 const NUDGE = {
   mormugao: [-10, 4]
 };
+const YEAR = new Date().getFullYear();
 function boxFor(focus) {
   const s = focus && (__ds_scope.TALUKA_SHAPES[focus] || __ds_scope.DISTRICT_SHAPES[focus]);
   if (!s) return GOA;
@@ -4033,11 +5284,43 @@ function useSize(ref) {
   return z;
 }
 const hk = id => __ds_scope.houseOf(__ds_scope.getPlace(id)).key;
+const VBOX = {};
+function vbox(id) {
+  if (VBOX[id]) return VBOX[id];
+  const v = __ds_scope.VILLAGES.find(x => 'v' + x.id === id);
+  if (!v) return null;
+  const n = (v.d.match(/-?\d+(\.\d+)?/g) || []).map(Number);
+  const b = [1e9, 1e9, -1e9, -1e9];
+  for (let i = 0; i < n.length - 1; i += 2) {
+    b[0] = Math.min(b[0], n[i]);
+    b[1] = Math.min(b[1], n[i + 1]);
+    b[2] = Math.max(b[2], n[i]);
+    b[3] = Math.max(b[3], n[i + 1]);
+  }
+  return VBOX[id] = b;
+}
+/* selected village: frame it with its neighbours so names have room */
+function hoodBox(id) {
+  const ids = [id].concat(__ds_scope.neighboursOf(id).map(n => n.id));
+  const b = [1e9, 1e9, -1e9, -1e9];
+  ids.forEach(i => {
+    const x = vbox(i);
+    if (x) {
+      b[0] = Math.min(b[0], x[0]);
+      b[1] = Math.min(b[1], x[1]);
+      b[2] = Math.max(b[2], x[2]);
+      b[3] = Math.max(b[3], x[3]);
+    }
+  });
+  const pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.08;
+  return [b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad];
+}
 function GoaMap({
   focus = null,
   selected = null,
   hot = null,
   script = 'deva',
+  layer = null,
   onSelect,
   onHot,
   insetTop = 0,
@@ -4058,6 +5341,7 @@ function GoaMap({
   } = useSize(ref);
   const [painted, setPainted] = React.useState(() => new Set(paintIn && !reduce ? [] : TIDS));
   const [scrub, setScrub] = React.useState(null);
+  const [pressed, setPressed] = React.useState(null);
   React.useEffect(() => {
     if (!paintIn || reduce) {
       setPainted(new Set(TIDS));
@@ -4067,7 +5351,8 @@ function GoaMap({
     const t = order.map((id, i) => setTimeout(() => setPainted(p => new Set([...p, id])), 200 + i * 60));
     return () => t.forEach(clearTimeout);
   }, [paintIn, reduce]);
-  const box = boxFor(focus),
+  const fp0 = focus ? __ds_scope.getPlace(focus) : null;
+  const box = fp0 && fp0.level === 'taluka' && selected && selected[0] === 'v' ? hoodBox(selected) : boxFor(focus),
     bw = box[2] - box[0],
     bh = box[3] - box[1];
   const aw = Math.max(1, w - insetLeft - insetRight - 24),
@@ -4076,8 +5361,6 @@ function GoaMap({
   const ox = insetLeft + 12 + (aw - bw * s) / 2 - box[0] * s,
     oy = insetTop + (ah - bh * s) / 2 - box[1] * s;
   const P = ([x, y]) => [x * s + ox, y * s + oy];
-
-  /* one composited transform from the old view to the new one */
   React.useLayoutEffect(() => {
     const el = stage.current,
       pv = prev.current;
@@ -4100,8 +5383,11 @@ function GoaMap({
   const level = fp ? fp.level : 'state';
   const dOf = id => __ds_scope.TALUKA_SHAPES[id].district;
   const active = hot || selected;
+  const ap = active ? __ds_scope.getPlace(active) : null;
+  const layered = layer && layer.id !== 'names';
   const lit = id => {
-    if (level === 'state') return !active || dOf(id) === active;
+    if (layered) return level === 'state' || (level === 'district' ? dOf(id) === focus : id === focus);
+    if (level === 'state') return !ap || (ap.level === 'district' ? dOf(id) === active : ap.level === 'taluka' ? id === active : true);
     if (level === 'district') return dOf(id) === focus && (!active || active === id);
     return id === focus;
   };
@@ -4142,11 +5428,53 @@ function GoaMap({
     onHot && onHot(null);
     if (d.u && onSelect) onSelect(d.u, d.moved);
   };
-  const units = level === 'state' ? DIDS.map(id => [id, __ds_scope.DISTRICT_SHAPES[id].d]) : level === 'district' ? TIDS.filter(id => dOf(id) === focus).map(id => [id, __ds_scope.TALUKA_SHAPES[id].d]) : __ds_scope.VILLAGES.filter(v => v.t === focus).map(v => ['v' + v.id, v.d]);
-  const labelIds = level === 'state' ? TIDS : level === 'district' ? TIDS.filter(id => dOf(id) === focus) : [];
+  const press = id => ({
+    onPointerDown: () => setPressed(id),
+    onPointerUp: () => setPressed(null),
+    onPointerLeave: () => setPressed(null),
+    onPointerCancel: () => setPressed(null)
+  });
+  const focusVillages = level === 'taluka' ? __ds_scope.VILLAGES.filter(v => v.t === focus) : [];
+  const layerVillages = layered ? level === 'state' ? __ds_scope.VILLAGES : level === 'district' ? __ds_scope.VILLAGES.filter(v => dOf(v.t) === focus) : focusVillages : [];
+  const units = level === 'state' ? TIDS.map(id => [id, __ds_scope.TALUKA_SHAPES[id].d]) : level === 'district' ? TIDS.filter(id => dOf(id) === focus).map(id => [id, __ds_scope.TALUKA_SHAPES[id].d]) : focusVillages.map(v => ['v' + v.id, v.d]);
+  const labelIds = layered && level === 'state' ? [] : level === 'state' ? TIDS : level === 'district' ? TIDS.filter(id => dOf(id) === focus) : [];
   const inv = s ? 1 / s : 1;
   const selV = level === 'taluka' && active && active[0] === 'v' ? __ds_scope.getPlace(active) : null;
+  const nbrs = selV && selected === selV.id ? __ds_scope.neighboursOf(selV.id) : [];
   const scrubP = scrub && scrub.u ? __ds_scope.getPlace(scrub.u) : null;
+  const glyphs = level === 'taluka' ? focusVillages.map(v => ({
+    p: __ds_scope.getPlace('v' + v.id),
+    items: __ds_scope.glyphsFor(__ds_scope.getPlace('v' + v.id))
+  })).filter(g => g.items.length && g.p.lp) : [];
+  const lines = level === 'taluka' ? __ds_scope.linesFor(focus) : [];
+  const vFill = (v, st) => {
+    const k = hk(v.t);
+    if (st === 'lit') return `var(--house-${k})`;
+    if (st === 'review') return `var(--map-${k}-dim)`;
+    if (st === 'dim') return 'var(--map-fade)';
+    if (st && st.startsWith('step')) return `var(--pop-${st.slice(4)})`;
+    return 'var(--map-unlit)';
+  };
+  const labelBase = {
+    position: 'absolute',
+    transform: 'translate(-50%,-50%)',
+    pointerEvents: 'auto',
+    border: 0,
+    minHeight: 'var(--label-hit)',
+    minWidth: 'var(--label-hit)',
+    display: 'grid',
+    placeItems: 'center',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+    borderRadius: 'var(--radius-s)'
+  };
+  const pressedStyle = id => pressed === id ? {
+    background: 'var(--surface-raised)',
+    color: 'var(--text)',
+    boxShadow: 'var(--shadow-1)',
+    transform: 'translate(-50%,-50%) scale(.94)',
+    transition: 'none'
+  } : null;
   return /*#__PURE__*/React.createElement("div", {
     ref: ref,
     role: "group",
@@ -4207,7 +5535,7 @@ function GoaMap({
     stroke: "var(--map-edge)",
     strokeWidth: 1,
     vectorEffect: "non-scaling-stroke"
-  })), TIDS.map(id => {
+  })), !layered && TIDS.map(id => {
     const k = hk(id);
     return /*#__PURE__*/React.createElement("path", {
       key: id,
@@ -4222,21 +5550,91 @@ function GoaMap({
         transition: 'fill var(--dur-base) var(--ease-out)'
       }
     });
-  }), level === 'taluka' && __ds_scope.VILLAGES.filter(v => v.t === focus).map(v => /*#__PURE__*/React.createElement("path", {
+  }), layered && layerVillages.slice().sort((a, b) => (__ds_scope.layerState(__ds_scope.getPlace('v' + a.id), layer, YEAR) === 'lit') - (__ds_scope.layerState(__ds_scope.getPlace('v' + b.id), layer, YEAR) === 'lit')).map(v => {
+    const p = __ds_scope.getPlace('v' + v.id),
+      st = __ds_scope.layerState(p, layer, YEAR);
+    return /*#__PURE__*/React.createElement("path", {
+      key: 'lv' + v.id,
+      d: v.d,
+      fill: vFill(v, st),
+      stroke: st === 'outline' || st === 'review' ? 'var(--map-outline)' : st === 'lit' && layer.id !== 'need' && layer.id !== 'population' ? 'var(--map-lit-outline)' : st === 'dim' ? 'var(--map-fade-edge)' : 'var(--trim)',
+      strokeWidth: st === 'review' ? 1.5 : st === 'outline' ? 0.6 : st === 'lit' && layer.id !== 'need' && layer.id !== 'population' ? 1.75 : 0.75,
+      strokeDasharray: st === 'review' ? '3 2' : undefined,
+      vectorEffect: "non-scaling-stroke",
+      style: {
+        transition: 'fill var(--dur-base) var(--ease-out)'
+      }
+    });
+  }), layered && TIDS.map(id => /*#__PURE__*/React.createElement("path", {
+    key: 'lt' + id,
+    d: __ds_scope.TALUKA_SHAPES[id].d,
+    fill: "none",
+    stroke: "var(--map-fade-edge)",
+    strokeWidth: 1.5,
+    vectorEffect: "non-scaling-stroke",
+    opacity: lit(id) ? 1 : 0.6,
+    pointerEvents: "none"
+  })), level === 'taluka' && !layered && focusVillages.map(v => /*#__PURE__*/React.createElement("path", {
     key: 'vp' + v.id,
     d: v.d,
-    fill: "none",
+    fill: nbrs.some(n => n.id === 'v' + v.id) ? 'rgba(255,255,255,.14)' : 'none',
     stroke: "var(--trim)",
-    strokeOpacity: 0.45,
+    strokeOpacity: 0.5,
     strokeWidth: 1,
     vectorEffect: "non-scaling-stroke"
-  })), level === 'taluka' && __ds_scope.VILLAGES.filter(v => v.t === focus).map(v => {
+  })), selV && /*#__PURE__*/React.createElement("path", {
+    d: __ds_scope.VILLAGES.find(v => 'v' + v.id === selV.id).d,
+    fill: "none",
+    stroke: "var(--trim)",
+    strokeWidth: 3,
+    vectorEffect: "non-scaling-stroke"
+  }), lines.map(l => l.kind === 'river' ? /*#__PURE__*/React.createElement("g", {
+    key: l.id
+  }, /*#__PURE__*/React.createElement("path", {
+    d: l.d,
+    fill: "none",
+    stroke: "var(--map-river-casing)",
+    strokeWidth: 6,
+    strokeLinecap: "round",
+    vectorEffect: "non-scaling-stroke"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: l.d,
+    fill: "none",
+    stroke: "var(--map-river)",
+    strokeWidth: 3,
+    strokeLinecap: "round",
+    strokeDasharray: l.placeholder ? '8 5' : undefined,
+    vectorEffect: "non-scaling-stroke"
+  })) : /*#__PURE__*/React.createElement("g", {
+    key: l.id
+  }, /*#__PURE__*/React.createElement("path", {
+    d: l.d,
+    fill: "none",
+    stroke: "var(--map-rail-tie)",
+    strokeWidth: 6,
+    vectorEffect: "non-scaling-stroke"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: l.d,
+    fill: "none",
+    stroke: "var(--map-rail)",
+    strokeWidth: 2,
+    strokeDasharray: l.placeholder ? '8 5' : undefined,
+    vectorEffect: "non-scaling-stroke"
+  }), l.station && /*#__PURE__*/React.createElement("rect", {
+    x: l.station.at[0] - 5 * inv,
+    y: l.station.at[1] - 5 * inv,
+    width: 10 * inv,
+    height: 10 * inv,
+    fill: "var(--trim)",
+    stroke: "var(--map-rail)",
+    strokeWidth: 2 * inv
+  }))), level === 'taluka' && focusVillages.map(v => {
     const on = 'v' + v.id === active;
     return /*#__PURE__*/React.createElement("circle", {
       key: 'vd' + v.id,
       cx: v.lp[0],
       cy: v.lp[1],
-      r: (on ? 9 : v.town ? 5 : 4) * inv,
+      r: (on ? 9 : 4) * inv,
       fill: "var(--trim)",
       stroke: on ? `var(--house-${hk(focus)}-on)` : 'none',
       strokeWidth: 3 * inv
@@ -4262,51 +5660,145 @@ function GoaMap({
       on = lit(id),
       nd = NUDGE[id] || [0, 0];
     const [x, y] = P([__ds_scope.TALUKA_SHAPES[id].lp[0] + nd[0], __ds_scope.TALUKA_SHAPES[id].lp[1] + nd[1]]);
-    const big = level === 'district',
-      size = big ? active === id ? 24 : 20 : active && dOf(id) === active ? 15 : 14;
-    const target = level === 'state' ? dOf(id) : id;
-    return /*#__PURE__*/React.createElement("button", {
+    const size = level === 'district' ? active === id ? 24 : 20 : active === id ? 16 : 14;
+    return /*#__PURE__*/React.createElement("button", _extends({
       key: id,
       type: "button",
       lang: n.kind === 'deva' ? 'gom' : undefined,
-      "aria-label": level === 'state' ? __ds_scope.spokenName(__ds_scope.getPlace(target)) + ' Includes ' + p.official + '.' : __ds_scope.spokenName(p),
-      "aria-pressed": selected === target,
-      onClick: () => onSelect && onSelect(target, false),
+      "aria-label": __ds_scope.spokenName(p),
+      "aria-pressed": selected === id,
+      onClick: () => onSelect && onSelect(id, false)
+    }, press(id), {
       style: {
-        position: 'absolute',
+        ...labelBase,
         left: x,
         top: y,
-        transform: 'translate(-50%,-50%)',
-        pointerEvents: 'auto',
-        border: 0,
+        padding: '0 8px',
         background: 'transparent',
-        padding: '6px 8px',
-        borderRadius: 'var(--radius-s)',
-        cursor: 'pointer',
-        whiteSpace: 'nowrap',
         visibility: painted.has(id) ? 'visible' : 'hidden',
         color: on ? `var(--house-${k}-on)` : 'var(--text)',
         font: `var(--weight-strong) ${n.fallback ? size - 2 : size}px/1.5 ${n.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)'}`,
-        transition: 'color var(--dur-base) var(--ease-out)'
+        transition: 'color var(--dur-base) var(--ease-out)',
+        ...pressedStyle(id)
       }
-    }, n.text);
+    }), n.text);
+  }), s > 0 && nbrs.map(nb => {
+    if (!nb.lp) return null;
+    const [x, y] = P(nb.lp);
+    if (x < 0 || y < insetTop || x > w || y > h - insetBottom) return null;
+    const n = __ds_scope.nameIn(nb, script);
+    return /*#__PURE__*/React.createElement("button", _extends({
+      key: nb.id,
+      type: "button",
+      "aria-label": __ds_scope.spokenName(nb) + ' Next to ' + selV.official + '.',
+      onClick: () => onSelect && onSelect(nb.id, false)
+    }, press(nb.id), {
+      style: {
+        ...labelBase,
+        left: x,
+        top: y,
+        padding: '0 6px',
+        background: 'transparent',
+        color: 'var(--text)',
+        font: `var(--weight-strong) 13px/1.5 ${n.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)'}`,
+        ...pressedStyle(nb.id)
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        background: 'var(--surface-raised)',
+        padding: '1px 7px',
+        borderRadius: 'var(--radius-xs)'
+      }
+    }, n.text));
+  }), s > 0 && glyphs.map(g => {
+    const [x, y] = P(g.p.lp);
+    return /*#__PURE__*/React.createElement("div", {
+      key: 'g' + g.p.id,
+      style: {
+        position: 'absolute',
+        left: x + 8,
+        top: y + 8,
+        display: 'flex',
+        gap: 2,
+        pointerEvents: 'auto'
+      }
+    }, g.items.map((it, i) => /*#__PURE__*/React.createElement("button", _extends({
+      key: i,
+      type: "button",
+      "aria-label": it.title + ', ' + g.p.official,
+      onClick: () => onSelect && onSelect(g.p.id, false)
+    }, press(g.p.id + i), {
+      style: {
+        width: 'var(--glyph-hit)',
+        height: 'var(--glyph-hit)',
+        margin: -7,
+        border: 0,
+        background: 'transparent',
+        padding: 7,
+        cursor: 'pointer',
+        display: 'grid',
+        placeItems: 'center'
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 'var(--glyph-tile)',
+        height: 'var(--glyph-tile)',
+        borderRadius: 'var(--radius-s)',
+        background: 'var(--glyph-bg)',
+        color: 'var(--glyph-ink)',
+        border: '2px solid var(--glyph-ink)',
+        display: 'grid',
+        placeItems: 'center',
+        transform: pressed === g.p.id + i ? 'scale(.9)' : 'none'
+      }
+    }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+      name: it.icon,
+      size: 16
+    })))));
+  }), s > 0 && lines.map(l => {
+    const at = l.station ? l.station.at : null;
+    if (!at) return null;
+    const [x, y] = P(at);
+    return /*#__PURE__*/React.createElement("span", {
+      key: 'st' + l.id,
+      style: {
+        position: 'absolute',
+        left: x + 10,
+        top: y,
+        transform: 'translateY(-50%)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+        background: 'var(--surface-raised)',
+        color: 'var(--text)',
+        padding: '2px 7px',
+        borderRadius: 'var(--radius-xs)',
+        font: 'var(--weight-strong) 12px/1.4 var(--font-latin)',
+        whiteSpace: 'nowrap'
+      }
+    }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+      name: "train-front",
+      size: 13
+    }), l.station.label, l.placeholder ? ' (to load)' : '');
   }), selV && (() => {
     const [x, y] = P(selV.lp);
+    const n = __ds_scope.nameIn(selV, script);
     return /*#__PURE__*/React.createElement("span", {
       style: {
         position: 'absolute',
         left: x,
-        top: y - 20,
+        top: y - 18,
         transform: 'translate(-50%,-100%)',
         background: 'var(--surface-raised)',
         color: 'var(--text)',
-        padding: '4px 10px',
+        padding: '4px 12px',
         borderRadius: 'var(--radius-m)',
-        font: 'var(--weight-strong) 15px/1.4 var(--font-latin)',
+        font: `var(--weight-strong) 17px/1.5 ${n.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)'}`,
         whiteSpace: 'nowrap',
         boxShadow: 'var(--shadow-2)'
-      }
-    }, selV.official);
+      },
+      lang: n.kind === 'deva' ? 'gom' : undefined
+    }, n.text);
   })())), scrubP && /*#__PURE__*/React.createElement(Loupe, {
     p: scrubP,
     x: scrub.x,
@@ -4357,6 +5849,162 @@ function Loupe({
 }
 Object.assign(__ds_scope, { GoaMap });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/map/GoaMap.jsx", error: String((e && e.message) || e) }); }
+
+// components/nav/Breadcrumb.jsx
+try { (() => {
+/* Goa / district / taluka / village. Every step but the last goes back to that level. */
+function Breadcrumb({
+  id,
+  script = 'official',
+  onNavigate,
+  tone = 'raised',
+  style
+}) {
+  const trail = __ds_scope.trailOf(id || 'goa');
+  return /*#__PURE__*/React.createElement("nav", {
+    "aria-label": "Where you are",
+    style: {
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("ol", {
+    style: {
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      overflowX: 'auto',
+      scrollbarWidth: 'none'
+    }
+  }, trail.map((p, i) => {
+    const last = i === trail.length - 1,
+      n = __ds_scope.nameIn(p, script);
+    return /*#__PURE__*/React.createElement("li", {
+      key: p.id,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+        flex: '0 0 auto'
+      }
+    }, i > 0 && /*#__PURE__*/React.createElement("span", {
+      "aria-hidden": "true",
+      style: {
+        font: 'var(--weight-strong) 15px/1 var(--font-latin)',
+        padding: '0 2px'
+      }
+    }, "/"), /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      "aria-current": last ? 'page' : undefined,
+      onClick: () => !last && onNavigate && onNavigate(p.id === 'goa' ? null : p.id),
+      lang: n.kind === 'deva' ? 'gom' : undefined,
+      style: {
+        minHeight: 44,
+        padding: '0 10px',
+        border: 0,
+        borderRadius: 'var(--radius-m)',
+        cursor: last ? 'default' : 'pointer',
+        whiteSpace: 'nowrap',
+        background: tone === 'raised' ? last ? 'var(--surface-invert)' : 'var(--surface-raised)' : 'transparent',
+        color: tone === 'raised' && last ? 'var(--text-invert)' : 'var(--text)',
+        boxShadow: tone === 'raised' && !last ? 'var(--shadow-1)' : 'none',
+        textDecoration: !last && tone !== 'raised' ? 'underline' : 'none',
+        textUnderlineOffset: 4,
+        font: 'var(--weight-strong) ' + (n.kind === 'deva' ? 16 : 15) + 'px/1.5 ' + (n.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)')
+      }
+    }, n.text));
+  })));
+}
+Object.assign(__ds_scope, { Breadcrumb });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/nav/Breadcrumb.jsx", error: String((e && e.message) || e) }); }
+
+// components/nav/LayerRow.jsx
+try { (() => {
+/* The map layers as a visible, labelled row. Never hidden behind an icon. */
+function LayerRow({
+  value = 'names',
+  onChange,
+  layers = __ds_scope.MAP_LAYERS,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    role: "radiogroup",
+    "aria-label": "Map layers",
+    style: {
+      display: 'flex',
+      gap: 8,
+      overflowX: 'auto',
+      scrollbarWidth: 'none',
+      padding: '2px 16px 6px',
+      ...style
+    }
+  }, layers.map(l => {
+    const on = l.id === value;
+    return /*#__PURE__*/React.createElement("button", {
+      key: l.id,
+      type: "button",
+      role: "radio",
+      "aria-checked": on,
+      onClick: () => onChange && onChange(l.id),
+      style: {
+        flex: '0 0 auto',
+        height: 'var(--chip-height)',
+        padding: '0 14px 0 12px',
+        borderRadius: 'var(--chip-radius)',
+        border: 0,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        cursor: 'pointer',
+        background: on ? 'var(--surface-invert)' : 'var(--surface-raised)',
+        color: on ? 'var(--text-invert)' : 'var(--text)',
+        boxShadow: on ? 'none' : 'var(--shadow-1)',
+        font: 'var(--weight-strong) 15px/1 var(--font-latin)',
+        transition: 'background-color var(--dur-fast), color var(--dur-fast)'
+      }
+    }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+      name: l.icon,
+      size: 18
+    }), l.label);
+  }));
+}
+Object.assign(__ds_scope, { LayerRow });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/nav/LayerRow.jsx", error: String((e && e.message) || e) }); }
+
+// components/nav/TapHint.jsx
+try { (() => {
+/* One short line that tells first-time visitors the map is the thing to touch. The caller hides it for good after the first tap. */
+function TapHint({
+  text = 'Tap any taluka',
+  visible = true,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("p", {
+    "aria-hidden": !visible,
+    style: {
+      margin: 0,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '10px 14px 10px 12px',
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--hint-bg)',
+      color: 'var(--hint-text)',
+      font: 'var(--weight-strong) 16px/1.2 var(--font-latin)',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'none' : 'translateY(6px)',
+      transition: 'opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out)',
+      pointerEvents: 'none',
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: "hand",
+    size: 18
+  }), text);
+}
+Object.assign(__ds_scope, { TapHint });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/nav/TapHint.jsx", error: String((e && e.message) || e) }); }
 
 // components/place/PendingName.jsx
 try { (() => {
@@ -4838,7 +6486,7 @@ function PlaceCard({
     label: "Boundary"
   }, /*#__PURE__*/React.createElement("p", {
     style: body
-  }, p.boundarySource === 'SOI' ? 'Survey of India' : 'Local Government Directory', p.lgd ? ', LGD code ' + p.lgd : '', p.town ? '. Census town' : '', "."))), inside && /*#__PURE__*/React.createElement("div", {
+  }, p.boundarySource === 'SOI' ? 'Survey of India' : 'Local Government Directory', p.lgd ? ', LGD code ' + p.lgd : '', "."))), inside && /*#__PURE__*/React.createElement("div", {
     style: {
       paddingTop: 8
     }
@@ -4855,7 +6503,7 @@ Object.assign(__ds_scope, { PlaceCard });
 
 // components/place/Sheet.jsx
 try { (() => {
-/* Bottom sheet with two snap points. Drag the handle (or anywhere when collapsed), tap the handle, or use Escape. */
+/* Bottom sheet with two snap points. The handle row always shows the current place name, so it is clear there is more to pull up. */
 function Sheet({
   snap = 'peek',
   onSnap,
@@ -4865,6 +6513,7 @@ function Sheet({
   bg = 'var(--surface-raised)',
   ink = 'var(--text)',
   label,
+  title,
   children,
   style
 }) {
@@ -4877,7 +6526,7 @@ function Sheet({
   const start = e => {
     const sc = box.current.querySelector('[data-sheet-scroll]');
     if (snap === 'full' && sc && sc.scrollTop > 0 && !e.target.closest('[data-sheet-handle]')) return;
-    if (e.target.closest('button,a,input') && !e.target.closest('[data-sheet-handle]')) return;
+    if (e.target.closest('button,a,input,[role=slider]') && !e.target.closest('[data-sheet-handle]')) return;
     d.current = {
       y: e.clientY,
       t: performance.now()
@@ -4915,8 +6564,8 @@ function Sheet({
       top,
       height: H,
       zIndex: 'var(--z-sheet)',
-      transform: `translateY(${base + dy}px)`,
-      transition: dy ? 'none' : reduce ? 'none' : 'transform var(--dur-sheet) var(--ease-standard)',
+      transform: 'translateY(' + (base + dy) + 'px)',
+      transition: dy ? 'none' : reduce ? 'none' : 'transform var(--dur-sheet) var(--ease-standard), background-color var(--dur-base)',
       background: bg,
       color: ink,
       borderRadius: 'var(--radius-sheet) var(--radius-sheet) 0 0',
@@ -4930,27 +6579,46 @@ function Sheet({
     type: "button",
     "data-sheet-handle": "1",
     "aria-expanded": snap === 'full',
-    "aria-label": snap === 'full' ? 'Show less' : 'Show more',
+    "aria-label": (snap === 'full' ? 'Show less' : 'Show more') + (label ? ': ' + label : ''),
     onClick: () => onSnap(snap === 'full' ? 'peek' : 'full'),
     style: {
-      height: 28,
+      minHeight: title ? 44 : 28,
       border: 0,
       background: 'transparent',
       color: 'inherit',
       display: 'grid',
-      placeItems: 'center',
+      gridTemplateColumns: title ? '1fr auto 1fr' : '1fr',
+      alignItems: 'center',
+      gap: 10,
+      padding: title ? '6px 20px 0' : 0,
       cursor: 'grab',
       borderRadius: 'var(--radius-sheet) var(--radius-sheet) 0 0'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, title && /*#__PURE__*/React.createElement("span", {
+    style: {
+      justifySelf: 'start',
+      font: 'var(--weight-strong) 15px/1.3 var(--font-latin)',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: '100%'
+    }
+  }, title), /*#__PURE__*/React.createElement("span", {
     "aria-hidden": "true",
     style: {
+      justifySelf: 'center',
       width: 40,
       height: 5,
       borderRadius: 3,
       background: 'currentColor'
     }
-  })), /*#__PURE__*/React.createElement("div", {
+  }), title && /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      justifySelf: 'end',
+      font: 'var(--weight-strong) 14px/1.3 var(--font-latin)'
+    }
+  }, snap === 'full' ? 'Less' : 'More')), /*#__PURE__*/React.createElement("div", {
     "data-sheet-scroll": "1",
     style: {
       overflowY: snap === 'full' ? 'auto' : 'hidden',
@@ -5164,10 +6832,2059 @@ function SearchResults({
     style: {
       font: 'var(--weight-regular) 15px/1.4 var(--font-latin)'
     }
-  }, p.deva ? /*#__PURE__*/React.createElement(React.Fragment, null, field === 'official' ? mark(p.official, query) : p.official, " \xB7 ") : 'Official name only · ', __ds_scope.whereLabel(p))))))));
+  }, p.deva ? /*#__PURE__*/React.createElement(React.Fragment, null, field === 'official' ? mark(p.official, query) : p.official, " \xB7 ") : __ds_scope.STATUS_TEXT[p.status] + ' · ', __ds_scope.whereLabel(p))))))));
 }
 Object.assign(__ds_scope, { SearchResults });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/search/SearchResults.jsx", error: String((e && e.message) || e) }); }
+
+// components/share/ShareCard.jsx
+try { (() => {
+const SIZES = {
+  og: [1200, 630],
+  square: [1080, 1080],
+  story: [1080, 1920]
+};
+function shapeOf(p) {
+  const d = p.level === 'village' ? (__ds_scope.VILLAGES.find(v => 'v' + v.id === p.id) || {}).d : (__ds_scope.TALUKA_SHAPES[p.id] || __ds_scope.DISTRICT_SHAPES[p.id] || {}).d;
+  if (!d) return null;
+  const n = (d.match(/-?\d+(\.\d+)?/g) || []).map(Number);
+  let b = [1e9, 1e9, -1e9, -1e9];
+  for (let i = 0; i < n.length - 1; i += 2) {
+    b[0] = Math.min(b[0], n[i]);
+    b[1] = Math.min(b[1], n[i + 1]);
+    b[2] = Math.max(b[2], n[i]);
+    b[3] = Math.max(b[3], n[i + 1]);
+  }
+  return {
+    d,
+    vb: b[0] - 4 + ' ' + (b[1] - 4) + ' ' + (b[2] - b[0] + 8) + ' ' + (b[3] - b[1] + 8)
+  };
+}
+/* Link preview (1200x630), square (1080) and story (1080x1920) cards. Made at build time, one per place. */
+function ShareCard({
+  place,
+  format = 'og',
+  style
+}) {
+  const p = typeof place === 'string' ? __ds_scope.getPlace(place) : place;
+  if (!p) return null;
+  const [W, H] = SIZES[format],
+    hs = __ds_scope.houseOf(p),
+    sh = shapeOf(p);
+  const og = format === 'og',
+    story = format === 'story';
+  const nameSize = og ? 112 : story ? 150 : 130;
+  const names = /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: og ? 4 : 10,
+      alignContent: og ? 'center' : 'end',
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) ' + (og ? 30 : 40) + 'px/1.3 var(--font-latin)'
+    }
+  }, __ds_scope.whereLabel(p) + ', Goa'), p.deva ? /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      font: 'var(--weight-strong) ' + nameSize + 'px/1.5 var(--font-deva)'
+    }
+  }, p.deva) : null, p.romi ? /*#__PURE__*/React.createElement("span", {
+    lang: "gom-Latn",
+    style: {
+      font: 'var(--weight-strong) ' + nameSize + 'px/1.2 var(--font-latin)'
+    }
+  }, p.romi) : null, p.deva || p.romi ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) ' + (og ? 44 : 56) + 'px/1.3 var(--font-latin)'
+    }
+  }, p.official) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) ' + nameSize + 'px/1.2 var(--font-latin)'
+    }
+  }, p.official), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) ' + (og ? 34 : 44) + 'px/1.35 var(--font-latin)'
+    }
+  }, p.devaUnreviewed ? 'Konkani name: help us check it' : 'Konkani name: help us find it')));
+  const shape = sh && /*#__PURE__*/React.createElement("svg", {
+    viewBox: sh.vb,
+    preserveAspectRatio: "xMidYMid meet",
+    "aria-hidden": "true",
+    style: {
+      width: '100%',
+      height: '100%',
+      display: 'block'
+    }
+  }, /*#__PURE__*/React.createElement("path", {
+    d: sh.d,
+    fill: "currentColor",
+    stroke: "currentColor",
+    strokeWidth: "1",
+    vectorEffect: "non-scaling-stroke",
+    strokeLinejoin: "round"
+  }));
+  const foot = /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'baseline',
+      gap: 20
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'inline-flex',
+      alignItems: 'baseline',
+      gap: '.3em',
+      font: 'var(--weight-strong) ' + (og ? 40 : 52) + 'px/1.3 var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      fontFamily: 'var(--font-deva)',
+      lineHeight: 1.5
+    }
+  }, __ds_scope.SITE.deva), __ds_scope.SITE.romi), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) ' + (og ? 36 : 46) + 'px/1 var(--font-latin)'
+    }
+  }, "khoim.in"));
+  return /*#__PURE__*/React.createElement("div", {
+    role: "img",
+    "aria-label": (p.deva ? p.deva + ', ' : '') + (p.romi ? p.romi + ', ' : '') + p.official + '. Khoim, khoim.in',
+    style: {
+      width: W,
+      height: H,
+      background: hs.bg,
+      color: hs.on,
+      padding: og ? 24 : 36,
+      boxSizing: 'border-box',
+      flex: '0 0 auto',
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: '100%',
+      boxSizing: 'border-box',
+      border: (og ? 5 : 6) + 'px solid currentColor',
+      borderRadius: og ? 36 : 48,
+      padding: og ? '36px 48px' : story ? '72px 64px' : '56px 60px',
+      display: 'grid',
+      gridTemplateColumns: og ? '300px minmax(0,1fr)' : '1fr',
+      gridTemplateRows: og ? '1fr auto' : story ? '1fr auto auto' : '1fr auto auto',
+      columnGap: 56,
+      rowGap: story ? 56 : 36
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: 0,
+      padding: og ? 0 : story ? '40px 80px' : '0 0 0 0',
+      gridRow: og ? '1 / 2' : 'auto',
+      justifySelf: og ? 'stretch' : 'start',
+      width: og ? 'auto' : story ? '100%' : '44%'
+    }
+  }, shape), names, /*#__PURE__*/React.createElement("div", {
+    style: {
+      gridColumn: og ? '1 / -1' : 'auto'
+    }
+  }, foot)));
+}
+Object.assign(__ds_scope, { ShareCard });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/share/ShareCard.jsx", error: String((e && e.message) || e) }); }
+
+// components/share/ShareSheet.jsx
+try { (() => {
+/* Share a place or a layer view. "Send" opens the phone's own share menu; desktop copies the link. No counts, no logins. */
+function ShareSheet({
+  place,
+  layer,
+  open = true,
+  onClose,
+  onCopied,
+  onSave,
+  desktop = false,
+  style
+}) {
+  const p = typeof place === 'string' ? __ds_scope.getPlace(place) : place;
+  const url = __ds_scope.layerUrl(p, layer);
+  const short = url.replace('https://', '');
+  const send = () => {
+    if (navigator.share && !desktop) navigator.share({
+      title: (p ? p.official : 'Goa') + ' on Khoim',
+      url
+    }).catch(() => {});else copy();
+  };
+  const copy = () => {
+    try {
+      navigator.clipboard && navigator.clipboard.writeText(url);
+    } catch (e) {}
+    onCopied && onCopied();
+  };
+  const row = (icon, label, sub, fn) => /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: fn,
+    style: {
+      width: '100%',
+      minHeight: 60,
+      display: 'grid',
+      gridTemplateColumns: '44px minmax(0,1fr)',
+      gap: 12,
+      alignItems: 'center',
+      textAlign: 'left',
+      padding: '8px 12px 8px 8px',
+      border: 0,
+      borderRadius: 'var(--radius-l)',
+      background: 'var(--surface-raised)',
+      color: 'var(--text)',
+      cursor: 'pointer',
+      boxShadow: 'var(--shadow-1)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      width: 44,
+      height: 44,
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--surface-sunk)',
+      display: 'grid',
+      placeItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: icon,
+    size: 20
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'grid'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 17px/1.3 var(--font-latin)'
+    }
+  }, label), sub && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.4 var(--font-latin)'
+    }
+  }, sub)));
+  if (!open) return null;
+  const title = 'Share ' + (p ? p.official : 'this view');
+  return /*#__PURE__*/React.createElement("div", {
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-label": title,
+    onKeyDown: e => e.key === 'Escape' && onClose && onClose(),
+    style: {
+      background: 'var(--surface)',
+      color: 'var(--text)',
+      borderRadius: desktop ? 'var(--radius-xl)' : 'var(--radius-sheet) var(--radius-sheet) 0 0',
+      padding: '16px var(--gutter) 24px',
+      display: 'grid',
+      gap: 14,
+      boxShadow: 'var(--shadow-sheet)',
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-strong) 22px/1.3 var(--font-latin)'
+    }
+  }, title), onClose && /*#__PURE__*/React.createElement(__ds_scope.IconButton, {
+    icon: "x",
+    label: "Close",
+    tone: "plain",
+    onClick: onClose
+  })), p && !layer && /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
+    style: {
+      height: 184,
+      borderRadius: 'var(--radius-l)',
+      overflow: 'hidden',
+      boxShadow: 'var(--shadow-1)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      transform: 'scale(.2917)',
+      transformOrigin: '0 0'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.ShareCard, {
+    place: p,
+    format: "og"
+  }))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 15px/1.4 var(--font-latin)',
+      wordBreak: 'break-all'
+    }
+  }, short), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 8
+    }
+  }, !desktop && row('share-2', 'Send', 'WhatsApp, Instagram and the rest', send), row('link', 'Copy link', null, copy), p && !layer && row('square', 'Save image, square', 'For posts. Your village in Konkani', () => onSave && onSave('square')), p && !layer && row('rectangle-vertical', 'Save image, tall', 'For status and stories', () => onSave && onSave('story'))));
+}
+Object.assign(__ds_scope, { ShareSheet });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/share/ShareSheet.jsx", error: String((e && e.message) || e) }); }
+
+// components/share/Toast.jsx
+try { (() => {
+/* Short confirmation, e.g. "Link copied". Polite live region; caller removes it after 2400ms. */
+function Toast({
+  text,
+  visible = true,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    role: "status",
+    "aria-live": "polite",
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10,
+      padding: '12px 16px',
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--toast-bg)',
+      color: 'var(--toast-text)',
+      boxShadow: 'var(--shadow-2)',
+      font: 'var(--weight-strong) 16px/1.2 var(--font-latin)',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'none' : 'translateY(8px)',
+      transition: 'opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out)',
+      pointerEvents: 'none',
+      ...style
+    }
+  }, visible && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: "check",
+    size: 18
+  }), text));
+}
+Object.assign(__ds_scope, { Toast });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/share/Toast.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/DataPending.jsx
+try { (() => {
+/* A value we know we need but have not loaded yet. Always visibly marked, never a made-up number. */
+function DataPending({
+  label = 'To load',
+  source,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("span", {
+    title: source ? 'From ' + source + ', not loaded yet' : undefined,
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      border: 'var(--placeholder-border)',
+      borderRadius: 'var(--radius-s)',
+      padding: '2px 8px',
+      font: 'var(--weight-strong) 14px/1.4 var(--font-latin)',
+      ...style
+    }
+  }, label, source ? ', ' + source : '');
+}
+Object.assign(__ds_scope, { DataPending });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/DataPending.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/FeastStrip.jsx
+try { (() => {
+const M = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+const fmt = d => d.toLocaleDateString('en-IN', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+});
+/* Thin 12-month strip with this year's date of a feast or zatra. Lunar dates show their months and the calendar rule. */
+function FeastStrip({
+  when,
+  whenText,
+  today = new Date(),
+  style
+}) {
+  const y = today.getFullYear();
+  const d = __ds_scope.feastDate(when, y),
+    months = __ds_scope.feastMonths(when, y);
+  const next = d && d < today ? __ds_scope.feastDate(when, y + 1) : null;
+  const pos = d ? (d.getMonth() + (d.getDate() - 1) / 31) / 12 : null;
+  const now = (today.getMonth() + (today.getDate() - 1) / 31) / 12;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 6,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
+    style: {
+      position: 'relative',
+      display: 'grid',
+      gridTemplateColumns: 'repeat(12,1fr)',
+      gap: 2,
+      height: 30
+    }
+  }, M.map((m, i) => {
+    const on = months.includes(i + 1);
+    return /*#__PURE__*/React.createElement("span", {
+      key: i,
+      style: {
+        display: 'grid',
+        placeItems: 'center',
+        borderRadius: 4,
+        border: '2px ' + (when && when.lunar && on ? 'dashed' : 'solid') + ' currentColor',
+        background: on && !(when && when.lunar) ? 'currentColor' : 'transparent',
+        font: 'var(--weight-strong) 12px/1 var(--font-latin)'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: on && !(when && when.lunar) ? 'var(--sheet-bg, var(--surface))' : 'inherit'
+      }
+    }, m));
+  }), pos !== null && /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      left: 'calc(' + pos * 100 + '% - 1px)',
+      top: -5,
+      bottom: -5,
+      width: 3,
+      borderRadius: 2,
+      background: 'currentColor'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    title: "Today",
+    style: {
+      position: 'absolute',
+      left: 'calc(' + now * 100 + '% - 5px)',
+      bottom: -11,
+      width: 0,
+      height: 0,
+      borderLeft: '5px solid transparent',
+      borderRight: '5px solid transparent',
+      borderBottom: '6px solid currentColor'
+    }
+  })), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '8px 0 0',
+      font: 'var(--weight-strong) 16px/1.45 var(--font-latin)'
+    }
+  }, d ? next ? 'Next: ' + fmt(next) : 'This year: ' + fmt(d) : 'Date follows the Hindu calendar, so it moves each year.'), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-regular) 15px/1.45 var(--font-latin)'
+    }
+  }, whenText, d && next ? '. This year it fell on ' + fmt(d) + '.' : ''));
+}
+Object.assign(__ds_scope, { FeastStrip });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/FeastStrip.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/KnownFor.jsx
+try { (() => {
+/* Monument, GI produce, parish feast, zatra, festival. Same glyph as the map mark. */
+function KnownFor({
+  items,
+  today,
+  style
+}) {
+  if (!items || !items.length) return null;
+  return /*#__PURE__*/React.createElement("ul", {
+    style: {
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'grid',
+      gap: 14,
+      ...style
+    }
+  }, items.map((it, i) => /*#__PURE__*/React.createElement("li", {
+    key: i,
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '44px minmax(0,1fr)',
+      gap: 12,
+      alignItems: 'start'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      width: 44,
+      height: 44,
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--glyph-bg)',
+      color: 'var(--glyph-ink)',
+      border: '2px solid var(--glyph-ink)',
+      display: 'grid',
+      placeItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: it.icon,
+    size: 20
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 19px/1.3 var(--font-latin)'
+    }
+  }, it.title), it.detail && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.45 var(--font-latin)'
+    }
+  }, it.detail), it.when && /*#__PURE__*/React.createElement(__ds_scope.FeastStrip, {
+    when: it.when,
+    whenText: it.whenText,
+    today: today,
+    style: {
+      marginTop: 6
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)'
+    }
+  }, it.source)))));
+}
+Object.assign(__ds_scope, { KnownFor });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/KnownFor.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/MeaningBlock.jsx
+try { (() => {
+const KIND = {
+  roots: null,
+  options: 'Two readings',
+  differ: 'Sources differ',
+  tradition: 'Local tradition',
+  single: 'One interpretation'
+};
+/* What a name means. Each claim carries its source. Competing readings sit side by side at the same size. */
+function MeaningBlock({
+  meaning,
+  style
+}) {
+  if (!meaning || !meaning.readings || !meaning.readings.length) return null;
+  const two = meaning.readings.length > 1;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 10,
+      ...style
+    }
+  }, KIND[meaning.kind] && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.4 var(--font-latin)'
+    }
+  }, KIND[meaning.kind]), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: two ? '1fr 1fr' : '1fr',
+      gap: 8
+    }
+  }, meaning.readings.map((r, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      border: '2px solid currentColor',
+      borderRadius: 'var(--radius-l)',
+      padding: '10px 12px 12px',
+      display: 'grid',
+      gap: 4,
+      alignContent: 'start'
+    }
+  }, meaning.kind === 'tradition' && /*#__PURE__*/React.createElement("span", {
+    style: {
+      justifySelf: 'start',
+      font: 'var(--weight-heavy) 12px/1.3 var(--font-latin)',
+      border: '2px solid currentColor',
+      borderRadius: 'var(--radius-xs)',
+      padding: '1px 6px'
+    }
+  }, "Tradition"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 22px/1.3 var(--font-latin)'
+    }
+  }, r.text), r.roots && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 17px/1.5 var(--font-latin)'
+    }
+  }, 'from ', r.roots.map((x, j) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: j
+  }, j > 0 && ' or ', /*#__PURE__*/React.createElement("strong", {
+    style: {
+      fontWeight: 700
+    }
+  }, x.from), ' (' + x.gloss + ')')), '. ' + (r.note || '')), r.from && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.45 var(--font-latin)'
+    }
+  }, "from ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      fontWeight: 700
+    }
+  }, r.from), ", ", r.gloss), !r.from && !r.roots && r.gloss && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.45 var(--font-latin)'
+    }
+  }, r.gloss), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)',
+      marginTop: 2
+    }
+  }, r.source)))));
+}
+Object.assign(__ds_scope, { MeaningBlock });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/MeaningBlock.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/NameSplit.jsx
+try { (() => {
+/* The name broken into the parts a source gives. Each part opens the villages that share it. */
+function NameSplit({
+  split,
+  onPickPlace,
+  style
+}) {
+  const [open, setOpen] = React.useState(null);
+  if (!split || !split.parts || !split.parts.length) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 10,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, split.parts.map((pt, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: i
+  }, i > 0 && /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      font: 'var(--weight-strong) 20px/1 var(--font-latin)'
+    }
+  }, "+"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    "aria-expanded": open === i,
+    onClick: () => setOpen(open === i ? null : i),
+    style: {
+      minHeight: 48,
+      padding: '0 14px',
+      borderRadius: 'var(--radius-m)',
+      border: '2px solid currentColor',
+      background: open === i ? 'currentColor' : 'transparent',
+      cursor: 'pointer',
+      font: 'var(--weight-strong) 22px/1.2 var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: open === i ? 'var(--sheet-paper, var(--surface-raised))' : 'inherit'
+    }
+  }, pt.part))))), open !== null && /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.5 var(--font-latin)'
+    }
+  }, split.parts[open].sharedWith.length ? /*#__PURE__*/React.createElement("span", null, "Also in: ", split.parts[open].sharedWith.map((s, i) => /*#__PURE__*/React.createElement("button", {
+    key: s.id,
+    type: "button",
+    onClick: () => onPickPlace && onPickPlace(s.id),
+    style: {
+      border: 0,
+      background: 'transparent',
+      color: 'inherit',
+      padding: '8px 4px',
+      font: 'inherit',
+      fontWeight: 600,
+      textDecoration: 'underline',
+      textUnderlineOffset: 4,
+      cursor: 'pointer'
+    }
+  }, s.name))) : /*#__PURE__*/React.createElement("span", null, 'No other villages linked to "' + split.parts[open].part + '" yet.')), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)'
+    }
+  }, 'As split in ' + split.whole + ', ' + split.source));
+}
+Object.assign(__ds_scope, { NameSplit });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/NameSplit.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/PopulationDots.jsx
+try { (() => {
+/* One dot per village in Goa, placed by population, with this village picked out. Gives a single number its scale. */
+function PopulationDots({
+  placeId,
+  placeholder = true,
+  style
+}) {
+  const W = 320,
+    H = 46;
+  const dots = React.useMemo(() => __ds_scope.KhoimData.VILLAGES.map((v, i) => {
+    const st = __ds_scope.populationStep(v);
+    const x = 8 + ((st - 1) * 0.2 + i * 37 % 97 / 97 * 0.2) * (W - 16);
+    const y = 8 + i * 53 % 89 / 89 * (H - 16);
+    return {
+      id: v.id,
+      x,
+      y
+    };
+  }), []);
+  const me = dots.find(d => d.id === placeId);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 6,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: '0 0 ' + W + ' ' + H,
+    width: "100%",
+    height: H,
+    "aria-hidden": "true",
+    style: {
+      display: 'block'
+    }
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "8",
+    x2: W - 8,
+    y1: H - 2,
+    y2: H - 2,
+    stroke: "currentColor",
+    strokeWidth: "2"
+  }), dots.map(d => /*#__PURE__*/React.createElement("circle", {
+    key: d.id,
+    cx: d.x,
+    cy: d.y,
+    r: "2",
+    fill: "currentColor",
+    opacity: ".55"
+  })), me && /*#__PURE__*/React.createElement("g", null, /*#__PURE__*/React.createElement("circle", {
+    cx: me.x,
+    cy: me.y,
+    r: "7",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2.5"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: me.x,
+    cy: me.y,
+    r: "3",
+    fill: "currentColor"
+  }))), placeholder && /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      right: 0,
+      top: -4,
+      background: 'var(--surface-raised)',
+      color: 'var(--text)',
+      borderRadius: 'var(--radius-xs)',
+      padding: '2px 8px',
+      font: 'var(--weight-strong) 12px/1.4 var(--font-latin)'
+    }
+  }, "Placeholder data")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      font: 'var(--weight-regular) 14px/1.3 var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Fewest people"), /*#__PURE__*/React.createElement("span", null, "Most")));
+}
+Object.assign(__ds_scope, { PopulationDots });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/PopulationDots.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/SpellingTimeline.jsx
+try { (() => {
+/* Spellings over time (ordered) or by source (unordered), drawn as a small vertical line with stops. */
+function SpellingTimeline({
+  spellings,
+  style
+}) {
+  if (!spellings || !spellings.items || !spellings.items.length) return null;
+  const items = spellings.items;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 8,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("ol", {
+    style: {
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'grid'
+    }
+  }, items.map((it, i) => /*#__PURE__*/React.createElement("li", {
+    key: i,
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '20px minmax(0,1fr)',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    "aria-hidden": "true",
+    style: {
+      position: 'relative',
+      display: 'grid',
+      justifyItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      top: i === 0 ? 14 : 0,
+      bottom: i === items.length - 1 ? 'calc(100% - 14px)' : 0,
+      width: 2,
+      background: 'currentColor'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'relative',
+      marginTop: 8,
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      border: '2px solid currentColor',
+      background: i === items.length - 1 && spellings.ordered ? 'currentColor' : 'var(--sheet-bg, transparent)'
+    }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'grid',
+      padding: '0 0 12px'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    lang: it.lang,
+    style: {
+      font: 'var(--weight-strong) ' + (it.lang ? 22 : 20) + 'px/' + (it.lang ? 1.5 : 1.35) + ' ' + (it.lang ? 'var(--font-deva)' : 'var(--font-latin)')
+    }
+  }, it.form), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 15px/1.4 var(--font-latin)'
+    }
+  }, it.source, it.year ? ', ' + it.year : '', it.note ? ', ' + it.note : ''))))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)'
+    }
+  }, spellings.caption || (spellings.ordered ? 'Earliest at the top, in the order the source gives.' : 'How each source spells it.')));
+}
+Object.assign(__ds_scope, { SpellingTimeline });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/SpellingTimeline.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/VaddoList.jsx
+try { (() => {
+/* Vaddos are a list, never shapes: their only boundaries are electoral wards. */
+function VaddoList({
+  vaddos,
+  style
+}) {
+  if (!vaddos || !vaddos.items || !vaddos.items.length) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 8,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("ul", {
+    style: {
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'grid',
+      gap: 6
+    }
+  }, vaddos.items.map(v => /*#__PURE__*/React.createElement("li", {
+    key: v,
+    style: {
+      padding: '10px 12px',
+      border: '2px solid currentColor',
+      borderRadius: 'var(--radius-m)',
+      font: 'var(--weight-strong) 17px/1.35 var(--font-latin)'
+    }
+  }, v))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)'
+    }
+  }, vaddos.items.length + ' vaddos listed in the ' + vaddos.source + '. We do not draw their edges.'));
+}
+Object.assign(__ds_scope, { VaddoList });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/VaddoList.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/VideoFacade.jsx
+try { (() => {
+/* A Villages of Goa episode. Nothing from YouTube loads until someone taps play. */
+function VideoFacade({
+  video,
+  style
+}) {
+  const [on, setOn] = React.useState(false);
+  if (!video) return null;
+  const ready = !!video.youtubeId;
+  if (on && ready) return /*#__PURE__*/React.createElement("iframe", {
+    title: video.title,
+    src: 'https://www.youtube-nocookie.com/embed/' + video.youtubeId + '?autoplay=1',
+    allow: "autoplay; encrypted-media",
+    allowFullScreen: true,
+    style: {
+      width: '100%',
+      aspectRatio: '16/9',
+      border: 0,
+      borderRadius: 'var(--radius-l)',
+      ...style
+    }
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 8,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => ready && setOn(true),
+    "aria-disabled": !ready || undefined,
+    "aria-label": 'Play ' + video.title + ', ' + video.channel + ', on YouTube',
+    style: {
+      position: 'relative',
+      width: '100%',
+      aspectRatio: '16/9',
+      borderRadius: 'var(--radius-l)',
+      border: '2px ' + (ready ? 'solid' : 'dashed') + ' currentColor',
+      background: 'color-mix(in srgb, currentColor 12%, transparent)',
+      cursor: ready ? 'pointer' : 'default',
+      display: 'grid',
+      placeItems: 'center',
+      color: 'inherit'
+    }
+  }, video.thumb && /*#__PURE__*/React.createElement("img", {
+    src: video.thumb,
+    alt: "",
+    loading: "lazy",
+    style: {
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      borderRadius: 'var(--radius-l)'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'relative',
+      width: 60,
+      height: 60,
+      borderRadius: 'var(--radius-l)',
+      background: 'var(--glyph-bg)',
+      color: 'var(--glyph-ink)',
+      display: 'grid',
+      placeItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: "play",
+    size: 26
+  }))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 18px/1.35 var(--font-latin)'
+    }
+  }, video.title), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 15px/1.45 var(--font-latin)'
+    }
+  }, video.channel + ' on YouTube. ' + (ready ? 'YouTube loads only when you tap play.' : 'Episode link still to add.')));
+}
+Object.assign(__ds_scope, { VideoFacade });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/VideoFacade.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/VillageFacts.jsx
+try { (() => {
+/* Census 2011 and practical facts. Missing values show as marked placeholders. */
+function VillageFacts({
+  place,
+  style
+}) {
+  if (!place) return null;
+  if (place.noShape) {/* no polygon yet: no map-measured distance */}
+  const c = place.census || {};
+  const cell = (label, value) => /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 4,
+      alignContent: 'start',
+      padding: '10px 0',
+      borderTop: '1px solid color-mix(in srgb, currentColor 35%, transparent)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.3 var(--font-latin)'
+    }
+  }, label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 19px/1.35 var(--font-latin)'
+    }
+  }, value));
+  const pend = /*#__PURE__*/React.createElement(__ds_scope.DataPending, {
+    label: "To load"
+  });
+  const est = km => __ds_scope.DISTANCE_IS_PLACEHOLDER ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'inline-flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      gap: 6
+    }
+  }, 'about ' + km + ' km', /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: 'var(--surface-raised)',
+      color: 'var(--text)',
+      borderRadius: 'var(--radius-xs)',
+      padding: '1px 7px',
+      font: 'var(--weight-strong) 12px/1.4 var(--font-latin)'
+    }
+  }, "Placeholder data")) : km + ' km';
+  const kmP = place.id === __ds_scope.PANAJI || !place.lp ? null : __ds_scope.distanceKm(place, __ds_scope.PANAJI),
+    kmM = place.id === __ds_scope.MARGAO || !place.lp ? null : __ds_scope.distanceKm(place, __ds_scope.MARGAO);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 4,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      columnGap: 16
+    }
+  }, cell('People, Census 2011', c.population ? c.population.toLocaleString('en-IN') : pend), cell('Households', c.households ? c.households.toLocaleString('en-IN') : pend), cell('Village or Census Town', c.type || pend), cell('Panchayat', c.panchayat || pend), cell('PIN', c.pin || pend), cell('Nearest station', c.station || pend), kmP !== null && cell('To Panaji', c.kmPanaji ? c.kmPanaji + ' km' : est(kmP)), kmM !== null && cell('To Margao', c.kmMargao ? c.kmMargao + ' km' : est(kmM))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.45 var(--font-latin)',
+      marginBottom: 6
+    }
+  }, "Distances are in a straight line."), /*#__PURE__*/React.createElement(__ds_scope.PopulationDots, {
+    placeId: place.id,
+    placeholder: !c.population
+  }));
+}
+Object.assign(__ds_scope, { VillageFacts });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/VillageFacts.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/VillageSheet.jsx
+try { (() => {
+function Block({
+  label,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("section", {
+    style: {
+      display: 'grid',
+      gap: 10,
+      padding: '18px 0',
+      borderTop: '1px solid color-mix(in srgb, currentColor 35%, transparent)'
+    }
+  }, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-strong) 15px/1.3 var(--font-latin)'
+    }
+  }, label), children);
+}
+const LGD = {
+  title: 'Local Government Directory, Government of India',
+  url: 'https://lgdirectory.gov.in/'
+};
+function collectSources(p, f) {
+  if (f && f.sources) return f.sources;
+  const out = [LGD],
+    seen = new Set([LGD.title]);
+  const add = (t, url) => {
+    if (t && !seen.has(t)) {
+      seen.add(t);
+      out.push({
+        title: t,
+        url: url || null
+      });
+    }
+  };
+  if (p.devaSource) add(p.devaSource);
+  if (f) {
+    (f.spellings && f.spellings.items || []).forEach(i => add(i.sourceTitle));
+    (f.meaning && f.meaning.readings || []).forEach(r => add(r.source));
+    if (f.split) add(f.split.source);
+    if (f.vaddos) add(f.vaddos.source);
+    (f.knownFor || []).forEach(k => add(k.source));
+    if (f.video) add(f.video.channel + ', ' + f.video.title, f.video.url);
+  }
+  return out;
+}
+/* Village sheet. Fixed order; a block with no data does not render. */
+function VillageSheet({
+  place,
+  expanded = false,
+  recordings,
+  today,
+  onExpand,
+  onClose,
+  onShare,
+  onSuggest,
+  onRecord,
+  onPickPlace,
+  headingLevel = 2,
+  style
+}) {
+  const p = typeof place === 'string' ? __ds_scope.getPlace(place) : place;
+  const [playing, setPlaying] = React.useState(false);
+  if (!p) return null;
+  const f = __ds_scope.villageFacts(p) || {};
+  const hs = __ds_scope.houseOf(p),
+    ink = hs.on,
+    paper = hs.bg,
+    H = 'h' + headingLevel;
+  const rec = recordings && recordings.length ? recordings[0] : null;
+  const where = __ds_scope.whereLabel(p);
+  const devaShown = p.deva || p.devaUnreviewed;
+  return /*#__PURE__*/React.createElement("article", {
+    "aria-label": p.official,
+    style: {
+      color: ink,
+      display: 'grid',
+      '--sheet-bg': paper,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: 'var(--trim-width) solid currentColor',
+      borderRadius: 'var(--radius-xl)',
+      padding: expanded ? '12px 16px 16px' : '8px 14px 12px',
+      display: 'grid',
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 15px/1.3 var(--font-latin)'
+    }
+  }, where), onClose && /*#__PURE__*/React.createElement(__ds_scope.IconButton, {
+    icon: "x",
+    label: "Close",
+    tone: "soft",
+    ink: ink,
+    size: 44,
+    onClick: onClose
+  })), /*#__PURE__*/React.createElement(H, {
+    style: {
+      margin: 0
+    }
+  }, devaShown ? /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      display: 'block',
+      font: 'var(--weight-strong) ' + (expanded ? 'var(--size-name-hero)' : '44px') + '/1.5 var(--font-deva)',
+      transition: 'font-size var(--dur-sheet) var(--ease-standard)'
+    }
+  }, devaShown) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'block',
+      font: 'var(--weight-strong) ' + (expanded ? 60 : 46) + 'px/1.25 var(--font-latin)',
+      margin: '6px 0 8px'
+    }
+  }, p.official)), devaShown && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '6px 14px',
+      alignItems: 'baseline'
+    }
+  }, p.romi ? /*#__PURE__*/React.createElement("span", {
+    lang: "gom-Latn",
+    style: {
+      font: 'var(--weight-strong) var(--size-name-m)/1.3 var(--font-latin)'
+    }
+  }, p.romi) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 15px/1.35 var(--font-latin)',
+      border: 'var(--placeholder-border)',
+      borderRadius: 'var(--radius-s)',
+      padding: '6px 10px',
+      justifySelf: 'start'
+    }
+  }, "Romi not recorded yet"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 20px/1.3 var(--font-latin)'
+    }
+  }, p.official)), !devaShown && /*#__PURE__*/React.createElement(__ds_scope.PendingName, {
+    ink: ink,
+    label: "Konkani name not recorded yet"
+  }), p.alsoKnownAs && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 16px/1.4 var(--font-latin)'
+    }
+  }, 'Also written ' + p.alsoKnownAs), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 12,
+      marginTop: expanded ? 10 : 6,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'grid',
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.SourceStatus, {
+    status: p.status,
+    color: ink,
+    size: 16
+  }), p.devaSource && expanded && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.4 var(--font-latin)'
+    }
+  }, 'Devanagari as in the ' + p.devaSource)), rec && /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    "aria-pressed": playing,
+    onClick: () => setPlaying(!playing),
+    "aria-label": (playing ? 'Pause ' : 'Play ') + rec.speaker + ', ' + rec.village,
+    style: {
+      height: 48,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '0 14px 0 6px',
+      borderRadius: 'var(--radius-m)',
+      border: 0,
+      background: ink,
+      color: paper,
+      cursor: 'pointer',
+      font: 'var(--weight-strong) 15px/1 var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 36,
+      height: 36,
+      display: 'grid',
+      placeItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: playing ? 'pause' : 'play',
+    size: 20
+  })), rec.speaker))), !expanded && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr auto',
+      gap: 10,
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    variant: "outline",
+    ink: ink,
+    onClick: onExpand
+  }, 'All about ' + p.official), onShare && /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    ink: ink,
+    paper: paper,
+    icon: "share-2",
+    onClick: onShare
+  }, "Share")), expanded && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      animation: 'khoim-rise var(--dur-base) var(--ease-out) both'
+    }
+  }, /*#__PURE__*/React.createElement(Block, {
+    label: "Say it"
+  }, p.say ? /*#__PURE__*/React.createElement(__ds_scope.SayIt, {
+    say: p.say,
+    note: p.sayNote,
+    reviewed: p.reviewed,
+    ink: ink,
+    paper: paper
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-strong) 18px/1.45 var(--font-latin)'
+    }
+  }, 'Know how ' + p.official + ' is said? Tell us.'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    size: "m",
+    ink: ink,
+    paper: paper,
+    icon: "mic",
+    onClick: onRecord
+  }, "Record it"), /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    size: "m",
+    variant: "outline",
+    ink: ink,
+    onClick: onSuggest
+  }, "Write it down")))), f.meaning && /*#__PURE__*/React.createElement(Block, {
+    label: "Meaning"
+  }, /*#__PURE__*/React.createElement(__ds_scope.MeaningBlock, {
+    meaning: f.meaning
+  })), f.split && /*#__PURE__*/React.createElement(Block, {
+    label: "Name split"
+  }, /*#__PURE__*/React.createElement(__ds_scope.NameSplit, {
+    split: f.split,
+    onPickPlace: onPickPlace
+  })), f.spellings && /*#__PURE__*/React.createElement(Block, {
+    label: f.spellings.ordered ? 'Spellings over time' : 'Spellings'
+  }, /*#__PURE__*/React.createElement(__ds_scope.SpellingTimeline, {
+    spellings: f.spellings
+  })), f.vaddos && /*#__PURE__*/React.createElement(Block, {
+    label: "Vaddos"
+  }, /*#__PURE__*/React.createElement(__ds_scope.VaddoList, {
+    vaddos: f.vaddos
+  })), /*#__PURE__*/React.createElement(Block, {
+    label: "Facts"
+  }, /*#__PURE__*/React.createElement(__ds_scope.VillageFacts, {
+    place: p
+  })), f.knownFor && /*#__PURE__*/React.createElement(Block, {
+    label: "Known for"
+  }, /*#__PURE__*/React.createElement(__ds_scope.KnownFor, {
+    items: f.knownFor,
+    today: today
+  })), f.video && /*#__PURE__*/React.createElement(Block, {
+    label: "Video"
+  }, /*#__PURE__*/React.createElement(__ds_scope.VideoFacade, {
+    video: f.video
+  })), /*#__PURE__*/React.createElement(Block, {
+    label: "Sources"
+  }, /*#__PURE__*/React.createElement("ul", {
+    style: {
+      margin: 0,
+      paddingLeft: 20,
+      display: 'grid',
+      gap: 6,
+      font: 'var(--weight-regular) 15px/1.5 var(--font-latin)'
+    }
+  }, collectSources(p, f).map(s => /*#__PURE__*/React.createElement("li", {
+    key: s.title
+  }, s.url ? /*#__PURE__*/React.createElement("a", {
+    href: s.url,
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: 'inherit',
+      fontWeight: 600,
+      textDecoration: 'underline',
+      textUnderlineOffset: 4,
+      display: 'inline-block',
+      padding: '6px 0'
+    }
+  }, s.title) : /*#__PURE__*/React.createElement("span", null, s.title, " ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 600
+    }
+  }, "(link to add)")))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 10,
+      paddingTop: 18,
+      borderTop: '1px solid color-mix(in srgb, currentColor 35%, transparent)'
+    }
+  }, onShare && /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    full: true,
+    ink: ink,
+    paper: paper,
+    icon: "share-2",
+    onClick: onShare
+  }, 'Share ' + p.official), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    variant: "outline",
+    ink: ink,
+    icon: "mail",
+    onClick: onSuggest
+  }, "Tell us"), /*#__PURE__*/React.createElement(__ds_scope.Button, {
+    variant: "outline",
+    ink: ink,
+    icon: "mic",
+    onClick: onRecord
+  }, "Record the name")))));
+}
+Object.assign(__ds_scope, { VillageSheet });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/VillageSheet.jsx", error: String((e && e.message) || e) }); }
+
+// components/village/VillageTable.jsx
+try { (() => {
+const ORDER = {
+  agree: 0,
+  review: 1,
+  differ: 2,
+  pending: 3
+};
+/* Every village in a taluka as a sortable list. For people who land from search, and for keyboard and screen-reader use. */
+function VillageTable({
+  taluka,
+  onPick,
+  compact = false,
+  style
+}) {
+  const [sort, setSort] = React.useState({
+    key: 'official',
+    dir: 1
+  });
+  const rows = __ds_scope.childrenOf(taluka).slice().sort((a, b) => {
+    const k = sort.key;
+    let x, y;
+    if (k === 'status') {
+      x = ORDER[a.status];
+      y = ORDER[b.status];
+    } else {
+      x = a.official;
+      y = b.official;
+    }
+    return (x < y ? -1 : x > y ? 1 : a.official.localeCompare(b.official)) * sort.dir;
+  });
+  const by = k => setSort(s => ({
+    key: k,
+    dir: s.key === k ? -s.dir : 1
+  }));
+  const t = __ds_scope.getPlace(taluka);
+  const th = (k, label, can = true) => /*#__PURE__*/React.createElement("th", {
+    scope: "col",
+    "aria-sort": sort.key === k ? sort.dir > 0 ? 'ascending' : 'descending' : 'none',
+    style: {
+      textAlign: 'left',
+      padding: 0,
+      borderBottom: '2px solid var(--text)'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    disabled: !can,
+    onClick: () => by(k),
+    title: can ? undefined : 'Loads with Census 2011',
+    style: {
+      width: '100%',
+      minHeight: 44,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      border: 0,
+      background: 'transparent',
+      color: 'var(--text)',
+      padding: '0 10px',
+      font: 'var(--weight-strong) 14px/1.3 var(--font-latin)',
+      cursor: can ? 'pointer' : 'default'
+    }
+  }, label, can && /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: "arrow-up-down",
+    size: 14
+  })));
+  if (compact) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 10,
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    role: "group",
+    "aria-label": "Sort by",
+    style: {
+      display: 'flex',
+      gap: 6,
+      alignItems: 'center',
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 14px/1 var(--font-latin)',
+      marginRight: 4
+    }
+  }, "Sort"), [['official', 'A to Z'], ['status', 'Konkani name']].map(([k, l]) => /*#__PURE__*/React.createElement("button", {
+    key: k,
+    type: "button",
+    "aria-pressed": sort.key === k,
+    onClick: () => by(k),
+    style: {
+      minHeight: 44,
+      padding: '0 12px',
+      borderRadius: 'var(--radius-m)',
+      border: '2px solid ' + (sort.key === k ? 'var(--text)' : 'var(--line)'),
+      background: sort.key === k ? 'var(--surface-invert)' : 'var(--surface-raised)',
+      color: sort.key === k ? 'var(--text-invert)' : 'var(--text)',
+      font: 'var(--weight-strong) 14px/1 var(--font-latin)',
+      cursor: 'pointer'
+    }
+  }, l, sort.key === k && (sort.dir > 0 ? ' ↑' : ' ↓')))), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      listStyle: 'none',
+      margin: 0,
+      padding: 0,
+      display: 'grid',
+      gap: 6
+    }
+  }, rows.map(v => /*#__PURE__*/React.createElement("li", {
+    key: v.id
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => onPick && onPick(v.id),
+    style: {
+      width: '100%',
+      minHeight: 60,
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0,1fr) auto',
+      gap: 10,
+      alignItems: 'center',
+      textAlign: 'left',
+      border: 0,
+      borderRadius: 'var(--radius-m)',
+      background: 'var(--surface-raised)',
+      color: 'var(--text)',
+      padding: '8px 14px',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'grid'
+    }
+  }, v.deva && /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      font: 'var(--weight-strong) 20px/1.5 var(--font-deva)'
+    }
+  }, v.deva), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 17px/1.3 var(--font-latin)'
+    }
+  }, v.official), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-regular) 14px/1.4 var(--font-latin)'
+    }
+  }, __ds_scope.STATUS_TEXT[v.status])), /*#__PURE__*/React.createElement(__ds_scope.Icon, {
+    name: "chevron-right",
+    size: 20
+  }))))));
+  return /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      color: 'var(--text)',
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("caption", {
+    style: {
+      textAlign: 'left',
+      font: 'var(--weight-regular) 15px/1.4 var(--font-latin)',
+      padding: '0 0 10px'
+    }
+  }, rows.length + ' villages in ' + t.official + '. Choose a column to sort.'), /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, th('official', 'Official'), th('deva', 'देवनागरी', false), th('romi', 'Romi', false), th('type', 'Village or Census Town', false), th('pop', 'People, 2011', false), th('status', 'Konkani name'))), /*#__PURE__*/React.createElement("tbody", null, rows.map(v => /*#__PURE__*/React.createElement("tr", {
+    key: v.id,
+    style: {
+      borderBottom: '1px solid var(--line)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: 0
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => onPick && onPick(v.id),
+    style: {
+      minHeight: 44,
+      border: 0,
+      background: 'transparent',
+      color: 'var(--text)',
+      padding: '0 10px',
+      font: 'var(--weight-strong) 16px/1.3 var(--font-latin)',
+      textDecoration: 'underline',
+      textUnderlineOffset: 4,
+      cursor: 'pointer',
+      textAlign: 'left'
+    }
+  }, v.official)), /*#__PURE__*/React.createElement("td", {
+    lang: "gom",
+    style: {
+      padding: '0 10px',
+      font: 'var(--weight-strong) 18px/1.5 var(--font-deva)'
+    }
+  }, v.deva || ''), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '0 10px',
+      font: 'var(--weight-strong) 16px/1.3 var(--font-latin)'
+    }
+  }, v.romi || ''), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '6px 10px'
+    }
+  }, v.census && v.census.type ? v.census.type : /*#__PURE__*/React.createElement(__ds_scope.DataPending, {
+    label: "To load"
+  })), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '6px 10px'
+    }
+  }, v.census ? v.census.population.toLocaleString('en-IN') : /*#__PURE__*/React.createElement(__ds_scope.DataPending, {
+    label: "To load"
+  })), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '0 10px',
+      font: 'var(--weight-regular) 15px/1.3 var(--font-latin)'
+    }
+  }, __ds_scope.STATUS_TEXT[v.status])))));
+}
+Object.assign(__ds_scope, { VillageTable });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/village/VillageTable.jsx", error: String((e && e.message) || e) }); }
+
+// ui_kits/khoim/Cards.jsx
+try { (() => {
+/* Link preview and save-image cards, shown at real proportions. Rendered at build time per place. */
+function KhoimCards() {
+  const {
+    ShareCard
+  } = KN;
+  const Scaled = ({
+    place,
+    format,
+    scale,
+    label
+  }) => {
+    const W = {
+        og: 1200,
+        square: 1080,
+        story: 1080
+      }[format],
+      H = {
+        og: 630,
+        square: 1080,
+        story: 1920
+      }[format];
+    return /*#__PURE__*/React.createElement("figure", {
+      style: {
+        margin: 0,
+        display: 'grid',
+        gap: 8,
+        alignContent: 'start'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: W * scale,
+        height: H * scale,
+        overflow: 'hidden',
+        borderRadius: 10,
+        boxShadow: '0 6px 24px rgba(22,18,12,.18)'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        transform: 'scale(' + scale + ')',
+        transformOrigin: '0 0'
+      }
+    }, /*#__PURE__*/React.createElement(ShareCard, {
+      place: place,
+      format: format
+    }))), /*#__PURE__*/React.createElement("figcaption", {
+      style: {
+        font: '600 14px/1.4 "Anek Latin"'
+      }
+    }, label));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: 28,
+      padding: 8,
+      maxWidth: 1180
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 28,
+      flexWrap: 'wrap',
+      alignItems: 'flex-start'
+    }
+  }, /*#__PURE__*/React.createElement(Scaled, {
+    place: "canacona",
+    format: "og",
+    scale: 0.5,
+    label: "Link preview, 1200 x 630. Canacona: Devanagari and Romi"
+  }), /*#__PURE__*/React.createElement(Scaled, {
+    place: "v626704",
+    format: "og",
+    scale: 0.5,
+    label: "Link preview, Aldona: no Romi yet, so it is left out"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 28,
+      flexWrap: 'wrap',
+      alignItems: 'flex-start'
+    }
+  }, /*#__PURE__*/React.createElement(Scaled, {
+    place: "canacona",
+    format: "og",
+    scale: 0.25,
+    label: "At WhatsApp thumbnail size, 300px"
+  }), /*#__PURE__*/React.createElement(Scaled, {
+    place: "v626925",
+    format: "og",
+    scale: 0.25,
+    label: "Raia: official name only"
+  }), /*#__PURE__*/React.createElement(Scaled, {
+    place: "canacona",
+    format: "square",
+    scale: 0.3,
+    label: "My village in Konkani, square 1080"
+  }), /*#__PURE__*/React.createElement(Scaled, {
+    place: "v626704",
+    format: "story",
+    scale: 0.24,
+    label: "Tall, 1080 x 1920, for status and stories"
+  })));
+}
+Object.assign(window, {
+  KhoimCards
+});
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/khoim/Cards.jsx", error: String((e && e.message) || e) }); }
+
+// ui_kits/khoim/Desktop.jsx
+try { (() => {
+/* Khoim desktop, 1280 x 800. Map left, 460px panel right. */
+function KhoimDesktop({
+  preset = 1,
+  theme,
+  onTheme
+}) {
+  const {
+    GoaMap,
+    ScriptToggle,
+    IconButton,
+    Wordmark,
+    PlaceCard,
+    PlaceStrip,
+    VillageSheet,
+    SearchField,
+    SearchResults,
+    DraftBanner,
+    Credit,
+    LayerRow,
+    LayerPanel,
+    Breadcrumb,
+    TapHint,
+    Toast,
+    Button,
+    VillageTable,
+    KhoimData: GD
+  } = KN;
+  const k = useKhoim(preset);
+  const P0 = KHOIM_PRESETS[preset] || {};
+  const sp = k.selected ? GD.getPlace(k.selected) : null,
+    fp = k.focus ? GD.getPlace(k.focus) : null;
+  const hs = sp ? GD.houseOf(sp) : null;
+  const layered = k.layer.id !== 'names';
+  const first = !fp && !sp && !layered;
+  const copy = () => {
+    try {
+      navigator.clipboard && navigator.clipboard.writeText(GD.layerUrl(sp, layered && !sp ? k.layer : null));
+    } catch (e) {}
+    k.toastOn('Link copied');
+  };
+  React.useEffect(() => {
+    if (P0.share) copy();
+  }, [preset]);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      background: 'var(--surface)',
+      color: 'var(--text)',
+      display: 'grid',
+      gridTemplateRows: 'auto minmax(0,1fr)',
+      fontFamily: 'var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement(DraftBanner, {
+    onTellUs: k.openMore
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0,1fr) 460px',
+      minHeight: 0
+    }
+  }, /*#__PURE__*/React.createElement("main", {
+    style: {
+      position: 'relative',
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement(GoaMap, {
+    focus: k.focus,
+    selected: k.selected,
+    hot: k.hot,
+    script: k.script,
+    layer: k.layer,
+    onSelect: k.pick,
+    onHot: k.setHot,
+    insetTop: 140,
+    insetBottom: fp && !layered ? 170 : 24,
+    insetLeft: first ? 360 : 0,
+    paintIn: !!P0.intro
+  }), /*#__PURE__*/React.createElement("header", {
+    style: {
+      position: 'absolute',
+      top: 16,
+      left: 24,
+      right: 24,
+      display: 'grid',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => k.goTo(null),
+    "aria-label": "Khoim, all of Goa",
+    style: {
+      border: 0,
+      background: 'transparent',
+      padding: 4,
+      borderRadius: 'var(--radius-m)',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Wordmark, {
+    size: 26
+  })), (fp || sp) && /*#__PURE__*/React.createElement(Breadcrumb, {
+    id: k.selected || k.focus,
+    script: k.script,
+    onNavigate: k.goTo
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(ScriptToggle, {
+    value: k.script,
+    onChange: k.setScript
+  }), /*#__PURE__*/React.createElement(IconButton, {
+    icon: "info",
+    label: "About and help",
+    onClick: k.openMore
+  }))), /*#__PURE__*/React.createElement(LayerRow, {
+    value: k.layer.id,
+    onChange: k.setLayer,
+    style: {
+      padding: '2px 0 6px'
+    }
+  })), first && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 28,
+      top: 170,
+      width: 330,
+      display: 'grid',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("h1", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-strong) 40px/1.1 var(--font-latin)',
+      letterSpacing: 'var(--track-title)',
+      textWrap: 'pretty'
+    }
+  }, "Every taluka in Goa, with its Konkani name and how to say it."), P0.demo && !k.tapped && /*#__PURE__*/React.createElement(TapHint, {
+    text: "Click any taluka"
+  })), fp && !layered && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 16,
+      display: 'grid',
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement(PlaceStrip, {
+    parent: k.focus,
+    script: k.script,
+    active: k.hot || k.selected,
+    onFocusPlace: k.setHot,
+    onPick: k.select
+  }), fp.level === 'taluka' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '0 20px'
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    size: "m",
+    icon: "list",
+    onClick: k.openTable
+  }, "See all as a list"))), k.table && fp && /*#__PURE__*/React.createElement("div", {
+    role: "region",
+    "aria-label": 'Villages in ' + fp.official,
+    style: {
+      position: 'absolute',
+      inset: '128px 0 0 0',
+      background: 'var(--surface)',
+      overflowY: 'auto',
+      padding: '8px 28px 32px',
+      animation: 'khoim-rise var(--dur-base) var(--ease-out) both'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement(IconButton, {
+    icon: "arrow-left",
+    label: "Back to the map",
+    onClick: k.closeTable
+  }), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      margin: 0,
+      font: 'var(--weight-strong) 28px/1.2 var(--font-latin)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      fontFamily: 'var(--font-deva)',
+      lineHeight: 1.5,
+      marginRight: 12
+    }
+  }, fp.deva), 'Villages in ' + fp.official)), /*#__PURE__*/React.createElement(VillageTable, {
+    taluka: fp.id,
+    onPick: id => {
+      k.closeTable();
+      k.select(id);
+    }
+  })), k.toast && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 24,
+      display: 'grid',
+      placeItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(Toast, {
+    text: k.toast
+  }))), /*#__PURE__*/React.createElement("aside", {
+    "aria-label": "Names",
+    style: {
+      borderLeft: '1px solid var(--line)',
+      background: 'var(--surface-sunk)',
+      display: 'grid',
+      gridTemplateRows: 'auto minmax(0,1fr) auto',
+      minHeight: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '18px 24px 12px'
+    }
+  }, /*#__PURE__*/React.createElement(SearchField, {
+    value: k.query,
+    onChange: k.setQuery,
+    onCancel: k.query ? () => k.setQuery('') : undefined
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowY: 'auto',
+      padding: '4px 24px 20px'
+    }
+  }, k.query ? /*#__PURE__*/React.createElement(SearchResults, {
+    query: k.query,
+    onPick: id => {
+      k.setQuery('');
+      k.openPlace(id);
+    }
+  }) : sp ? /*#__PURE__*/React.createElement("div", {
+    key: sp.id,
+    style: {
+      background: hs.bg,
+      color: hs.on,
+      borderRadius: 'var(--radius-sheet)',
+      padding: 'var(--trim-inset)',
+      animation: 'khoim-rise var(--dur-base) var(--ease-out) both'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '10px 10px 16px'
+    }
+  }, sp.level === 'village' ? /*#__PURE__*/React.createElement(VillageSheet, {
+    place: sp,
+    expanded: true,
+    onClose: () => k.setSnap('closed'),
+    onShare: copy,
+    onSuggest: k.openMore,
+    onRecord: k.openMore,
+    onPickPlace: k.select
+  }) : /*#__PURE__*/React.createElement(PlaceCard, {
+    place: sp,
+    expanded: true,
+    onClose: () => k.setSnap('closed'),
+    onGoInside: k.goInside,
+    onSuggest: k.openMore
+  }))) : layered ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      margin: '0 -20px'
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      margin: '4px 20px 12px',
+      font: 'var(--weight-strong) 22px/1.3 var(--font-latin)'
+    }
+  }, GD.MAP_LAYERS.find(x => x.id === k.layer.id).label), /*#__PURE__*/React.createElement(LayerPanel, {
+    layer: k.layer,
+    onChange: k.setLayer,
+    onShare: copy,
+    onPickPlace: k.openPlace,
+    onHelp: k.openMore
+  })) : /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '8px 4px',
+      font: 'var(--weight-regular) var(--size-body)/1.55 var(--font-latin)'
+    }
+  }, "Pick a place on the map to see all its names. Search works in any script: try \u0938\u093E\u0936\u094D\u091F\u0940, Saxtti or Salcete.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '14px 24px 18px',
+      borderTop: '1px solid var(--line)'
+    }
+  }, /*#__PURE__*/React.createElement(Credit, null)))), /*#__PURE__*/React.createElement(KhoimMore, {
+    open: k.more,
+    onClose: k.closeMore,
+    theme: theme,
+    onTheme: onTheme,
+    layer: "names",
+    onLayer: () => {},
+    desktop: true
+  }), /*#__PURE__*/React.createElement(Announcer, {
+    text: k.announce
+  }));
+}
+Object.assign(window, {
+  KhoimDesktop
+});
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/khoim/Desktop.jsx", error: String((e && e.message) || e) }); }
 
 // ui_kits/khoim/More.jsx
 try { (() => {
@@ -5315,7 +9032,7 @@ function KhoimMore({
     style: h2
   }, "Help us"), /*#__PURE__*/React.createElement("p", {
     style: p
-  }, "Write to us at ", /*#__PURE__*/React.createElement("strong", null, "hello@khoim.in"), ". Everyone who contributes is credited by name, if they want to be."), /*#__PURE__*/React.createElement("div", {
+  }, "Write to Shashank at ", /*#__PURE__*/React.createElement("strong", null, "shashank@pangolinmarketing.com"), ". Everyone who contributes is credited by name, if they want to be."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: desktop ? '1fr 1fr' : '1fr',
@@ -5354,12 +9071,37 @@ Object.assign(window, {
 });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/khoim/More.jsx", error: String((e && e.message) || e) }); }
 
-// ui_kits/khoim/Screens.jsx
+// ui_kits/khoim/Phone.jsx
 try { (() => {
-/* Khoim phone (390 x 844) and desktop (1280 x 800) layouts. */
+/* Khoim phone, 390 x 844. Phase 2: breadcrumb, layer row, place name in every sheet, village sheet, layers, share, list view. */
+function KhoimOverlay({
+  open,
+  label,
+  onClose,
+  children,
+  z = 'var(--z-search)'
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-label": label,
+    "aria-hidden": !open,
+    onKeyDown: e => e.key === 'Escape' && onClose(),
+    style: {
+      position: 'absolute',
+      inset: 0,
+      zIndex: z,
+      background: 'var(--surface)',
+      display: 'grid',
+      gridTemplateRows: 'auto minmax(0,1fr)',
+      transform: open ? 'none' : 'translateY(104%)',
+      visibility: open ? 'visible' : 'hidden',
+      transition: 'transform var(--dur-sheet) var(--ease-standard), visibility 0s linear ' + (open ? '0s' : 'var(--dur-sheet)')
+    }
+  }, children);
+}
 function KhoimSearchScreen({
-  k,
-  top = 54
+  k
 }) {
   const {
     SearchField,
@@ -5371,26 +9113,13 @@ function KhoimSearchScreen({
       preventScroll: true
     }), 320);
   }, [k.search]);
-  return /*#__PURE__*/React.createElement("div", {
-    role: "dialog",
-    "aria-modal": "true",
-    "aria-label": "Search",
-    "aria-hidden": !k.search,
-    onKeyDown: e => e.key === 'Escape' && k.closeSearch(),
-    style: {
-      position: 'absolute',
-      inset: 0,
-      zIndex: 'var(--z-search)',
-      background: 'var(--surface)',
-      display: 'grid',
-      gridTemplateRows: 'auto minmax(0,1fr)',
-      transform: k.search ? 'none' : 'translateY(104%)',
-      visibility: k.search ? 'visible' : 'hidden',
-      transition: 'transform var(--dur-sheet) var(--ease-standard), visibility 0s linear ' + (k.search ? '0s' : 'var(--dur-sheet)')
-    }
+  return /*#__PURE__*/React.createElement(KhoimOverlay, {
+    open: k.search,
+    label: "Search",
+    onClose: k.closeSearch
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: `${top}px 16px 12px`
+      padding: '54px 16px 12px'
     }
   }, /*#__PURE__*/React.createElement(SearchField, {
     inputRef: ref,
@@ -5407,6 +9136,177 @@ function KhoimSearchScreen({
     onPick: k.openPlace
   })));
 }
+function KhoimTableScreen({
+  k
+}) {
+  const {
+    VillageTable,
+    IconButton,
+    KhoimData: GD
+  } = KN;
+  const t = k.focus && GD.getPlace(k.focus);
+  return /*#__PURE__*/React.createElement(KhoimOverlay, {
+    open: k.table && !!t,
+    label: t ? 'Villages in ' + t.official : 'Villages',
+    onClose: k.closeTable
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '14px 16px 8px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement(IconButton, {
+    icon: "arrow-left",
+    label: "Back to the map",
+    onClick: k.closeTable
+  }), t && /*#__PURE__*/React.createElement("h1", {
+    style: {
+      margin: 0,
+      display: 'grid'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      font: 'var(--weight-strong) 24px/1.5 var(--font-deva)'
+    }
+  }, t.deva), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 17px/1.3 var(--font-latin)'
+    }
+  }, 'Villages in ' + t.official))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowY: 'auto',
+      padding: '8px 16px 40px'
+    }
+  }, t && /*#__PURE__*/React.createElement(VillageTable, {
+    taluka: t.id,
+    compact: true,
+    onPick: id => {
+      k.closeTable();
+      k.select(id);
+      k.setSnap('full');
+    }
+  })));
+}
+function GoaSheetBody({
+  k
+}) {
+  const {
+    Icon,
+    KhoimData: GD
+  } = KN;
+  const ds = GD.childrenOf(null);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '4px 16px 24px',
+      display: 'grid',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: k.openSearch,
+    style: {
+      height: 56,
+      borderRadius: 'var(--radius-l)',
+      border: '2px solid var(--line)',
+      background: 'var(--surface)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      padding: '0 16px',
+      font: 'var(--weight-regular) 18px/1 var(--font-latin)',
+      color: 'var(--text)',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "search",
+    size: 20
+  }), "Search any name, any script"), ds.map(d => /*#__PURE__*/React.createElement("section", {
+    key: d.id,
+    style: {
+      display: 'grid',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: 0,
+      display: 'flex',
+      gap: 10,
+      alignItems: 'baseline'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      font: 'var(--weight-strong) 20px/1.5 var(--font-deva)'
+    }
+  }, d.deva), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--weight-strong) 16px/1.3 var(--font-latin)'
+    }
+  }, d.official)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 6
+    }
+  }, GD.childrenOf(d.id).map(t => {
+    const h = GD.houseOf(t);
+    const n = GD.nameIn(t, k.script);
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      type: "button",
+      onClick: () => k.select(t.id),
+      style: {
+        minHeight: 56,
+        borderRadius: 'var(--radius-m)',
+        border: 0,
+        background: h.bg,
+        color: h.on,
+        padding: '6px 12px',
+        textAlign: 'left',
+        cursor: 'pointer',
+        display: 'grid'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      lang: n.kind === 'deva' ? 'gom' : undefined,
+      style: {
+        font: 'var(--weight-strong) 18px/1.5 ' + (n.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)')
+      }
+    }, n.text), /*#__PURE__*/React.createElement("span", {
+      style: {
+        font: 'var(--weight-regular) 14px/1.3 var(--font-latin)'
+      }
+    }, t.official));
+  })))));
+}
+function layerHeadline(GD, l) {
+  if (l.id === 'parts') {
+    const x = GD.NAME_PARTS.find(p => p.id === l.part);
+    return x ? 'Names ending ' + x.label + ', ' + x.count + ' villages' : 'Name parts';
+  }
+  if (l.id === 'feasts') return 'Feasts and zatras in ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][l.month - 1];
+  if (l.id === 'need') return 'Konkani names we still need';
+  if (l.id === 'population') return 'People per village, Census 2011';
+  return '';
+}
+function sheetTitle(GD, p, script) {
+  const n = GD.nameIn(p, script);
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'inline-flex',
+      alignItems: 'baseline',
+      gap: 8
+    }
+  }, n.kind === 'deva' && /*#__PURE__*/React.createElement("span", {
+    lang: "gom",
+    style: {
+      fontFamily: 'var(--font-deva)',
+      fontSize: 17,
+      lineHeight: 1.5
+    }
+  }, n.text), /*#__PURE__*/React.createElement("span", null, p.official));
+}
 function KhoimPhone({
   preset = 1,
   theme,
@@ -5415,12 +9315,18 @@ function KhoimPhone({
   const {
     GoaMap,
     ScriptToggle,
-    IconButton,
     Wordmark,
     Sheet,
     PlaceCard,
     PlaceStrip,
-    Icon,
+    VillageSheet,
+    LayerRow,
+    LayerPanel,
+    Breadcrumb,
+    TapHint,
+    ShareSheet,
+    Toast,
+    Button,
     KhoimData: GD
   } = KN;
   const k = useKhoim(preset);
@@ -5429,11 +9335,20 @@ function KhoimPhone({
   React.useEffect(() => setPaintKey(n => n + 1), [preset]);
   const sp = k.selected ? GD.getPlace(k.selected) : null,
     fp = k.focus ? GD.getPlace(k.focus) : null;
-  const first = !k.focus && !k.selected;
+  const first = !k.focus && !k.selected && k.layer.id === 'names';
+  const layered = k.layer.id !== 'names';
+  const L = GD.MAP_LAYERS.find(x => x.id === k.layer.id);
+  const kind = sp ? sp.level === 'village' ? 'village' : 'place' : layered ? 'layer' : fp ? 'strip' : 'goa';
   const hs = sp ? GD.houseOf(sp) : null;
-  const sheet = sp ? 'place' : fp ? 'strip' : null;
-  const peek = sheet === 'place' ? sp.deva ? 296 : 336 : sheet === 'strip' ? 200 : 0;
-  const nm = fp ? GD.nameIn(fp, k.script) : null;
+  const peek = {
+    village: sp && sp.deva ? 318 : 360,
+    place: 312,
+    layer: k.layer.id === 'population' ? 200 : k.layer.id === 'feasts' ? 300 : 280,
+    strip: 246,
+    goa: 128
+  }[kind];
+  const topH = (fp || sp || layered ? 118 : 150) + 52;
+  const showHint = !!P0.demo && !k.tapped;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'absolute',
@@ -5449,10 +9364,11 @@ function KhoimPhone({
     selected: k.selected,
     hot: k.hot,
     script: k.script,
+    layer: k.layer,
     onSelect: k.pick,
     onHot: k.setHot,
-    insetTop: first ? 176 : 72,
-    insetBottom: sheet ? peek + 8 : 108,
+    insetTop: topH,
+    insetBottom: peek + 4,
     paintIn: !!P0.intro
   }), /*#__PURE__*/React.createElement("header", {
     style: {
@@ -5460,120 +9376,106 @@ function KhoimPhone({
       top: 0,
       left: 0,
       right: 0,
-      padding: '14px 16px 0',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 10,
       zIndex: 'var(--z-chrome)',
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0,1fr)',
+      gap: 6,
+      paddingTop: 12,
       pointerEvents: 'none'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      pointerEvents: 'auto',
       display: 'flex',
+      justifyContent: 'space-between',
       alignItems: 'center',
       gap: 10,
-      minWidth: 0
+      padding: '0 16px',
+      pointerEvents: 'auto'
     }
-  }, k.focus || k.selected ? /*#__PURE__*/React.createElement(IconButton, {
-    icon: "arrow-left",
-    label: fp && fp.parent && fp.parent !== 'goa' ? 'Back to ' + GD.getPlace(fp.parent).official : 'Back to Goa',
-    onClick: k.back
-  }) : /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: k.openMore,
     "aria-label": "About Khoim",
     style: {
       border: 0,
       background: 'transparent',
-      padding: '4px 6px',
+      padding: '2px 4px',
       borderRadius: 'var(--radius-m)',
       cursor: 'pointer'
     }
   }, /*#__PURE__*/React.createElement(Wordmark, {
-    size: 22
-  })), nm && /*#__PURE__*/React.createElement("span", {
-    lang: nm.kind === 'deva' ? 'gom' : undefined,
+    size: 21
+  })), /*#__PURE__*/React.createElement(ScriptToggle, {
+    value: k.script,
+    onChange: k.setScript,
+    width: 200
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
-      font: `var(--weight-strong) 18px/1.5 ${nm.kind === 'deva' ? 'var(--font-deva)' : 'var(--font-latin)'}`,
-      whiteSpace: 'nowrap',
-      background: 'var(--surface)',
-      padding: '0 6px',
-      borderRadius: 'var(--radius-s)'
+      padding: '0 16px',
+      minHeight: 44,
+      pointerEvents: 'auto'
     }
-  }, nm.text)), /*#__PURE__*/React.createElement("div", {
+  }, fp || sp ? /*#__PURE__*/React.createElement(Breadcrumb, {
+    id: k.selected || k.focus,
+    script: k.script,
+    onNavigate: k.goTo
+  }) : layered ? /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '4px 0 0',
+      font: 'var(--weight-strong) 22px/1.25 var(--font-latin)'
+    }
+  }, layerHeadline(GD, k.layer)) : /*#__PURE__*/React.createElement("h1", {
+    "aria-hidden": !first,
+    style: {
+      margin: '2px 0 0',
+      maxWidth: 330,
+      font: 'var(--weight-strong) 25px/1.15 var(--font-latin)',
+      letterSpacing: 'var(--track-title)',
+      textWrap: 'pretty',
+      opacity: first ? 1 : 0,
+      transition: 'opacity var(--dur-base)'
+    }
+  }, "Every taluka in Goa, with its Konkani name and how to say it.")), /*#__PURE__*/React.createElement("div", {
     style: {
       pointerEvents: 'auto'
     }
-  }, /*#__PURE__*/React.createElement(ScriptToggle, {
-    value: k.script,
-    onChange: k.setScript,
-    width: 206
-  }))), /*#__PURE__*/React.createElement("h1", {
-    "aria-hidden": !first,
-    style: {
-      position: 'absolute',
-      top: 76,
-      left: 20,
-      right: 36,
-      margin: 0,
-      font: 'var(--weight-strong) var(--size-title)/var(--lh-title) var(--font-latin)',
-      letterSpacing: 'var(--track-title)',
-      textWrap: 'pretty',
-      pointerEvents: 'none',
-      opacity: first ? 1 : 0,
-      visibility: first ? 'visible' : 'hidden',
-      transform: first ? 'none' : 'translateY(-10px)',
-      transition: 'opacity var(--dur-base) var(--ease-out), transform var(--dur-sheet) var(--ease-out), visibility 0s linear ' + (first ? '0s' : 'var(--dur-base)')
-    }
-  }, "Every taluka in Goa, with its Konkani name and how to say it."), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(LayerRow, {
+    value: k.layer.id,
+    onChange: k.setLayer
+  }))), showHint && /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'absolute',
       left: 16,
-      right: 16,
-      bottom: 20,
-      zIndex: 5,
-      display: 'grid',
-      gap: 10,
-      opacity: sheet ? 0 : 1,
-      visibility: sheet ? 'hidden' : 'visible',
-      transform: sheet ? 'translateY(20px)' : 'none',
-      transition: 'opacity var(--dur-fast), transform var(--dur-sheet) var(--ease-standard), visibility 0s linear ' + (sheet ? 'var(--dur-fast)' : '0s')
+      bottom: peek + 16,
+      zIndex: 15
     }
-  }, first && /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement(TapHint, {
+    text: "Tap any taluka"
+  })), kind === 'village' && /*#__PURE__*/React.createElement(Sheet, {
+    key: 'v' + k.selected,
+    label: sp.official,
+    title: sheetTitle(GD, sp, k.script),
+    snap: k.snap,
+    onSnap: k.setSnap,
+    peek: peek,
+    bg: hs.bg,
+    ink: hs.on
+  }, /*#__PURE__*/React.createElement(VillageSheet, {
+    place: sp,
+    expanded: k.snap === 'full',
+    onExpand: () => k.setSnap('full'),
+    onClose: () => k.setSnap('closed'),
+    onShare: k.openShare,
+    onSuggest: k.openMore,
+    onRecord: k.openMore,
+    onPickPlace: k.select,
     style: {
-      justifySelf: 'start',
-      margin: 0,
-      font: 'var(--weight-strong) 15px/1.2 var(--font-latin)',
-      background: 'var(--surface-invert)',
-      color: 'var(--text-invert)',
-      padding: '10px 12px',
-      borderRadius: 'var(--radius-m)'
+      padding: '4px 16px 32px'
     }
-  }, "Tap a district, or press and drag along Goa"), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: k.openSearch,
-    style: {
-      height: 58,
-      borderRadius: 'var(--radius-l)',
-      border: 0,
-      background: 'var(--surface-raised)',
-      boxShadow: 'var(--shadow-2)',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12,
-      padding: '0 18px',
-      font: 'var(--weight-regular) 18px/1 var(--font-latin)',
-      color: 'var(--text)',
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "search",
-    size: 20
-  }), "Search any name, any script")), sheet === 'place' && /*#__PURE__*/React.createElement(Sheet, {
+  })), kind === 'place' && /*#__PURE__*/React.createElement(Sheet, {
     key: 's' + k.selected,
     label: sp.official,
+    title: sheetTitle(GD, sp, k.script),
     snap: k.snap,
     onSnap: k.setSnap,
     peek: peek,
@@ -5587,11 +9489,25 @@ function KhoimPhone({
     onGoInside: k.goInside,
     onSuggest: k.openMore,
     style: {
-      padding: '0 16px 28px'
+      padding: '4px 16px 28px'
     }
-  })), sheet === 'strip' && /*#__PURE__*/React.createElement(Sheet, {
+  })), kind === 'layer' && /*#__PURE__*/React.createElement(Sheet, {
+    key: 'l' + k.layer.id,
+    label: L.label,
+    title: L.label,
+    snap: k.snap,
+    onSnap: s => s === 'closed' ? k.setLayer('names') : k.setSnap(s),
+    peek: peek
+  }, /*#__PURE__*/React.createElement(LayerPanel, {
+    layer: k.layer,
+    onChange: k.setLayer,
+    onShare: k.openShare,
+    onPickPlace: id => k.openPlace(id),
+    onHelp: k.openMore
+  })), kind === 'strip' && /*#__PURE__*/React.createElement(Sheet, {
     key: 't' + k.focus,
     label: 'Places in ' + fp.official,
+    title: /*#__PURE__*/React.createElement("span", null, fp.official + ' · ' + GD.childrenOf(fp.id).length + (fp.level === 'taluka' ? ' villages' : ' talukas')),
     snap: "peek",
     onSnap: s => s === 'closed' && k.back(),
     peek: peek
@@ -5601,308 +9517,179 @@ function KhoimPhone({
     active: k.hot,
     onFocusPlace: k.setHot,
     onPick: k.select
+  }), fp.level === 'taluka' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '4px 16px'
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    size: "m",
+    icon: "list",
+    onClick: k.openTable
+  }, "See all as a list"))), kind === 'goa' && /*#__PURE__*/React.createElement(Sheet, {
+    key: "goa",
+    label: "Goa",
+    title: sheetTitle(GD, GD.getPlace('goa'), k.script),
+    snap: k.snap,
+    onSnap: s => s !== 'closed' && k.setSnap(s),
+    peek: peek
+  }, /*#__PURE__*/React.createElement(GoaSheetBody, {
+    k: k
+  })), k.share && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      zIndex: 'var(--z-search)',
+      background: 'var(--scrim)',
+      display: 'grid',
+      alignItems: 'end'
+    },
+    onClick: e => e.target === e.currentTarget && k.closeShare()
+  }, /*#__PURE__*/React.createElement(ShareSheet, {
+    place: layered && !sp ? null : sp,
+    layer: layered && !sp ? k.layer : null,
+    onClose: k.closeShare,
+    onCopied: () => k.toastOn('Link copied'),
+    onSave: f => k.toastOn(f === 'story' ? 'Tall image saved' : 'Square image saved')
+  })), k.toast && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 28,
+      display: 'grid',
+      placeItems: 'center',
+      zIndex: 'var(--z-banner)'
+    }
+  }, /*#__PURE__*/React.createElement(Toast, {
+    text: k.toast
   })), /*#__PURE__*/React.createElement(KhoimSearchScreen, {
+    k: k
+  }), /*#__PURE__*/React.createElement(KhoimTableScreen, {
     k: k
   }), /*#__PURE__*/React.createElement(KhoimMore, {
     open: k.more,
     onClose: k.closeMore,
     theme: theme,
     onTheme: onTheme,
-    layer: k.layer,
-    onLayer: k.setLayer
-  }), /*#__PURE__*/React.createElement(Announcer, {
-    text: k.announce
-  }));
-}
-function KhoimDesktop({
-  preset = 1,
-  theme,
-  onTheme
-}) {
-  const {
-    GoaMap,
-    ScriptToggle,
-    IconButton,
-    Wordmark,
-    PlaceCard,
-    PlaceStrip,
-    SearchField,
-    SearchResults,
-    DraftBanner,
-    Credit,
-    KhoimData: GD
-  } = KN;
-  const k = useKhoim(preset);
-  const P0 = KHOIM_PRESETS[preset] || {};
-  const sp = k.selected ? GD.getPlace(k.selected) : null,
-    fp = k.focus ? GD.getPlace(k.focus) : null;
-  const hs = sp ? GD.houseOf(sp) : null;
-  const trail = GD.trailOf(k.focus || 'goa');
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      inset: 0,
-      background: 'var(--surface)',
-      color: 'var(--text)',
-      display: 'grid',
-      gridTemplateRows: 'auto minmax(0,1fr)',
-      fontFamily: 'var(--font-latin)'
-    }
-  }, /*#__PURE__*/React.createElement(DraftBanner, {
-    onTellUs: k.openMore
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'minmax(0,1fr) 460px',
-      minHeight: 0
-    }
-  }, /*#__PURE__*/React.createElement("main", {
-    style: {
-      position: 'relative',
-      minWidth: 0
-    }
-  }, /*#__PURE__*/React.createElement(GoaMap, {
-    focus: k.focus,
-    selected: k.selected,
-    hot: k.hot,
-    script: k.script,
-    onSelect: k.pick,
-    onHot: k.setHot,
-    insetTop: 96,
-    insetBottom: fp ? 170 : 24,
-    insetLeft: fp ? 0 : 360,
-    paintIn: !!P0.intro
-  }), /*#__PURE__*/React.createElement("header", {
-    style: {
-      position: 'absolute',
-      top: 20,
-      left: 28,
-      right: 28,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => k.goTo(null),
-    "aria-label": "Khoim, all of Goa",
-    style: {
-      border: 0,
-      background: 'transparent',
-      padding: 4,
-      borderRadius: 'var(--radius-m)',
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement(Wordmark, {
-    size: 26
-  })), /*#__PURE__*/React.createElement("nav", {
-    "aria-label": "Where you are",
-    style: {
-      display: 'flex',
-      gap: 4,
-      alignItems: 'center'
-    }
-  }, trail.length > 1 && trail.map((t, i) => /*#__PURE__*/React.createElement(React.Fragment, {
-    key: t.id
-  }, i > 0 && /*#__PURE__*/React.createElement("span", {
-    "aria-hidden": "true"
-  }, "/"), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    "aria-current": i === trail.length - 1 ? 'page' : undefined,
-    onClick: () => k.goTo(t.id === 'goa' ? null : t.id),
-    style: {
-      border: 0,
-      background: 'transparent',
-      color: 'var(--text)',
-      padding: '8px 6px',
-      borderRadius: 'var(--radius-s)',
-      font: 'var(--weight-strong) 16px/1.4 var(--font-latin)',
-      textDecoration: i < trail.length - 1 ? 'underline' : 'none',
-      textUnderlineOffset: 4,
-      cursor: 'pointer'
-    }
-  }, t.official))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 8,
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement(ScriptToggle, {
-    value: k.script,
-    onChange: k.setScript
-  }), /*#__PURE__*/React.createElement(IconButton, {
-    icon: "layers",
-    label: "Layers and about",
-    onClick: k.openMore
-  }))), !fp && !sp && /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      left: 32,
-      top: 120,
-      width: 330,
-      display: 'grid',
-      gap: 16
-    }
-  }, /*#__PURE__*/React.createElement("h1", {
-    style: {
-      margin: 0,
-      font: 'var(--weight-strong) 40px/1.1 var(--font-latin)',
-      letterSpacing: 'var(--track-title)',
-      textWrap: 'pretty'
-    }
-  }, "Every taluka in Goa, with its Konkani name and how to say it."), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: 0,
-      font: 'var(--weight-regular) var(--size-lead)/1.5 var(--font-latin)'
-    }
-  }, "Click a district, or press and drag along Goa. Click again to go inside.")), fp && /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 16
-    }
-  }, /*#__PURE__*/React.createElement(PlaceStrip, {
-    parent: k.focus,
-    script: k.script,
-    active: k.hot || k.selected,
-    onFocusPlace: k.setHot,
-    onPick: k.select
-  }))), /*#__PURE__*/React.createElement("aside", {
-    "aria-label": "Names",
-    style: {
-      borderLeft: '1px solid var(--line)',
-      background: 'var(--surface-sunk)',
-      display: 'grid',
-      gridTemplateRows: 'auto minmax(0,1fr) auto',
-      minHeight: 0
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '20px 24px 12px'
-    }
-  }, /*#__PURE__*/React.createElement(SearchField, {
-    value: k.query,
-    onChange: k.setQuery,
-    onCancel: k.query ? () => k.setQuery('') : undefined
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      overflowY: 'auto',
-      padding: '4px 24px 20px'
-    }
-  }, k.query ? /*#__PURE__*/React.createElement(SearchResults, {
-    query: k.query,
-    onPick: id => {
-      k.setQuery('');
-      k.openPlace(id);
-    }
-  }) : sp ? /*#__PURE__*/React.createElement("div", {
-    key: sp.id,
-    style: {
-      background: hs.bg,
-      color: hs.on,
-      borderRadius: 'var(--radius-sheet)',
-      padding: 'var(--trim-inset)',
-      animation: 'khoim-rise var(--dur-base) var(--ease-out) both'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '10px 10px 16px'
-    }
-  }, /*#__PURE__*/React.createElement(PlaceCard, {
-    place: sp,
-    expanded: true,
-    onClose: () => k.setSnap('closed'),
-    onGoInside: k.goInside,
-    onSuggest: k.openMore,
-    headingLevel: 2
-  }))) : /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: '8px 4px',
-      font: 'var(--weight-regular) var(--size-body)/1.55 var(--font-latin)'
-    }
-  }, "Pick a place on the map to see all its names. Search works in any script: try \u0938\u093E\u0936\u094D\u091F\u0940, Saxtti or Salcete.")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '14px 24px 18px',
-      borderTop: '1px solid var(--line)'
-    }
-  }, /*#__PURE__*/React.createElement(Credit, null)))), /*#__PURE__*/React.createElement(KhoimMore, {
-    open: k.more,
-    onClose: k.closeMore,
-    theme: theme,
-    onTheme: onTheme,
-    layer: k.layer,
-    onLayer: k.setLayer,
-    desktop: true
+    layer: "names",
+    onLayer: () => {}
   }), /*#__PURE__*/React.createElement(Announcer, {
     text: k.announce
   }));
 }
 Object.assign(window, {
   KhoimPhone,
-  KhoimDesktop
+  KhoimOverlay,
+  GoaSheetBody,
+  sheetTitle
 });
-})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/khoim/Screens.jsx", error: String((e && e.message) || e) }); }
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/khoim/Phone.jsx", error: String((e && e.message) || e) }); }
 
 // ui_kits/khoim/state.jsx
 try { (() => {
-/* Khoim app state. Shared by the phone and desktop layouts. */
+/* Khoim app state, phase 2. Shared by phone and desktop. */
 const KN = window.GoemDesignSystem_26c22a;
 const KHOIM_PRESETS = {
   1: {
-    label: 'Goa, nothing selected',
-    intro: true
+    label: 'First visit, "Tap any taluka" demo',
+    intro: true,
+    demo: 'bardez'
   },
   2: {
-    label: 'District tapped once',
-    selected: 'south-goa'
+    label: 'Inside Bardez, Aldona tapped',
+    focus: 'bardez',
+    selected: 'v626704'
   },
   3: {
-    label: 'Inside a taluka',
-    focus: 'salcete'
-  },
-  4: {
-    label: 'Canacona, full names',
-    focus: 'kushavati',
-    selected: 'canacona',
+    label: 'Aldona, full village sheet',
+    focus: 'bardez',
+    selected: 'v626704',
     snap: 'full'
   },
-  '4b': {
-    label: 'Raia, official name only',
-    focus: 'salcete',
-    selected: 'v626925',
+  4: {
+    label: 'Parra, official name and facts',
+    focus: 'bardez',
+    selected: 'v626675',
     snap: 'full'
   },
   5: {
+    label: 'Name parts layer, -im',
+    layer: {
+      id: 'parts',
+      part: 'im'
+    }
+  },
+  6: {
+    label: 'Feasts and zatras, April',
+    layer: {
+      id: 'feasts',
+      month: 4
+    }
+  },
+  7: {
+    label: 'Names we need',
+    layer: {
+      id: 'need'
+    }
+  },
+  8: {
+    label: 'Share menu on Aldona',
+    focus: 'bardez',
+    selected: 'v626704',
+    share: true
+  },
+  9: {
+    label: 'Link preview and save-image cards',
+    cards: true
+  },
+  10: {
+    label: 'Bardez as a village list',
+    focus: 'bardez',
+    table: true
+  },
+  11: {
     label: 'Search, mixed scripts',
     search: true,
     query: 'sa'
   },
-  6: {
-    label: 'Layers and about',
+  12: {
+    label: 'About and help',
     more: true
   }
 };
+const LAYER_DEFAULTS = {
+  names: {},
+  parts: {
+    part: 'im'
+  },
+  feasts: {
+    month: new Date().getMonth() + 1
+  },
+  need: {},
+  population: {}
+};
+function initState(p) {
+  return {
+    focus: p.focus || null,
+    selected: p.selected || null,
+    snap: p.snap || 'peek',
+    search: !!p.search,
+    query: p.query || '',
+    more: !!p.more,
+    hot: null,
+    layer: p.layer || {
+      id: 'names'
+    },
+    share: !!p.share,
+    table: !!p.table,
+    toast: null
+  };
+}
 function useKhoim(preset) {
   const GD = KN.KhoimData;
-  const init = KHOIM_PRESETS[preset] || {};
-  const [s, set] = React.useState(() => ({
-    focus: init.focus || null,
-    selected: init.selected || null,
-    snap: init.snap || 'peek',
-    search: !!init.search,
-    query: init.query || '',
-    more: !!init.more,
-    hot: null,
-    layer: 'names'
-  }));
+  const P = KHOIM_PRESETS[preset] || {};
+  const [s, set] = React.useState(() => initState(P));
   const [script, setScriptRaw] = React.useState(() => {
     try {
       return localStorage.getItem('khoim-script') || 'deva';
@@ -5910,19 +9697,39 @@ function useKhoim(preset) {
       return 'deva';
     }
   });
+  const [tapped, setTapped] = React.useState(!P.demo);
   const [announce, setAnnounce] = React.useState('');
+  const toastT = React.useRef(null);
   React.useEffect(() => {
-    const p = KHOIM_PRESETS[preset] || {};
-    set({
-      focus: p.focus || null,
-      selected: p.selected || null,
-      snap: p.snap || 'peek',
-      search: !!p.search,
-      query: p.query || '',
-      more: !!p.more,
-      hot: null,
-      layer: 'names'
-    });
+    set(initState(KHOIM_PRESETS[preset] || {}));
+    setTapped(!(KHOIM_PRESETS[preset] || {}).demo);
+  }, [preset]);
+
+  /* first-visit demo: one taluka lights up and its names show in the sheet, then it settles and the hint appears */
+  React.useEffect(() => {
+    const d = (KHOIM_PRESETS[preset] || {}).demo;
+    if (!d) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      set(v => ({
+        ...v,
+        hot: d
+      }));
+      return;
+    }
+    const a = setTimeout(() => set(v => ({
+      ...v,
+      selected: d,
+      snap: 'peek'
+    })), 1700);
+    const b = setTimeout(() => set(v => v.selected === d ? {
+      ...v,
+      selected: null
+    } : v), 1700 + 2400);
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
   }, [preset]);
   const up = o => set(v => ({
     ...v,
@@ -5932,9 +9739,19 @@ function useKhoim(preset) {
     const p = GD.getPlace(id);
     if (p) setAnnounce(GD.spokenName(p));
   };
+  const touch = () => {
+    if (!tapped) {
+      setTapped(true);
+      try {
+        localStorage.setItem('khoim-tapped', '1');
+      } catch (e) {}
+    }
+  };
   const api = {
     ...s,
     script,
+    tapped,
+    announce,
     setScript: v => {
       setScriptRaw(v);
       try {
@@ -5947,9 +9764,17 @@ function useKhoim(preset) {
     setQuery: query => up({
       query
     }),
-    setLayer: layer => up({
-      layer
-    }),
+    setLayer: l => {
+      const L = typeof l === 'string' ? {
+        id: l,
+        ...LAYER_DEFAULTS[l]
+      } : l;
+      up({
+        layer: L,
+        selected: s.selected && s.selected[0] === 'v' ? s.selected : null,
+        snap: 'peek'
+      });
+    },
     openSearch: () => up({
       search: true
     }),
@@ -5962,24 +9787,51 @@ function useKhoim(preset) {
     closeMore: () => up({
       more: false
     }),
+    openShare: () => up({
+      share: true
+    }),
+    closeShare: () => up({
+      share: false
+    }),
+    openTable: () => up({
+      table: true
+    }),
+    closeTable: () => up({
+      table: false
+    }),
+    toastOn: text => {
+      clearTimeout(toastT.current);
+      up({
+        toast: text,
+        share: false
+      });
+      toastT.current = setTimeout(() => up({
+        toast: null
+      }), 2400);
+    },
     select: id => {
+      touch();
       up({
         selected: id,
-        snap: 'peek'
+        snap: 'peek',
+        hot: null
       });
       say(id);
     },
     goInside: id => {
+      touch();
       up({
         focus: id,
         selected: null,
         snap: 'peek',
-        hot: null
+        hot: null,
+        table: false
       });
       const p = GD.getPlace(id);
       setAnnounce('Inside ' + p.official + '. ' + GD.childrenOf(id).length + (p.level === 'taluka' ? ' villages.' : ' talukas.'));
     },
     pick: (id, scrubbed) => {
+      touch();
       if (scrubbed || id !== s.selected) return api.select(id);
       const p = GD.getPlace(id);
       if (p.level !== 'village') api.goInside(id);else up({
@@ -5992,6 +9844,16 @@ function useKhoim(preset) {
     }) : up({
       snap
     }),
+    goTo: id => {
+      up({
+        focus: id && GD.getPlace(id).level !== 'village' ? id : id ? GD.getPlace(id).parent : null,
+        selected: id && GD.getPlace(id).level === 'village' ? id : null,
+        snap: 'peek',
+        hot: null,
+        table: false
+      });
+      setAnnounce(id ? GD.getPlace(id).official : 'All of Goa');
+    },
     back: () => {
       if (s.selected) return up({
         selected: null,
@@ -6000,31 +9862,26 @@ function useKhoim(preset) {
       const p = GD.getPlace(s.focus);
       api.goTo(p && p.parent && p.parent !== 'goa' ? p.parent : null);
     },
-    goTo: id => {
-      up({
-        focus: id,
-        selected: null,
-        snap: 'peek',
-        hot: null
-      });
-      setAnnounce(id ? 'Inside ' + GD.getPlace(id).official : 'All of Goa');
-    },
     openPlace: id => {
       const p = GD.getPlace(id);
       if (!p || p.level === 'state') return up({
         search: false,
         focus: null,
-        selected: null
+        selected: null,
+        table: false
       });
       up({
         search: false,
-        focus: p.level === 'district' ? null : p.parent,
+        table: false,
+        focus: p.level === 'district' || p.level === 'taluka' ? null : p.parent,
         selected: id,
-        snap: 'full'
+        snap: 'full',
+        layer: {
+          id: 'names'
+        }
       });
       say(id);
-    },
-    announce
+    }
   };
   return api;
 }
@@ -6082,17 +9939,51 @@ __ds_ns.STATUS_TEXT = __ds_scope.STATUS_TEXT;
 
 __ds_ns.LAYERS = __ds_scope.LAYERS;
 
+__ds_ns.DISTANCE_IS_PLACEHOLDER = __ds_scope.DISTANCE_IS_PLACEHOLDER;
+
+__ds_ns.PANAJI = __ds_scope.PANAJI;
+
+__ds_ns.MARGAO = __ds_scope.MARGAO;
+
+__ds_ns.NAME_PARTS = __ds_scope.NAME_PARTS;
+
+__ds_ns.MAP_LAYERS = __ds_scope.MAP_LAYERS;
+
 __ds_ns.KhoimData = __ds_scope.KhoimData;
+
+__ds_ns.NEIGHBOURS = __ds_scope.NEIGHBOURS;
 
 __ds_ns.PLACES = __ds_scope.PLACES;
 
 __ds_ns.HOUSE_OF = __ds_scope.HOUSE_OF;
 
+__ds_ns.VILLAGE_FACTS = __ds_scope.VILLAGE_FACTS;
+
+__ds_ns.EXTRA_VILLAGES = __ds_scope.EXTRA_VILLAGES;
+
+__ds_ns.UNMATCHED = __ds_scope.UNMATCHED;
+
+__ds_ns.LINES = __ds_scope.LINES;
+
+__ds_ns.CENSUS = __ds_scope.CENSUS;
+
+__ds_ns.KM_PER_UNIT = __ds_scope.KM_PER_UNIT;
+
+__ds_ns.LayerPanel = __ds_scope.LayerPanel;
+
 __ds_ns.LayerSwitch = __ds_scope.LayerSwitch;
+
+__ds_ns.MonthSlider = __ds_scope.MonthSlider;
 
 __ds_ns.VoiceClip = __ds_scope.VoiceClip;
 
 __ds_ns.GoaMap = __ds_scope.GoaMap;
+
+__ds_ns.Breadcrumb = __ds_scope.Breadcrumb;
+
+__ds_ns.LayerRow = __ds_scope.LayerRow;
+
+__ds_ns.TapHint = __ds_scope.TapHint;
 
 __ds_ns.PendingName = __ds_scope.PendingName;
 
@@ -6107,5 +9998,35 @@ __ds_ns.Sheet = __ds_scope.Sheet;
 __ds_ns.SearchField = __ds_scope.SearchField;
 
 __ds_ns.SearchResults = __ds_scope.SearchResults;
+
+__ds_ns.ShareCard = __ds_scope.ShareCard;
+
+__ds_ns.ShareSheet = __ds_scope.ShareSheet;
+
+__ds_ns.Toast = __ds_scope.Toast;
+
+__ds_ns.DataPending = __ds_scope.DataPending;
+
+__ds_ns.FeastStrip = __ds_scope.FeastStrip;
+
+__ds_ns.KnownFor = __ds_scope.KnownFor;
+
+__ds_ns.MeaningBlock = __ds_scope.MeaningBlock;
+
+__ds_ns.NameSplit = __ds_scope.NameSplit;
+
+__ds_ns.PopulationDots = __ds_scope.PopulationDots;
+
+__ds_ns.SpellingTimeline = __ds_scope.SpellingTimeline;
+
+__ds_ns.VaddoList = __ds_scope.VaddoList;
+
+__ds_ns.VideoFacade = __ds_scope.VideoFacade;
+
+__ds_ns.VillageFacts = __ds_scope.VillageFacts;
+
+__ds_ns.VillageSheet = __ds_scope.VillageSheet;
+
+__ds_ns.VillageTable = __ds_scope.VillageTable;
 
 })();

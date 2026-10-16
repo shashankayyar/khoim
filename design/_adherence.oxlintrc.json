@@ -20,8 +20,11 @@
               "components/data/**",
               "components/layers/**",
               "components/map/**",
+              "components/nav/**",
               "components/place/**",
               "components/search/**",
+              "components/share/**",
+              "components/village/**",
               "ui_kits/khoim/**"
             ],
             "message": "Import design-system components from 'index.js', not component internals."
@@ -44,6 +47,18 @@
         "message": "Font not provided by the design system. Available: Anek Devanagari, Anek Latin."
       },
       {
+        "selector": "JSXOpeningElement[name.name='Breadcrumb'] > JSXAttribute > JSXIdentifier[name!=/^(?:id|script|onNavigate|tone|style|key|ref|className|style|children)$/]",
+        "message": "<Breadcrumb> doesn't accept that prop. Declared props: id, script, onNavigate, tone, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Breadcrumb'] > JSXAttribute[name.name='script'] > Literal[value!=/^(?:official|deva|romi)$/]",
+        "message": "<Breadcrumb> script must be one of 'official' | 'deva' | 'romi'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Breadcrumb'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:raised|plain)$/]",
+        "message": "<Breadcrumb> tone must be one of 'raised' | 'plain'."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|size|ink|paper|icon|iconAfter|full|disabled|onClick|children|type|style|key|ref|className|style|children)$/]",
         "message": "<Button> doesn't accept that prop. Declared props: variant, size, ink, paper, icon, iconAfter, full, disabled, onClick, children, type, style."
       },
@@ -64,8 +79,16 @@
         "message": "<Credit> doesn't accept that prop. Declared props: full, style."
       },
       {
+        "selector": "JSXOpeningElement[name.name='DataPending'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|source|style|key|ref|className|style|children)$/]",
+        "message": "<DataPending> doesn't accept that prop. Declared props: label, source, style."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='DraftBanner'] > JSXAttribute > JSXIdentifier[name!=/^(?:onTellUs|style|key|ref|className|style|children)$/]",
         "message": "<DraftBanner> doesn't accept that prop. Declared props: onTellUs, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FeastStrip'] > JSXAttribute > JSXIdentifier[name!=/^(?:when|whenText|today|style|key|ref|className|style|children)$/]",
+        "message": "<FeastStrip> doesn't accept that prop. Declared props: when, whenText, today, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='GoaMap'] > JSXAttribute > JSXIdentifier[name!=/^(?:focus|selected|hot|script|onSelect|onHot|insetTop|insetBottom|insetLeft|insetRight|paintIn|style|key|ref|className|style|children)$/]",
@@ -92,8 +115,36 @@
         "message": "<IconButton> tone must be one of 'raised' | 'soft' | 'plain'."
       },
       {
+        "selector": "JSXOpeningElement[name.name='KnownFor'] > JSXAttribute > JSXIdentifier[name!=/^(?:items|today|style|key|ref|className|style|children)$/]",
+        "message": "<KnownFor> doesn't accept that prop. Declared props: items, today, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='LayerPanel'] > JSXAttribute > JSXIdentifier[name!=/^(?:layer|onChange|onShare|onPickPlace|onHelp|year|style|key|ref|className|style|children)$/]",
+        "message": "<LayerPanel> doesn't accept that prop. Declared props: layer, onChange, onShare, onPickPlace, onHelp, year, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='LayerRow'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|onChange|layers|style|key|ref|className|style|children)$/]",
+        "message": "<LayerRow> doesn't accept that prop. Declared props: value, onChange, layers, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='LayerRow'] > JSXAttribute[name.name='value'] > Literal[value!=/^(?:names|parts|feasts|need|population)$/]",
+        "message": "<LayerRow> value must be one of 'names' | 'parts' | 'feasts' | 'need' | 'population'."
+      },
+      {
         "selector": "JSXOpeningElement[name.name='LayerSwitch'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|onChange|layers|style|key|ref|className|style|children)$/]",
         "message": "<LayerSwitch> doesn't accept that prop. Declared props: value, onChange, layers, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MeaningBlock'] > JSXAttribute > JSXIdentifier[name!=/^(?:meaning|style|key|ref|className|style|children)$/]",
+        "message": "<MeaningBlock> doesn't accept that prop. Declared props: meaning, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MonthSlider'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|onChange|counts|style|key|ref|className|style|children)$/]",
+        "message": "<MonthSlider> doesn't accept that prop. Declared props: value, onChange, counts, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NameSplit'] > JSXAttribute > JSXIdentifier[name!=/^(?:split|onPickPlace|style|key|ref|className|style|children)$/]",
+        "message": "<NameSplit> doesn't accept that prop. Declared props: split, onPickPlace, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='PendingName'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|ink|style|key|ref|className|style|children)$/]",
@@ -110,6 +161,10 @@
       {
         "selector": "JSXOpeningElement[name.name='PlaceStrip'] > JSXAttribute[name.name='script'] > Literal[value!=/^(?:official|deva|romi)$/]",
         "message": "<PlaceStrip> script must be one of 'official' | 'deva' | 'romi'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PopulationDots'] > JSXAttribute > JSXIdentifier[name!=/^(?:placeId|placeholder|style|key|ref|className|style|children)$/]",
+        "message": "<PopulationDots> doesn't accept that prop. Declared props: placeId, placeholder, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='SayIt'] > JSXAttribute > JSXIdentifier[name!=/^(?:say|note|reviewed|ink|paper|style|key|ref|className|style|children)$/]",
@@ -132,8 +187,20 @@
         "message": "<SearchResults> doesn't accept that prop. Declared props: query, onPick, limit, style."
       },
       {
-        "selector": "JSXOpeningElement[name.name='Sheet'] > JSXAttribute > JSXIdentifier[name!=/^(?:snap|onSnap|peek|top|height|bg|ink|label|children|style|key|ref|className|style|children)$/]",
-        "message": "<Sheet> doesn't accept that prop. Declared props: snap, onSnap, peek, top, height, bg, ink, label, children, style."
+        "selector": "JSXOpeningElement[name.name='ShareCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:place|format|style|key|ref|className|style|children)$/]",
+        "message": "<ShareCard> doesn't accept that prop. Declared props: place, format, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ShareCard'] > JSXAttribute[name.name='format'] > Literal[value!=/^(?:og|square|story)$/]",
+        "message": "<ShareCard> format must be one of 'og' | 'square' | 'story'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ShareSheet'] > JSXAttribute > JSXIdentifier[name!=/^(?:place|layer|open|onClose|onCopied|onSave|desktop|style|key|ref|className|style|children)$/]",
+        "message": "<ShareSheet> doesn't accept that prop. Declared props: place, layer, open, onClose, onCopied, onSave, desktop, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Sheet'] > JSXAttribute > JSXIdentifier[name!=/^(?:snap|onSnap|peek|top|height|bg|ink|label|title|children|style|key|ref|className|style|children)$/]",
+        "message": "<Sheet> doesn't accept that prop. Declared props: snap, onSnap, peek, top, height, bg, ink, label, title, children, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='Sheet'] > JSXAttribute[name.name='snap'] > Literal[value!=/^(?:peek|full)$/]",
@@ -144,8 +211,40 @@
         "message": "<SourceStatus> doesn't accept that prop. Declared props: status, color, size, style."
       },
       {
-        "selector": "JSXOpeningElement[name.name='SourceStatus'] > JSXAttribute[name.name='status'] > Literal[value!=/^(?:agree|differ|pending)$/]",
-        "message": "<SourceStatus> status must be one of 'agree' | 'differ' | 'pending'."
+        "selector": "JSXOpeningElement[name.name='SourceStatus'] > JSXAttribute[name.name='status'] > Literal[value!=/^(?:agree|differ|pending|review)$/]",
+        "message": "<SourceStatus> status must be one of 'agree' | 'differ' | 'pending' | 'review'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SpellingTimeline'] > JSXAttribute > JSXIdentifier[name!=/^(?:spellings|style|key|ref|className|style|children)$/]",
+        "message": "<SpellingTimeline> doesn't accept that prop. Declared props: spellings, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TapHint'] > JSXAttribute > JSXIdentifier[name!=/^(?:text|visible|style|key|ref|className|style|children)$/]",
+        "message": "<TapHint> doesn't accept that prop. Declared props: text, visible, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Toast'] > JSXAttribute > JSXIdentifier[name!=/^(?:text|visible|style|key|ref|className|style|children)$/]",
+        "message": "<Toast> doesn't accept that prop. Declared props: text, visible, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='VaddoList'] > JSXAttribute > JSXIdentifier[name!=/^(?:vaddos|style|key|ref|className|style|children)$/]",
+        "message": "<VaddoList> doesn't accept that prop. Declared props: vaddos, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='VideoFacade'] > JSXAttribute > JSXIdentifier[name!=/^(?:video|style|key|ref|className|style|children)$/]",
+        "message": "<VideoFacade> doesn't accept that prop. Declared props: video, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='VillageFacts'] > JSXAttribute > JSXIdentifier[name!=/^(?:place|style|key|ref|className|style|children)$/]",
+        "message": "<VillageFacts> doesn't accept that prop. Declared props: place, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='VillageSheet'] > JSXAttribute > JSXIdentifier[name!=/^(?:place|expanded|recordings|today|onExpand|onClose|onShare|onSuggest|onRecord|onPickPlace|headingLevel|style|key|ref|className|style|children)$/]",
+        "message": "<VillageSheet> doesn't accept that prop. Declared props: place, expanded, recordings, today, onExpand, onClose, onShare, onSuggest, onRecord, onPickPlace, headingLevel, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='VillageTable'] > JSXAttribute > JSXIdentifier[name!=/^(?:taluka|onPick|compact|style|key|ref|className|style|children)$/]",
+        "message": "<VillageTable> doesn't accept that prop. Declared props: taluka, onPick, compact, style."
       },
       {
         "selector": "JSXOpeningElement[name.name='VoiceClip'] > JSXAttribute > JSXIdentifier[name!=/^(?:recordings|placeName|ink|paper|onRecord|style|key|ref|className|style|children)$/]",
@@ -169,13 +268,22 @@
   ],
   "x-omelette": {
     "components": {
+      "Breadcrumb": {
+        "replaces": []
+      },
       "Button": {
         "replaces": []
       },
       "Credit": {
         "replaces": []
       },
+      "DataPending": {
+        "replaces": []
+      },
       "DraftBanner": {
+        "replaces": []
+      },
+      "FeastStrip": {
         "replaces": []
       },
       "GoaMap": {
@@ -187,7 +295,25 @@
       "IconButton": {
         "replaces": []
       },
+      "KnownFor": {
+        "replaces": []
+      },
+      "LayerPanel": {
+        "replaces": []
+      },
+      "LayerRow": {
+        "replaces": []
+      },
       "LayerSwitch": {
+        "replaces": []
+      },
+      "MeaningBlock": {
+        "replaces": []
+      },
+      "MonthSlider": {
+        "replaces": []
+      },
+      "NameSplit": {
         "replaces": []
       },
       "PendingName": {
@@ -197,6 +323,9 @@
         "replaces": []
       },
       "PlaceStrip": {
+        "replaces": []
+      },
+      "PopulationDots": {
         "replaces": []
       },
       "SayIt": {
@@ -211,10 +340,40 @@
       "SearchResults": {
         "replaces": []
       },
+      "ShareCard": {
+        "replaces": []
+      },
+      "ShareSheet": {
+        "replaces": []
+      },
       "Sheet": {
         "replaces": []
       },
       "SourceStatus": {
+        "replaces": []
+      },
+      "SpellingTimeline": {
+        "replaces": []
+      },
+      "TapHint": {
+        "replaces": []
+      },
+      "Toast": {
+        "replaces": []
+      },
+      "VaddoList": {
+        "replaces": []
+      },
+      "VideoFacade": {
+        "replaces": []
+      },
+      "VillageFacts": {
+        "replaces": []
+      },
+      "VillageSheet": {
+        "replaces": []
+      },
+      "VillageTable": {
         "replaces": []
       },
       "VoiceClip": {
@@ -228,10 +387,14 @@
       "--beat",
       "--chalk-100",
       "--chalk-300",
+      "--chip-height",
+      "--chip-radius",
       "--dur-base",
+      "--dur-demo",
       "--dur-fast",
       "--dur-paint",
       "--dur-press",
+      "--dur-pressed",
       "--dur-sheet",
       "--dur-zoom",
       "--ease-in",
@@ -240,7 +403,14 @@
       "--focus-ring",
       "--font-deva",
       "--font-latin",
+      "--glyph-bg",
+      "--glyph-hit",
+      "--glyph-icon",
+      "--glyph-ink",
+      "--glyph-tile",
       "--gutter",
+      "--hint-bg",
+      "--hint-text",
       "--house-green",
       "--house-green-on",
       "--house-green-tint",
@@ -280,6 +450,7 @@
       "--ink-600",
       "--ink-700",
       "--ink-900",
+      "--label-hit",
       "--lh-body",
       "--lh-deva",
       "--lh-latin",
@@ -293,18 +464,38 @@
       "--line-strong",
       "--map-edge",
       "--map-empty",
+      "--map-fade",
+      "--map-fade-edge",
       "--map-green-dim",
       "--map-haldi-dim",
       "--map-kokum-dim",
       "--map-lilac-dim",
+      "--map-line-width",
+      "--map-lit-outline",
       "--map-mustard-dim",
       "--map-neel-dim",
+      "--map-outline",
+      "--map-outline-width",
       "--map-oxide-dim",
+      "--map-rail",
+      "--map-rail-tie",
+      "--map-rail-width",
+      "--map-river",
+      "--map-river-casing",
       "--map-rose-dim",
       "--map-sky-dim",
+      "--map-unlit",
       "--mark",
       "--mark-dark",
       "--mark-light",
+      "--og-height",
+      "--og-width",
+      "--placeholder-border",
+      "--pop-1",
+      "--pop-2",
+      "--pop-3",
+      "--pop-4",
+      "--pop-5",
       "--press-scale",
       "--radius-device",
       "--radius-l",
@@ -344,7 +535,10 @@
       "--space-6",
       "--space-7",
       "--space-8",
+      "--square-size",
       "--stagger-paint",
+      "--story-height",
+      "--story-width",
       "--surface",
       "--surface-invert",
       "--surface-raised",
@@ -354,6 +548,8 @@
       "--text",
       "--text-2",
       "--text-invert",
+      "--toast-bg",
+      "--toast-text",
       "--track-title",
       "--trim",
       "--trim-inset",
@@ -510,7 +706,44 @@
       "--map-lilac-dim": "color",
       "--map-sky-dim": "color",
       "--map-neel-dim": "color",
-      "--map-mustard-dim": "color"
+      "--map-mustard-dim": "color",
+      "--map-river": "color",
+      "--map-river-casing": "color",
+      "--map-rail": "color",
+      "--map-rail-tie": "color",
+      "--map-line-width": "spacing",
+      "--map-rail-width": "spacing",
+      "--map-lit-outline": "color",
+      "--map-outline": "color",
+      "--map-outline-width": "spacing",
+      "--map-unlit": "color",
+      "--map-fade": "color",
+      "--map-fade-edge": "color",
+      "--pop-1": "color",
+      "--pop-2": "color",
+      "--pop-3": "color",
+      "--pop-4": "color",
+      "--pop-5": "color",
+      "--glyph-bg": "color",
+      "--glyph-ink": "color",
+      "--glyph-tile": "spacing",
+      "--glyph-icon": "spacing",
+      "--glyph-hit": "spacing",
+      "--label-hit": "spacing",
+      "--chip-height": "spacing",
+      "--chip-radius": "radius",
+      "--placeholder-border": "other",
+      "--toast-bg": "color",
+      "--toast-text": "font",
+      "--hint-bg": "color",
+      "--hint-text": "font",
+      "--dur-demo": "other",
+      "--dur-pressed": "other",
+      "--og-width": "spacing",
+      "--og-height": "spacing",
+      "--square-size": "spacing",
+      "--story-width": "spacing",
+      "--story-height": "spacing"
     },
     "fontFamilies": [
       "Anek Devanagari",

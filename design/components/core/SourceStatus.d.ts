@@ -1,7 +1,7 @@
-/** Where a name stands with its sources. The mark (full, half, empty) carries the meaning without colour. */
+/** Where a name stands with its sources. The mark (full, half, dashed ring, empty) carries the meaning without colour. */
 export interface SourceStatusProps {
-  status?: 'agree' | 'differ' | 'pending';
-  /** ink colour; defaults to currentColor so it follows house sheets */
+  /** agree, differ, pending (official name only) or review (a Konkani form exists but nobody has checked it yet) */
+  status?: 'agree' | 'differ' | 'pending' | 'review';
   color?: string;
   size?: number;
   style?: React.CSSProperties;

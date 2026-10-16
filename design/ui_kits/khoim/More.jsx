@@ -35,7 +35,7 @@ function KhoimMore({ open, onClose, theme, onTheme, layer, onLayer, desktop }) {
           <section style={sec} aria-labelledby="k-scripts"><h2 id="k-scripts" style={h2}>A note on scripts</h2>
             <p style={p}>Konkani is written in Devanagari, the official script under the Goa, Daman and Diu Official Language Act, 1987, and in Romi, the Roman script used in church, in tiatr and in many homes. Khoim shows Devanagari and Romi side by side and doesn't pick between them.</p></section>
           <section style={sec} aria-labelledby="k-help"><h2 id="k-help" style={h2}>Help us</h2>
-            <p style={p}>Write to us at <strong>hello@khoim.in</strong>. Everyone who contributes is credited by name, if they want to be.</p>
+            <p style={p}>Write to Shashank at <strong>shashank@pangolinmarketing.com</strong>. Everyone who contributes is credited by name, if they want to be.</p>
             <div style={{ display: 'grid', gridTemplateColumns: desktop ? '1fr 1fr' : '1fr', gap: 10, margin: '8px 0 16px' }}>
               {roles.map(([t, d]) => <article key={t} style={{ background: 'var(--surface-raised)', borderRadius: 'var(--radius-l)', padding: '14px 16px' }}><h3 style={{ margin: '0 0 4px', font: 'var(--weight-strong) 18px/1.3 var(--font-latin)' }}>{t}</h3><p style={{ ...p, margin: 0, fontSize: 16 }}>{d}</p></article>)}
             </div>

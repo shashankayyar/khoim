@@ -65,7 +65,7 @@ export function PlaceCard({ place, expanded = false, onExpand, onClose, onGoInsi
         {p.officialNote && <><Rule /><Row label="Official spelling"><p style={body}>{p.official}. {p.officialNote}.</p></Row></>}
         {p.hq && <><Rule /><Row label="Headquarters"><p style={body}>{p.hq}</p></Row></>}
         {p.facts && <><Rule />{p.facts.map(f => <Row key={f} label="Worth knowing"><p style={body}>{f}.</p></Row>)}</>}
-        {p.level === 'village' && <><Rule /><Row label="Boundary"><p style={body}>{p.boundarySource === 'SOI' ? 'Survey of India' : 'Local Government Directory'}{p.lgd ? ', LGD code ' + p.lgd : ''}{p.town ? '. Census town' : ''}.</p></Row></>}
+        {p.level === 'village' && <><Rule /><Row label="Boundary"><p style={body}>{p.boundarySource === 'SOI' ? 'Survey of India' : 'Local Government Directory'}{p.lgd ? ', LGD code ' + p.lgd : ''}.</p></Row></>}
         {inside && <div style={{ paddingTop: 8 }}><Button full ink={ink} paper={paper} iconAfter="arrow-right" onClick={() => onGoInside(p.id)}>{`Go inside, ${kids} ${p.level === 'taluka' ? 'villages' : 'talukas'}`}</Button></div>}
       </div>}
     </article>

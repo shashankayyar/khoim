@@ -12,12 +12,14 @@ The files in this project are **design references built in HTML/React (in-browse
 ## Where things are (paths from the project root)
 Download the whole project; this folder is its entry point. Serve the project root (e.g. `npx serve`) and open `ui_kits/khoim/index.html` to click through every state. `readme.md` at the root is the full design guide.
 
-- `styles.css` → `tokens/fonts.css`, `tokens/base.css`, `tokens/themes.css`, `tokens/elements.css`. **Copy these as-is.**
+- `styles.css` → `tokens/fonts.css`, `tokens/base.css`, `tokens/themes.css`, `tokens/layers.css` (phase 2), `tokens/elements.css`. **Copy these as-is.**
 - `components/**/X.jsx` + `X.d.ts` (props contract) + `X.prompt.md` (usage notes). These are reference implementations of every component.
 - `components/data/`: `places.js` (names), `goaGeo.js` (boundaries), `khoim.js` (lookups, search, spoken names, house colours, layers). Turn these into JSON plus a small TS module.
-- `ui_kits/khoim/`: the full app. `index.html` has buttons for every state, phone and desktop, light and dark. `state.jsx` holds the state machine, `Screens.jsx` the phone and desktop layouts, `More.jsx` the About/Layers/Help screen.
+- `ui_kits/khoim/`: the full app. `index.html` has buttons for every state, phone and desktop, light and dark. `state.jsx` holds the state machine and presets, `Phone.jsx` and `Desktop.jsx` the layouts, `Cards.jsx` the share images, `More.jsx` the About/Help screen. The inline script in `index.html` only rebuilds components in the browser when the compiled bundle is stale; do not port it.
 - `guidelines/accessibility.md`: the AAA checklist and every contrast figure.
 - `assets/lucide/`: the 22 icons used (Lucide, ISC). `assets/names_districts_talukas.csv`, `assets/goa-map*.svg`: source data.
+
+> **Phase 2 (below) changes the phone chrome:** the breadcrumb replaces the back button, a layer row sits under it, and every sheet has the place name in its handle row. Where phase 1 and phase 2 differ, phase 2 wins.
 
 ## Screens / views
 
@@ -192,3 +194,238 @@ Download the whole project; this folder is its entry point. Serve the project ro
 - Map marks for future layers. Plan: small white trim tiles with the layer icon, never pins.
 - Offline and error states.
 - Village Konkani names.
+
+
+---
+
+# Phase 2: village facts, map layers, touch cues, sharing (16 Oct 2026)
+
+Same tokens, fonts, icons and house colours. New tokens are in `tokens/layers.css`. Click through every state in `ui_kits/khoim/index.html`, presets 1 to 12.
+
+## Data rule
+Only sourced content. Everything verified so far is in `components/data/villageFacts.js` (Aldona, Bandora, Calangute, Rivona, Shirgao, Siolim, Moira, Cola, Parra). Unknown values are `null` and render as **DataPending** (a dashed tile reading "To load"). Never fill a gap with a guess.
+
+TODO(data), before launch:
+- Census 2011 village directory: population, households, panchayat. PIN codes. Nearest station.
+- River and railway lines from OpenStreetMap. The two Bardez lines in `LINES` are placeholder geometry (`placeholder: true`, drawn dashed, station labelled "Station (to load)").
+- Sirigao (Shirgao), Bicholim: load its LGD code and point. It stays off the map until then (see Phase 2 revisions, 8).
+- YouTube id for the Bandora episode.
+- Distances: `KM_PER_UNIT` (0.0707) is an approximation. Compute straight-line km from latitude and longitude at build.
+- A source for what each name part means (the Name parts layer matches official spellings only).
+
+## New data fields
+- `VILLAGE_FACTS[placeId]`:
+  - `deva`, `devaSource`, `devaReviewed`
+  - `spellings { ordered, items[{ form, source, year?, lang?, note? }] }`
+  - `meaning { kind: options|differ|tradition|single, readings[{ text, from?, gloss?, source }] }`
+  - `split { whole, source, parts[{ part, sharedWith[{ id, name }] }] }`
+  - `vaddos { source, items[] }`
+  - `knownFor[{ kind: monument|gi|parish|zatra|festival, icon, title, detail?, when?, whenText?, source }]`
+  - `video { title, channel, youtubeId, thumb? }`
+- `when`: `{ month, day }` | `{ easterSaturday: n }` (nth Saturday after Easter, computed) | `{ lunar: true, months[] }`. Lunar dates are never converted to a guessed day.
+- Place status adds `review`: a Konkani form exists in a source but nobody has checked it. Label "Needs review", shown as a dashed ring with a centre dot.
+- `NEIGHBOURS` (`components/data/neighbours.js`) is computed from shared boundary points (2.5 units tolerance). Regenerate it when boundaries change.
+- `CENSUS[placeId]`: `{ population, households, panchayat, pin, station, step }`. Empty for now.
+- Helpers in `KhoimData`:
+  - Places and geography: `neighboursOf`, `villageFacts`, `distanceKm`, `glyphsFor`, `linesFor`
+  - Feasts: `easter`, `feastDate`, `feastMonths`, `allFeasts`
+  - Layers: `layerState`, `populationStep` (placeholder), `layerUrl`, `NAME_PARTS`, `MAP_LAYERS`
+
+## New tokens (`tokens/layers.css`)
+- **Map lines:**
+  - River: `--map-river` (sky) on a 6px `--map-river-casing` (trim)
+  - Railway: `--map-rail` (soot in light, chalk in dark), 2px, on a 6px `--map-rail-tie`
+  - Placeholder lines are dashed 8/5.
+- **Layer fills:**
+  - Lit: the village's house colour, with a 1px `--map-lit-outline`
+  - Dim: the house tint (`--map-*-dim`)
+  - Review: house tint with a dashed 1.5px `--map-outline`
+  - Outline: `--map-unlit` with a 0.6px `--map-outline` (ink-700 in light, chalk-300 in dark)
+  - Population: `--pop-1..5` (light #DDE1E7 → #294C9C, dark #202F30 → #50AEC5)
+- **Glyphs:** `--glyph-bg` (white in both themes) and `--glyph-ink` (soot). Tile 30px, icon 16–18px, hit area 44px.
+- **Hit targets:** `--label-hit` 44px, `--chip-height` 44px, `--chip-radius` 12px.
+- **Placeholder border:** `--placeholder-border`, 2px dashed currentColor.
+- **Toast and hint:** `--toast-bg` / `--toast-text` and `--hint-bg` / `--hint-text` (soot and white, inverted in dark).
+- **Motion:** `--dur-demo` 2400ms, `--dur-pressed` 0ms (the pressed state is instant).
+- **Share image sizes:** `--og-width` / `--og-height` 1200×630, `--square-size` 1080, `--story-width` / `--story-height` 1080×1920.
+
+## Interaction cues
+- **Tap targets:** at Goa level the tap targets are now talukas, not districts. Tap a taluka to select it, tap again to go inside; the district stays in the breadcrumb. Every map label is a button at least 44×44 (`--label-hit`).
+- **Pressed state:** shown on pointerdown, before any work: a white tile with soot text, shadow-1 and scale 0.94, no transition.
+- **First visit demo** (preset 1):
+  - After the paint-in (about 1.7s), the map selects Bardez and its sheet rises with its names.
+  - After `--dur-demo` (2400ms) it settles back and **TapHint** "Tap any taluka" appears above the sheet.
+  - The hint goes after the first tap and never comes back (localStorage `khoim-tapped`).
+  - Reduced motion: Bardez is shown lit and the hint is visible; nothing moves.
+- **Sheet:** there is always one at the bottom. Its handle row (44px) shows the current place name (Devanagari, then official) on the left, the grip in the middle and "More" / "Less" on the right. Peek heights:
+  - Goa: 128
+  - Taluka strip: 246
+  - Taluka or district card: 312
+  - Village: 318, or 360 with no Devanagari
+  - Layer: 280, or 300 for feasts and 200 for population
+- **Breadcrumb:** Goa / district / taluka / village as 44px tiles, following the script toggle. The current step is a soot tile; each earlier step is a white tile and the way back. Desktop uses the same component in the map header.
+- **LayerRow:** under the breadcrumb, a visible row: Names, Name parts, Feasts and zatras, Names we need, Population. 44px tiles, radius 12, icon plus label. It scrolls sideways.
+- **Empty states ask for help:** "Know how Aldona is said? Tell us." with "Record it" and "Write it down".
+
+## Phone screens (390×844)
+**Chrome:**
+- Row 1 (top 12px): Wordmark (21px) and ScriptToggle (200px).
+- Row 2: the breadcrumb. At Goa level this row holds the title (25px, line height 1.15); in a layer view it holds the layer headline (22px/600), e.g. "Names ending -im, 68 villages".
+- Row 3: LayerRow.
+- Map insets: top 170px inside a place or layer, 202px at Goa level; bottom is the sheet peek plus 4px.
+
+1. **First visit.** Repaint, then the demo. The Goa sheet holds a search button (56px) and, pulled up, all 12 talukas as house-colour tiles grouped by district (a list route into the map).
+2. **Inside Bardez, Aldona tapped:**
+   - The map frames Aldona and its neighbours: union of their bounding boxes plus 8%.
+   - Aldona gets a 3px trim outline and its name tag (17px, white, shadow-2). Neighbours are labelled with small white tags (13px/600) that work as buttons, and their shapes get a light wash.
+   - River and railway lines show with the station marker.
+   - Glyph tiles (church, banana, sailboat…) sit 8px below-right of each village's label point.
+   - The sheet peeks on kokum.
+3. **Aldona, full sheet.** Blocks in this order (one with no data doesn't render):
+   - Name block: Devanagari 76px, Romi slot (dashed "Romi not recorded yet"), official 20px, SourceStatus "Needs review", "Devanagari as in the Gazetteer, 1979". A play button appears here once a recording exists.
+   - Say it: the empty-state ask.
+   - Meaning: one entry, "Haldona, from hal (plough) or haldi (turmeric). Two options.", credited to Dr Alvarinho J. Luis, The Goan, 21 Feb 2026.
+   - Spellings: a vertical line with stops: Government spelling Aldona, Survey of India spelling Aldona, Advisory Body spelling Haldone, Devanagari हळदोणें (pending review), captioned as columns of the 1970 spelling list in the Gazetteer, 1979.
+   - Facts: a 2-column grid of People, Households, Village or Census Town, Panchayat, PIN and Nearest station (all DataPending), then "about N km" to Panaji and Margao, tagged "Placeholder data", "Distances are in a straight line.", and the PopulationDots strip (tagged "Placeholder data").
+   - Known for: St Thomas parish feast, third Saturday after Easter, with a FeastStrip ("Next: Saturday 17 April 2027" after this year's 25 April).
+   - Sources: Local Government Directory, Government of India; Gazetteer of Goa, Daman and Diu, 1979 (spellings and Devanagari); Dr Alvarinho J. Luis, The Goan, 21 Feb 2026; UCA News parish directory. Each is a link; missing URLs show "(link to add)".
+   - Actions: "Share Aldona" (full width), then "Tell us" and "Record the name".
+4. **Parra, official name and facts.** Official name as the headline (60px), PendingName window, "Official name only". Then Say it (ask), Vaddos (Britto Vaddo, Jackney Vaddo (I), Jackney Vaddo (II), CEO Goa electoral roll, with "We do not draw their edges."), Facts and Sources.
+5. **Name parts, -im.**
+   - Map: every village whose official spelling ends -im is lit in its house colour; the rest go to tint.
+   - Panel: intro line, part tiles (-em 98, -im 68, -gao 12, -ona 12, -ora 10; 48px tall), "68 villages end in -im", the source caveat and "Share this view".
+   - Link: `?layer=parts&part=im`.
+6. **Feasts and zatras, April.**
+   - Panel: MonthSlider (role=slider, 52px, drag, tap or arrow keys, with a dot under each month that has something), then a list: St Thomas parish, Aldona, 25 April; Lairai zatra, Sirigao, "Vaishakh Shuddh Panchami. Lunar date, so it moves each year." St Thomas reads "Third Saturday after Easter. Next: 17 April 2027."
+   - June shows the Sao Joao boat parade, Siolim, 24 June.
+   - Empty month: "No feast or zatra recorded for this month yet. Know one? Tell us."
+7. **Names we need.**
+   - Map: villages with a checked Konkani name are filled, unchecked forms are tinted with a dashed outline, the rest are outlined.
+   - Panel: "0 of 384 villages have a checked Konkani name.", a three-row legend with counts, the call to help, and "Help fill this in" plus "Share this view".
+8. **Share menu on Aldona.**
+   - Layout: a scrim (`--scrim`) behind a ShareSheet that rises from the bottom.
+   - Contents: title "Share Aldona", the link-preview card at 29%, the short URL `khoim.in/north-goa/bardez/aldona`, then rows: Send (navigator.share: "WhatsApp, Instagram and the rest"), Copy link, Save image square, Save image tall.
+   - Confirmation: Toast, "Link copied" / "Square image saved" / "Tall image saved", for 2400ms.
+9. **Share images** (`ShareCard`, rendered headless at build time):
+   - Formats: og 1200×630 (og:image), square 1080, story 1080×1920.
+   - Layout: house colour, a 5–6px trim frame (radius 36–48), the place's own shape in the ink colour, a where-line, then Devanagari and Romi at the **same** size (112px og, 130 square, 150 story) and the official spelling smaller (44 / 56).
+   - Footer: wordmark and khoim.in.
+   - A missing script is left out. A place with no Konkani name shows the official name plus "Konkani name: help us find it".
+   - At 300px wide (WhatsApp thumbnail) the Devanagari is still about 28px.
+10. **Bardez as a village list.**
+    - Phone: a full-screen list with back button and title (Devanagari, then "Villages in Bardez"). Sort buttons: A to Z, Konkani name. Each row is 60px: reviewed Devanagari if any, official, then the status ("Needs review").
+    - Desktop: a real table. Each th is a button with aria-sort. Columns: Official (link), देवनागरी and Romi (reviewed names only), Village or Census Town and People 2011 (both DataPending, sort disabled until Census loads), Konkani name.
+    - Route: `/north-goa/bardez/villages`. Opened from "See all as a list" under the village strip.
+
+## Desktop (1280×800)
+- **Map header:** Wordmark, Breadcrumb, ScriptToggle and an About button, with LayerRow on a second row. Map inset top 140.
+- **Panel (460px):** search, then the VillageSheet (always expanded, on its house colour) or the LayerPanel.
+- **Share:** copies the link straight away and shows the Toast; no sheet.
+- **Village list:** the table opens over the map area, with a back button.
+
+## Dark
+All of the above works under `[data-theme="dark"]`:
+- House colours stay as they are.
+- Rails and outlines switch to chalk.
+- The population ramp moves to sky on soot.
+- Glyph tiles stay white with soot icons, so they read on both grounds.
+
+## Routes and links
+- **Places:** `/`, `/north-goa`, `/north-goa/bardez`, `/north-goa/bardez/aldona`, `/north-goa/bardez/villages`.
+- **Layer views:** `?layer=parts&part=im`, `?layer=feasts&month=4`, `?layer=need`, `?layer=population`. Built by `KhoimData.layerUrl(place, layer)`; a shared link opens with the same layer and part or month selected.
+- **Preview cards:** every place page gets an og:image card made at build. Never add share counts, like counts or social logins.
+
+## Accessibility additions
+- **Labels and glyphs:** map labels, neighbour tags and glyph tiles are buttons with spoken names, e.g. "St Thomas parish, Aldona".
+- **Keyboard:** MonthSlider has full keyboard support and an aria-valuetext of "April, 2 places". Layer rows and part pickers are radiogroups.
+- **Status messages:** Toast and the result counts are polite live regions.
+- **Reduced motion:** the demo, the sheet transitions and the label pressed scale all respect it.
+- **Contrast:** every text pair is still 7:1. Placeholders use dashed borders, never faded text.
+
+## TODO(copy): new UI text in phase 2, for review
+- Tap any taluka / Click any taluka
+- More / Less (sheet handle)
+- All about {place}
+- Share / Share {place} / Share this view
+- Know how {place} is said? Tell us.
+- Record it / Write it down / Record the name / Tell us
+- Two readings / Sources differ / Local tradition / One interpretation / Tradition
+- Name split / As split in {whole}, {source} / No other villages linked to "{part}" yet. / Also in:
+- Spellings / Spellings over time / Earliest at the top, in the order the source gives. / How each source spells it.
+- Vaddos / {n} vaddos listed in the {source}. We do not draw their edges.
+- Facts / People, Census 2011 / Households / Counted as / Census town / Village / Panchayat / PIN / Nearest station / To Panaji / To Margao / about {n} km / Distances are in a straight line. / To load / Placeholder data / Fewest people / Most
+- Known for / Parish feast / This year: {date} / Next: {date} / Date follows the Hindu calendar, so it moves each year. / This year it fell on {date}.
+- Video / {channel} on YouTube. YouTube loads only when you tap play. / Episode link still to add.
+- Sources
+- Needs review / Devanagari as in the {source} / Romi not recorded yet / Konkani name not recorded yet
+- Names / Name parts / Feasts and zatras / Names we need / Population
+- Pick an ending. Every village whose official spelling ends with it lights up. / {n} villages end in {part} / Matched on official spellings. What each part means still needs a source. / Names ending {part}, {n} villages
+- {n} places / Lunar date / {place}, not on the map yet / No feast or zatra recorded for this month yet. Know one? Tell us. / Feasts and zatras in {month}
+- {n} of {total} villages have a checked Konkani name. / checked by a speaker / written down, not checked yet / with no Konkani name yet / If you know how your village is written in Devanagari or Romi, tap it and tell us. / Help fill this in / Konkani names we still need
+- Placeholder shading. Census 2011 figures are not loaded yet. / Fewer people / More / People per village, Census 2011
+- Send / WhatsApp, Instagram and the rest / Copy link / Save image, square / For posts. Your name in Konkani / Save image, tall / For status and stories / Link copied / Square image saved / Tall image saved
+- {where}, Goa / Konkani name: help us find it (share cards)
+- See all as a list / Villages in {taluka} / Sort / A to Z / Konkani name / Town first / {n} villages in {taluka}. Choose a column to sort. / Official / Counted as / People, 2011 / Back to the map
+- Station (to load) / River (placeholder lines)
+
+
+---
+
+## Phase 2 revisions (16 Oct 2026). These rules override anything above
+
+### 1. Reviewed names only, except inside the village sheet
+- **Data model:** `p.deva` and `p.romi` hold **reviewed** names only. A Konkani form nobody has checked yet (Aldona's हळदोणें, from the Gazetteer, 1979) lives in `p.devaUnreviewed`, with `status: 'review'` and `devaSource`.
+- **Where the unreviewed form is shown:** only in the village sheet's name block, with SourceStatus "Needs review" and the note "Devanagari as in the Gazetteer, 1979". Search also matches it, but result rows show only the official name and status.
+- **Where it is never used:**
+  - **Map labels:** in the देवनागरी and Romi modes they use reviewed names; everything else falls back to the official spelling.
+  - **Breadcrumb and sheet handle title:** same fallback.
+  - **Page titles and `og:title`:** reviewed names only, e.g. "Aldona, Bardez | Khoim".
+  - **Village list:** the देवनागरी and Romi columns stay blank and the status column says "Needs review".
+  - **Share cards** (link preview, square, tall): the official name, plus "Konkani name: help us check it" when an unreviewed form exists, or "Konkani name: help us find it" when none does (as on Raia).
+  - **Names we need layer:** reviewed counts as filled; unreviewed is tinted with a dashed outline.
+- **When a reviewer signs off:** set `devaReviewed: true`. The form then moves into `p.deva` and appears everywhere.
+
+### 2. No Census-derived facts until the files load
+"Village or Census Town" is **To load** everywhere: the Facts grid, the sheet header (now just "Village in Bardez"), the village list and the map. Village dots are one size; they no longer grow for towns. The boundary file's `ty: 'Ct'` flag is not used as a fact.
+
+### 3. Distances are placeholders
+"about N km" to Panaji and Margao is measured on the map with an approximate scale (`KM_PER_UNIT`, `DISTANCE_IS_PLACEHOLDER = true`), and is tagged "Placeholder data". At build, compute great-circle distance from village centroid latitude and longitude, set `CENSUS[id].kmPanaji` / `kmMargao`, and the tag goes.
+
+### 4. Meaning with several roots
+`meaning.kind: 'roots'` renders one entry: "Haldona, from hal (plough) or haldi (turmeric). Two options." with one credit line. Use `differ` only when separate sources disagree (Calangute).
+
+### 5. Sources
+Every village sheet ends with a list of linked sources (`facts.sources[{ title, url }]`). Columns of a source, such as the Gazetteer's Government, Survey of India and Advisory Body spellings, are not separate sources. LGD is listed once. Source URLs: Gazetteer of the Union Territory Goa, Daman and Diu, Part 1 (1979), https://archive.org/details/dli.ministry.08183. Dr Alvarinho J. Luis, The Goan, 21 Feb 2026, https://www.thegoan.net/life-sunday/goa’s-village-names-hidden-stories-behind-them/143881.html (encode the curly apostrophe as %E2%80%99 in hrefs).
+
+### 6. Feasts show the rule and the next date
+In the sheet and in the Feasts layer: "{rule}. Next: {date}". The next date comes from `nextFeastDate(when, today)`: this year's date if it is still to come, otherwise next year's. The month filter uses the next occurrence too (`upcomingMonths`). Lunar zatras show the rule and "Lunar date, so it moves each year."
+
+### 7. Layer contrast
+- **Non-matching villages:** in Name parts and Feasts they all go to one neutral, `--map-fade` (#E4E1D9 light, #2A2721 dark), with `--map-fade-edge` borders.
+- **Matching villages:** they keep their house colour and get a 1.75px `--map-lit-outline` (soot in light, chalk in dark), drawn on top.
+- **Why the outline:** the outline against the fade is 14.3:1 (light) and 13.1:1 (dark), which meets the 3:1 requirement. House fills alone do not reach 3:1 against one neutral for every colour; the light houses (haldi, rose, lilac, sky, mustard) are about 1.5–2.0 on the light fade. Never remove the outline.
+
+### 8. Sirigao (Shirgao)
+Sirigao is the government and Gazetteer spelling, in Bicholim taluka. It is now a place (`vsirigao`, also written Shirgao) in `EXTRA_VILLAGES`, so the Lairai zatra appears in search, the Bicholim list and the Feasts list without "not on the map yet". **Data task for Claude Code:** Sirigao stays off the map for now. Load its LGD code and a point (or boundary) from the Local Government Directory, set `lgd` and `lp` in `EXTRA_VILLAGES`, and it lights up in the Feasts layer and carries its zatra glyph like any other village.
+
+### 9. Video
+Bandora: https://youtu.be/ho03VQfgEcg (Shree Mahalaxmi Mandir, Villages of Goa). The facade shows no YouTube image before the tap. At build, download the thumbnail once, self-host it as `facts.video.thumb`, then embed youtube-nocookie only on tap.
+
+### 10. First visit
+"Tap any taluka" shows from the end of the demo until the first tap, including the settled state and under reduced motion (Bardez stays lit, nothing moves). Once tapped it never returns (localStorage `khoim-tapped`).
+
+### 11. Themes
+Set `data-theme="light"` or `"dark"` explicitly on the root. Default to `prefers-color-scheme`; the About screen toggle overrides it.
+
+### TODO(copy) changes
+- **Added:**
+  - Konkani name: help us check it
+  - Village or Census Town
+  - Also written {name}
+  - {rule}. Next: {date}.
+  - Lunar date, so it moves each year.
+  - (link to add)
+  - Columns of the 1970 spelling list in the Gazetteer of Goa, Daman and Diu, 1979.
+  - Government spelling / Survey of India spelling / Advisory Body spelling
+  - For posts. Your village in Konkani
+- **Removed:** Counted as, Census town (as a fact), Town first, Two readings (for Aldona), "{place}, not on the map yet", Lunar date (as a column).
