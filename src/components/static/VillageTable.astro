@@ -1,7 +1,8 @@
 ---
 /* Every village in a taluka (or in Kushavati), as a plain table in the page's HTML: official name, Konkani names
    where a reviewer has signed them, and the Census 2011 and panchayat facts once those files are loaded
-   (phase 2 brief, A5; until then they read "To load", rule 4). It is what search engines and readers without
+   (phase 2 brief, A5). A fact column appears only when at least one village in the table has a value for it
+   (Shashank, 16 October 2026); within a shown column a missing value reads "To load" (rule 4). It is what search engines and readers without
    JavaScript see. With JavaScript the map app replaces the page; the phase 2 VillageTable brings the list into
    the app, with sorting. Until the phase 2 design lands this uses the existing tokens. */
 import { STATUS_TEXT, getPlace, pathOf } from '../../data/khoim';
@@ -21,6 +22,8 @@ const { villages, place, facts = {} } = Astro.props;
 const showTaluka = place.level === 'district';
 const rows = [...villages].sort((a, b) =>
   showTaluka ? (getPlace(a.parent)!.official.localeCompare(getPlace(b.parent)!.official) || a.official.localeCompare(b.official)) : a.official.localeCompare(b.official));
+const has = (key: keyof VillageFacts) => rows.some(v => facts[v.id]?.[key] != null);
+const showPopulation = has('population'), showPanchayat = has('panchayat'), showKind = has('kind');
 const TO_LOAD = 'To load';
 const KIND = { village: 'Village', town: 'Census Town' } as const; // TODO(copy)
 ---
@@ -35,9 +38,9 @@ const KIND = { village: 'Village', town: 'Census Town' } as const; // TODO(copy)
           <th scope="col">Village</th>
           {showTaluka && <th scope="col">Taluka</th>}
           <th scope="col">Konkani</th>
-          <th scope="col">Population (Census 2011)</th>
-          <th scope="col">Panchayat</th>
-          <th scope="col">Village or Census Town</th>
+          {showPopulation && <th scope="col">Population (Census 2011)</th>}
+          {showPanchayat && <th scope="col">Panchayat</th>}
+          {showKind && <th scope="col">Village or Census Town</th>}
         </tr>
       </thead>
       <tbody>
@@ -55,9 +58,9 @@ const KIND = { village: 'Village', town: 'Census Town' } as const; // TODO(copy)
                   </>
                 ) : STATUS_TEXT.pending}
               </td>
-              <td class="vtable__num">{f.population != null ? f.population.toLocaleString('en-IN') : TO_LOAD}</td>
-              <td>{f.panchayat ?? TO_LOAD}</td>
-              <td>{f.kind ? KIND[f.kind] : TO_LOAD}</td>
+              {showPopulation && <td class="vtable__num">{f.population != null ? f.population.toLocaleString('en-IN') : TO_LOAD}</td>}
+              {showPanchayat && <td>{f.panchayat ?? TO_LOAD}</td>}
+              {showKind && <td>{f.kind ? KIND[f.kind] : TO_LOAD}</td>}
             </tr>
           );
         })}
