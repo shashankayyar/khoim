@@ -103,3 +103,5 @@
 .k-need__swatch--lit { background: var(--house-kokum); }
 .k-need__swatch--review { background: var(--map-kokum-dim); border: 1.5px dashed var(--map-outline); }
 .k-need__swatch--outline { background: var(--map-unlit); border: 1.5px solid var(--map-outline); }
+.k-layer-panel__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 359px) { .k-layer-panel__actions { grid-template-columns: 1fr; } }

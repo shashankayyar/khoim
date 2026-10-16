@@ -19,6 +19,9 @@ import { VillageList } from '../components/village/VillageList';
 import { LayerPanel } from '../components/layers/LayerPanel';
 import { LayerRow } from '../components/layers/LayerRow';
 import { MAP_LAYERS, layerHeadline, layerWith, mappedVillages } from '../lib/layers';
+import { ShareSheet } from '../components/share/ShareSheet';
+import { Toast } from '../components/share/Toast';
+import { copyText, shareUrl } from '../lib/share';
 import { getPlace, houseOf, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
 import { CONTACT_EMAIL } from '../data/site';
@@ -126,8 +129,16 @@ function Layers({ k }: { k: Khoim }) {
   return <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />;
 }
 const layerMap = (k: Khoim) => ({ mapLayer: k.mapLayer, layerVillages: k.layered && k.villagesLoaded ? mappedVillages() : undefined, allPaths: k.allPaths });
-function Panel({ k }: { k: Khoim }) {
-  return <LayerPanel layer={k.mapLayer} onChange={k.setMapLayer} onPickPlace={k.openPlace}
+/* Share: the sheet on phones; on desktop the link is copied straight away (design, Desktop). A place's card shares
+   the place; the layer panel shares the view, at the level you are looking at. */
+const viewPlace = (k: Khoim) => getPlace(k.selected ?? k.focus ?? 'goa');
+function shareAction(k: Khoim, desktop: boolean, view: boolean) {
+  if (!desktop) return k.openShare;
+  /* if the browser will not copy, the sheet opens with the link in plain sight instead */
+  return async () => { if (await copyText(shareUrl(viewPlace(k), view ? k.mapLayer : null))) k.showToast('Link copied'); else k.openShare(); };
+}
+function Panel({ k, desktop }: { k: Khoim; desktop: boolean }) {
+  return <LayerPanel layer={k.mapLayer} onChange={k.setMapLayer} onPickPlace={k.openPlace} onShare={shareAction(k, desktop, true)}
     onHelp={k.contrib.open ? () => k.openForm(k.selected ?? k.focus ?? 'goa', 'name') : undefined} helpHref={k.contrib.open ? undefined : tellUsWhatIsWrongHref(window.location.href)} />;
 }
 
@@ -238,13 +249,13 @@ function Phone({ k }: { k: Khoim }) {
         <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
           <div className="k-phone-card">
             <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')}
-              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} />
+              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, false, false)} />
           </div>
         </Sheet>
       )}
       {!sp && k.layered && (
         <Sheet key={'l' + k.mapLayer.id} label={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} snap={k.snap} onSnap={sn => (sn === 'closed' ? k.setMapLayer(layerWith('names')) : k.setSnap(sn))} peek={peek}>
-          <Panel k={k} />
+          <Panel k={k} desktop={false} />
         </Sheet>
       )}
       {!sp && !k.layered && fp && (
@@ -255,6 +266,8 @@ function Phone({ k }: { k: Khoim }) {
       )}
       <SearchScreen k={k} />
       <ListScreen k={k} compact />
+      <ShareSheet open={k.shareOpen} place={viewPlace(k)} layer={!sp && k.layered ? k.mapLayer : null} onClose={k.closeShare} onDone={k.showToast} />
+      <Toast text={k.toast} />
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
@@ -308,13 +321,13 @@ function Desktop({ k }: { k: Khoim }) {
             ) : sp ? (
               <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
                 <div className="k-desktop-card__inner">
-                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} />
+                  <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, true, false)} />
                 </div>
               </div>
             ) : k.layered ? (
               <div className="k-desktop__panel-layer">
                 <h1 className="k-desktop__panel-headline">{layerHeadline(k.mapLayer)}</h1>
-                <Panel k={k} />
+                <Panel k={k} desktop />
               </div>
             ) : (
               <>
@@ -331,6 +344,8 @@ function Desktop({ k }: { k: Khoim }) {
           <div className="k-desktop__panel-credit"><Credit /></div>
         </aside>
       </div>
+      <ShareSheet open={k.shareOpen} place={viewPlace(k)} layer={!getPlace(k.selected) && k.layered ? k.mapLayer : null} onClose={k.closeShare} onDone={k.showToast} />
+      <Toast text={k.toast} />
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />

@@ -17,10 +17,14 @@ export interface LayerPanelProps {
   /** "Help fill this in": the contribution form, or an email when the form is off. */
   onHelp?: () => void;
   helpHref?: string;
+  /** "Share this view". */
+  onShare?: () => void;
   today?: Date;
 }
 
-export function LayerPanel({ layer, onChange, onPickPlace, onHelp, helpHref, today = new Date() }: LayerPanelProps) {
+export function LayerPanel({ layer, onChange, onPickPlace, onHelp, helpHref, onShare, today = new Date() }: LayerPanelProps) {
+  /* TODO(copy): "Share this view" is the design's */
+  const share = onShare && <div><Button variant="outline" icon="share-2" onClick={onShare}>Share this view</Button></div>;
   if (layer.id === 'parts') {
     const part = partOf(layer);
     return (
@@ -35,6 +39,7 @@ export function LayerPanel({ layer, onChange, onPickPlace, onHelp, helpHref, tod
         </div>
         <p className="k-layer-panel__lead" role="status">{`${partCount(part.id)} villages end in ${part.label}`}</p>
         <p className="k-layer-panel__small">Matched on official spellings. What each part means still needs a source.</p>
+        {share}
       </div>
     );
   }
@@ -65,6 +70,7 @@ export function LayerPanel({ layer, onChange, onPickPlace, onHelp, helpHref, tod
             })}
           </ul>
         ) : <p className="k-layer-panel__text">No feast or zatra recorded for this month yet. Know one? Tell us.</p>}
+        {share}
       </div>
     );
   }
@@ -85,7 +91,10 @@ export function LayerPanel({ layer, onChange, onPickPlace, onHelp, helpHref, tod
           {row('outline', n.outline, 'with no Konkani name yet')}
         </ul>
         <p className="k-layer-panel__text">If you know how your village is written in Devanagari or Romi, tap it and tell us.</p>
-        {(onHelp || helpHref) && <div><Button icon={onHelp ? undefined : 'mail'} href={onHelp ? undefined : helpHref} onClick={onHelp}>Help fill this in</Button></div>}
+        <div className="k-layer-panel__actions">
+          {(onHelp || helpHref) && <Button icon={onHelp ? undefined : 'mail'} href={onHelp ? undefined : helpHref} onClick={onHelp}>Help fill this in</Button>}
+          {onShare && <Button variant="outline" icon="share-2" onClick={onShare}>Share this view</Button>}
+        </div>
       </div>
     );
   }
