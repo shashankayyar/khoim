@@ -1,9 +1,9 @@
 app_no,product,village_tie,village_code,checked,match_note,locality_of,source,source_url
 120,Feni (cashew),Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
-618,Khola Chilli,"Cola (Khola), Canacona",627022,no,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
+618,Khola Chilli,"Cola (Khola), Canacona",627022,no,exact name; the phase 2 design data also uses this code. Waiting for Shashank to confirm,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 642,Harmal Chilli,"Arambol (Harmal), Pernem",626658,yes,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 655,Goan Khaje,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
-680,Myndoli Banana,"Moira, Bardez",626692,no,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
+680,Myndoli Banana,"Moira, Bardez",626692,no,exact name; the phase 2 design data also uses this code. Waiting for Shashank to confirm,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 714,Goa Cashew,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 728,Goa Mankurad Mango,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch
 746,Goan Bebinca,Goa-wide,,,,,GI Registry,https://search.ipindia.gov.in/GIRPublicSearch

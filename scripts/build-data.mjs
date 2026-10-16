@@ -27,6 +27,8 @@ import { PLACES, HOUSE_OF } from '../design/components/data/places.js';
 import { GOA_SIZE, DISTRICT_SHAPES, TALUKA_SHAPES, VILLAGES } from '../design/components/data/goaGeo.js';
 import { readCsv as readCsvAt } from './lib/csv.mjs';
 import { pageIndex } from './pages.mjs';
+import { sourcedFactCount, villageFacts } from './village-facts.mjs';
+import { openProjection } from './lib/projection.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'src/data/generated');
@@ -167,6 +169,23 @@ for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWi
   }
 }
 
+/* What each village's sheet shows beyond its names (scripts/village-facts.mjs). */
+const facts = villageFacts(root, { lgdCodes: new Set(lgdByCode.keys()), check });
+
+/* Straight-line distance to Panaji and Margao, from the label point inside each outline (phase 2 rule 7).
+   A village without an outline gets none; the two towns get none to themselves. */
+{
+  const { toLatLon } = openProjection(root);
+  const km = (a, b) => {
+    const [la1, lo1] = toLatLon(a), [la2, lo2] = toLatLon(b), r = Math.PI / 180;
+    const h = Math.sin((la2 - la1) * r / 2) ** 2 + Math.cos(la1 * r) * Math.cos(la2 * r) * Math.sin((lo2 - lo1) * r / 2) ** 2;
+    return Math.round(2 * 6371 * Math.asin(Math.sqrt(h)));
+  };
+  const panaji = villages.find(v => v.lgd === '945834'), margao = villages.find(v => v.lgd === '945836');
+  check(!!panaji?.lp && !!margao?.lp, 'Panaji (945834) and Margao (945836) need outlines to measure distances from.');
+  for (const v of villages) if (v.lp && panaji?.lp && margao?.lp) v.km = [v === panaji ? null : km(v.lp, panaji.lp), v === margao ? null : km(v.lp, margao.lp)];
+}
+
 const withShape = villages.filter(v => v.src);
 const counts = {
   lgd: lgdRows.length,
@@ -226,10 +245,11 @@ const write = (file, data) => writeFileSync(join(out, file), JSON.stringify(data
 write('places.json', places);
 write('geo-base.json', geoBase);
 write('villages.json', villages);
+write('village-facts.json', facts);
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
 /* Read only when the pages are built, never sent to the browser. */
-const index = await pageIndex(root, { places, villages, geoBase });
+const index = await pageIndex(root, { places, villages, geoBase, factCount: id => sourcedFactCount(facts[id]) });
 write('pages.json', index.pages);
 
 console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villages ` +

@@ -4,7 +4,8 @@
    - Goa, the districts and the talukas are always indexable: they carry the lists of the places inside them.
    - A village page is indexable only if it has a reviewed Konkani name (Devanagari or Romi or both, with a
      reviewer), or at least two sourced facts beyond its official name. A Gazetteer-only form never counts
-     (phase 2 rule 6). Villages have no sourced facts yet; data/build/village_facts.json adds them (A2).
+     (phase 2 rule 6). Sourced facts are counted by scripts/village-facts.mjs: each origin, each feast, product or
+     monument, and a vaddo list. Census and LGD facts join them with A2.
    Every other page carries <meta name="robots" content="noindex"> and is left out of the sitemap. Nothing is ever
    blocked in robots.txt.
 
@@ -17,7 +18,7 @@ import { join } from 'node:path';
 
 const latest = days => days.filter(Boolean).sort().at(-1) ?? null;
 
-export async function pageIndex(root, { places, villages, geoBase }) {
+export async function pageIndex(root, { places, villages, geoBase, factCount = () => 0 }) {
   const history = openHistory(root);
 
   const placeDays = await history.moduleRowDays('design/components/data/places.js', m => m.PLACES.map(p => [p.id, p]));
@@ -29,7 +30,7 @@ export async function pageIndex(root, { places, villages, geoBase }) {
   const pages = {};
   for (const v of villages) {
     const named = !!(v.deva || v.romi) && !!v.reviewer;
-    const facts = 0; // sourced facts arrive with A2
+    const facts = factCount(v.id);
     /* A Survey of India outline with no LGD row: its outline is its data. */
     const day = v.lgd ? latest([lgdDays.get(v.lgd), outlineDays.get(v.lgd)]) : shapesDay;
     pages[v.id] = { index: named || facts >= 2, lastmod: day };

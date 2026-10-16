@@ -3,7 +3,8 @@
    (format "og"): the place's house colour, a trim frame, the place's own outline, a where-line, the
    Devanagari and Romi names at the same size and the official spelling smaller, then the wordmark and
    khoim.in. A missing script is left out. A place with no Konkani name shows its official name and
-   "Konkani name: help us find it". Only names on file are used (phase 2 rule 6).
+   "Konkani name: help us check it" when a source gives a form nobody has checked yet (the Gazetteer's), or
+   "Konkani name: help us find it" when none does. The unchecked form itself never appears (phase 2 rule 6).
    Text is shaped by HarfBuzz (shape.mjs) and drawn as outlines; resvg turns the SVG into a PNG.
    The address of each image matches ogImagePath() in src/data/seo.ts. */
 import { Resvg } from '@resvg/resvg-js';
@@ -19,11 +20,11 @@ const FONTS = join(root, 'scripts/og/fonts');
 const DEVA = join(FONTS, 'AnekDevanagari-devanagari-600.ttf');
 const LATIN = { 500: join(FONTS, 'AnekLatin-latin-500.ttf'), 600: join(FONTS, 'AnekLatin-latin-600.ttf') };
 const SITE = { deva: 'खंय', romi: 'Khoim' }; // src/data/site.ts
-const NO_NAME = 'Konkani name: help us find it';
+const FIND = 'Konkani name: help us find it', CHECK = 'Konkani name: help us check it';
 
 /* ---------- Data ---------- */
 
-const places = read('places.json'), villages = read('villages.json'), geo = read('geo-base.json');
+const places = read('places.json'), villages = read('villages.json'), geo = read('geo-base.json'), facts = read('village-facts.json');
 const byId = new Map(places.map(p => [p.id, p]));
 const villagePaths = Object.assign({}, ...readdirSync(join(gen, 'village-paths')).map(f => read('village-paths/' + f)));
 
@@ -77,6 +78,7 @@ function column(lines, x, top, height, gap) {
 
 function card(p) {
   const named = !!(p.deva || p.romi);
+  const NO_NAME = facts[p.id]?.gazetteerDeva ? CHECK : FIND;
   /* Name size: 112, or smaller so that the longest name fits the column and every line fits the height. */
   const fitWidth = (font, text, size) => Math.min(size, size * namesW / shapeLine(font, text, size).width);
   const big = [p.deva && [DEVA, p.deva], p.romi && [LATIN[600], p.romi], !named && [LATIN[600], p.official]].filter(Boolean);

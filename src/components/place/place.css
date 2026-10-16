@@ -40,7 +40,9 @@ button.k-sheet__handle::after { content: ""; position: absolute; inset: -8px 0; 
 .k-card__names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
 .k-card__romi { font: var(--weight-strong) var(--size-name-m)/1.3 var(--font-latin); }
 .k-card.is-expanded .k-card__romi { font-size: var(--size-name-l); }
-.k-card__no-romi { font: var(--weight-regular) 17px/1.4 var(--font-latin); }
+/* a script we do not have yet: a dashed box (phase 2), never faded text */
+.k-card__no-romi { justify-self: start; border: var(--placeholder-border); border-radius: var(--radius-s); padding: 4px 10px; font: var(--weight-strong) 15px/1.35 var(--font-latin); }
+.k-card__review { display: grid; gap: 2px; margin-top: 8px; }
 .k-card__official { font: var(--weight-regular) 18px/1.3 var(--font-latin); }
 
 .k-card__actions { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
