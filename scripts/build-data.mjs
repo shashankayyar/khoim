@@ -19,7 +19,7 @@
      (Shashank's decision, 4 October 2026). The other script is never worked out from the one we have.
    - The build stops with a plain message if the sources disagree with each other. */
 
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PLACES, HOUSE_OF } from '../design/components/data/places.js';
@@ -174,6 +174,15 @@ for (const v of villages) {
   check(!taken.has(v.t + '/' + slug), `Two villages in ${v.t} end up with the page address "${slug}".`);
   taken.add(v.t + '/' + slug);
   v.slug = slug;
+}
+
+/* Credited and hand-built datasets (data/credited/). A village code there must be a real LGD code. Rows stay off
+   the site until checked=yes (a person has confirmed the match); this only stops typos. */
+for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWith('.csv'))) {
+  for (const r of readCsv('data/credited/' + file)) {
+    if (r.village_code) check(lgdByCode.has(r.village_code), `data/credited/${file}: village_code ${r.village_code} is not in data/villages_lgd.csv.`);
+    if ('checked' in r && r.village_code) check(['yes', 'no'].includes(r.checked), `data/credited/${file}: checked must be yes or no (row for ${r.village_code}).`);
+  }
 }
 
 const withShape = villages.filter(v => v.src);

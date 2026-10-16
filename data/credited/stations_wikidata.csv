@@ -1,0 +1,24 @@
+name,code,qid,lat,lon,osm_check,source,source_url
+Madgaon Junction,MAO,Q12444973,15.267911,73.970724,OpenStreetMap places it 284 m away,Wikidata (CC0),https://www.wikidata.org/wiki/Q12444973
+Chandar,CNR,Q29026315,15.264834,74.047794,OpenStreetMap writes Chandar Goa,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026315
+San Juje Da Areyal,SJDA,Q29026317,15.2657,74.0108,OpenStreetMap writes Sanjuje-Da-Areyal,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026317
+Vasco da Gama,VSG,Q18750588,15.3961,73.8119,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q18750588
+Marmagao,MRH,Q29026302,15.4089,73.7992,not found in OpenStreetMap as a station,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026302
+Canacona,CNO,Q24948269,15.006906,74.039454,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q24948269
+Loliem,LOL,Q27048830,14.939155,74.08778,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q27048830
+Balli,BLLI,Q25549105,15.1517258,74.0209756,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q25549105
+Suravali,SRVX,Q25573789,15.291947,73.939328,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q25573789
+Pernem,PERN,Q24807835,15.707894,73.816537,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q24807835
+Tivim,THVM,Q24885669,15.62955,73.876104,OpenStreetMap writes Thivim,Wikidata (CC0),https://www.wikidata.org/wiki/Q24885669
+Curchorem,SVM,Q24948844,15.264064,74.10866,OpenStreetMap writes Sanvordem Curchorem,Wikidata (CC0),https://www.wikidata.org/wiki/Q24948844
+Kalem,KM,Q29026323,15.293341,74.188843,OpenStreetMap places it 498 m away,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026323
+Kulem,QLM,Q29026328,15.334036,74.24423,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026328
+Sonalium,LIM,Q29026331,15.3094,74.2986,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026331
+Dudh Sagar,DDS,Q29026335,15.3166,74.3064,OpenStreetMap writes Dudhsagar,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026335
+Caranzol,CRZ,Q29026338,15.36074913,74.306197765,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026338
+Majorda Junction,MJO,Q24948517,15.314045,73.922408,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q24948517
+Karmali,KRMI,Q25573786,15.4902129,73.9246644,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q25573786
+Verna,VEN,Q25574160,15.353587,73.912519,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q25574160
+Dabolim,DBM,Q29026307,15.3873,73.8514,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026307
+Sankval,SKVL,Q29026311,15.370791,73.867713,OpenStreetMap writes Sankaval,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026311
+Cansaulim,CSM,Q29026313,15.344532,73.897226,matches,Wikidata (CC0),https://www.wikidata.org/wiki/Q29026313
