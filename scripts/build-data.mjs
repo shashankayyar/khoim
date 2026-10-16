@@ -151,6 +151,8 @@ const taken = new Set();
 for (const v of villages) {
   const base = slugify(v.n);
   check(!!base, `Village ${v.id} has a name that makes an empty page address.`);
+  /* villages/ after a taluka's address is its village list */
+  check(base !== 'villages', `Village ${v.id} would take the address villages/, which is the taluka's village list.`);
   let slug = base;
   if (taken.has(v.t + '/' + slug)) slug = base + '-' + v.id.slice(1);
   check(!taken.has(v.t + '/' + slug), `Two villages in ${v.t} end up with the page address "${slug}".`);

@@ -59,3 +59,42 @@
 
 /* A Gazetteer form nobody has checked: shown on the sheet only, with the Romi slot marked as missing */
 .k-card__deva-source { font: var(--weight-regular) 14px/1.4 var(--font-latin); }
+
+/* ---------- The village list (phase 2, screen 10) ---------- */
+.k-vlist { display: grid; gap: 10px; }
+.k-vlist__sort { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.k-vlist__sort-label { margin-right: 4px; font: var(--weight-strong) 14px/1 var(--font-latin); }
+.k-vlist__sort-button {
+  min-height: var(--tap-min); padding: 0 12px; border-radius: var(--radius-m); cursor: pointer;
+  border: 2px solid var(--line); background: var(--surface-raised); color: var(--text);
+  font: var(--weight-strong) 14px/1 var(--font-latin);
+}
+.k-vlist__sort-button[aria-pressed="true"] { border-color: var(--text); background: var(--surface-invert); color: var(--text-invert); }
+.k-vlist__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.k-vlist__row {
+  width: 100%; min-height: 60px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+  text-align: left; border: 0; border-radius: var(--radius-m); background: var(--surface-raised); color: var(--text);
+  padding: 8px 14px; cursor: pointer;
+}
+.k-vlist__names { display: grid; }
+.k-vlist__deva { font: var(--weight-strong) 20px/1.5 var(--font-deva); }
+.k-vlist__official { font: var(--weight-strong) 17px/1.3 var(--font-latin); }
+.k-vlist__status { font: var(--weight-regular) 14px/1.4 var(--font-latin); }
+
+.k-vtable { width: 100%; border-collapse: collapse; color: var(--text); font: var(--weight-regular) 15px/1.3 var(--font-latin); }
+.k-vtable caption { text-align: left; padding: 0 0 10px; font: var(--weight-regular) 15px/1.4 var(--font-latin); }
+.k-vtable thead th { padding: 0; text-align: left; border-bottom: 2px solid var(--text); }
+.k-vtable__sort, .k-vtable__head {
+  width: 100%; min-height: var(--tap-min); display: flex; align-items: center; gap: 6px; padding: 0 10px; box-sizing: border-box;
+  border: 0; background: transparent; color: var(--text); font: var(--weight-strong) 14px/1.3 var(--font-latin);
+}
+.k-vtable__sort { cursor: pointer; }
+.k-vtable tbody tr { border-bottom: 1px solid var(--line); }
+.k-vtable tbody th { padding: 0; text-align: left; font-weight: inherit; }
+.k-vtable td { padding: 0 10px; }
+.k-vtable__pick {
+  min-height: var(--tap-min); border: 0; background: transparent; color: var(--text); padding: 0 10px; cursor: pointer; text-align: left;
+  font: var(--weight-strong) 16px/1.3 var(--font-latin); text-decoration: underline; text-underline-offset: 4px;
+}
+.k-vtable__deva { font: var(--weight-strong) 18px/1.5 var(--font-deva); }
+.k-vtable__romi { font: var(--weight-strong) 16px/1.3 var(--font-latin); }

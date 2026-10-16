@@ -7,6 +7,7 @@ import { Icon } from '../components/core/Icon';
 import { IconButton } from '../components/core/IconButton';
 import { ScriptToggle } from '../components/core/ScriptToggle';
 import { Wordmark } from '../components/core/Wordmark';
+import { Button } from '../components/core/Button';
 import { ContributeForm } from '../components/contribute/ContributeForm';
 import { GoaMap } from '../components/map/GoaMap';
 import { PlaceCard } from '../components/place/PlaceCard';
@@ -14,6 +15,7 @@ import { PlaceStrip } from '../components/place/PlaceStrip';
 import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
+import { VillageList } from '../components/village/VillageList';
 import { getPlace, houseOf, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
 import { CONTACT_EMAIL } from '../data/site';
@@ -37,11 +39,13 @@ export interface KhoimAppProps {
   initialId?: string;
   /** On a village page: that village's record, so its card can show before the full list loads. */
   initialVillage?: RawVillage;
+  /** On a taluka's villages/ page: open with the list showing. */
+  initialList?: boolean;
 }
 
-export default function KhoimApp({ initialId, initialVillage }: KhoimAppProps) {
+export default function KhoimApp({ initialId, initialVillage, initialList }: KhoimAppProps) {
   const desktop = useMediaQuery(DESKTOP);
-  const k = useKhoim({ desktop, initialId, initialVillage });
+  const k = useKhoim({ desktop, initialId, initialVillage, initialList });
   useEffect(() => {
     paintedOnce = true;
     document.documentElement.dataset.app = 'ready';
@@ -111,6 +115,42 @@ function Crumbs({ k }: { k: Khoim }) {
         </Fragment>
       ))}
     </nav>
+  );
+}
+
+/* "See all as a list", under the strip of a taluka's villages (phase 2). */
+function ListButton({ k }: { k: Khoim }) {
+  const fp = getPlace(k.focus);
+  if (fp?.level !== 'taluka') return null;
+  return <div className="k-list-button"><Button variant="ghost" size="m" icon="list" onClick={k.openList}>See all as a list</Button></div>;
+}
+
+/* The taluka's villages as a list: a screen of its own on the phone, over the map on desktop. Back, Escape and the
+   browser's back button close it. Picking a village opens its card. */
+function ListScreen({ k, compact }: { k: Khoim; compact: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useDialog(ref, k.listOpen, k.closeList);
+  const t = getPlace(k.focus);
+  const open = k.listOpen && !!t;
+  return (
+    <div ref={ref} tabIndex={-1} className={open ? 'k-list-screen is-open' : 'k-list-screen'} role="dialog" aria-modal="true" aria-labelledby="k-list-title" aria-hidden={!open}>
+      {open && t && (
+        <>
+          <div className="k-list-screen__top">
+            {/* TODO(copy): "Back to the map" is in the design's list of new wording */}
+            <IconButton icon="arrow-left" label="Back to the map" onClick={k.closeList} />
+            {/* TODO(copy): "Villages in {taluka}" is the design's list title */}
+            <h1 id="k-list-title" className="k-list-screen__title">
+              {t.deva && <span className="k-list-screen__deva" lang="gom">{t.deva}</span>}
+              <span>{'Villages in ' + t.official}</span>
+            </h1>
+          </div>
+          <div className="k-list-screen__body">
+            {k.villagesLoaded && <VillageList taluka={t.id} compact={compact} onPick={id => { k.select(id); if (compact) k.setSnap('full'); }} />}
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
@@ -188,9 +228,11 @@ function Phone({ k }: { k: Khoim }) {
       {!sp && fp && (
         <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
           <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} {...marksOf(k)} />
+          <ListButton k={k} />
         </Sheet>
       )}
       <SearchScreen k={k} />
+      <ListScreen k={k} compact />
       <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
@@ -227,9 +269,11 @@ function Desktop({ k }: { k: Khoim }) {
           )}
           {fp && (
             <div className="k-desktop-strip">
+              <ListButton k={k} />
               <PlaceStrip parent={fp.id} script={k.script} active={k.hot || k.selected} onFocusPlace={k.setHot} onPick={k.select} headingLevel={sp ? 2 : 1} {...marksOf(k)} />
             </div>
           )}
+          <ListScreen k={k} compact={false} />
         </main>
         <aside className="k-desktop__panel" aria-label="Names">
           <div className="k-desktop__panel-top">

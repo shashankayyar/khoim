@@ -1,6 +1,7 @@
 ---
 /* One page for every district, taluka and village:
-   /south-goa/, /south-goa/salcete/, /south-goa/salcete/raia/ */
+   /south-goa/, /south-goa/salcete/, /south-goa/salcete/raia/
+   and each taluka's village list: /south-goa/salcete/villages/ (phase 2). */
 import PlacePage from '../layouts/PlacePage.astro';
 import villagesJson from '../data/generated/villages.json';
 import { PLACES, allVillages, pathOf, registerVillages } from '../data/khoim';
@@ -8,14 +9,19 @@ import type { RawVillage } from '../data/types';
 
 export function getStaticPaths() {
   registerVillages(villagesJson as unknown as RawVillage[]);
-  return [...PLACES.filter(p => p.level !== 'state'), ...allVillages()].map(p => ({
+  const places = [...PLACES.filter(p => p.level !== 'state'), ...allVillages()].map(p => ({
     params: { path: pathOf(p).slice(1, -1) },
-    props: { placeId: p.id }
+    props: { placeId: p.id, list: false }
   }));
+  const lists = PLACES.filter(p => p.level === 'taluka').map(p => ({
+    params: { path: pathOf(p).slice(1) + 'villages' },
+    props: { placeId: p.id, list: true }
+  }));
+  return [...places, ...lists];
 }
 
-interface Props { placeId: string }
-const { placeId } = Astro.props;
+interface Props { placeId: string; list: boolean }
+const { placeId, list } = Astro.props;
 ---
 
-<PlacePage placeId={placeId} />
+<PlacePage placeId={placeId} list={list} />
