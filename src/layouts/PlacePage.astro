@@ -8,11 +8,12 @@ import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { PlaceCard } from '../components/place/PlaceCard';
-import pagesJson from '../data/generated/pages.json';
+import { PAGE_INDEX } from '../data/pageIndex';
 import villagesJson from '../data/generated/villages.json';
 import { allVillagesOf, childrenOf, getPlace, houseOf, pathOf, registerVillages, trailOf } from '../data/khoim';
-import { pageMeta } from '../data/seo';
-import type { PageIndex, RawVillage } from '../data/types';
+import { jsonLdText, structuredData } from '../data/jsonld';
+import { ogImagePath, pageMeta } from '../data/seo';
+import type { RawVillage } from '../data/types';
 import { tellUsWhatIsWrongHref } from '../lib/mailto';
 import '../styles/static.css';
 import VillageTable from '../components/static/VillageTable.astro';
@@ -32,7 +33,10 @@ const place = getPlace(placeId ?? 'goa')!;
 const home = place.level === 'state';
 const meta = pageMeta(place);
 /* Village pages without a reviewed name or two sourced facts stay out of search results (scripts/pages.mjs). */
-const indexable = (pagesJson as PageIndex).places[place.id]?.index ?? false;
+const indexable = PAGE_INDEX.places[place.id]?.index ?? false;
+const jsonLd = notFound ? undefined : jsonLdText(structuredData(place, PAGE_INDEX, Astro.site!));
+/* What the preview image shows, for people who cannot see it: the names on file, then the official name. */
+const ogImageAlt = [place.deva, place.romi, place.official].filter(Boolean).join(', ') + '. Khoim, khoim.in';
 const path = pathOf(place);
 const pageUrl = new URL(path, Astro.site).href;
 const trail = trailOf(place.id);
@@ -43,7 +47,7 @@ const tableOf = place.level === 'taluka' ? allVillagesOf(place.id)
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
 ---
 
-<Base title={meta.title} description={meta.description} path={path} noindex={notFound || !indexable}>
+<Base title={meta.title} description={meta.description} path={path} noindex={notFound || !indexable} ogImage={ogImagePath(place)} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
   <div id="khoim-static" class:list={['static', home ? 'static--home' : 'static--place']}>
     <div class="static__banner"><DraftBanner tellUsHref={tellUsWhatIsWrongHref(pageUrl)} /></div>
     <div class="static__body">

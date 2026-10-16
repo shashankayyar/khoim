@@ -99,6 +99,13 @@ export interface SearchHit { place: Place; field: 'deva' | 'romi' | 'official' |
 
 /** Written by scripts/pages.mjs: which pages search engines may index, and the day each page's data last changed. */
 export interface PageIndex {
-  places: Record<string, { index: boolean; lastmod: string | null }>;
+  places: Record<string, {
+    index: boolean;
+    lastmod: string | null;
+    /** [latitude, longitude] of the label point inside the place's outline. */
+    geo?: [number, number];
+    /** Wikidata item, for Goa, the districts and the talukas. */
+    qid?: string;
+  }>;
   other: Record<string, string | null>;
 }

@@ -1,14 +1,14 @@
 /* A list of the pages search engines may index, each with the day its data last changed. Pages without a Konkani
    name or two sourced facts are left out (they carry noindex); scripts/pages.mjs decides which. */
 import type { APIRoute } from 'astro';
-import pagesJson from '../data/generated/pages.json';
+import { PAGE_INDEX } from '../data/pageIndex';
 import villagesJson from '../data/generated/villages.json';
 import { PLACES, allVillages, pathOf, registerVillages } from '../data/khoim';
-import type { PageIndex, RawVillage } from '../data/types';
+import type { RawVillage } from '../data/types';
 
 export const GET: APIRoute = ({ site }) => {
   registerVillages(villagesJson as unknown as RawVillage[]);
-  const index = pagesJson as PageIndex;
+  const index = PAGE_INDEX;
   const urls: [string, string | null][] = [...PLACES, ...allVillages()]
     .filter(p => index.places[p.id]?.index)
     .map(p => [pathOf(p), index.places[p.id].lastmod]);

@@ -9,7 +9,7 @@
   "scripts": {
     "data": "node scripts/build-data.mjs",
     "dev": "npm run data && astro dev",
-    "build": "npm run data && astro check && astro build",
+    "build": "npm run data && astro check && astro build && node scripts/og/cards.mjs",
     "preview": "astro preview",
     "check": "npm run data && astro check",
     "astro": "astro"
@@ -25,8 +25,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@resvg/resvg-js": "2.6.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "harfbuzzjs": "1.6.2",
     "typescript": "6.0.3",
     "wrangler": "4.145.0"
   }
