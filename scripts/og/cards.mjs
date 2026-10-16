@@ -12,6 +12,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { baselineIn, shapeLine } from './shape.mjs';
+import { twoTonePng } from './png.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const gen = join(root, 'src/data/generated');
@@ -140,7 +141,8 @@ let count = 0, bytes = 0;
 for (const p of all) for (const format of Object.keys(FORMATS)) {
   const file = join(out, imagePath(p, format));
   mkdirSync(dirname(file), { recursive: true });
-  const png = new Resvg(card(p, format), { font: { loadSystemFonts: false } }).render().asPng();
+  const img = new Resvg(card(p, format), { font: { loadSystemFonts: false } }).render();
+  const png = twoTonePng(img.pixels, img.width, img.height, colour('house-' + p.house), colour('house-' + p.house + '-on'));
   writeFileSync(file, png);
   count++; bytes += png.length;
 }
