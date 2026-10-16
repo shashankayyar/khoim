@@ -349,11 +349,17 @@ export function GoaMap({
             const [x, y] = P(v.lp!);
             return <span key={'m' + v.id} className="k-map__mark k-map__mark--village" aria-hidden="true" style={{ left: x, top: y }}><Icon name={markIcon} size={16} />{markAt(v.id) > 1 ? markAt(v.id) : null}</span>;
           })}
-          {/* stations: a small tag with the name, not a button */}
-          {s > 0 && stations.map(st => {
-            const [x, y] = P(st.at);
-            return <span key={'sn' + st.code} className="k-map__station-tag" style={{ left: x + 10, top: y }}><Icon name="train-front" size={14} />{st.n}</span>;
-          })}
+          {/* stations: a small tag with the name, not a button. A tag that would sit on another is left out
+              (its square stays on the line). Tag width is estimated from the name: 7px a letter plus the icon. */}
+          {s > 0 && (() => {
+            const placed: [number, number, number, number][] = [];
+            return stations.map(st => {
+              const [x, y] = P(st.at), r: [number, number, number, number] = [x + 10, y - 11, x + 10 + 34 + st.n.length * 7, y + 11];
+              if (placed.some(q => r[0] < q[2] && q[0] < r[2] && r[1] < q[3] && q[1] < r[3])) return null;
+              placed.push(r);
+              return <span key={'sn' + st.code} className="k-map__station-tag" style={{ left: x + 10, top: y }}><Icon name="train-front" size={14} />{st.n}</span>;
+            });
+          })()}
           {/* neighbours of the selected village: tags that move you across */}
           {s > 0 && nbrs.map(nb => {
             const [x, y] = P(nb.lp!);
