@@ -187,7 +187,7 @@ function Phone({ k }: { k: Khoim }) {
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
         <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} {...marksOf(k)} />
+          insetTop={first ? firstTop : 124} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} {...marksOf(k)} />
       </main>
       <header className="k-phone-header">
         <div className="k-phone-header__row">
@@ -250,7 +250,7 @@ function Desktop({ k }: { k: Khoim }) {
       <div className="k-desktop">
         <main className="k-desktop__map">
           <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} {...marksOf(k)} />
+            insetTop={96} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} creditAt="top" {...marksOf(k)} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>

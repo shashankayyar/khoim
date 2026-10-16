@@ -26,6 +26,16 @@
 .k-map__wipe.is-painted { transform: scaleX(1); }
 
 .k-map__village { fill: none; stroke: var(--trim); stroke-opacity: .45; stroke-width: 1; }
+/* phase 2: the selected village's neighbours get a light wash; the village itself a trim outline */
+.k-map__village.is-near { fill: rgba(255, 255, 255, .14); stroke-opacity: .5; }
+.k-map__village-on { fill: none; stroke: var(--trim); stroke-width: 3; stroke-linejoin: round; pointer-events: none; }
+/* rivers and railway from OpenStreetMap: a 6px casing under each line */
+.k-map__line-casing, .k-map__line { fill: none; pointer-events: none; stroke-linecap: round; stroke-linejoin: round; }
+.k-map__river .k-map__line-casing { stroke: var(--map-river-casing); stroke-width: 6; }
+.k-map__river .k-map__line { stroke: var(--map-river); stroke-width: 3; }
+.k-map__rail .k-map__line-casing { stroke: var(--map-rail-tie); stroke-width: 6; stroke-linecap: butt; }
+.k-map__rail .k-map__line { stroke: var(--map-rail); stroke-width: 2; stroke-linecap: butt; }
+.k-map__station { fill: var(--trim); stroke: var(--map-rail); pointer-events: none; }
 .k-map__dot { fill: var(--trim); stroke: none; }
 .k-map__dot.is-on { stroke: var(--house-on); }
 .k-map__hit { fill: transparent; cursor: pointer; }
@@ -73,10 +83,11 @@
 .k-map__tag {
   position: absolute; transform: translate(-50%, -100%);
   background: var(--surface-raised); color: var(--text);
-  padding: 4px 10px; border-radius: var(--radius-m);
-  font: var(--weight-strong) 15px/1.4 var(--font-latin); white-space: nowrap;
+  padding: 4px 12px; border-radius: var(--radius-m);
+  font: var(--weight-strong) 17px/1.5 var(--font-latin); white-space: nowrap;
   box-shadow: var(--shadow-2);
 }
+.k-map__tag--deva { font-family: var(--font-deva); }
 
 .k-loupe {
   position: absolute; width: 220px; box-sizing: border-box; pointer-events: none;
@@ -87,3 +98,37 @@
 .k-loupe__name { font: var(--weight-strong) 26px/1.5 var(--font-latin); }
 .k-loupe__name--deva { font: var(--weight-strong) 32px/1.5 var(--font-deva); }
 .k-loupe__more { font: var(--weight-regular) 15px/1.35 var(--font-latin); }
+
+/* ---------- Phase 2: inside a taluka ---------- */
+.k-map__station-tag {
+  position: absolute; transform: translateY(-50%); display: flex; align-items: center; gap: 4px; pointer-events: none;
+  background: var(--surface-raised); color: var(--text); padding: 2px 7px; border-radius: var(--radius-xs);
+  font: var(--weight-strong) 12px/1.4 var(--font-latin); white-space: nowrap;
+}
+/* a neighbour's name: a small white tag, 44px to touch */
+.k-map__near {
+  position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer;
+  min-width: var(--label-hit); min-height: var(--label-hit); display: grid; place-items: center;
+  border: 0; background: transparent; padding: 0 6px; color: var(--text); white-space: nowrap;
+}
+.k-map__near-name { background: var(--surface-raised); padding: 1px 7px; border-radius: var(--radius-xs); font: var(--weight-strong) 13px/1.5 var(--font-latin); }
+.k-map__near-name--deva { font-family: var(--font-deva); }
+.k-map__near:active .k-map__near-name { box-shadow: var(--shadow-1); transform: scale(.94); }
+/* glyph tiles: white with soot icons in both themes, 30px to see, 44px to touch */
+.k-map__glyphs { position: absolute; display: flex; gap: 2px; pointer-events: none; }
+.k-map__glyph {
+  pointer-events: auto; width: var(--glyph-hit); height: var(--glyph-hit); margin: -7px; padding: 7px; box-sizing: border-box;
+  border: 0; background: transparent; cursor: pointer; display: grid; place-items: center;
+}
+.k-map__glyph-tile {
+  width: var(--glyph-tile); height: var(--glyph-tile); box-sizing: border-box; border-radius: var(--radius-s);
+  background: var(--glyph-bg); color: var(--glyph-ink); border: 2px solid var(--glyph-ink); display: grid; place-items: center;
+}
+.k-map__glyph:active .k-map__glyph-tile { transform: scale(.9); }
+.k-map__credit { position: absolute; margin: 0; z-index: 1; }
+.k-map__credit a {
+  display: inline-flex; align-items: center; min-height: var(--tap-min); box-sizing: border-box;
+  color: var(--text); font: var(--weight-strong) 12px/1.3 var(--font-latin); text-decoration: underline; text-underline-offset: 3px;
+}
+.k-map__credit a span { background: var(--surface-raised); padding: 2px 7px; border-radius: var(--radius-xs); }
+@media (prefers-reduced-motion: reduce) { .k-map__near:active .k-map__near-name, .k-map__glyph:active .k-map__glyph-tile { transform: none; } }

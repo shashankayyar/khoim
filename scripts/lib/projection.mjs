@@ -1,7 +1,8 @@
 /* The map's projection, run backwards: from a point on the 1000-wide map plane to latitude and longitude.
    data/scripts/build_geo.py draws the map with x = (lon - minLon) * k * sx and y = (maxLat - lat) * sx,
    where the bounds are those of the LGD taluka file and k = cos(middle latitude). The same bounds are read
-   here, so the two always agree. Used for the geo of each place in its structured data. */
+   here, so the two always agree. Used for the geo of each place in its structured data, and to draw
+   OpenStreetMap's rivers and railway and the stations on the same plane. */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -17,6 +18,10 @@ export function openProjection(root) {
   const k = Math.cos((minLat + maxLat) / 2 * Math.PI / 180), sx = 1000 / ((maxLon - minLon) * k);
   return {
     /** [x, y] on the map plane to [latitude, longitude], to about a metre. */
-    toLatLon: ([x, y]) => [+(maxLat - y / sx).toFixed(5), +(minLon + x / (k * sx)).toFixed(5)]
+    toLatLon: ([x, y]) => [+(maxLat - y / sx).toFixed(5), +(minLon + x / (k * sx)).toFixed(5)],
+    /** [longitude, latitude] to [x, y] on the map plane, the way build_geo.py draws the outlines. */
+    toMap: ([lon, lat]) => [(lon - minLon) * k * sx, (maxLat - lat) * sx],
+    /** The LGD taluka outlines, in longitude and latitude, for finding which taluka a point is in. */
+    talukaFeatures: g.features
   };
 }

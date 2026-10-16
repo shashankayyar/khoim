@@ -29,6 +29,7 @@ import { readCsv as readCsvAt } from './lib/csv.mjs';
 import { pageIndex } from './pages.mjs';
 import { sourcedFactCount, villageFacts } from './village-facts.mjs';
 import { openProjection } from './lib/projection.mjs';
+import { mapExtra } from './map-extra.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'src/data/generated');
@@ -249,6 +250,12 @@ write('geo-base.json', geoBase);
 write('villages.json', villages);
 write('village-facts.json', facts);
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
+
+/* Inside a taluka: neighbours, rivers and railway (OpenStreetMap), stations. */
+mkdirSync(join(out, 'map-extra'), { recursive: true });
+const extra = mapExtra(root, { talukas, paths, viewOf: id => geoBase.talukas[id].view ?? geoBase.talukas[id].b, check });
+if (problems.length) { console.error('\nKhoim data: the build stopped.\n'); for (const p of problems) console.error('  - ' + p); process.exit(1); }
+for (const t of talukas) write(`map-extra/${t.id}.json`, extra[t.id]);
 
 /* Read only when the pages are built, never sent to the browser. */
 const index = await pageIndex(root, { places, villages, geoBase, factCount: id => sourcedFactCount(facts[id]) });

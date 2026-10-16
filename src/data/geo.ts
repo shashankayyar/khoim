@@ -30,3 +30,23 @@ export function loadVillagePaths(talukaId: string): Promise<VillagePaths> {
   }
   return p;
 }
+
+/** Inside a taluka (scripts/map-extra.mjs): each village's neighbours, the boxes needed to frame a village with
+    them, rivers and railway from OpenStreetMap (k: 'river' | 'rail'), and railway stations. */
+export interface MapExtra {
+  nb: Record<string, string[]>;
+  box: Record<string, [number, number, number, number]>;
+  lines: { k: 'river' | 'rail'; n: string | null; d: string }[];
+  stations: { n: string; code: string; at: [number, number] }[];
+}
+
+const extraLoaders = import.meta.glob<{ default: MapExtra }>('./generated/map-extra/*.json');
+const extraCache = new Map<string, MapExtra>();
+
+/** Fetches one taluka's neighbours, lines and stations once. */
+export function loadMapExtra(talukaId: string): Promise<MapExtra | null> {
+  const have = extraCache.get(talukaId);
+  if (have) return Promise.resolve(have);
+  const load = extraLoaders[`./generated/map-extra/${talukaId}.json`];
+  return load ? load().then(m => { extraCache.set(talukaId, m.default); return m.default; }) : Promise.resolve(null);
+}
