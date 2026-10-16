@@ -10,10 +10,15 @@
 
    With a layer other than Names switched on, a place that has something in that layer carries a small white
    tile with the layer's icon and a count (the design's plan for layer marks: white trim tiles, never pins).
-   The tile is not a button of its own: tapping the place opens its card, where the things are. */
+   The tile is not a button of its own: tapping the place opens its card, where the things are.
+
+   Phase 2, inside a taluka: rivers and railway from OpenStreetMap (credited on the map) with the stations, and a
+   glyph tile beside each village known for something (a parish feast, a zatra, a GI product). Each glyph is a
+   button that opens its village. A selected village is framed with its neighbours: it gets a trim outline and its
+   name, and each neighbour gets a small name tag that moves you across. */
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react';
-import { DISTRICT_IDS, GEO, TALUKA_IDS, type VillagePaths } from '../../data/geo';
-import { STATUS_TEXT, childCount, getPlace, houseOf, nameIn, whereLabel } from '../../data/khoim';
+import { DISTRICT_IDS, GEO, TALUKA_IDS, type MapExtra, type VillagePaths } from '../../data/geo';
+import { STATUS_TEXT, childCount, factsOf, getPlace, houseOf, nameIn, spokenName, whereLabel } from '../../data/khoim';
 import type { Box, Place, Point, Script } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
 import { Icon } from '../core/Icon';
@@ -28,6 +33,15 @@ const NUDGE: Record<string, Point> = { mormugao: [-10, 4], 'south-goa': [10, 30]
 const labelPoint = (id: string, lp: Point): Point => { const n = NUDGE[id] || [0, 0]; return [lp[0] + n[0], lp[1] + n[1]]; };
 const districtOf = (talukaId: string) => T[talukaId].district;
 const houseKey = (id: string) => houseOf(getPlace(id)).key;
+
+/* A selected village, framed with its neighbours so their names have room: the boxes of all of them, plus 8%. */
+function hoodBox(id: string, extra: MapExtra): Box | null {
+  const ids = [id, ...(extra.nb[id] ?? [])].filter(i => extra.box[i]);
+  if (!extra.box[id]) return null;
+  const b = ids.reduce<Box>((a, i) => { const x = extra.box[i]; return [Math.min(a[0], x[0]), Math.min(a[1], x[1]), Math.max(a[2], x[2]), Math.max(a[3], x[3])]; }, [Infinity, Infinity, -Infinity, -Infinity]);
+  const pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.08;
+  return [b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad];
+}
 
 function boxFor(focus: string | null): Box {
   const b = focus ? (T[focus]?.view ?? T[focus]?.b ?? D[focus]?.b) : null;
@@ -77,11 +91,18 @@ export interface GoaMapProps {
   marks?: Record<string, number> | null;
   markIcon?: IconName;
   markLabel?: string;
+  /** Inside a taluka: neighbours, rivers and railway, stations (src/data/geo.ts). */
+  extra?: MapExtra | null;
+  /** Once the village facts have loaded: draw the glyphs of what villages are known for. */
+  factsReady?: boolean;
+  /** Where OpenStreetMap's credit sits: above the sheet on phones, under the header on desktop (the strip is below). */
+  creditAt?: 'top' | 'bottom';
 }
 
 export function GoaMap({
   focus = null, selected = null, hot = null, script = 'deva', onSelect, onHot,
-  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, paintIn = false, villages, villagePaths, marks, markIcon, markLabel
+  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, paintIn = false, villages, villagePaths, marks, markIcon, markLabel,
+  extra = null, factsReady = false, creditAt = 'bottom'
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null), stage = useRef<HTMLDivElement>(null), labelLayer = useRef<HTMLDivElement>(null);
@@ -102,7 +123,8 @@ export function GoaMap({
     return () => timers.forEach(clearTimeout);
   }, [paintIn, reduce]);
 
-  const box = boxFor(focus), bw = box[2] - box[0], bh = box[3] - box[1];
+  const framing = focus && extra && selected && selected[0] === 'v' && getPlace(selected)?.parent === focus ? hoodBox(selected, extra) : null;
+  const box = framing ?? boxFor(focus), bw = box[2] - box[0], bh = box[3] - box[1];
   const aw = Math.max(1, w - insetLeft - insetRight - 24), ah = Math.max(1, h - insetTop - insetBottom);
   const s = w && h ? Math.min(aw / bw, ah / bh) : 0;
   const ox = insetLeft + 12 + (aw - bw * s) / 2 - box[0] * s, oy = insetTop + (ah - bh * s) / 2 - box[1] * s;
@@ -177,6 +199,15 @@ export function GoaMap({
   const shown = level === 'taluka' && villages && villagePaths ? villages.filter(v => villagePaths[v.id] && v.lp) : [];
   const inv = s ? 1 / s : 1;
   const selV = level === 'taluka' && act && act[0] === 'v' ? getPlace(act) : null;
+  /* the selected village's neighbours: a light wash on their shapes and a name tag each */
+  const nbrIds = level === 'taluka' && extra && selV && selV.id === selected ? (extra.nb[selV.id] ?? []) : [];
+  const nbrs = nbrIds.map(id => getPlace(id)).filter((p): p is Place => !!p && !!p.lp);
+  /* what each village is known for, as glyph tiles: one per kind, at most three */
+  const glyphs = level === 'taluka' && factsReady
+    ? shown.map(v => ({ v, items: (factsOf(v.id)?.knownFor ?? []).filter((it, i, a) => a.findIndex(x => x.icon === it.icon) === i).slice(0, 3) })).filter(g => g.items.length)
+    : [];
+  const lines = level === 'taluka' && extra ? extra.lines : [];
+  const stations = level === 'taluka' && extra ? extra.stations : [];
   const scrubP = scrub && scrub.u ? getPlace(scrub.u) : null;
   const markAt = (id: string) => (markIcon && marks?.[id]) || 0;
   const allPainted = painted.size === TALUKA_IDS.length;
@@ -251,7 +282,16 @@ export function GoaMap({
                   clipPath={`url(#khoim-paint-${id})`} vectorEffect="non-scaling-stroke" />
               ))}
               {DISTRICT_IDS.map(id => <path key={'d' + id} data-shape={level === 'state' ? id : undefined} className="k-map__district" d={D[id].d} vectorEffect="non-scaling-stroke" />)}
-              {shown.map(v => <path key={'vp' + v.id} className="k-map__village" d={villagePaths![v.id]} vectorEffect="non-scaling-stroke" />)}
+              {shown.map(v => <path key={'vp' + v.id} className={nbrIds.includes(v.id) ? 'k-map__village is-near' : 'k-map__village'} d={villagePaths![v.id]} vectorEffect="non-scaling-stroke" />)}
+              {selV && villagePaths?.[selV.id] && <path className="k-map__village-on" d={villagePaths[selV.id]} vectorEffect="non-scaling-stroke" />}
+              {/* rivers and railway, OpenStreetMap: a casing under each so it reads on every house colour */}
+              {lines.map((l, i) => (
+                <g key={'l' + i} className={l.k === 'river' ? 'k-map__river' : 'k-map__rail'}>
+                  <path className="k-map__line-casing" d={l.d} vectorEffect="non-scaling-stroke" />
+                  <path className="k-map__line" d={l.d} vectorEffect="non-scaling-stroke" />
+                </g>
+              ))}
+              {stations.map(st => <rect key={'st' + st.code} className="k-map__station" x={st.at[0] - 5 * inv} y={st.at[1] - 5 * inv} width={10 * inv} height={10 * inv} strokeWidth={2 * inv} />)}
               <g data-house={focus ? houseKey(focus) : undefined}>
                 {shown.map(v => {
                   const on = v.id === act;
@@ -309,13 +349,50 @@ export function GoaMap({
             const [x, y] = P(v.lp!);
             return <span key={'m' + v.id} className="k-map__mark k-map__mark--village" aria-hidden="true" style={{ left: x, top: y }}><Icon name={markIcon} size={16} />{markAt(v.id) > 1 ? markAt(v.id) : null}</span>;
           })}
+          {/* stations: a small tag with the name, not a button */}
+          {s > 0 && stations.map(st => {
+            const [x, y] = P(st.at);
+            return <span key={'sn' + st.code} className="k-map__station-tag" style={{ left: x + 10, top: y }}><Icon name="train-front" size={14} />{st.n}</span>;
+          })}
+          {/* neighbours of the selected village: tags that move you across */}
+          {s > 0 && nbrs.map(nb => {
+            const [x, y] = P(nb.lp!);
+            if (x < 0 || x > w || y < insetTop || y > h - insetBottom) return null;
+            const n = nameIn(nb, script);
+            return (
+              <button key={'nb' + nb.id} type="button" className="k-map__near" onClick={() => onSelect?.(nb.id, false)} style={{ left: x, top: y }}
+                aria-label={`${spokenName(nb)} Next to ${selV!.official}.`}>
+                <span className={n.kind === 'deva' ? 'k-map__near-name k-map__near-name--deva' : 'k-map__near-name'} lang={n.kind === 'deva' ? 'gom' : undefined}>{n.text}</span>
+              </button>
+            );
+          })}
+          {/* what villages are known for: a white tile per kind, below and right of the village's point */}
+          {s > 0 && glyphs.map(({ v, items }) => {
+            const [x, y] = P(v.lp!);
+            return (
+              <div key={'g' + v.id} className="k-map__glyphs" style={{ left: x + 8, top: y + 8 }}>
+                {items.map(it => (
+                  <button key={it.kind + it.title} type="button" className="k-map__glyph" aria-label={`${it.title}, ${v.official}`} onClick={() => onSelect?.(v.id, false)}>
+                    <span className="k-map__glyph-tile"><Icon name={it.icon as IconName} size={16} /></span>
+                  </button>
+                ))}
+              </div>
+            );
+          })}
           {selV && selV.lp && (() => {
             const [x, y] = P(selV.lp);
-            return <span className="k-map__tag" style={{ left: x, top: y - 20 }}>{selV.official}</span>;
+            const n = nameIn(selV, script);
+            return <span className={n.kind === 'deva' ? 'k-map__tag k-map__tag--deva' : 'k-map__tag'} lang={n.kind === 'deva' ? 'gom' : undefined} style={{ left: x, top: y - 18 }}>{n.text}</span>;
           })()}
         </div>
       </div>
       {scrubP && scrub && <Loupe p={scrubP} x={scrub.x} y={scrub.y} w={w} script={script} />}
+      {/* OpenStreetMap's licence asks for this wherever its lines are shown. TODO(copy) */}
+      {lines.length > 0 && (
+        <p className="k-map__credit" style={creditAt === 'top' ? { top: insetTop - 8, left: insetLeft + 20 } : { bottom: insetBottom + 4, left: insetLeft + 8 }}>
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"><span>Rivers and railway © OpenStreetMap contributors</span></a>
+        </p>
+      )}
     </div>
   );
 }

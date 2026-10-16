@@ -10,7 +10,7 @@
    Inside a taluka, "See all as a list" opens every village as a sortable list (phase 2), at the taluka's
    address plus villages/: /north-goa/bardez/villages/. */
 import { useEffect, useRef, useState } from 'react';
-import { loadVillagePaths, type VillagePaths } from '../data/geo';
+import { loadMapExtra, loadVillagePaths, type MapExtra, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
@@ -105,6 +105,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [announce, setAnnounce] = useState('');
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
+  const [extra, setExtra] = useState<{ id: string; extra: MapExtra } | null>(null);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
   const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
   /* What reviewers have allowed for the layers other than Names. Null until the server has answered. */
@@ -140,13 +141,15 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     let live = true;
     loadVillages().then(() => { if (live) setVillagesLoaded(true); });
     loadVillagePaths(wantPaths).then(p => { if (live) setPaths({ id: wantPaths, paths: p }); });
+    loadMapExtra(wantPaths).then(x => { if (live && x) setExtra({ id: wantPaths, extra: x }); });
     return () => { live = false; };
   }, [wantPaths]);
 
   /* A village's phase 2 facts load the first time a village is selected. */
   const [factsLoaded, setFactsLoaded] = useState(false);
-  /* the list needs them too, to mark the villages whose Konkani form is waiting for review */
-  const wantFacts = (selectedPlace?.level === 'village' || s.list) && !factsLoaded;
+  /* the list needs them too, to mark the villages whose Konkani form is waiting for review, and so does the map
+     inside a taluka, for the glyphs of what each village is known for */
+  const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka') && !factsLoaded;
   useEffect(() => {
     if (!wantFacts) return;
     let live = true;
@@ -229,13 +232,14 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const inTaluka = focusPlace?.level === 'taluka';
   const villages: Place[] | undefined = inTaluka && villagesLoaded ? childrenOf(focusPlace.id) : undefined;
   const villagePaths = inTaluka && paths?.id === focusPlace.id ? paths.paths : null;
+  const mapExtra = inTaluka && extra?.id === focusPlace.id ? extra.extra : null;
 
   /* The layer that is on, if it is one that people add to: its marks go on the map and the strip. */
   const litLayer = LIVE_LAYERS.find(l => l.id === s.layer) ?? null;
   const layerCounts = liveData ? Object.fromEntries(LIVE_LAYERS.map(l => [l.id, liveData.total(l.id)])) : null;
 
   return {
-    ...s, script, announce, villagesLoaded, villages, villagePaths, contrib,
+    ...s, script, announce, villagesLoaded, villages, villagePaths, mapExtra, contrib,
     live: liveData ?? NO_LIVE, litLayer, layerCounts,
     marks: litLayer && liveData ? liveData.marks(litLayer.id) : null,
     /* the form takes the place of About if it was opened from there */
