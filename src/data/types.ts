@@ -96,3 +96,9 @@ export interface Layer {
 export interface NameForm { text: string; kind: Script; fallback: boolean }
 export interface House { key: HouseKey; bg: string; on: string; dim: string }
 export interface SearchHit { place: Place; field: 'deva' | 'romi' | 'official' | 'alsoWritten' | 'marathi'; rank: number }
+
+/** Written by scripts/pages.mjs: which pages search engines may index, and the day each page's data last changed. */
+export interface PageIndex {
+  places: Record<string, { index: boolean; lastmod: string | null }>;
+  other: Record<string, string | null>;
+}
