@@ -1,6 +1,6 @@
 /* Khoim contrast and touch-size check. A testing aid, not part of the site.
 
-   It walks through every screen of the app (Goa, districts, cards, strips, search, About) and checks
+   It walks through every screen of the app (Goa, the views, districts, talukas, villages, lists, search, About) and checks
    - every visible piece of text against WCAG AAA contrast (7:1, or 4.5:1 for large text), and
    - every button and link against the 44px target size.
 
@@ -62,7 +62,8 @@ export function targets(root = document.body) {
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const q = s => document.querySelector(s);
 const byText = (sel, t) => [...document.querySelectorAll(sel)].find(e => e.textContent.trim().startsWith(t));
-const label = t => [...document.querySelectorAll('.k-map__label')].find(b => b.textContent.includes(t));
+/* Opens a page the way a link inside the app would: the address changes and the app follows it. */
+const go = async (path, ms = 1800) => { history.pushState(null, '', path); dispatchEvent(new PopStateEvent('popstate')); await wait(ms); };
 export async function tour() {
   const still = document.createElement('style'); still.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}'; document.head.appendChild(still);
   const res = {}; const app = () => q('.k-app');
@@ -76,49 +77,35 @@ export async function tour() {
   };
   const desktop = !!q('.k-app--desktop');
   const script = async t => { byText('.k-script-toggle__option', t).click(); await wait(250); };
+  const view = async t => { byText('.k-layer-row__item', t).click(); await wait(500); };
+  const sheet = desktop ? '.k-desktop-dock' : '.k-sheet__scroll';
+  const expand = async () => { if (!desktop) { q('.k-sheet__handle').click(); await wait(700); } };
   await run('1 Goa');
   await script('Official'); await run('1 Goa, official'); await script('Romi'); await run('1 Goa, Romi'); await script('देवनागरी');
-  label('उत्तर').click(); await wait(1300); await run('2 North Goa opened');
-  await script('Official'); await run('2 North Goa, official'); await script('देवनागरी');
-  byText('.k-crumbs__link', 'Goa').click(); await wait(1000);
-  label('कुशावती').click(); await wait(1300); await run('2 Kushavati opened');
-  if (!desktop) { byText('.k-app button', 'How to say it').click(); await wait(700); }
-  await run('3 Kushavati full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
-  if (!desktop) { q('.k-sheet .k-icon-button').click(); await wait(700); await run('3 Kushavati strip'); }
-  label('Dharbandora').click(); await wait(1800); if (!desktop) { byText('.k-app button', 'All names').click(); await wait(700); }
-  await run('4 Dharbandora full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
-  byText('.k-crumbs__link', 'Goa').click(); await wait(1000);
-  label('दक्षिण').click(); await wait(1300); label('साश्टी').click(); await wait(2200); await run('5 Salcete opened');
-  if (!desktop) { byText('.k-app button', 'How to say it').click(); await wait(700); }
-  await run('5 Salcete full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
-  q(desktop ? '.k-desktop-card .k-icon-button' : '.k-sheet .k-icon-button').click(); await wait(800); await run('6 Salcete strip of villages');
-  byText('.k-strip__card', 'Raia').click(); await wait(800); await run('7 Raia peek');
-  if (!desktop) { byText('.k-app button', 'All names').click(); await wait(700); }
-  await run('7 Raia full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
-  // a village whose name is recorded in Romi only (Chicalim, in Mormugao)
-  byText('.k-crumbs__link', 'South Goa').click(); await wait(1300); q('.k-map__label[data-id="mormugao"]').click(); await wait(2200);
-  q(desktop ? '.k-desktop-card .k-icon-button' : '.k-sheet .k-icon-button').click(); await wait(800); await run('7b Mormugao strip of villages');
-  byText('.k-strip__card', 'Chicalim').click(); await wait(800); await run('7b Chicalim peek');
-  if (!desktop) { byText('.k-app button', 'How to say it').click(); await wait(700); }
-  await run('7b Chicalim full card', desktop ? '.k-desktop__panel-body' : '.k-sheet__scroll');
+  await view('Spelling endings'); await run('1 Goa, Spelling endings'); await view('Still unwritten'); await run('1 Goa, Still unwritten'); await view('Names');
+  await go('/kushavati/'); await run('2 Kushavati opened'); await expand(); await run('2 Kushavati full card', sheet);
+  await go('/kushavati/dharbandora/'); await expand(); await run('3 Dharbandora full card', sheet);
+  await go('/south-goa/salcete/'); await run('4 Salcete opened'); await expand(); await run('4 Salcete full card', sheet);
+  await go('/south-goa/salcete/raia/'); await run('5 Raia peek'); await expand(); await run('5 Raia full card', sheet);
+  // a village whose name is recorded in Romi only
+  await go('/south-goa/mormugao/chicalim/'); await run('5b Chicalim peek'); await expand(); await run('5b Chicalim full card', sheet);
+  await view('Still unwritten'); await run('5b Chicalim, Still unwritten'); await view('Names');
+  // the list of a taluka's villages
+  await go('/south-goa/salcete/villages/'); await run('6 Salcete villages list', '.k-list-screen__body');
+  await go('/');
   // search
-  if (!desktop) { q('.k-phone-header__row--where .k-icon-button').click(); await wait(900); }
-  const input = q(desktop ? '.k-desktop__panel input' : '.k-search-screen input');
+  if (!desktop) { q('.k-search-button').click(); await wait(900); }
+  const input = q(desktop ? '.k-desktop-panel input' : '.k-search-screen input');
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, 'sa'); input.dispatchEvent(new Event('input', { bubbles: true })); await wait(1200);
-  await run('8 search results', desktop ? '.k-desktop__panel-body' : '.k-search-screen__results');
-  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, 'zzz'); input.dispatchEvent(new Event('input', { bubbles: true })); await wait(600); await run('8 search, nothing found');
+  await run('7 search results', desktop ? '.k-desktop-dock' : '.k-search-screen__results');
+  Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, 'zzz'); input.dispatchEvent(new Event('input', { bubbles: true })); await wait(600); await run('7 search, nothing found');
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, ''); input.dispatchEvent(new Event('input', { bubbles: true })); await wait(400);
-  if (!desktop) { await run('8 search, empty'); q('.k-search-field__cancel').click(); await wait(900); }
+  if (!desktop) { await run('7 search, empty', '.k-search-screen__results'); q('.k-search-field__cancel').click(); await wait(900); }
   // About
-  if (desktop) q('[aria-label="Layers and about"]').click(); else { byText('.k-crumbs__link', 'Goa').click(); await wait(1000); q('.k-phone-bottom .k-icon-button').click(); }
-  await wait(1000); await run('9 About', '.k-more__scroll');
-  // A layer other than Names: its marks on the map and the strip, and its button on the card. These steps only
-  // have something to check where allowed contributions exist (the local test database, or the live site).
-  byText('.k-layer', 'Food').click(); await wait(1200); await run('10 Food layer, where About was opened', desktop ? '.k-desktop__panel-body' : undefined);
-  if (q('.k-crumbs__link')) { byText('.k-crumbs__link', 'Goa').click(); await wait(1000); }
-  await run('10 Food layer, Goa');
-  label('दक्षिण').click(); await wait(1300); await run('10 Food layer, South Goa');
-  label('साश्टी').click(); await wait(2200); await run('10 Food layer, Salcete');
-  q(desktop ? '.k-desktop-card .k-icon-button' : '.k-sheet .k-icon-button').click(); await wait(800); await run('10 Food layer, strip of villages');
+  q('[aria-label^="Layers and about"]').click(); await wait(1000); await run('8 About', '.k-more__scroll');
+  // A layer other than Names: its marks on the map, and its button on the card. These steps only have something
+  // to check where allowed contributions exist (the local test database, or the live site).
+  byText('.k-layer', 'Food').click(); await wait(1200); await run('9 Food layer, Goa');
+  await go('/south-goa/salcete/'); await run('9 Food layer, Salcete');
   return res;
 }

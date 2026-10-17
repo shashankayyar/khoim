@@ -26,10 +26,13 @@ export interface SheetProps {
   expandable?: boolean;
   /** The name shown in the handle row (phase 2). */
   title?: ReactNode;
+  /** The most of the screen the sheet may take, open or not, as a share of its height (phase 3: 0.4, so the map
+      keeps 60%). Opened, it stops there and its content scrolls. */
+  maxShare?: number;
   children: ReactNode;
 }
 
-export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, house, expandable = true, title, children }: SheetProps) {
+export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, house, expandable = true, title, maxShare, children }: SheetProps) {
   const reduce = useReducedMotion();
   const box = useRef<HTMLElement>(null);
   const d = useRef<{ y: number; t: number; base: number } | null>(null);
@@ -53,7 +56,7 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
     const target = e.target as Element;
     const onHandle = !!target.closest('[data-sheet-handle]');
     const scroller = el.querySelector('[data-sheet-scroll]');
-    if (full && scroller && scroller.scrollTop > 0 && !onHandle) return;
+    if ((full || maxShare) && scroller && scroller.scrollTop > 0 && !onHandle) return;
     if (target.closest('button,a,input') && !onHandle) return;
     d.current = { y: e.clientY, t: performance.now(), base: full ? 0 : el.offsetHeight - peek };
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -77,6 +80,7 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
       onKeyDown={e => { if (e.key === 'Escape') onSnap('closed'); }}
       onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end}
       style={{
+        ...(maxShare ? { top: 'auto', height: `${maxShare * 100}dvh` } : null),
         transform: full ? `translateY(${dy}px)` : `translateY(calc(100% - ${peek}px + ${dy}px))`,
         transition: dy || reduce ? 'none' : undefined
       }}>
@@ -94,7 +98,8 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
           {title && <span aria-hidden="true" />}
         </div>
       )}
-      <div className={full ? 'k-sheet__scroll is-full' : 'k-sheet__scroll'} data-sheet-scroll="1">{children}</div>
+      {/* a sheet held to a share of the screen scrolls whenever its content is taller, peeking or not */}
+      <div className={full || maxShare ? 'k-sheet__scroll is-full' : 'k-sheet__scroll'} data-sheet-scroll="1">{children}</div>
     </section>
   );
 }

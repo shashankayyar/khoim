@@ -65,7 +65,7 @@ export interface PlaceCardProps {
   expanded?: boolean;
   onExpand?: () => void;
   onClose?: () => void;
-  /** Puts the card away to show the strip of places inside this one. Leave out where the strip is already on screen. */
+  /** What is inside: a taluka's villages as a list; a district's talukas on the map (phase 3: the strip is gone). */
   onShowInside?: () => void;
   /** Opens the contribution form. With it, the card has one way in: a single button, and no email address
       (that lives on the About screen). When missing (the form is not switched on, or the page is being read
@@ -159,7 +159,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {lit && litCount > 0
             ? <Button variant="outline" ink={INK} icon={lit.icon} onClick={onExpand}>{lit.label} ({litCount})</Button>
             : <Button variant="outline" ink={INK} onClick={onExpand}>{p.level === 'village' ? 'All about ' + p.official : p.say ? 'How to say it' : 'All names'}</Button>}
-          {inside && <Button ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>}
+          {inside && <Button ink={INK} paper={PAPER} iconAfter={p.level === 'taluka' ? 'list' : 'chevron-down'} onClick={onShowInside}>{insideLabel}</Button>}
           {/* TODO(copy): "Share" is the design's */}
           {!inside && onShare && p.level === 'village' && <Button ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share</Button>}
         </div>
@@ -243,7 +243,9 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           )}
           {inside && (
             <div className="k-card__inside">
-              <Button full ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>
+              {p.level === 'taluka'
+                ? <Button full ink={INK} paper={PAPER} icon="list" onClick={onShowInside}>See all as a list</Button>
+                : <Button full ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>}
             </div>
           )}
         </div>
