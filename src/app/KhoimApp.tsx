@@ -22,7 +22,7 @@ import { MAP_LAYERS, layerHeadline, layerWith, mappedVillages } from '../lib/lay
 import { ShareSheet } from '../components/share/ShareSheet';
 import { Toast } from '../components/share/Toast';
 import { copyText, shareUrl } from '../lib/share';
-import { getPlace, houseOf, trailOf } from '../data/khoim';
+import { PLACES, getPlace, houseOf, nameIn, trailOf } from '../data/khoim';
 import type { RawVillage } from '../data/types';
 import { CONTACT_EMAIL } from '../data/site';
 import { useDialog } from '../lib/dialog';
@@ -178,6 +178,38 @@ function ListScreen({ k, compact }: { k: Khoim; compact: boolean }) {
   );
 }
 
+/* The name in a sheet's handle row: the Devanagari, then the official spelling (phase 2). Reviewed names only. */
+function sheetTitle(p: { deva: string | null; official: string }) {
+  return p.deva ? <><span lang="gom">{p.deva}</span> {p.official}</> : p.official;
+}
+
+/* All of Goa, pulled up from the first screen: every taluka as a house-colour tile, grouped by district. A list
+   route into the map; one tap opens the taluka. */
+function GoaList({ k }: { k: Khoim }) {
+  return (
+    <div className="k-goa-list">
+      {PLACES.filter(p => p.level === 'district').map(d => (
+        <section key={d.id} className="k-goa-list__district">
+          <h2 className="k-goa-list__head">{d.deva && <span lang="gom">{d.deva}</span>} {d.official}</h2>
+          <ul className="k-goa-list__tiles">
+            {PLACES.filter(t => t.parent === d.id).map(t => {
+              const n = nameIn(t, k.script === 'official' ? 'deva' : k.script);
+              return (
+                <li key={t.id}>
+                  <button type="button" className="k-goa-list__tile" data-house={houseOf(t).key} onClick={() => k.pick(t.id, false)}>
+                    {!n.fallback && <span className={n.kind === 'deva' ? 'k-goa-list__name k-goa-list__name--deva' : 'k-goa-list__name'} lang={n.kind === 'deva' ? 'gom' : undefined}>{n.text}</span>}
+                    <span className="k-goa-list__official">{t.official}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 /* Phone: search is its own screen. It slides up over the map and closes with Cancel, Escape or the back button. */
 function SearchScreen({ k }: { k: Khoim }) {
   const ref = useRef<HTMLDivElement>(null), input = useRef<HTMLInputElement>(null);
@@ -189,6 +221,8 @@ function SearchScreen({ k }: { k: Khoim }) {
     </div>
   );
 }
+
+const childCountOf = (p: NonNullable<ReturnType<typeof getPlace>>) => p.level === 'taluka' ? (p.villageCount ?? 0) : PLACES.filter(x => x.parent === p.id).length;
 
 function Phone({ k }: { k: Khoim }) {
   const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
@@ -207,7 +241,12 @@ function Phone({ k }: { k: Khoim }) {
   const title = useRef<HTMLHeadingElement>(null), bottom = useRef<HTMLDivElement>(null);
   const titleH = useHeight(title), bottomH = useHeight(bottom);
   /* the layer row sits under the header's first row on the first screen, and under the second row elsewhere */
-  const firstTop = titleH ? 128 + titleH + 12 : 228, firstBottom = bottomH ? bottomH + 28 : 190;
+  /* the Goa sheet (search and layers) peeks 128px up on the first screen; the hint and the draft link sit above it */
+  const GOA_PEEK = 128;
+  const [goaSnap, setGoaSnap] = useState<'peek' | 'full'>('peek');
+  /* opening a place puts the Goa sheet back to its peek, so going back lands on the map */
+  useEffect(() => { if (sheet) setGoaSnap('peek'); }, [sheet]);
+  const firstTop = titleH ? 128 + titleH + 12 : 228, firstBottom = GOA_PEEK + (bottomH ? bottomH + 20 : 70);
   const headline = first && k.layered ? layerHeadline(k.mapLayer) : null;
   return (
     <div className="k-app k-app--phone">
@@ -235,18 +274,24 @@ function Phone({ k }: { k: Khoim }) {
       </header>
       <h1 ref={title} className={first && !headline ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || !!headline}>{TITLE}</h1>
       {headline && <p className="k-phone-title k-phone-title--layer" role="status">{headline}</p>}
-      <div ref={bottom} className={sheet ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'}>
+      <div ref={bottom} className={sheet || goaSnap === 'full' ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'} style={{ bottom: GOA_PEEK + 12 }}>
         <div className="k-phone-bottom__notes">
-          <p className="k-hint">Tap a district, or press and drag along Goa</p>
+          {/* the first-visit hint (phase 2 TapHint), in the 1 October wording; it goes after the first tap */}
+          {!k.tapped && <p className="k-hint"><Icon name="hand" size={18} />Tap a district, or press and drag along Goa</p>}
           <button type="button" className="k-draft-chip" onClick={k.openMore}>Draft for review.</button>
         </div>
-        <div className="k-phone-bottom__actions">
-          <button type="button" className="k-search-button" onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
-          <LayersButton k={k} size={58} />
-        </div>
       </div>
+      {!sheet && (
+        <Sheet key="goa" label={getPlace('goa')!.official} title={sheetTitle(getPlace('goa')!)} snap={goaSnap} onSnap={sn => setGoaSnap(sn === 'full' ? 'full' : 'peek')} peek={GOA_PEEK}>
+          <div className="k-phone-bottom__actions k-goa-actions">
+            <button type="button" className="k-search-button" onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
+            <LayersButton k={k} size={56} />
+          </div>
+          <GoaList k={k} />
+        </Sheet>
+      )}
       {sp && (
-        <Sheet key={'s' + sp.id} label={sp.official} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
+        <Sheet key={'s' + sp.id} label={sp.official} title={sheetTitle(sp)} snap={k.snap} onSnap={k.setSnap} peek={peek} onMeasure={onMeasure} house={houseOf(sp).key}>
           <div className="k-phone-card">
             <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={() => k.setSnap('closed')}
               onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, false, false)} />
@@ -254,12 +299,12 @@ function Phone({ k }: { k: Khoim }) {
         </Sheet>
       )}
       {!sp && k.layered && (
-        <Sheet key={'l' + k.mapLayer.id} label={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} snap={k.snap} onSnap={sn => (sn === 'closed' ? k.setMapLayer(layerWith('names')) : k.setSnap(sn))} peek={peek}>
+        <Sheet key={'l' + k.mapLayer.id} label={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} title={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} snap={k.snap} onSnap={sn => (sn === 'closed' ? k.setMapLayer(layerWith('names')) : k.setSnap(sn))} peek={peek}>
           <Panel k={k} desktop={false} />
         </Sheet>
       )}
       {!sp && !k.layered && fp && (
-        <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek} expandable={false}>
+        <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} title={`${fp.official} · ${childCountOf(fp)} ${fp.level === 'taluka' ? 'villages' : 'talukas'}`} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek + 16} expandable={false}>
           <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} {...marksOf(k)} />
           <ListButton k={k} />
         </Sheet>

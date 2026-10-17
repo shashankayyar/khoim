@@ -109,6 +109,9 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
   const [extra, setExtra] = useState<{ id: string; extra: MapExtra } | null>(null);
+  /* The first-visit hint goes after the first tap on the map and never comes back (phase 2, revision 10). */
+  const [tapped, setTapped] = useState(() => { try { return localStorage.getItem('khoim-tapped') === '1'; } catch { return false; } });
+  const touch = () => { if (tapped) return; setTapped(true); try { localStorage.setItem('khoim-tapped', '1'); } catch { /* private mode: it lasts for this visit */ } };
   /* the share sheet, and the short confirmation after sharing ("Link copied") */
   const [shareOpen, setShareOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -261,6 +264,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, mapExtra, contrib,
     layered,
+    tapped,
     shareOpen,
     toast,
     openShare: () => setShareOpen(true),
@@ -315,6 +319,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     facts: factsLoaded && selectedPlace?.level === 'village' ? factsOf(selectedPlace.id) : null,
     /** A tap on the map or a label. Tapping the place whose card is already up opens the card fully. */
     pick: (id: string, scrubbed: boolean) => {
+      touch();
       if (!scrubbed && id === s.selected) return up({ snap: 'full' });
       select(id);
     },

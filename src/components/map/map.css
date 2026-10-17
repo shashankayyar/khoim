@@ -51,6 +51,10 @@
 }
 .k-map__label { --halo: var(--house-dim); }
 .k-map__label.is-lit { color: var(--house-on); --halo: var(--house-bg); }
+/* Pressed (phase 2): shown the moment a finger or button goes down, before any work. A white tile, soot text,
+   shadow-1 and a slight shrink, with no transition. */
+.k-map__label:active { background: var(--surface-raised); color: var(--text); --halo: var(--surface-raised); box-shadow: var(--shadow-1); transform: translate(-50%, -50%) scale(.94); transition: none; }
+@media (prefers-reduced-motion: reduce) { .k-map__label:active { transform: translate(-50%, -50%); } }
 /* A name can run past the edge of its shape, onto another colour or onto the page. Each letter therefore
    carries a hard outline in its own shape's colour, so the ink always sits on the colour it was chosen for
    (7:1 or better in light and dark). Inside the shape the outline is invisible. */

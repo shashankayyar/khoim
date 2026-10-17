@@ -1,13 +1,14 @@
 /* Bottom sheet with two snap points. Drag it (or tap the handle), or press Escape to close.
    It follows the finger 1:1; on release, distance or flick speed decides where it lands.
-   Ported from design/components/place/Sheet.jsx. */
+   Ported from design/components/place/Sheet.jsx. Phase 2: the handle row (44px) shows the current place's name on
+   the left, the grip in the middle and "More" / "Less" on the right, so it is clear there is more to pull up. */
 import { useLayoutEffect, useRef, useState, type PointerEvent, type ReactNode } from 'react';
 import type { HouseKey } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
 import './place.css';
 
-/** Height of the handle strip at the top of the sheet. */
-const HANDLE = 28;
+/** Height of the handle strip at the top of the sheet: 28px, or 44px with a title. */
+const HANDLE = 28, TITLED = 44;
 
 export interface SheetProps {
   /** Read by screen readers as the name of this panel. */
@@ -23,10 +24,12 @@ export interface SheetProps {
   house?: HouseKey;
   /** False for sheets that only peek (the strip): the handle is then a grip, not a button. */
   expandable?: boolean;
+  /** The name shown in the handle row (phase 2). */
+  title?: ReactNode;
   children: ReactNode;
 }
 
-export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, house, expandable = true, children }: SheetProps) {
+export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, house, expandable = true, title, children }: SheetProps) {
   const reduce = useReducedMotion();
   const box = useRef<HTMLElement>(null);
   const d = useRef<{ y: number; t: number; base: number } | null>(null);
@@ -37,12 +40,12 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
   useLayoutEffect(() => {
     const mark = box.current?.querySelector<HTMLElement>('[data-sheet-peek]');
     if (!mark || !onMeasure || full) return;
-    const report = () => onMeasure(HANDLE + mark.offsetHeight + 16);
+    const report = () => onMeasure((title ? TITLED : HANDLE) + mark.offsetHeight + 16);
     report();
     const ro = new ResizeObserver(report);
     ro.observe(mark);
     return () => ro.disconnect();
-  }, [full, onMeasure]);
+  }, [full, onMeasure, title]);
 
   const start = (e: PointerEvent<HTMLElement>) => {
     const el = box.current;
@@ -78,11 +81,18 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
         transition: dy || reduce ? 'none' : undefined
       }}>
       {expandable ? (
-        <button type="button" className="k-sheet__handle" data-sheet-handle="1" aria-expanded={full} aria-label={full ? 'Show less' : 'Show more'} onClick={() => onSnap(full ? 'peek' : 'full')}>
+        <button type="button" className={title ? 'k-sheet__handle k-sheet__handle--titled' : 'k-sheet__handle'} data-sheet-handle="1" aria-expanded={full} aria-label={(full ? 'Show less' : 'Show more') + ': ' + label} onClick={() => onSnap(full ? 'peek' : 'full')}>
+          {title && <span className="k-sheet__title" aria-hidden="true">{title}</span>}
           <span className="k-sheet__grip" aria-hidden="true" />
+          {/* TODO(copy): "More" / "Less" are the design's */}
+          {title && <span className="k-sheet__more" aria-hidden="true">{full ? 'Less' : 'More'}</span>}
         </button>
       ) : (
-        <div className="k-sheet__handle" data-sheet-handle="1" aria-hidden="true"><span className="k-sheet__grip" /></div>
+        <div className={title ? 'k-sheet__handle k-sheet__handle--titled' : 'k-sheet__handle'} data-sheet-handle="1">
+          {title && <span className="k-sheet__title">{title}</span>}
+          <span className="k-sheet__grip" aria-hidden="true" />
+          {title && <span aria-hidden="true" />}
+        </div>
       )}
       <div className={full ? 'k-sheet__scroll is-full' : 'k-sheet__scroll'} data-sheet-scroll="1">{children}</div>
     </section>
