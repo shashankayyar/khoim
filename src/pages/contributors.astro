@@ -1,0 +1,103 @@
+---
+/* Everyone whose work is on Khoim (phase 2 brief, Part B: contributors page). Not designed in Claude Design: built
+   from the existing document page (privacy), and every line of new wording is marked TODO(copy).
+   - Names: each village name a contributor sent and a Konkani reviewer allowed, with both credited, from
+     data/villages_lgd.csv (the card's own credit line, docs/copy.md).
+   - Voices and notes: what reviewers have allowed for the live layers, loaded from /api/live when the page opens.
+     Only names people chose to give; anyone who gave none is counted, not named.
+   - Sources: the published work the site's facts come from, each with its link. */
+import Base from '../layouts/Base.astro';
+import { Credit } from '../components/core/Credit';
+import { Wordmark } from '../components/core/Wordmark';
+import villagesJson from '../data/generated/villages.json';
+import factsJson from '../data/generated/village-facts.json';
+import { getPlace, pathOf, registerVillages } from '../data/khoim';
+import type { RawVillage, VillageFacts } from '../data/types';
+import '../styles/static.css';
+
+const raw = villagesJson as unknown as RawVillage[];
+registerVillages(raw);
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const plainDate = (iso?: string) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso ?? ''); return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : ''; };
+const names = raw.filter(v => v.reviewer).map(v => ({ place: getPlace(v.id)!, by: v.by, reviewer: v.reviewer!, on: plainDate(v.reviewedOn) }))
+  .sort((a, b) => a.place.official.localeCompare(b.place.official));
+
+/* Sources: the fixed ones, then every source behind a village sheet, each once. */
+const sources = new Map<string, string | null>([
+  ['Local Government Directory, Government of India', 'https://lgdirectory.gov.in/'],
+  ['India Geodata (boundaries from the Local Government Directory)', 'https://github.com/yashveeeeeeer/india-geodata'],
+  ['Survey of India (town outlines)', null],
+  ['Wikidata', 'https://www.wikidata.org/'],
+  ['OpenStreetMap contributors (rivers and railway)', 'https://www.openstreetmap.org/copyright'],
+  ['Villages of Goa, on YouTube', 'https://www.youtube.com/@Villages_of_Goa']
+]);
+const more = new Map<string, string | null>();
+for (const f of Object.values(factsJson as unknown as Record<string, VillageFacts>)) for (const s of f.sources) if (!sources.has(s.title)) more.set(s.title, s.url);
+for (const [t, u] of [...more].sort((a, b) => a[0].localeCompare(b[0]))) sources.set(t, u);
+---
+
+<Base title="Contributors | Khoim" description="Everyone whose work is on Khoim: the people who sent and checked names, the voices, and the sources the facts come from." path="/contributors/">
+  <div class="doc">
+    <header class="doc__head">
+      <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
+    </header>
+    <main class="doc__main">
+      {/* TODO(copy): title, intro and section headings on this page */}
+      <h1>Contributors</h1>
+      <p>Everyone whose work is on Khoim. Each entry on the map carries the same credit.</p>
+
+      <h2>Names</h2>
+      {names.length ? (
+        <ul class="doc__list">
+          {names.map(n => (
+            <li><a href={pathOf(n.place)}>{n.place.official}</a>. {n.by ? `Added by ${n.by}.` : 'Sent in by a contributor.'} Reviewed by {n.reviewer}{n.on ? ', ' + n.on : ''}.</li>
+          ))}
+        </ul>
+      ) : null}
+
+      <h2>Voices and notes</h2>
+      <div id="live-credits" aria-live="polite">
+        <p>People who record a name or send a note appear here once a reviewer has allowed it.</p>
+      </div>
+
+      <h2>Sources</h2>
+      <ul class="doc__list">
+        {[...sources].map(([title, url]) => <li>{url ? <a href={url} target="_blank" rel="noopener">{title}</a> : title}</li>)}
+      </ul>
+    </main>
+    <footer class="doc__foot"><Credit /></footer>
+  </div>
+</Base>
+
+<script>
+  /* Voices and notes from /api/live: what reviewers have allowed. Only the names people chose to give. */
+  type Item = { place: string; kind: string; by: string | null; from?: string };
+  const LAYER: Record<string, string> = { crops: 'Crops', food: 'Food', music: 'Music', landmarks: 'Landmarks' };
+  const box = document.getElementById('live-credits');
+  const esc = (s: string) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+  fetch('/api/live', { cache: 'no-store', headers: { accept: 'application/json' } })
+    .then(r => (r.ok ? r.json() : null))
+    .then((d: { ok?: boolean; items?: Item[] } | null) => {
+      if (!box || !d?.ok || !Array.isArray(d.items) || !d.items.length) return;
+      const named = d.items.filter(i => i.by), unnamed = d.items.length - named.length;
+      /* TODO(copy): "Said by {name}, {village}" is from the brief; the other lines are new */
+      const line = (i: Item) => i.kind === 'voice'
+        ? `Said by ${esc(i.by!)}${i.from ? ', ' + esc(i.from) : ''}.`
+        : `${esc(i.by!)}: ${esc(LAYER[i.kind] ?? i.kind)}.`;
+      box.innerHTML = (named.length ? '<ul class="doc__list">' + named.map(i => `<li>${line(i)}</li>`).join('') + '</ul>' : '')
+        + (unnamed ? `<p>And ${unnamed} ${unnamed === 1 ? 'person' : 'people'} who chose not to give a name.</p>` : '');
+    })
+    .catch(() => { /* no answer: the page keeps its first line */ });
+</script>
+
+<style>
+  .doc { max-width: 720px; margin: 0 auto; }
+  .doc__head { padding: 14px 16px 0; }
+  .doc__main { padding: 8px var(--gutter) 24px; }
+  .doc__main h1 { margin: 16px 0 4px; font: var(--weight-strong) 40px/1.15 var(--font-latin); letter-spacing: var(--track-title); }
+  .doc__main h2 { margin: 28px 0 6px; font: var(--weight-strong) 24px/1.25 var(--font-latin); }
+  .doc__main p, .doc__main :global(p) { margin: 0 0 12px; max-width: 60ch; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); text-wrap: pretty; }
+  .doc__main :global(.doc__list) { margin: 0 0 12px; padding-left: 20px; display: grid; gap: 2px; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); }
+  .doc__main :global(.doc__list a) { color: var(--text); font-weight: var(--weight-strong); text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; min-height: var(--tap-min); }
+  .doc__foot { padding: var(--space-6) var(--gutter) var(--space-10); border-top: 1px solid var(--line); margin: 0 var(--gutter); padding-inline: 0; }
+</style>
