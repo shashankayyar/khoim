@@ -9,13 +9,18 @@
    - Drag to pan; wheel, pinch or the zoom buttons to zoom, around the pointer. Tapping a village opens it: the map
      moves to it, outlines it, keeps its neighbours' names in view and dims the rest. Tapping the sea puts the card away.
    - A map view (Names, and the others in src/lib/layers.ts) changes only the colours, never the framing.
+   - Rivers: the named main rivers only, as quiet water lines clipped to Goa, wider as you zoom in, heavier for the
+     Mandovi and Zuari. Their names (OpenStreetMap's, never invented) follow the line past about 2.2 times the Goa
+     view. In the other views they fade to 30% and lose their names. Railway: one thin ink line. Station names, and
+     the symbols for a village's feasts, monuments and GI products, show only at village zoom; the symbols only in
+     the Names view. OpenStreetMap is credited on the map.
 
    SVG only. The names on the map are aria-hidden: search, the lists and the plain links on every page are how a
    screen reader or keyboard reaches each village. Most of the moving is done with CSS custom properties on the
    map's box (--k: the zoom, --z: the zoom against the Goa view), so a pan or zoom never re-renders React. */
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
-import { GEO, TALUKA_IDS, type VillagePaths } from '../../data/geo';
-import { getPlace, houseOf, nameIn } from '../../data/khoim';
+import { DISTRICT_IDS, GEO, TALUKA_IDS, type MapLines, type VillagePaths } from '../../data/geo';
+import { factsOf, getPlace, houseOf, nameIn } from '../../data/khoim';
 import type { Box, Place, Point, Script } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
 import { layerState, type MapLayer } from '../../lib/layers';
@@ -77,13 +82,17 @@ export interface GoaMapProps {
   /** With a live layer on (Voices, Crops and the rest): how many things each place holds, and the layer's icon. */
   marks?: Record<string, number> | null;
   markIcon?: IconName;
+  /** Rivers, railway and stations, once loaded. */
+  lines?: MapLines | null;
+  /** Once the village facts have loaded: the symbols for what villages are known for. */
+  factsReady?: boolean;
 }
 
 interface View { k: number; tx: number; ty: number }
 
 export function GoaMap({
   selected = null, focus = null, hot = null, script = 'deva', onSelect, onBackground, onInteract,
-  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon
+  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon, lines = null, factsReady = false
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null), world = useRef<SVGGElement>(null);
@@ -262,6 +271,10 @@ export function GoaMap({
   };
   const selOutline = outlineOf(selected), hotOutline = hot && hot !== selected ? outlineOf(hot) : null;
   const markAt = (id: string) => (markIcon && marks?.[id]) || 0;
+  /* what each village is known for: one symbol per kind, three at most */
+  const glyphs = factsReady && !layered
+    ? drawn.map(v => ({ v, items: (factsOf(v.id)?.knownFor ?? []).filter((it, i, a) => a.findIndex(x => x.icon === it.icon) === i).slice(0, 3) })).filter(g => g.items.length)
+    : [];
 
   const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-bottom': insetBottom + 'px' } as CSSProperties;
   return (
@@ -269,14 +282,24 @@ export function GoaMap({
       onPointerDown={onDown} onPointerMove={onMove} onPointerUp={e => onUp(e, true)} onPointerCancel={e => onUp(e, false)}>
       {w > 0 && (
         <svg className="k-tmap__svg" width={w} height={h} aria-hidden="true">
+          <defs>
+            <clipPath id="k-goa-clip" clipPathUnits="userSpaceOnUse">{DISTRICT_IDS.map(id => <path key={id} d={D[id].d} />)}</clipPath>
+            {lines?.rivers.map((r, i) => <path key={r.n} id={'k-river-' + i} d={r.label} />)}
+          </defs>
           <g ref={world}>
             {/* each taluka in its tint, under the villages: what shows before the village outlines arrive */}
             {TALUKA_IDS.map(id => <path key={'tf' + id} className="k-tmap__base" data-house={houseKey(id)} d={T[id].d} />)}
             <Villages drawn={drawn} paths={paths ?? null} script={script} near={near} mapLayer={mapLayer} />
+            {lines && <Lines lines={lines} />}
             {TALUKA_IDS.map(id => <path key={'tb' + id} className="k-tmap__border" d={T[id].d} vectorEffect="non-scaling-stroke" />)}
             {hotOutline && <path className="k-tmap__hot" d={hotOutline} vectorEffect="non-scaling-stroke" />}
             {selOutline && <path className="k-tmap__selected" d={selOutline} vectorEffect="non-scaling-stroke" />}
             <Names drawn={drawn} script={script} near={near} mapLayer={mapLayer} />
+            {lines && (
+              <g className="k-tmap__river-names">
+                {lines.rivers.map((r, i) => <text key={r.n} className="k-tmap__river-name"><textPath href={'#k-river-' + i} startOffset="50%">{r.n}</textPath></text>)}
+              </g>
+            )}
             <g className="k-tmap__talukas">
               {TALUKA_IDS.map(id => {
                 const n = nameIn(getPlace(id), script), [x, y] = talukaPoint(id);
@@ -292,6 +315,23 @@ export function GoaMap({
           {TALUKA_IDS.filter(id => markAt(id) > 0).map(id => { const [x, y] = talukaPoint(id); return <Mark key={'mt' + id} x={x} y={y - 22} icon={markIcon} n={markAt(id)} taluka />; })}
           {drawn.filter(v => markAt(v.id) > 0).map(v => <Mark key={'mv' + v.id} x={v.lp![0]} y={v.lp![1]} fs={v.map!.fs} icon={markIcon} n={markAt(v.id)} />)}
         </div>
+      )}
+      {/* at village zoom: railway stations, and what villages are known for (feasts, monuments, GI products) */}
+      {(lines || glyphs.length > 0) && (
+        <div className="k-tmap__marks" aria-hidden="true">
+          {lines?.stations.map(st => (
+            <span key={st.code} className="k-tmap__station" style={{ '--x': st.at[0], '--y': st.at[1] } as CSSProperties}><Icon name="train-front" size={14} />{st.n}</span>
+          ))}
+          {glyphs.map(({ v, items }) => (
+            <span key={'g' + v.id} className="k-tmap__glyphs" style={{ '--x': v.lp![0], '--y': v.lp![1], '--fs': v.map!.fs } as CSSProperties}>
+              {items.map(it => <span key={it.kind + it.title} className="k-tmap__glyph"><Icon name={it.icon as IconName} size={16} /></span>)}
+            </span>
+          ))}
+        </div>
+      )}
+      {lines && (
+        /* OpenStreetMap's licence asks for this wherever its lines are shown */
+        <p className="k-tmap__credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Rivers and railway © OpenStreetMap contributors</a></p>
       )}
       <div className="k-tmap__zoom">
         {/* TODO(copy): "Zoom in" and "Zoom out" are new; the buttons are the way to zoom without pinching */}
@@ -310,6 +350,16 @@ function Mark({ x, y, fs, icon, n, taluka = false }: { x: number; y: number; fs?
     </span>
   );
 }
+
+/** Rivers and railway, clipped to Goa. Drawn once: a pan or zoom only changes the CSS numbers they read. */
+const Lines = memo(function Lines({ lines }: { lines: MapLines }) {
+  return (
+    <g className="k-tmap__lines" clipPath="url(#k-goa-clip)">
+      {lines.rivers.map(r => r.d.map((d, i) => <path key={r.n + i} className="k-tmap__river" d={d} style={{ '--w': r.w } as CSSProperties} />))}
+      {lines.rail.map((d, i) => <path key={'r' + i} className="k-tmap__rail" d={d} vectorEffect="non-scaling-stroke" />)}
+    </g>
+  );
+});
 
 interface LayerProps { drawn: Place[]; script: Script; near: Set<string>; mapLayer?: MapLayer }
 

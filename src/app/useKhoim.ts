@@ -10,7 +10,7 @@
    Inside a taluka, "See all as a list" opens every village as a sortable list (phase 2), at the taluka's
    address plus villages/: /north-goa/bardez/villages/. */
 import { useEffect, useRef, useState } from 'react';
-import { TALUKA_IDS, loadVillagePaths, type VillagePaths } from '../data/geo';
+import { TALUKA_IDS, loadMapLines, loadVillagePaths, type MapLines, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
@@ -118,6 +118,9 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const toastTimer = useRef<number | undefined>(undefined);
   /* every village outline in Goa: the type map is made of them */
   const [allPaths, setAllPaths] = useState<VillagePaths | null>(null);
+  /* rivers, railway and stations */
+  const [mapLines, setMapLines] = useState<MapLines | null>(null);
+  const [factsLoaded, setFactsLoaded] = useState(false);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
   const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
   /* What reviewers have allowed for the layers other than Names. Null until the server has answered. */
@@ -137,6 +140,9 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     loadVillages().then(() => { if (live) setVillagesLoaded(true); });
     Promise.all(TALUKA_IDS.map(loadVillagePaths)).then(all => { if (live) setAllPaths(Object.assign({}, ...all)); });
     const run = () => {
+      loadMapLines().then(l => { if (live) setMapLines(l); });
+      /* for the symbols of what each village is known for, at village zoom */
+      loadVillageFacts().then(() => { if (live) setFactsLoaded(true); });
       loadContribConfig().then(c => { if (live) setContrib(c); });
       loadLive().then(l => { if (live) setLiveData(l); });
     };
@@ -150,8 +156,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const focusPlace = getPlace(s.focus), selectedPlace = getPlace(s.selected);
   const layered = s.mapLayer.id !== 'names';
 
-  /* A village's phase 2 facts load the first time a village is selected. */
-  const [factsLoaded, setFactsLoaded] = useState(false);
+  /* A village's phase 2 facts load the first time a village is selected, or once the page has settled. */
   /* the list needs them too, to mark the villages whose Konkani form is waiting for review, and so does the map
      inside a taluka, for the glyphs of what each village is known for */
   const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka') && !factsLoaded;
@@ -260,6 +265,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     },
     /** Every village outline, once loaded. */
     allPaths,
+    mapLines,
     /** The first pan, zoom or tap on the map: the hint goes. */
     touch,
     /** Choosing a map view changes the colours only: the open card, the framing and the controls stay as they are. */
