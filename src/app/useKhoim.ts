@@ -10,13 +10,13 @@
    Inside a taluka, "See all as a list" opens every village as a sortable list (phase 2), at the taluka's
    address plus villages/: /north-goa/bardez/villages/. */
 import { useEffect, useRef, useState } from 'react';
-import { TALUKA_IDS, loadMapExtra, loadVillagePaths, type MapExtra, type VillagePaths } from '../data/geo';
+import { TALUKA_IDS, loadVillagePaths, type VillagePaths } from '../data/geo';
 import { childCount, childrenOf, factsOf, getPlace, loadVillageFacts, loadVillages, pathOf, placeAtPath, registerVillage, spokenName, villagesReady } from '../data/khoim';
 import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
 import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
 import { LIVE_LAYERS, NO_LIVE, loadLive, type Live } from '../lib/live';
-import { NAMES_LAYER, layerFromQuery, layerHeadline, layerQuery, type MapLayer } from '../lib/layers';
+import { NAMES_LAYER, layerFromQuery, layerHeadline, layerQuery, mappedVillages, type MapLayer } from '../lib/layers';
 
 export type Snap = 'peek' | 'full';
 type Overlay = 'search' | 'more' | 'form' | 'list' | null;
@@ -107,16 +107,16 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [script, setScriptRaw] = useState<Script>(savedScript);
   const [announce, setAnnounce] = useState('');
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
-  const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
-  const [extra, setExtra] = useState<{ id: string; extra: MapExtra } | null>(null);
   /* The first-visit hint goes after the first tap on the map and never comes back (phase 2, revision 10). */
   const [tapped, setTapped] = useState(() => { try { return localStorage.getItem('khoim-tapped') === '1'; } catch { return false; } });
-  const touch = () => { if (tapped) return; setTapped(true); try { localStorage.setItem('khoim-tapped', '1'); } catch { /* private mode: it lasts for this visit */ } };
+  /* the map has been moved or tapped on this visit: the phone's first-screen title steps aside so the names show */
+  const [mapMoved, setMapMoved] = useState(false);
+  const touch = () => { setMapMoved(true); if (tapped) return; setTapped(true); try { localStorage.setItem('khoim-tapped', '1'); } catch { /* private mode: it lasts for this visit */ } };
   /* the share sheet, and the short confirmation after sharing ("Link copied") */
   const [shareOpen, setShareOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
-  /* every village outline in Goa: a map view colours them all */
+  /* every village outline in Goa: the type map is made of them */
   const [allPaths, setAllPaths] = useState<VillagePaths | null>(null);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
   const [contrib, setContrib] = useState<ContribConfig>({ open: false, siteKey: null });
@@ -130,11 +130,13 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const up = (o: Partial<State>) => set(v => ({ ...v, ...o }));
   const needVillages = () => loadVillages().then(() => setVillagesLoaded(true));
 
-  /* The village list is not needed for the first screen. Fetch it once the page has settled. */
+  /* The type map is made of the village names, so the village list and every outline load straight away.
+     Talukas are drawn in their tints until they arrive. The rest waits until the page has settled. */
   useEffect(() => {
     let live = true;
+    loadVillages().then(() => { if (live) setVillagesLoaded(true); });
+    Promise.all(TALUKA_IDS.map(loadVillagePaths)).then(all => { if (live) setAllPaths(Object.assign({}, ...all)); });
     const run = () => {
-      loadVillages().then(() => { if (live) setVillagesLoaded(true); });
       loadContribConfig().then(c => { if (live) setContrib(c); });
       loadLive().then(l => { if (live) setLiveData(l); });
     };
@@ -145,27 +147,8 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     };
   }, []);
 
-  /* Village outlines load one taluka at a time: fetched when a taluka is selected, so going inside is instant. */
   const focusPlace = getPlace(s.focus), selectedPlace = getPlace(s.selected);
-  const wantPaths = focusPlace?.level === 'taluka' ? focusPlace.id : selectedPlace?.level === 'taluka' ? selectedPlace.id : null;
-  useEffect(() => {
-    if (!wantPaths) return;
-    let live = true;
-    loadVillages().then(() => { if (live) setVillagesLoaded(true); });
-    loadVillagePaths(wantPaths).then(p => { if (live) setPaths({ id: wantPaths, paths: p }); });
-    loadMapExtra(wantPaths).then(x => { if (live && x) setExtra({ id: wantPaths, extra: x }); });
-    return () => { live = false; };
-  }, [wantPaths]);
-
-  /* A map view needs every village, their outlines and their facts. Fetched the first time a view is chosen. */
   const layered = s.mapLayer.id !== 'names';
-  useEffect(() => {
-    if (!layered || allPaths) return;
-    let live = true;
-    loadVillages().then(() => { if (live) setVillagesLoaded(true); });
-    Promise.all(TALUKA_IDS.map(loadVillagePaths)).then(all => { if (live) setAllPaths(Object.assign({}, ...all)); });
-    return () => { live = false; };
-  }, [layered, allPaths]);
 
   /* A village's phase 2 facts load the first time a village is selected. */
   const [factsLoaded, setFactsLoaded] = useState(false);
@@ -252,19 +235,18 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     setAnnounce(spokenName(p) + insideCount(p));
   };
 
-  const inTaluka = focusPlace?.level === 'taluka';
-  const villages: Place[] | undefined = inTaluka && villagesLoaded ? childrenOf(focusPlace.id) : undefined;
-  const villagePaths = inTaluka && paths?.id === focusPlace.id ? paths.paths : null;
-  const mapExtra = inTaluka && extra?.id === focusPlace.id ? extra.extra : null;
+  /* every village the map draws, once the list has loaded */
+  const mapVillages: Place[] | undefined = villagesLoaded ? mappedVillages() : undefined;
 
   /* The layer that is on, if it is one that people add to: its marks go on the map and the strip. */
   const litLayer = LIVE_LAYERS.find(l => l.id === s.layer) ?? null;
   const layerCounts = liveData ? Object.fromEntries(LIVE_LAYERS.map(l => [l.id, liveData.total(l.id)])) : null;
 
   return {
-    ...s, script, announce, villagesLoaded, villages, villagePaths, mapExtra, contrib,
+    ...s, script, announce, villagesLoaded, mapVillages, contrib,
     layered,
     tapped,
+    mapMoved,
     shareOpen,
     toast,
     openShare: () => setShareOpen(true),
@@ -276,8 +258,10 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
       window.clearTimeout(toastTimer.current);
       toastTimer.current = window.setTimeout(() => setToast(null), 2400);
     },
-    /** Every village outline, once a map view has asked for them. */
-    allPaths: layered ? allPaths : null,
+    /** Every village outline, once loaded. */
+    allPaths,
+    /** The first pan, zoom or tap on the map: the hint goes. */
+    touch,
     /** Choosing a map view keeps a selected village's card; anything else steps back to the map. */
     setMapLayer: (mapLayer: MapLayer) => {
       replaceNext.current = true;

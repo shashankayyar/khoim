@@ -49,6 +49,8 @@ export interface Place {
   contributor?: string;
   /** Straight-line km to Panaji and to Margao from the label point. Null for the town itself; missing without an outline. */
   km?: [number | null, number | null];
+  /** On the type map (phase 3): the name's angle and size, the outline's box, and the villages it touches. */
+  map?: { a: number; fs: number; b: Box; nb: string[] };
 }
 
 /** A village as written by scripts/build-data.mjs (short keys, to keep the file small). */

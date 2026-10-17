@@ -1,147 +1,98 @@
-/* The map. Values from design/components/map/GoaMap.jsx. */
-.k-map {
+/* The type map (phase 3). Values from docs/prototypes/type-atlas.html.
+   The map's box carries --k (map units to px), --z (zoom against the Goa view), --tx and --ty, set as the map moves. */
+.k-tmap {
+  --k: 1; --z: 1; --tx: 0; --ty: 0;
   position: absolute; inset: 0; overflow: hidden;
-  /* one finger scrubs the map; two fingers can still pinch to zoom the page */
-  touch-action: pinch-zoom; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+  touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
 }
-.k-map__stage { position: absolute; inset: 0; transform-origin: 0 0; }
-.k-map__svg { position: absolute; inset: 0; }
+.k-tmap.is-dragging { cursor: grabbing; }
+.k-tmap__svg { display: block; }
 
-.k-map__empty { fill: var(--map-empty); stroke: var(--map-edge); stroke-width: 1; }
-.k-map__taluka {
-  fill: var(--house-dim); stroke: var(--trim); stroke-width: 3; stroke-linejoin: round;
+/* house colours: each taluka's group sets its tint and ink */
+.k-tmap [data-house="haldi"] { --fill: var(--map-tint-haldi); --ink: var(--map-ink-haldi); }
+.k-tmap [data-house="kokum"] { --fill: var(--map-tint-kokum); --ink: var(--map-ink-kokum); }
+.k-tmap [data-house="rose"] { --fill: var(--map-tint-rose); --ink: var(--map-ink-rose); }
+.k-tmap [data-house="green"] { --fill: var(--map-tint-green); --ink: var(--map-ink-green); }
+.k-tmap [data-house="oxide"] { --fill: var(--map-tint-oxide); --ink: var(--map-ink-oxide); }
+.k-tmap [data-house="lilac"] { --fill: var(--map-tint-lilac); --ink: var(--map-ink-lilac); }
+.k-tmap [data-house="sky"] { --fill: var(--map-tint-sky); --ink: var(--map-ink-sky); }
+.k-tmap [data-house="neel"] { --fill: var(--map-tint-neel); --ink: var(--map-ink-neel); }
+.k-tmap [data-house="mustard"] { --fill: var(--map-tint-mustard); --ink: var(--map-ink-mustard); }
+
+.k-tmap__base { fill: var(--fill); }
+.k-tmap__v {
+  fill: var(--fill); stroke: var(--map-village-edge); stroke-width: .6px;
+  transition: fill var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+}
+.k-tmap__v.is-off { opacity: .35; }
+@media (hover: hover) { .k-tmap:not(.is-dragging) .k-tmap__v:hover { cursor: pointer; fill: color-mix(in srgb, var(--fill) 80%, var(--ink)); } }
+.k-tmap__border { fill: none; stroke: var(--map-taluka-edge); stroke-opacity: .35; stroke-width: 1.2px; pointer-events: none; }
+.k-tmap__selected { fill: none; stroke: var(--text); stroke-width: 2.2px; pointer-events: none; }
+.k-tmap__hot { fill: none; stroke: var(--text); stroke-width: 1.6px; stroke-dasharray: 4 3; pointer-events: none; }
+
+/* Village names, in map units. A name shows once it is 7px tall on screen, fading in over the next 3px. */
+.k-tmap__name {
+  --px: calc(var(--fs) * var(--k)); --base: 1;
+  fill: var(--ink); text-anchor: middle; dominant-baseline: central;
+  font-family: var(--font-latin); font-weight: 600; pointer-events: none;
+  opacity: calc(var(--base) * clamp(0, (var(--px) - 7) * 1000, 1) * clamp(.35, (var(--px) - 7) / 3 + .35, 1));
   transition: fill var(--dur-base) var(--ease-out);
 }
-.k-map__taluka.is-lit { fill: var(--house-bg); }
-/* outside the district you are in, talukas are only hinted at: a faint line, their district's colour */
-.k-map__taluka--hint { stroke: color-mix(in srgb, var(--trim) 30%, transparent); stroke-width: 1; }
-/* the trim between districts is always there */
-.k-map__district { fill: none; stroke: var(--trim); stroke-width: 3.5; stroke-linejoin: round; pointer-events: none; }
+.k-tmap__name[lang="gom"] { font-family: var(--font-deva); }
+/* no reviewed name in the chosen script: the official spelling, lighter and fainter */
+.k-tmap__name.is-faint { font-weight: 500; --base: .5; }
+/* a village is open: it and its neighbours stay named at any zoom, the rest step back */
+.k-tmap__name.is-near { opacity: var(--base); --base: 1; }
+.k-tmap__name.is-near.is-faint { --base: .9; }
+.k-tmap__name.is-off { --base: .45; }
+.k-tmap__name.is-off.is-faint { --base: .25; }
 
-/* first load: each taluka is wiped in from the left, north to south */
-.k-map__wipe {
-  transform-box: fill-box; transform-origin: 0% 50%; transform: scaleX(0);
-  transition: transform var(--dur-paint) var(--ease-out);
+/* Taluka names: large over all of Goa, gone by about three times the Goa view. Same size on screen at any zoom. */
+.k-tmap__taluka {
+  fill: var(--text); text-anchor: middle; dominant-baseline: central;
+  font-family: var(--font-latin); font-weight: 700; pointer-events: none;
+  font-size: calc(var(--tl) * 1px / var(--k));
+  paint-order: stroke; stroke: var(--surface); stroke-width: calc(4px / var(--k)); stroke-linejoin: round;
+  opacity: clamp(0, 1 - (var(--z) - 1.7) / 1.2, 1);
+  transition: opacity var(--dur-base) var(--ease-out);
 }
-.k-map__wipe.is-painted { transform: scaleX(1); }
+.k-tmap__taluka[lang="gom"] { font-family: var(--font-deva); }
+.k-tmap.has-village .k-tmap__taluka { opacity: 0; }
 
-.k-map__village { fill: none; stroke: var(--trim); stroke-opacity: .45; stroke-width: 1; }
-/* phase 2: the selected village's neighbours get a light wash; the village itself a trim outline */
-.k-map__village.is-near { fill: rgba(255, 255, 255, .14); stroke-opacity: .5; }
-.k-map__village-on { fill: none; stroke: var(--trim); stroke-width: 3; stroke-linejoin: round; pointer-events: none; }
-/* rivers and railway from OpenStreetMap: a 6px casing under each line */
-.k-map__line-casing, .k-map__line { fill: none; pointer-events: none; stroke-linecap: round; stroke-linejoin: round; }
-.k-map__river .k-map__line-casing { stroke: var(--map-river-casing); stroke-width: 6; }
-.k-map__river .k-map__line { stroke: var(--map-river); stroke-width: 3; }
-.k-map__rail .k-map__line-casing { stroke: var(--map-rail-tie); stroke-width: 6; stroke-linecap: butt; }
-.k-map__rail .k-map__line { stroke: var(--map-rail); stroke-width: 2; stroke-linecap: butt; }
-.k-map__station { fill: var(--trim); stroke: var(--map-rail); pointer-events: none; }
-.k-map__dot { fill: var(--trim); stroke: none; }
-.k-map__dot.is-on { stroke: var(--house-on); }
-.k-map__hit { fill: transparent; cursor: pointer; }
+/* Map views (src/lib/layers.ts). Same framing; only the colours change. */
+.k-tmap.is-layered .k-tmap__v { fill: var(--map-quiet); stroke: var(--map-village-edge); }
+.k-tmap.is-layered .k-tmap__v.is-lit { fill: var(--text); }
+.k-tmap.is-layered .k-tmap__name { fill: var(--text-2); --base: .5; }
+.k-tmap.is-layered .k-tmap__name.is-lit { fill: var(--surface); --base: 1; }
+.k-tmap--need .k-tmap__v.is-lit { fill: var(--house-kokum); }
+.k-tmap--need .k-tmap__name.is-lit { fill: var(--house-kokum-on); }
+.k-tmap--need .k-tmap__v.is-review { fill: var(--map-tint-kokum); }
 
-.k-map__labels { position: absolute; inset: 0; pointer-events: none; }
-/* The name is centred on the place's label point, so it sits inside the shape. A second line hangs below it. */
-.k-map__label {
-  position: absolute; transform: translate(-50%, -50%); pointer-events: auto;
-  border: 0; background: transparent; padding: 6px 8px; border-radius: var(--radius-s);
-  display: grid; place-items: center; min-width: 44px; min-height: 44px;
-  cursor: pointer; white-space: nowrap; color: var(--text);
-  transition: color var(--dur-base) var(--ease-out);
+/* Live layer tiles: HTML over the map, placed from the map's own numbers. */
+.k-tmap__marks { position: absolute; inset: 0; pointer-events: none; }
+.k-tmap__mark {
+  --px: calc(var(--fs) * var(--k));
+  position: absolute; left: calc((var(--tx) + var(--x) * var(--k)) * 1px); top: calc((var(--ty) + var(--y) * var(--k)) * 1px);
+  transform: translate(-50%, calc(-100% - var(--px) * .6px));
+  display: inline-flex; align-items: center; gap: 3px; padding: 3px 6px; border-radius: var(--radius-s);
+  background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1);
+  font: var(--weight-strong) 14px/1 var(--font-latin);
+  opacity: clamp(0, (var(--px) - 7) * 1000, 1);
 }
-.k-map__label { --halo: var(--house-dim); }
-.k-map__label.is-lit { color: var(--house-on); --halo: var(--house-bg); }
-/* Pressed (phase 2): shown the moment a finger or button goes down, before any work. A white tile, soot text,
-   shadow-1 and a slight shrink, with no transition. */
-.k-map__label:active { background: var(--surface-raised); color: var(--text); --halo: var(--surface-raised); box-shadow: var(--shadow-1); transform: translate(-50%, -50%) scale(.94); transition: none; }
-@media (prefers-reduced-motion: reduce) { .k-map__label:active { transform: translate(-50%, -50%); } }
-/* A name can run past the edge of its shape, onto another colour or onto the page. Each letter therefore
-   carries a hard outline in its own shape's colour, so the ink always sits on the colour it was chosen for
-   (7:1 or better in light and dark). Inside the shape the outline is invisible. */
-.k-map__label-name, .k-map__label-sub {
-  text-shadow:
-    -2px 0 var(--halo), 2px 0 var(--halo), 0 -2px var(--halo), 0 2px var(--halo),
-    -1.5px -1.5px var(--halo), 1.5px -1.5px var(--halo), -1.5px 1.5px var(--halo), 1.5px 1.5px var(--halo);
-}
-.k-map__label-name { font-family: var(--font-latin); font-weight: var(--weight-strong); line-height: 1.5; }
-.k-map__label-name--deva { font-family: var(--font-deva); }
-.k-map__label-sub {
-  position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: -12px;
-  display: grid; justify-items: center;
-  font: var(--weight-strong) 14px/1.3 var(--font-latin);
-}
+.k-tmap__mark--taluka { transform: translate(-50%, -100%); opacity: clamp(0, 1 - (var(--z) - 1.7) / 1.2, 1); }
 
-/* A layer's mark: a white tile with the layer's icon and how many things the place holds. It sits just above a
-   district's or taluka's name, and on a village's dot. Taps go through it to the place underneath. */
-.k-map__mark {
-  position: absolute; transform: translate(-50%, -100%); pointer-events: none;
-  display: inline-flex; align-items: center; gap: 4px;
+/* Zoom buttons: the way to zoom without a wheel or two fingers. */
+.k-tmap__zoom {
+  position: absolute; right: 16px; bottom: calc(var(--map-inset-bottom, 0px) + 16px); z-index: 2;
+  display: grid; gap: 1px; border-radius: var(--radius-m); overflow: hidden; box-shadow: var(--shadow-2); background: var(--line);
+}
+.k-tmap__zoom-button {
+  width: 48px; height: 48px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer;
   background: var(--surface-raised); color: var(--text);
-  padding: 3px 7px; border-radius: var(--radius-s);
-  font: var(--weight-strong) 14px/1.3 var(--font-latin); white-space: nowrap;
-  box-shadow: var(--shadow-2);
 }
-.k-map__mark--village { transform: translate(-50%, -50%); padding: 4px 6px; }
+.k-tmap__zoom-button:focus-visible { outline: 3px solid var(--text); outline-offset: -3px; }
+.k-tmap__zoom-button:active { transform: scale(var(--press-scale)); }
 
-/* white tag above the selected village dot */
-.k-map__tag {
-  position: absolute; transform: translate(-50%, -100%);
-  background: var(--surface-raised); color: var(--text);
-  padding: 4px 12px; border-radius: var(--radius-m);
-  font: var(--weight-strong) 17px/1.5 var(--font-latin); white-space: nowrap;
-  box-shadow: var(--shadow-2);
+@media (prefers-reduced-motion: reduce) {
+  .k-tmap__v, .k-tmap__name, .k-tmap__taluka { transition: none; }
 }
-.k-map__tag--deva { font-family: var(--font-deva); }
-
-.k-loupe {
-  position: absolute; width: 220px; box-sizing: border-box; pointer-events: none;
-  background: var(--house-bg); color: var(--house-on);
-  border-radius: var(--radius-xl); padding: var(--trim-inset); box-shadow: var(--shadow-3);
-}
-.k-loupe__frame { border: var(--trim-width) solid currentColor; border-radius: var(--radius-l); padding: 6px 12px 8px; }
-.k-loupe__name { font: var(--weight-strong) 26px/1.5 var(--font-latin); }
-.k-loupe__name--deva { font: var(--weight-strong) 32px/1.5 var(--font-deva); }
-.k-loupe__more { font: var(--weight-regular) 15px/1.35 var(--font-latin); }
-
-/* ---------- Phase 2: inside a taluka ---------- */
-.k-map__station-tag {
-  position: absolute; transform: translateY(-50%); display: flex; align-items: center; gap: 4px; pointer-events: none;
-  background: var(--surface-raised); color: var(--text); padding: 2px 7px; border-radius: var(--radius-xs);
-  font: var(--weight-strong) 12px/1.4 var(--font-latin); white-space: nowrap;
-}
-/* a neighbour's name: a small white tag, 44px to touch */
-.k-map__near {
-  position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer;
-  min-width: var(--label-hit); min-height: var(--label-hit); display: grid; place-items: center;
-  border: 0; background: transparent; padding: 0 6px; color: var(--text); white-space: nowrap;
-}
-.k-map__near-name { background: var(--surface-raised); padding: 1px 7px; border-radius: var(--radius-xs); font: var(--weight-strong) 13px/1.5 var(--font-latin); }
-.k-map__near-name--deva { font-family: var(--font-deva); }
-.k-map__near:active .k-map__near-name { box-shadow: var(--shadow-1); transform: scale(.94); }
-/* glyph tiles: white with soot icons in both themes, 30px to see, 44px to touch */
-.k-map__glyphs { position: absolute; display: flex; gap: 2px; pointer-events: none; }
-.k-map__glyph {
-  pointer-events: auto; width: var(--glyph-hit); height: var(--glyph-hit); margin: -7px; padding: 7px; box-sizing: border-box;
-  border: 0; background: transparent; cursor: pointer; display: grid; place-items: center;
-}
-.k-map__glyph-tile {
-  width: var(--glyph-tile); height: var(--glyph-tile); box-sizing: border-box; border-radius: var(--radius-s);
-  background: var(--glyph-bg); color: var(--glyph-ink); border: 2px solid var(--glyph-ink); display: grid; place-items: center;
-}
-.k-map__glyph:active .k-map__glyph-tile { transform: scale(.9); }
-.k-map__credit { position: absolute; margin: 0; z-index: 1; }
-.k-map__credit a {
-  display: inline-flex; align-items: center; min-height: var(--tap-min); box-sizing: border-box;
-  color: var(--text); font: var(--weight-strong) 12px/1.3 var(--font-latin); text-decoration: underline; text-underline-offset: 3px;
-}
-.k-map__credit a span { background: var(--surface-raised); padding: 2px 7px; border-radius: var(--radius-xs); }
-@media (prefers-reduced-motion: reduce) { .k-map__near:active .k-map__near-name, .k-map__glyph:active .k-map__glyph-tile { transform: none; } }
-
-/* ---------- Phase 2 map views ---------- */
-.k-map__lv { stroke-linejoin: round; }
-.k-map__lv--lit { fill: var(--house-bg); stroke: var(--map-lit-outline); stroke-width: 1.75; }
-.k-map__lv--need.k-map__lv--lit { stroke: var(--trim); stroke-width: 1; }
-.k-map__lv--dim { fill: var(--map-fade); stroke: var(--map-fade-edge); stroke-width: 1; }
-.k-map__lv--review { fill: var(--house-dim); stroke: var(--map-outline); stroke-width: 1.5; stroke-dasharray: 4 3; }
-.k-map__lv--outline { fill: var(--map-unlit); stroke: var(--map-outline); stroke-width: .6; }
-.k-map__lt { fill: none; stroke: var(--map-fade-edge); stroke-width: 1.5; pointer-events: none; }

@@ -51,6 +51,14 @@ Wording settled the same day (Shashank delegated these; each reuses text from `d
 
 Checking contrast: `scripts/dev/contrast-audit.js` walks every screen and checks every piece of text (AAA) and every touch target (44px). Run it in light and dark, phone and desktop, after any change to colours, labels or layout.
 
+## Phase 3: the type map (built from 17 October 2026)
+The brief is `docs/phase3-brief.md`; the prototype `docs/prototypes/type-atlas.html` is the spec. Where it differs from "Changes after the design freeze" above, phase 3 wins. Do not "fix" these back.
+- **The map is made of names.** Every village is drawn at every level, filled with its taluka's house tint and named inside its outline in that house's ink (`src/components/map/GoaMap.tsx`, tokens in `src/styles/tokens/typemap.css`). Where each name sits, its angle and size, and each village's neighbours are worked out at build time (`data/scripts/labels.mjs`). There are no district colours and no "level" views any more: people pan and zoom freely.
+- **Map labels show reviewed names only**, in the chosen script. Without one, the official spelling shows lighter and fainter. Never a Gazetteer form.
+- **One tap on a village opens it**: the map moves to it, outlines it, keeps its neighbours named and dims the rest. Districts and talukas open from search, the breadcrumb and the lists, and are framed and outlined the same way.
+- **Zoom buttons** (+ and -) sit on the map so it can be zoomed without a wheel or two fingers (WCAG 2.5.1, 2.5.7). Their labels "Zoom in" and "Zoom out" are new wording.
+- **One count:** 384 villages are drawn (one town, Curchorem-Cacora, is two outlines). Say 384 wherever the map counts villages; 429 where the site means all of them, with 45 not drawn yet.
+
 ## Contributions (stage 1, built 1 October 2026)
 The plan is `docs/collaboration-plan.md`; the one-time Cloudflare setup is `docs/contributions-setup.md`.
 - **Form:** `src/components/contribute/ContributeForm.tsx`. The choices are the three under the Names layer (name or spelling, how it is said, a correction) and the other layers: a recording of the name (Voices), crops, food, music, landmarks. Since 4 October 2026 the other layers are live: see "Live layers" below.

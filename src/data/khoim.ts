@@ -38,7 +38,8 @@ function toPlace(v: RawVillage): Place {
     reviewer: v.reviewer,
     reviewedOn: v.reviewedOn,
     contributor: v.by,
-    km: v.km
+    km: v.km,
+    map: v.b && v.fs ? { a: v.a ?? 0, fs: v.fs, b: v.b, nb: v.nb ?? [] } : undefined
   };
 }
 

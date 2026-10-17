@@ -18,7 +18,7 @@ import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
 import { LayerPanel } from '../components/layers/LayerPanel';
 import { LayerRow } from '../components/layers/LayerRow';
-import { MAP_LAYERS, layerHeadline, layerWith, mappedVillages } from '../lib/layers';
+import { MAP_LAYERS, layerHeadline, layerWith } from '../lib/layers';
 import { ShareSheet } from '../components/share/ShareSheet';
 import { Toast } from '../components/share/Toast';
 import { copyText, shareUrl } from '../lib/share';
@@ -36,9 +36,8 @@ import './app.css';
 /** The desktop design is drawn at 1280. Below this width the map has too little room next to the panel. */
 const DESKTOP = '(min-width: 1180px)';
 const TITLE = 'Every taluka in Goa, with its Konkani name and how to say it.';
-
-/* Talukas repaint north to south on the first load only, not when the layout changes. */
-let paintedOnce = false;
+/* Approved in docs/phase3-brief.md. */
+const HINT = 'Scroll or pinch to read the villages. Tap one.';
 
 export interface KhoimAppProps {
   /** The place this page was built for. Missing on the home page and the not-found page. */
@@ -53,7 +52,6 @@ export default function KhoimApp({ initialId, initialVillage, initialList }: Kho
   const desktop = useMediaQuery(DESKTOP);
   const k = useKhoim({ desktop, initialId, initialVillage, initialList });
   useEffect(() => {
-    paintedOnce = true;
     document.documentElement.dataset.app = 'ready';
     return () => { delete document.documentElement.dataset.app; };
   }, []);
@@ -128,7 +126,13 @@ function Crumbs({ k }: { k: Khoim }) {
 function Layers({ k }: { k: Khoim }) {
   return <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />;
 }
-const layerMap = (k: Khoim) => ({ mapLayer: k.mapLayer, layerVillages: k.layered && k.villagesLoaded ? mappedVillages() : undefined, allPaths: k.allPaths });
+/* What the map needs: every village and outline, the view, the live layer's tiles, and what a tap does.
+   A tap on the sea puts the open card away. */
+const mapProps = (k: Khoim) => ({
+  selected: k.selected, focus: k.focus, hot: k.hot, script: k.script, villages: k.mapVillages, paths: k.allPaths, mapLayer: k.mapLayer,
+  onSelect: (id: string) => k.pick(id, false), onBackground: () => { if (k.selected) k.setSnap('closed'); }, onInteract: k.touch,
+  ...(k.litLayer && k.marks ? { marks: k.marks, markIcon: k.litLayer.icon } : {})
+});
 /* Share: the sheet on phones; on desktop the link is copied straight away (design, Desktop). A place's card shares
    the place; the layer panel shares the view, at the level you are looking at. */
 const viewPlace = (k: Khoim) => getPlace(k.selected ?? k.focus ?? 'goa');
@@ -225,7 +229,6 @@ function SearchScreen({ k }: { k: Khoim }) {
 const childCountOf = (p: NonNullable<ReturnType<typeof getPlace>>) => p.level === 'taluka' ? (p.villageCount ?? 0) : PLACES.filter(x => x.parent === p.id).length;
 
 function Phone({ k }: { k: Khoim }) {
-  const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
   const parent = fp && fp.parent && fp.parent !== 'goa' ? getPlace(fp.parent) : null;
@@ -251,8 +254,7 @@ function Phone({ k }: { k: Khoim }) {
   return (
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
-        <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-          insetTop={first ? firstTop : 176} insetBottom={sheet ? peek + 8 : firstBottom} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} {...marksOf(k)} {...layerMap(k)} />
+        <GoaMap {...mapProps(k)} insetTop={first ? firstTop : 176} insetBottom={sheet ? peek + 8 : firstBottom} />
       </main>
       <header className="k-phone-header">
         <div className="k-phone-header__row">
@@ -272,12 +274,12 @@ function Phone({ k }: { k: Khoim }) {
         )}
         <Layers k={k} />
       </header>
-      <h1 ref={title} className={first && !headline ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || !!headline}>{TITLE}</h1>
+      <h1 ref={title} className={first && !headline && !k.mapMoved ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || !!headline}>{TITLE}</h1>
       {headline && <p className="k-phone-title k-phone-title--layer" role="status">{headline}</p>}
       <div ref={bottom} className={sheet || goaSnap === 'full' ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'} style={{ bottom: GOA_PEEK + 12 }}>
         <div className="k-phone-bottom__notes">
-          {/* the first-visit hint (phase 2 TapHint), in the 1 October wording; it goes after the first tap */}
-          {!k.tapped && <p className="k-hint"><Icon name="hand" size={18} />Tap a district, or press and drag along Goa</p>}
+          {/* the first-visit hint, in the phase 3 wording; it goes after the first pan, zoom or tap */}
+          {!k.tapped && <p className="k-hint"><Icon name="hand" size={18} />{HINT}</p>}
           <button type="button" className="k-draft-chip" onClick={k.openMore}>Draft for review.</button>
         </div>
       </div>
@@ -322,15 +324,13 @@ function Phone({ k }: { k: Khoim }) {
 }
 
 function Desktop({ k }: { k: Khoim }) {
-  const [paintIn] = useState(() => !paintedOnce && !k.focus && !k.selected);
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   return (
     <div className="k-app k-app--desktop">
       <DraftBanner {...banner(k)} />
       <div className="k-desktop">
         <main className="k-desktop__map">
-          <GoaMap focus={k.focus} selected={k.selected} hot={k.hot} script={k.script} onSelect={k.pick} onHot={k.setHot}
-            insetTop={148} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} paintIn={paintIn} villages={k.villages} villagePaths={k.villagePaths} extra={k.mapExtra} factsReady={k.factsLoaded} creditAt="top" {...layerMap(k)} {...marksOf(k)} />
+          <GoaMap {...mapProps(k)} insetTop={148} insetBottom={fp ? (fp.level === 'taluka' ? 194 : 170) : 24} insetLeft={fp ? 0 : 360} />
           <header className="k-desktop-header">
             <div className="k-desktop-header__left">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={26} suffix="All of Goa" /></button>
@@ -345,7 +345,7 @@ function Desktop({ k }: { k: Khoim }) {
           {!fp && !sp && !k.layered && (
             <div className="k-desktop-intro">
               <h1>{TITLE}</h1>
-              <p>Click a district, or press and drag along Goa.</p>
+              <p>{HINT}</p>
             </div>
           )}
           {fp && (
