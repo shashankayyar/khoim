@@ -70,6 +70,15 @@ export interface RawVillage {
   by?: string;
   /** Straight-line km to Panaji and to Margao. */
   km?: [number | null, number | null];
+  /* The type map (phase 3, data/scripts/labels.mjs). Only for villages with an outline. */
+  /** Angle of the name, in degrees, along the outline's long axis (-55 to 55). */
+  a?: number;
+  /** Font size of the name, in map units, that fits the outline. */
+  fs?: number;
+  /** The outline's box. */
+  b?: Box;
+  /** Villages whose outlines share at least two boundary points, most shared first. */
+  nb?: string[];
 }
 
 /* ---------- Phase 2: what a village's sheet shows beyond its names (scripts/village-facts.mjs) ---------- */
