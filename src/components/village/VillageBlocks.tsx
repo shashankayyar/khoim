@@ -1,7 +1,7 @@
 /* The phase 2 blocks of a village's sheet, in the design's order after "Say it": Meaning, Spellings, Vaddos, Facts,
-   Known for. Ported from design/components/village/*.jsx. A block with nothing in it does not render (Part B: where
+   Known for, Video. Ported from design/components/village/*.jsx. A block with nothing in it does not render (Part B: where
    data is still missing the block is hidden, never shown as a placeholder). Every claim carries its source. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { KnownForItem, Place, VillageFacts } from '../../data/types';
 import { longDate, nextFeastDate, upcomingMonths } from '../../lib/feasts';
 import { Icon } from '../core/Icon';
@@ -127,5 +127,31 @@ export function SourceLinks({ sources }: { sources: VillageFacts['sources'] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/** A video about the village (design/components/village/VideoFacade.jsx). A still kept on khoim.in and a play
+    button; nothing loads from YouTube until someone taps play, and then from youtube-nocookie.com. Credited to the
+    channel. A page read without JavaScript links to the video instead. */
+export function Videos({ videos, plain = false }: { videos: NonNullable<VillageFacts['videos']>; plain?: boolean }) {
+  return <div className="k-videos">{videos.map(v => <VideoFacade key={v.id} video={v} plain={plain} />)}</div>;
+}
+
+function VideoFacade({ video: v, plain }: { video: NonNullable<VillageFacts['videos']>[number]; plain: boolean }) {
+  const [on, setOn] = useState(false);
+  return (
+    <div className="k-video">
+      {on
+        ? <iframe className="k-video__frame" title={`${v.title}, ${v.channel}`} src={`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+        : plain
+          ? <a className="k-video__still" href={v.url}><img src={`/video-thumbs/${v.id}.jpg`} alt="" loading="lazy" /><span className="k-video__play" aria-hidden="true"><Icon name="play" size={26} /></span><span className="k-visually-hidden">{`Watch ${v.title}, ${v.channel}, on YouTube`}</span></a>
+          : <button type="button" className="k-video__still" onClick={() => setOn(true)} aria-label={`Play ${v.title}, ${v.channel}, on YouTube`}>
+              <img src={`/video-thumbs/${v.id}.jpg`} alt="" loading="lazy" />
+              <span className="k-video__play" aria-hidden="true"><Icon name="play" size={26} /></span>
+            </button>}
+      <span className="k-video__title">{v.title}</span>
+      {/* design wording; the channel's name links to its page */}
+      <span className="k-vsmall"><a className="k-video__channel" href={v.channelUrl} target="_blank" rel="noopener">{v.channel}</a> on YouTube. YouTube loads only when you tap play.</span>
+    </div>
   );
 }

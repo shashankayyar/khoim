@@ -25,7 +25,7 @@ import { LayerNotes } from '../layers/LayerNotes';
 import { VoiceClip } from '../layers/VoiceClip';
 import { PendingName } from './PendingName';
 import { SayIt } from './SayIt';
-import { Block, FactsGrid, KnownFor, MeaningBlock, SourceLinks, SpellingTimeline, VaddoList } from '../village/VillageBlocks';
+import { Block, FactsGrid, KnownFor, MeaningBlock, SourceLinks, SpellingTimeline, VaddoList, Videos } from '../village/VillageBlocks';
 import './place.css';
 
 const INK = 'var(--house-on)', PAPER = 'var(--house-bg)';
@@ -181,6 +181,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {facts?.vaddos && <><Rule /><Block level={sub} label="Vaddos"><VaddoList vaddos={facts.vaddos} /></Block></>}
           {p.level === 'village' && p.km && <><Rule /><Block level={sub} label="Facts"><FactsGrid place={p} /></Block></>}
           {facts?.knownFor && <><Rule /><Block level={sub} label="Known for"><KnownFor items={facts.knownFor} today={today} /></Block></>}
+          {facts?.videos && <><Rule /><Block level={sub} label="Video"><Videos videos={facts.videos} plain={plain} /></Block></>}
           <Rule />
           <Row level={sub} label="Sources">
             <SourceStatus status={status} />
