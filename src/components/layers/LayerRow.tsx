@@ -1,7 +1,6 @@
-/* The map views as a visible, labelled row, never hidden behind an icon (design/components/nav/LayerRow.jsx).
-   A radio group: one view at a time. It scrolls sideways on a narrow phone. */
+/* The map views as a visible, labelled row, never hidden behind an icon or covered by a sheet (phase 3 rule 4).
+   A radio group: one view at a time. Styled as the prototype's segmented row (docs/prototypes/type-atlas.html). */
 import { MAP_LAYERS, type MapLayerId } from '../../lib/layers';
-import { Icon } from '../core/Icon';
 import './layers.css';
 
 export function LayerRow({ value, onChange }: { value: MapLayerId; onChange: (id: MapLayerId) => void }) {
@@ -14,12 +13,12 @@ export function LayerRow({ value, onChange }: { value: MapLayerId; onChange: (id
     (e.currentTarget.parentElement?.children[MAP_LAYERS.indexOf(next)] as HTMLElement | undefined)?.focus();
   };
   return (
-    <div className="k-layer-row" role="radiogroup" aria-label="Map layers">
+    <div className="k-layer-row" role="radiogroup" aria-label="Map views">
       {MAP_LAYERS.map((l, i) => {
         const on = l.id === value;
         return (
           <button key={l.id} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1} className="k-layer-row__item" onClick={() => onChange(l.id)} onKeyDown={e => move(e, i)}>
-            <Icon name={l.icon} size={18} />{l.label}
+            {l.label}
           </button>
         );
       })}

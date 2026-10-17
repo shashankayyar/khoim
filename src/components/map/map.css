@@ -59,14 +59,16 @@
 .k-tmap__taluka[lang="gom"] { font-family: var(--font-deva); }
 .k-tmap.has-village .k-tmap__taluka { opacity: 0; }
 
-/* Map views (src/lib/layers.ts). Same framing; only the colours change. */
-.k-tmap.is-layered .k-tmap__v { fill: var(--map-quiet); stroke: var(--map-village-edge); }
-.k-tmap.is-layered .k-tmap__v.is-lit { fill: var(--text); }
-.k-tmap.is-layered .k-tmap__name { fill: var(--text-2); --base: .5; }
-.k-tmap.is-layered .k-tmap__name.is-lit { fill: var(--surface); --base: 1; }
-.k-tmap--need .k-tmap__v.is-lit { fill: var(--house-kokum); }
-.k-tmap--need .k-tmap__name.is-lit { fill: var(--house-kokum-on); }
-.k-tmap--need .k-tmap__v.is-review { fill: var(--map-tint-kokum); }
+/* Map views (src/lib/layers.ts). Same framing; only the colours change. The fills are the legend's tokens. */
+.k-tmap.is-layered .k-tmap__v, .k-tmap.is-layered .k-tmap__base { fill: var(--map-quiet); }
+.k-tmap.is-layered .k-tmap__name { fill: var(--text-2); font-weight: 500; --base: .45; }
+.k-tmap.is-layered .k-tmap__name.is-off { --base: .25; }
+.k-tmap--parts .k-tmap__v.is-lit { fill: var(--map-view-on); }
+.k-tmap--parts .k-tmap__name.is-lit { fill: var(--map-view-on-text); }
+.k-tmap--need .k-tmap__v.is-lit { fill: var(--map-written); }
+.k-tmap--need .k-tmap__name.is-lit { fill: var(--map-written-text); }
+.k-tmap.is-layered .k-tmap__name.is-lit { font-weight: 600; --base: 1; }
+.k-tmap.is-layered .k-tmap__name.is-lit.is-off { --base: .6; }
 
 /* Live layer tiles: HTML over the map, placed from the map's own numbers. */
 .k-tmap__marks { position: absolute; inset: 0; pointer-events: none; }
