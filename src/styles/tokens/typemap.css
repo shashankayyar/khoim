@@ -8,10 +8,15 @@
 --map-village-edge:#FFFFFF;--map-taluka-edge:var(--ink-900);
 /* the quiet fill of villages a view does not pick out */
 --map-quiet:#ECEAE3;--map-quiet-edge:var(--lime-300);
+/* views (src/lib/layers.ts): the map fill and its legend swatch are the same token */
+--map-view-on:var(--ink-900);--map-view-on-text:var(--lime-100);
+--map-written:#8C2E4A;--map-written-text:var(--lime-100);
 }
 [data-theme="dark"]{
 --map-tint-haldi:#3A2E14;--map-tint-kokum:#3A1B25;--map-tint-rose:#3D262B;--map-tint-green:#17302A;--map-tint-oxide:#3A2219;--map-tint-lilac:#2C2838;--map-tint-sky:#173238;--map-tint-neel:#1B2540;--map-tint-mustard:#3A2814;
 --map-ink-haldi:#E8B23A;--map-ink-kokum:#E07A98;--map-ink-rose:#E2869D;--map-ink-green:#6CC2A6;--map-ink-oxide:#E58A6E;--map-ink-lilac:#B7AAE6;--map-ink-sky:#6BC3D8;--map-ink-neel:#8EA8EC;--map-ink-mustard:#E9A458;
 --map-village-edge:var(--soot-950);--map-taluka-edge:var(--chalk-100);
 --map-quiet:#211E19;--map-quiet-edge:var(--soot-700);
+--map-view-on:var(--chalk-100);--map-view-on-text:var(--soot-950);
+--map-written:#E07A98;--map-written-text:var(--soot-950);
 }

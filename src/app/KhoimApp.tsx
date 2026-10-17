@@ -16,9 +16,9 @@ import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
-import { LayerPanel } from '../components/layers/LayerPanel';
+import { EndingButtons, Legend, ViewLine } from '../components/layers/Views';
 import { LayerRow } from '../components/layers/LayerRow';
-import { MAP_LAYERS, layerHeadline, layerWith } from '../lib/layers';
+import { layerWith } from '../lib/layers';
 import { ShareSheet } from '../components/share/ShareSheet';
 import { Toast } from '../components/share/Toast';
 import { copyText, shareUrl } from '../lib/share';
@@ -122,9 +122,16 @@ function Crumbs({ k }: { k: Khoim }) {
   );
 }
 
-/* The phase 2 map views: the row, and what the map needs for them. */
+/* The map views (phase 3): the row, the ending buttons in Spelling endings, and the line and legend that say what
+   the colours mean. Always on screen; no sheet or card covers them. */
 function Layers({ k }: { k: Khoim }) {
-  return <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />;
+  return (
+    <div className="k-views">
+      <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />
+      <EndingButtons layer={k.mapLayer} onChange={k.setMapLayer} />
+      {k.layered && <div className="k-views__key" role="status"><ViewLine layer={k.mapLayer} script={k.script} /><Legend layer={k.mapLayer} /></div>}
+    </div>
+  );
 }
 /* What the map needs: every village and outline, the view, the live layer's tiles, and what a tap does.
    A tap on the sea puts the open card away. */
@@ -141,11 +148,6 @@ function shareAction(k: Khoim, desktop: boolean, view: boolean) {
   /* if the browser will not copy, the sheet opens with the link in plain sight instead */
   return async () => { if (await copyText(shareUrl(viewPlace(k), view ? k.mapLayer : null))) k.showToast('Link copied'); else k.openShare(); };
 }
-function Panel({ k, desktop }: { k: Khoim; desktop: boolean }) {
-  return <LayerPanel layer={k.mapLayer} onChange={k.setMapLayer} onPickPlace={k.openPlace} onShare={shareAction(k, desktop, true)}
-    onHelp={k.contrib.open ? () => k.openForm(k.selected ?? k.focus ?? 'goa', 'name') : undefined} helpHref={k.contrib.open ? undefined : tellUsWhatIsWrongHref(window.location.href)} />;
-}
-
 /* "See all as a list", under the strip of a taluka's villages (phase 2). */
 function ListButton({ k }: { k: Khoim }) {
   const fp = getPlace(k.focus);
@@ -232,12 +234,12 @@ function Phone({ k }: { k: Khoim }) {
   const fp = getPlace(k.focus), sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
   const parent = fp && fp.parent && fp.parent !== 'goa' ? getPlace(fp.parent) : null;
-  const sheet = sp ? 'place' : k.layered ? 'layer' : fp ? 'strip' : null;
+  const sheet = sp ? 'place' : fp ? 'strip' : null;
   /* How much of the card shows when collapsed. The card reports what it needs, because names wrap differently
      on different phones; until it has, use the design's figure. The map keeps clear of it. */
   const [measured, setMeasured] = useState<{ id: string; px: number } | null>(null);
   const cardPeek = sp ? (measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
-  const peek = sp ? cardPeek : k.layered ? (k.mapLayer.id === 'feasts' ? 300 : 280) : fp ? (fp.level === 'taluka' ? 224 : 200) : 0;
+  const peek = sp ? cardPeek : fp ? (fp.level === 'taluka' ? 224 : 200) : 0;
   const spId = sp?.id;
   const onMeasure = useCallback((px: number) => { if (spId) setMeasured(m => (m && m.id === spId && m.px === px ? m : { id: spId, px })); }, [spId]);
   /* On the first screen the map sits between the title and the buttons, however many lines they take on this phone. */
@@ -250,7 +252,6 @@ function Phone({ k }: { k: Khoim }) {
   /* opening a place puts the Goa sheet back to its peek, so going back lands on the map */
   useEffect(() => { if (sheet) setGoaSnap('peek'); }, [sheet]);
   const firstTop = titleH ? 128 + titleH + 12 : 228, firstBottom = GOA_PEEK + (bottomH ? bottomH + 20 : 70);
-  const headline = first && k.layered ? layerHeadline(k.mapLayer) : null;
   return (
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
@@ -274,8 +275,7 @@ function Phone({ k }: { k: Khoim }) {
         )}
         <Layers k={k} />
       </header>
-      <h1 ref={title} className={first && !headline && !k.mapMoved ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || !!headline}>{TITLE}</h1>
-      {headline && <p className="k-phone-title k-phone-title--layer" role="status">{headline}</p>}
+      <h1 ref={title} className={first && !k.layered && !k.mapMoved ? 'k-phone-title' : 'k-phone-title is-hidden'} aria-hidden={!first || k.layered}>{TITLE}</h1>
       <div ref={bottom} className={sheet || goaSnap === 'full' ? 'k-phone-bottom is-hidden' : 'k-phone-bottom'} style={{ bottom: GOA_PEEK + 12 }}>
         <div className="k-phone-bottom__notes">
           {/* the first-visit hint, in the phase 3 wording; it goes after the first pan, zoom or tap */}
@@ -300,12 +300,7 @@ function Phone({ k }: { k: Khoim }) {
           </div>
         </Sheet>
       )}
-      {!sp && k.layered && (
-        <Sheet key={'l' + k.mapLayer.id} label={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} title={MAP_LAYERS.find(l => l.id === k.mapLayer.id)!.label} snap={k.snap} onSnap={sn => (sn === 'closed' ? k.setMapLayer(layerWith('names')) : k.setSnap(sn))} peek={peek}>
-          <Panel k={k} desktop={false} />
-        </Sheet>
-      )}
-      {!sp && !k.layered && fp && (
+      {!sp && fp && (
         <Sheet key={'t' + fp.id} label={'Places in ' + fp.official} title={`${fp.official} · ${childCountOf(fp)} ${fp.level === 'taluka' ? 'villages' : 'talukas'}`} onSnap={s => { if (s === 'closed') k.back(); }} peek={peek + 16} expandable={false}>
           <PlaceStrip parent={fp.id} script={k.script} active={k.hot} onFocusPlace={k.setHot} onPick={k.select} headingLevel={1} {...marksOf(k)} />
           <ListButton k={k} />
@@ -342,7 +337,7 @@ function Desktop({ k }: { k: Khoim }) {
             </div>
           </header>
           <div className="k-desktop-layers"><Layers k={k} /></div>
-          {!fp && !sp && !k.layered && (
+          {!fp && !sp && !k.layered && !k.mapMoved && (
             <div className="k-desktop-intro">
               <h1>{TITLE}</h1>
               <p>{HINT}</p>
@@ -368,11 +363,6 @@ function Desktop({ k }: { k: Khoim }) {
                 <div className="k-desktop-card__inner">
                   <PlaceCard place={sp} expanded headingLevel={1} onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, true, false)} />
                 </div>
-              </div>
-            ) : k.layered ? (
-              <div className="k-desktop__panel-layer">
-                <h1 className="k-desktop__panel-headline">{layerHeadline(k.mapLayer)}</h1>
-                <Panel k={k} desktop />
               </div>
             ) : (
               <>

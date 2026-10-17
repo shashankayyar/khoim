@@ -242,6 +242,8 @@ function viewBox(talukaId) {
 /* Districts are filled from their talukas. Their own outline is kept for the trim line drawn between districts. */
 const geoBase = {
   size: GOA_SIZE,
+  /* village outlines drawn on the map: the one count the site uses wherever the map counts villages (phase 3 rule 5) */
+  drawn: VILLAGES.length,
   districts: Object.fromEntries(Object.entries(DISTRICT_SHAPES).map(([id, s]) => [id, { d: s.d, b: s.b, lp: s.lp }])),
   talukas: Object.fromEntries(talukas.map(t => {
     const s = TALUKA_SHAPES[t.id], view = viewBox(t.id);

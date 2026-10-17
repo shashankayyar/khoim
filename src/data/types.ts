@@ -122,6 +122,8 @@ export interface TalukaShape {
 export interface DistrictShape { d: string; b: Box; lp: Point }
 export interface GeoBase {
   size: Point;
+  /** Village outlines drawn on the map (384). */
+  drawn: number;
   districts: Record<string, DistrictShape>;
   talukas: Record<string, TalukaShape>;
 }

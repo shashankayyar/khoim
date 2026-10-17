@@ -154,7 +154,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [factsLoaded, setFactsLoaded] = useState(false);
   /* the list needs them too, to mark the villages whose Konkani form is waiting for review, and so does the map
      inside a taluka, for the glyphs of what each village is known for */
-  const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka' || layered) && !factsLoaded;
+  const wantFacts = (selectedPlace?.level === 'village' || s.list || focusPlace?.level === 'taluka') && !factsLoaded;
   useEffect(() => {
     if (!wantFacts) return;
     let live = true;
@@ -262,11 +262,11 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     allPaths,
     /** The first pan, zoom or tap on the map: the hint goes. */
     touch,
-    /** Choosing a map view keeps a selected village's card; anything else steps back to the map. */
+    /** Choosing a map view changes the colours only: the open card, the framing and the controls stay as they are. */
     setMapLayer: (mapLayer: MapLayer) => {
       replaceNext.current = true;
-      set(v => ({ ...v, mapLayer, selected: v.selected && v.selected[0] === 'v' ? v.selected : null, snap: 'peek', list: false }));
-      setAnnounce(mapLayer.id === 'names' ? 'Names.' : layerHeadline(mapLayer) + '.');
+      set(v => ({ ...v, mapLayer }));
+      setAnnounce(mapLayer.id === 'names' ? 'Names.' : layerHeadline(mapLayer, script));
     },
     live: liveData ?? NO_LIVE, litLayer, layerCounts,
     marks: litLayer && liveData ? liveData.marks(litLayer.id) : null,

@@ -39,35 +39,42 @@
 .k-note__text--deva { font: var(--weight-strong) 22px/1.6 var(--font-deva); }
 .k-note__by { font: var(--weight-regular) 15px/1.4 var(--font-latin); overflow-wrap: anywhere; }
 
-/* ---------- Phase 2 map views ---------- */
-/* The row: 44px tiles, radius 12, icon and label; scrolls sideways */
-.k-layer-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 16px 6px; pointer-events: auto; }
+/* ---------- Map views (phase 3) ---------- */
+/* The view row: the prototype's segmented row, 44px targets */
+.k-layer-row {
+  display: inline-flex; align-self: flex-start; justify-self: start; max-width: 100%; overflow-x: auto; scrollbar-width: none; pointer-events: auto;
+  background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 3px; gap: 2px; box-shadow: var(--shadow-1);
+}
 .k-layer-row::-webkit-scrollbar { display: none; }
 .k-layer-row__item {
-  flex: 0 0 auto; height: var(--chip-height); padding: 0 14px 0 12px; border-radius: var(--chip-radius); border: 0; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
-  background: var(--surface-raised); color: var(--text); box-shadow: var(--shadow-1);
-  font: var(--weight-strong) 15px/1 var(--font-latin);
+  flex: 0 0 auto; min-height: 44px; padding: 0 12px; border-radius: calc(var(--radius-m) - 3px); border: 0; cursor: pointer; white-space: nowrap;
+  background: transparent; color: var(--text); font: var(--weight-strong) 15px/1 var(--font-latin);
 }
-.k-layer-row__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); box-shadow: none; }
+.k-layer-row__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); }
+.k-layer-row__item:focus-visible { outline: 3px solid var(--text); outline-offset: 1px; }
 .k-layer-row__item:active { transform: scale(var(--press-scale, .96)); }
 @media (prefers-reduced-motion: reduce) { .k-layer-row__item:active { transform: none; } }
 
+/* Ending buttons: chips with their counts */
+.k-endings { display: flex; flex-wrap: wrap; gap: 6px; pointer-events: auto; }
+.k-endings__item {
+  min-height: 44px; padding: 0 14px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); background: var(--surface-raised); color: var(--text);
+  font: var(--weight-strong) 15px/1 var(--font-latin);
+}
+.k-endings__count { font-weight: var(--weight-regular); font-variant-numeric: tabular-nums; }
+.k-endings__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); border-color: var(--surface-invert); }
+.k-endings__item:focus-visible { outline: 3px solid var(--text); outline-offset: 1px; }
+
+/* The line that says what the colours mean, and the legend: on the page colour, so they read over the map */
+.k-view-line { margin: 0; justify-self: start; max-width: 36ch; padding: 4px 8px; border-radius: var(--radius-s); background: var(--surface); color: var(--text); font: var(--weight-regular) 16px/1.45 var(--font-latin); pointer-events: auto; }
+.k-view-line strong { font-weight: var(--weight-strong); }
+.k-legend { list-style: none; margin: 0; padding: 4px 8px; justify-self: start; display: flex; flex-wrap: wrap; gap: 4px 14px; border-radius: var(--radius-s); background: var(--surface); color: var(--text); font: var(--weight-strong) 15px/1.4 var(--font-latin); pointer-events: auto; }
+.k-legend__item { display: inline-flex; align-items: center; gap: 6px; }
+.k-legend__swatch { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--line); }
+
 .k-layer-panel { display: grid; gap: 14px; padding: 4px var(--gutter) 20px; color: var(--text); }
 .k-layer-panel__text { margin: 0; font: var(--weight-regular) 16px/1.5 var(--font-latin); }
-.k-layer-panel__lead { margin: 0; font: var(--weight-strong) 18px/1.45 var(--font-latin); }
-.k-layer-panel__small { margin: 0; font: var(--weight-regular) 15px/1.5 var(--font-latin); }
-
-/* Name parts */
-.k-parts { display: flex; flex-wrap: wrap; gap: 8px; }
-.k-parts__item {
-  min-height: 48px; padding: 0 14px; border-radius: var(--radius-m); cursor: pointer; display: inline-flex; align-items: baseline; gap: 8px;
-  border: 2px solid var(--line); background: var(--surface-raised); color: var(--text);
-}
-.k-parts__item[aria-checked="true"] { border-color: var(--text); background: var(--surface-invert); color: var(--text-invert); }
-.k-parts__item { align-items: center; }
-.k-parts__label { font: var(--weight-strong) 20px/1 var(--font-latin); }
-.k-parts__count { font: var(--weight-regular) 14px/1 var(--font-latin); }
 
 /* Month slider */
 .k-month { display: grid; gap: 8px; }
@@ -94,14 +101,3 @@
 .k-feasts__title { font: var(--weight-strong) 18px/1.3 var(--font-latin); }
 .k-feasts__place { font: var(--weight-strong) 15px/1.4 var(--font-latin); }
 .k-feasts__when { font: var(--weight-regular) 15px/1.45 var(--font-latin); }
-
-/* Names we need: the legend */
-.k-need { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.k-need__row { display: flex; align-items: center; gap: 12px; font: var(--weight-regular) 16px/1.4 var(--font-latin); }
-.k-need__row strong { font-weight: var(--weight-heavy); }
-.k-need__swatch { width: 28px; height: 20px; border-radius: 4px; flex: 0 0 auto; box-sizing: border-box; }
-.k-need__swatch--lit { background: var(--house-kokum); }
-.k-need__swatch--review { background: var(--map-kokum-dim); border: 1.5px dashed var(--map-outline); }
-.k-need__swatch--outline { background: var(--map-unlit); border: 1.5px solid var(--map-outline); }
-.k-layer-panel__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 359px) { .k-layer-panel__actions { grid-template-columns: 1fr; } }
