@@ -91,6 +91,8 @@ export function More({ open, onClose, layer, onLayer, layerCounts, onTellUs }: M
               Village codes and official names: Local Government Directory, Ministry of Panchayati Raj, Government of India (<a href="https://lgdirectory.gov.in/">lgdirectory.gov.in</a>), licensed under the Government Open Data License India (GODL-India). This use is not endorsed by the Government of India.
             </p>
             <p className="k-more__licence"><a className="k-more__link" href="/privacy/">Privacy notice</a></p>
+            {/* TODO(copy): link to the contributors page */}
+            <p className="k-more__licence"><a className="k-more__link" href="/contributors/">Contributors</a></p>
           </section>
         </div>
       </div>

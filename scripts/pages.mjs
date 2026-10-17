@@ -64,6 +64,6 @@ export async function pageIndex(root, { places, villages, geoBase, factCount = (
   }
 
   /* Pages that are not places, listed in the sitemap with their own file's day. */
-  const other = { '/privacy/': history.fileDay('src/pages/privacy.astro') };
+  const other = { '/privacy/': history.fileDay('src/pages/privacy.astro'), '/contributors/': latest([history.fileDay('src/pages/contributors.astro'), history.fileDay('data/villages_lgd.csv')]) };
   return { pages: { places: pages, other }, summary };
 }
