@@ -11,7 +11,7 @@
    how sources have spelled it, its vaddos, distances, what it is known for, and every source as a link, in the
    design's order. A block with nothing in it does not show. A Devanagari form from the Gazetteer that nobody has
    checked is shown here only, marked "Needs review" (phase 2 rule 6); it never becomes the place's name elsewhere. */
-import { Fragment, useState, type ReactNode } from 'react';
+import { Fragment, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { childCount, getPlace, whereLabel } from '../../data/khoim';
 import { CONTACT_EMAIL } from '../../data/site';
 import type { Place, VillageFacts } from '../../data/types';
@@ -86,6 +86,16 @@ export interface PlaceCardProps {
 
 export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, onTell, live = [], layer = 'names', headingLevel = 2, plain = false, facts = null, onShare }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
+  /* An official name shown as the heading keeps its full size unless one of its words is wider than the card
+     (Dharbandora on desktop): then it steps down until every word fits, rather than breaking mid-word. */
+  const headRef = useRef<HTMLSpanElement>(null);
+  useLayoutEffect(() => {
+    const el = headRef.current;
+    if (!el) return;
+    el.style.fontSize = '';
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    while (el.scrollWidth > el.clientWidth + 1 && size > 28) { size -= 2; el.style.fontSize = size + 'px'; }
+  }, [p.official, expanded]);
   const H = `h${headingLevel}` as const;
   const sub = (headingLevel + 1) as 2 | 3 | 4;
   const inside = p.level !== 'village' && !!onShowInside;
@@ -118,7 +128,7 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             ? <span className="k-card__deva" lang="gom">{p.deva}</span>
             : p.romi
               ? <span className="k-card__official-head" lang="gom-Latn">{p.romi}</span>
-              : <span className="k-card__official-head">{p.official}</span>}
+              : <span ref={headRef} className="k-card__official-head">{p.official}</span>}
         </H>
         {p.deva && (
           <div className="k-card__names">

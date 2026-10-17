@@ -41,6 +41,8 @@ button.k-sheet__handle::after { content: ""; position: absolute; inset: -8px 0; 
 }
 .k-card.is-expanded .k-card__deva { font-size: var(--size-name-hero); }
 .k-card__official-head { display: block; margin: 8px 0 10px; font: var(--weight-strong) 48px/1.25 var(--font-latin); overflow-wrap: anywhere; }
+/* with JavaScript the card sizes a too-long word down to fit (PlaceCard), so words stay whole */
+html.js .k-card__official-head { overflow-wrap: normal; overflow: hidden; }
 .k-card.is-expanded .k-card__official-head { font-size: 64px; }
 .k-card__names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
 .k-card__romi { font: var(--weight-strong) var(--size-name-m)/1.3 var(--font-latin); }
