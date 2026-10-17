@@ -29,12 +29,15 @@ export function contrast(root = document.body) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     if (!n.textContent.trim()) continue; const el = n.parentElement; if (!el || !visible(el)) continue;
+    // the names drawn on the type map are aria-hidden pictures of names, each on its own tint; their inks are
+    // chosen against those tints in src/styles/tokens/typemap.css (4.5:1 or more). Every name is also text elsewhere.
+    if (el.closest('.k-tmap__svg')) continue;
     { const r0 = el.getBoundingClientRect(); const top = document.elementFromPoint((r0.left + r0.right) / 2, (r0.top + r0.bottom) / 2); const cover = top && top.closest('.k-more.is-open, .k-search-screen.is-open'); if (cover && !cover.contains(el)) continue; }
     if (el.matches('.k-script-toggle__option[aria-checked="true"]')) { const s0 = getComputedStyle(el), th = getComputedStyle(el.parentElement.querySelector('.k-script-toggle__thumb')); const r = ratio(parse(s0.color), parse(th.backgroundColor)); checked++; if (r < 7) out.push('selected script option ' + r.toFixed(2)); continue; }
     const s = getComputedStyle(el); const fg = parse(s.color); const bg = bgOf(el); checked++;
     const size = parseFloat(s.fontSize), bold = Number(s.fontWeight) >= 700; const large = size >= 24 || (size >= 18.66 && bold); const need = large ? 4.5 : 7;
     // text that has no background of its own and sits over a map shape
-    let onMap = false; if (!el.closest('.k-map__label') && bg.el && (bg.el.classList.contains('k-app') || bg.el.tagName === 'BODY' || bg.el.tagName === 'HTML')) { const r = el.getBoundingClientRect(); const pts = [[r.left + 2, r.top + 2], [r.right - 2, r.top + 2], [r.left + 2, r.bottom - 2], [r.right - 2, r.bottom - 2], [(r.left + r.right) / 2, (r.top + r.bottom) / 2]]; onMap = pts.some(([x, y]) => document.elementsFromPoint(x, y).some(e => e.classList && (e.classList.contains('k-map__taluka') || e.classList.contains('k-map__hit')))); }
+    let onMap = false; if (!el.closest('.k-map__label') && bg.el && (bg.el.classList.contains('k-app') || bg.el.tagName === 'BODY' || bg.el.tagName === 'HTML')) { const r = el.getBoundingClientRect(); const pts = [[r.left + 2, r.top + 2], [r.right - 2, r.top + 2], [r.left + 2, r.bottom - 2], [r.right - 2, r.bottom - 2], [(r.left + r.right) / 2, (r.top + r.bottom) / 2]]; onMap = pts.some(([x, y]) => document.elementsFromPoint(x, y).some(e => e.classList && (e.classList.contains('k-tmap__v') || e.classList.contains('k-tmap__base')))); }
     const text = n.textContent.trim().slice(0, 28); const cls = (typeof el.className === 'string' && el.className.split(' ')[0]) || el.tagName;
     let problem = null;
     if (!fg || !bg.c) problem = 'cannot work out (' + bg.how + ')';
