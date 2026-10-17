@@ -80,9 +80,11 @@ export interface PlaceCardProps {
   plain?: boolean;
   /** A village's phase 2 facts (scripts/village-facts.mjs). */
   facts?: VillageFacts | null;
+  /** Share this place (phase 2): the share sheet on phones, a copied link on desktop. */
+  onShare?: () => void;
 }
 
-export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, onTell, live = [], layer = 'names', headingLevel = 2, plain = false, facts = null }: PlaceCardProps) {
+export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onShowInside, onTell, live = [], layer = 'names', headingLevel = 2, plain = false, facts = null, onShare }: PlaceCardProps) {
   const [showSrc, setShowSrc] = useState(false);
   const H = `h${headingLevel}` as const;
   const sub = (headingLevel + 1) as 2 | 3 | 4;
@@ -143,11 +145,13 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
       </div>
 
       {!expanded && (
-        <div className={inside ? 'k-card__actions k-card__actions--two' : 'k-card__actions'}>
+        <div className={inside ? 'k-card__actions k-card__actions--two' : onShare && p.level === 'village' ? 'k-card__actions k-card__actions--share' : 'k-card__actions'}>
           {lit && litCount > 0
             ? <Button variant="outline" ink={INK} icon={lit.icon} onClick={onExpand}>{lit.label} ({litCount})</Button>
             : <Button variant="outline" ink={INK} onClick={onExpand}>{p.level === 'village' ? 'All about ' + p.official : p.say ? 'How to say it' : 'All names'}</Button>}
           {inside && <Button ink={INK} paper={PAPER} iconAfter="chevron-down" onClick={onShowInside}>{insideLabel}</Button>}
+          {/* TODO(copy): "Share" is the design's */}
+          {!inside && onShare && p.level === 'village' && <Button ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share</Button>}
         </div>
       )}
      </div>
@@ -199,6 +203,15 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
           {p.facts && <><Rule />{p.facts.map(f => <Row key={f} level={sub} label="Worth knowing"><p className="k-card__body">{f}.</p></Row>)}</>}
           {p.level === 'village' && <><Rule /><Row level={sub} label="Boundary"><p className="k-card__body">{boundaryLine(p)}</p></Row></>}
           {rest.map(n => <Fragment key={n.layer.id}><Rule /><Row level={sub} label={n.layer.label}><LayerNotes items={n.items} /></Row></Fragment>)}
+          {onShare && (
+            <>
+              <Rule />
+              <div className="k-card__row">
+                {/* TODO(copy): "Share {place}" is the design's */}
+                <Button full ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share {p.official}</Button>
+              </div>
+            </>
+          )}
           {/* On a place that has a Konkani name: the one way in to the form (wording in docs/copy.md).
               Without the form: a way to say the name is wrong, by email. Wording from docs/copy.md, email from docs/email-and-icons.md. */}
           {named && (

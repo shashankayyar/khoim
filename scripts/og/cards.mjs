@@ -12,6 +12,7 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { baselineIn, shapeLine } from './shape.mjs';
+import { twoTonePng } from './png.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const gen = join(root, 'src/data/generated');
@@ -39,78 +40,98 @@ const all = [
 ];
 const parentOf = p => p.parent && (byId.get(p.parent) ?? null);
 const pathOf = p => { const t = []; for (let q = p; q && q.level !== 'state'; q = parentOf(q)) t.unshift(q.slug); return t.length ? '/' + t.join('/') + '/' : '/'; };
-const imagePath = p => p.level === 'state' ? '/og/goa.png' : '/og' + pathOf(p).slice(0, -1) + '.png';
+/* /og/south-goa/salcete.png, /og/square/south-goa/salcete.png, /og/tall/south-goa/salcete.png */
+const imagePath = (p, format = 'og') => '/og' + (format === 'og' ? '' : format === 'square' ? '/square' : '/tall') + (p.level === 'state' ? '/goa' : pathOf(p).slice(0, -1)) + '.png';
 const LEVEL = { district: 'District', taluka: 'Taluka', village: 'Village' };
 const whereLine = p => { const par = parentOf(p); return LEVEL[p.level] + (par && par.level !== 'state' ? ' in ' + par.official : '') + ', Goa'; };
 const outlineOf = p => p.level === 'state' ? Object.values(geo.districts).map(d => d.d).join('')
   : p.level === 'district' ? geo.districts[p.id]?.d : p.level === 'taluka' ? geo.talukas[p.id]?.d : villagePaths[p.id];
 
-/* ---------- Layout (ShareCard, og) ---------- */
+/* ---------- Layout (ShareCard) ---------- */
 
-const W = 1200, H = 630, PAD = 24, FRAME = 5, RADIUS = 36;
-const box = { x: PAD + FRAME + 48, y: PAD + FRAME + 36 };
-box.w = W - 2 * box.x; box.h = H - 2 * box.y;
-const SHAPE_W = 300, GAP = 56, FOOT_H = 60, ROW_GAP = 36;
-const namesX = box.x + SHAPE_W + GAP, namesW = box.w - SHAPE_W - GAP, rowH = box.h - FOOT_H - ROW_GAP;
+/* The formats of design/components/share/ShareCard.jsx. Only the link preview (og) is made here; the square and
+   tall images the share sheet saves are drawn in the visitor's browser when chosen (src/lib/shareImage.ts, same
+   numbers), which keeps the build to one image per place. */
+const FORMATS = {
+  og: { W: 1200, H: 630, pad: 24, frame: 5, radius: 36, px: 48, py: 36, name: 112, where: 30, official: 44, ask: 34, mark: 40, url: 36, rowGap: 36 },
+  square: { W: 1080, H: 1080, pad: 36, frame: 6, radius: 48, px: 60, py: 56, name: 130, where: 40, official: 56, ask: 44, mark: 52, url: 46, rowGap: 36 },
+  story: { W: 1080, H: 1920, pad: 36, frame: 6, radius: 48, px: 64, py: 72, name: 150, where: 40, official: 56, ask: 44, mark: 52, url: 46, rowGap: 56 }
+};
+const SHAPE_W = 300, GAP = 56;
 
-function shapeSvg(d, x, y, w, h) {
-  if (!d) return '';
+function shapeSvg(d, x, y, w, h, align = 'center') {
+  if (!d || w <= 0 || h <= 0) return '';
   const n = (d.match(/-?\d+(\.\d+)?/g) || []).map(Number);
   let b = [Infinity, Infinity, -Infinity, -Infinity];
   for (let i = 0; i < n.length - 1; i += 2) { b[0] = Math.min(b[0], n[i]); b[1] = Math.min(b[1], n[i + 1]); b[2] = Math.max(b[2], n[i]); b[3] = Math.max(b[3], n[i + 1]); }
   b = [b[0] - 4, b[1] - 4, b[2] + 4, b[3] + 4];
   const s = Math.min(w / (b[2] - b[0]), h / (b[3] - b[1]));
-  const tx = x + (w - (b[2] - b[0]) * s) / 2 - b[0] * s, ty = y + (h - (b[3] - b[1]) * s) / 2 - b[1] * s;
+  const tx = x + (align === 'start' ? 0 : (w - (b[2] - b[0]) * s) / 2) - b[0] * s, ty = y + (h - (b[3] - b[1]) * s) / 2 - b[1] * s;
   return `<path transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${s.toFixed(4)})" d="${d}" stroke="currentColor" stroke-width="${(1 / s).toFixed(3)}" stroke-linejoin="round"/>`;
 }
 
-/** Lines stacked in a column, centred in its height, as CSS grid with align-content: center would. */
-function column(lines, x, top, height, gap) {
-  const total = lines.reduce((t, l) => t + l.size * l.lh, 0) + gap * (lines.length - 1);
-  let y = top + (height - total) / 2, out = '';
+const heightOf = (lines, gap) => lines.reduce((t, l) => t + l.size * l.lh, 0) + gap * (lines.length - 1);
+/** Lines stacked in a column from `top`. */
+function stack(lines, x, top, gap) {
+  let y = top, out = '';
   for (const l of lines) {
     const base = y + baselineIn(l.font, l.size, l.lh);
     out += `<g transform="translate(${x.toFixed(2)} ${base.toFixed(2)})">${shapeLine(l.font, l.text, l.size).svg}</g>`;
     y += l.size * l.lh + gap;
   }
-  return { out, total };
+  return out;
 }
 
-function card(p) {
+function card(p, format = 'og') {
+  const F = FORMATS[format], og = format === 'og';
+  const box = { x: F.pad + F.frame + F.px, y: F.pad + F.frame + F.py };
+  box.w = F.W - 2 * box.x; box.h = F.H - 2 * box.y;
+  const footH = F.mark * 1.5, gap = og ? 4 : 10;
+  /* og: the outline on the left, the names beside it. square and tall: the outline above, the names below it. */
+  const namesX = og ? box.x + SHAPE_W + GAP : box.x, namesW = og ? box.w - SHAPE_W - GAP : box.w;
+  const room = og ? box.h - footH - F.rowGap : box.h - footH - 2 * F.rowGap;
+
   const named = !!(p.deva || p.romi);
   const NO_NAME = facts[p.id]?.gazetteerDeva ? CHECK : FIND;
-  /* Name size: 112, or smaller so that the longest name fits the column and every line fits the height. */
   const fitWidth = (font, text, size) => Math.min(size, size * namesW / shapeLine(font, text, size).width);
   const big = [p.deva && [DEVA, p.deva], p.romi && [LATIN[600], p.romi], !named && [LATIN[600], p.official]].filter(Boolean);
-  let nameSize = Math.min(112, ...big.map(([f, t]) => fitWidth(f, t, 112)));
+  let nameSize = Math.min(F.name, ...big.map(([f, t]) => fitWidth(f, t, F.name)));
   const linesAt = size => [
-    p.level !== 'state' && { font: LATIN[600], text: whereLine(p), size: 30, lh: 1.3 },
+    p.level !== 'state' && { font: LATIN[600], text: whereLine(p), size: Math.min(F.where, fitWidth(LATIN[600], whereLine(p), F.where)), lh: 1.3 },
     p.deva && { font: DEVA, text: p.deva, size, lh: 1.5 },
     p.romi && { font: LATIN[600], text: p.romi, size, lh: 1.2 },
-    named ? { font: LATIN[500], text: p.official, size: Math.min(44, fitWidth(LATIN[500], p.official, 44)), lh: 1.3 }
+    named ? { font: LATIN[500], text: p.official, size: Math.min(F.official, fitWidth(LATIN[500], p.official, F.official)), lh: 1.3 }
       : { font: LATIN[600], text: p.official, size, lh: 1.2 },
-    !named && { font: LATIN[600], text: NO_NAME, size: Math.min(34, fitWidth(LATIN[600], NO_NAME, 34)), lh: 1.35 }
+    !named && { font: LATIN[600], text: NO_NAME, size: Math.min(F.ask, fitWidth(LATIN[600], NO_NAME, F.ask)), lh: 1.35 }
   ].filter(Boolean);
-  for (let i = 0; i < 20; i++) {
-    const lines = linesAt(nameSize);
-    const total = lines.reduce((t, l) => t + l.size * l.lh, 0) + 4 * (lines.length - 1);
-    if (total <= rowH) break;
-    nameSize -= 2;
+  /* og: every line must fit the row. square and tall: leave the outline at least a quarter of the height. */
+  const limit = og ? room : room - box.h / 4;
+  for (let i = 0; i < 40 && heightOf(linesAt(nameSize), gap) > limit; i++) nameSize -= 2;
+  const lines = linesAt(nameSize), namesH = heightOf(lines, gap);
+
+  let body;
+  if (og) {
+    body = shapeSvg(outlineOf(p), box.x, box.y, SHAPE_W, room) + stack(lines, namesX, box.y + (room - namesH) / 2, gap);
+  } else {
+    const shapeH = room - namesH;
+    body = (format === 'square'
+      ? shapeSvg(outlineOf(p), box.x, box.y, box.w * 0.44, shapeH, 'start')
+      : shapeSvg(outlineOf(p), box.x + 80, box.y + 40, box.w - 160, shapeH - 80))
+      + stack(lines, namesX, box.y + shapeH + F.rowGap, gap);
   }
-  const names = column(linesAt(nameSize), namesX, box.y, rowH, 4);
 
   /* Footer: the wordmark on the left, khoim.in on the right, on one baseline. */
-  const footTop = box.y + box.h - FOOT_H, base = footTop + baselineIn(DEVA, 40, 1.5);
-  const deva = shapeLine(DEVA, SITE.deva, 40), romi = shapeLine(LATIN[600], SITE.romi, 40), url = shapeLine(LATIN[600], 'khoim.in', 36);
+  const base = box.y + box.h - footH + baselineIn(DEVA, F.mark, 1.5);
+  const deva = shapeLine(DEVA, SITE.deva, F.mark), romi = shapeLine(LATIN[600], SITE.romi, F.mark), url = shapeLine(LATIN[600], 'khoim.in', F.url);
   const foot = `<g transform="translate(${box.x} ${base.toFixed(2)})">${deva.svg}</g>` +
-    `<g transform="translate(${(box.x + deva.width + 12).toFixed(2)} ${base.toFixed(2)})">${romi.svg}</g>` +
+    `<g transform="translate(${(box.x + deva.width + F.mark * 0.3).toFixed(2)} ${base.toFixed(2)})">${romi.svg}</g>` +
     `<g transform="translate(${(box.x + box.w - url.width).toFixed(2)} ${base.toFixed(2)})">${url.svg}</g>`;
 
   const bg = colour('house-' + p.house), on = colour('house-' + p.house + '-on');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" color="${on}">` +
-    `<rect width="${W}" height="${H}" fill="${bg}"/>` +
-    `<rect x="${PAD + FRAME / 2}" y="${PAD + FRAME / 2}" width="${W - 2 * PAD - FRAME}" height="${H - 2 * PAD - FRAME}" rx="${RADIUS - FRAME / 2}" fill="none" stroke="currentColor" stroke-width="${FRAME}"/>` +
-    `<g fill="currentColor">${shapeSvg(outlineOf(p), box.x, box.y, SHAPE_W, rowH)}${names.out}${foot}</g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${F.W}" height="${F.H}" viewBox="0 0 ${F.W} ${F.H}" color="${on}">` +
+    `<rect width="${F.W}" height="${F.H}" fill="${bg}"/>` +
+    `<rect x="${F.pad + F.frame / 2}" y="${F.pad + F.frame / 2}" width="${F.W - 2 * F.pad - F.frame}" height="${F.H - 2 * F.pad - F.frame}" rx="${F.radius - F.frame / 2}" fill="none" stroke="currentColor" stroke-width="${F.frame}"/>` +
+    `<g fill="currentColor">${body}${foot}</g></svg>`;
 }
 
 /* ---------- Write ---------- */
@@ -118,10 +139,11 @@ function card(p) {
 const out = join(root, 'dist');
 const started = Date.now();
 let count = 0, bytes = 0;
-for (const p of all) {
-  const file = join(out, imagePath(p));
+for (const p of all) for (const format of ['og']) {
+  const file = join(out, imagePath(p, format));
   mkdirSync(dirname(file), { recursive: true });
-  const png = new Resvg(card(p), { font: { loadSystemFonts: false } }).render().asPng();
+  const img = new Resvg(card(p, format), { font: { loadSystemFonts: false } }).render();
+  const png = twoTonePng(img.pixels, img.width, img.height, colour('house-' + p.house), colour('house-' + p.house + '-on'));
   writeFileSync(file, png);
   count++; bytes += png.length;
 }

@@ -109,6 +109,10 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   const [villagesLoaded, setVillagesLoaded] = useState(villagesReady);
   const [paths, setPaths] = useState<{ id: string; paths: VillagePaths } | null>(null);
   const [extra, setExtra] = useState<{ id: string; extra: MapExtra } | null>(null);
+  /* the share sheet, and the short confirmation after sharing ("Link copied") */
+  const [shareOpen, setShareOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimer = useRef<number | undefined>(undefined);
   /* every village outline in Goa: a map view colours them all */
   const [allPaths, setAllPaths] = useState<VillagePaths | null>(null);
   /* Whether the contribution form is switched on. Until the server says so, cards keep their email buttons. */
@@ -257,6 +261,17 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   return {
     ...s, script, announce, villagesLoaded, villages, villagePaths, mapExtra, contrib,
     layered,
+    shareOpen,
+    toast,
+    openShare: () => setShareOpen(true),
+    closeShare: () => setShareOpen(false),
+    /** Shows a confirmation for 2400ms (--dur-demo) and closes the share sheet. */
+    showToast: (text: string) => {
+      setShareOpen(false);
+      setToast(text);
+      window.clearTimeout(toastTimer.current);
+      toastTimer.current = window.setTimeout(() => setToast(null), 2400);
+    },
     /** Every village outline, once a map view has asked for them. */
     allPaths: layered ? allPaths : null,
     /** Choosing a map view keeps a selected village's card; anything else steps back to the map. */
