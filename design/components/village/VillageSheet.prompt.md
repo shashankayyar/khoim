@@ -1,6 +1,10 @@
-Village sheet, peek and full. Put it in a Sheet on phones (bg/ink from KhoimData.houseOf) or a side panel on desktop.
+A village's sheet (phase 3). In a Sheet on phones (capped at 40% of the screen, it scrolls), docked right on desktop.
 ```jsx
-<VillageSheet place="v626704" expanded={snap==='full'} onExpand={...} onShare={openShare} onSuggest={...} onRecord={...} />
+<VillageSheet place={aldona} script={script} outline={paths[aldona.id]} facts={facts} onTell={openForm} onPick={openVillage} onShare={share} />
 ```
-- Order is fixed. Blocks with no data are not rendered; Facts always renders with DataPending placeholders until Census 2011 loads.
-- Sets --sheet-bg to the house colour so filled cells can invert text.
+- On `--surface-raised`. The house colour is the outline only (96px square, `--map-ink-{house}`).
+- Big name: the reviewed form in the chosen script, else the official spelling. Rows: Official, देवनागरी, Romi; "not written yet" in italic, full ink.
+- Gazetteer-only Devanagari: in the देवनागरी row only, with Needs review and "Devanagari as in the Gazetteer, 1979".
+- The ask (when a script is missing), a dashed box: "Do you know how {village} is said at home? Record it or write it in either script, and it goes on the map with your name."
+- Next to: 44px pills, names in the chosen script. Phase 2 blocks stay, each only with data.
+- Live: src/components/village/VillageSheet.tsx and village.css.
