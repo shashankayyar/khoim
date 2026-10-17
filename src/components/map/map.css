@@ -100,10 +100,11 @@
 }
 .k-tmap__mark--taluka { transform: translate(-50%, -100%); opacity: clamp(0, 1 - (var(--z) - 1.7) / 1.2, 1); }
 
-/* At village zoom (three times the Goa view): stations, and the symbols for what a village is known for */
+/* At village zoom (five times the Goa view, past where a taluka fills the screen): stations, and the symbols for
+   what a village is known for */
 .k-tmap__station, .k-tmap__glyphs {
   position: absolute; left: calc((var(--tx) + var(--x) * var(--k)) * 1px); top: calc((var(--ty) + var(--y) * var(--k)) * 1px);
-  opacity: clamp(0, (var(--z) - 3) * 1000, 1);
+  opacity: clamp(0, (var(--z) - 5) * 1000, 1);
 }
 .k-tmap__station {
   transform: translate(-7px, -50%); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
