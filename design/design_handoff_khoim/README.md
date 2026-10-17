@@ -12,12 +12,14 @@ The files in this project are **design references built in HTML/React (in-browse
 ## Where things are (paths from the project root)
 Download the whole project; this folder is its entry point. Serve the project root (e.g. `npx serve`) and open `ui_kits/khoim/index.html` to click through every state. `readme.md` at the root is the full design guide.
 
-- `styles.css` → `tokens/fonts.css`, `tokens/base.css`, `tokens/themes.css`, `tokens/layers.css` (phase 2), `tokens/elements.css`. **Copy these as-is.**
+- `styles.css` → `tokens/fonts.css`, `tokens/base.css`, `tokens/themes.css`, `tokens/layers.css` (phase 2), `tokens/elements.css`, `tokens/typemap.css` (phase 3). **Copy these as-is.**
 - `components/**/X.jsx` + `X.d.ts` (props contract) + `X.prompt.md` (usage notes). These are reference implementations of every component.
 - `components/data/`: `places.js` (names), `goaGeo.js` (boundaries), `khoim.js` (lookups, search, spoken names, house colours, layers). Turn these into JSON plus a small TS module.
 - `ui_kits/khoim/`: the full app. `index.html` has buttons for every state, phone and desktop, light and dark. `state.jsx` holds the state machine and presets, `Phone.jsx` and `Desktop.jsx` the layouts, `Cards.jsx` the share images, `More.jsx` the About/Help screen. The inline script in `index.html` only rebuilds components in the browser when the compiled bundle is stale; do not port it.
 - `guidelines/accessibility.md`: the AAA checklist and every contrast figure.
 - `assets/lucide/`: the 22 icons used (Lucide, ISC). `assets/names_districts_talukas.csv`, `assets/goa-map*.svg`: source data.
+
+> **Phase 3 (at the end) is what is live now** and wins over phases 1 and 2: the map is made of village names, with free pan and zoom, three views with legends, named rivers, a new layout and a new village sheet. `tokens/typemap.css` holds its tokens.
 
 > **Phase 2 (below) changes the phone chrome:** the breadcrumb replaces the back button, a layer row sits under it, and every sheet has the place name in its handle row. Where phase 1 and phase 2 differ, phase 2 wins.
 
@@ -429,3 +431,83 @@ Set `data-theme="light"` or `"dark"` explicitly on the root. Default to `prefers
   - Government spelling / Survey of India spelling / Advisory Body spelling
   - For posts. Your village in Konkani
 - **Removed:** Counted as, Census town (as a fact), Town first, Two readings (for Aldona), "{place}, not on the map yet", Lunar date (as a column).
+
+# Phase 3: the type map (live on khoim.in since 17 Oct 2026)
+
+This section describes what is live. **Where it differs from phases 1 and 2 above, phase 3 wins.** The brief is `docs/phase3-brief.md` and the prototype `docs/prototypes/type-atlas.html` (at the repository root, outside `design/`). The reference app in `ui_kits/khoim/` and most `.jsx` references still show phase 2; for phase 3 the live code in `src/` is the reference, and this section says where to find each piece.
+
+## What changed, in one paragraph
+Goa is drawn with every village's name inside its own outline, so the map is made of names. People pan and zoom freely to read it. Three views change only the colours of the same map. Rivers are a few named, quiet lines. The strip of village cards is gone. Every place keeps its own page and address, so search, sharing and the sitemap are unchanged.
+
+## Rules
+1. **Map labels show reviewed names only**, in the script chosen in the toggle. Without one, the official spelling shows lighter (weight 500) and fainter. A Gazetteer-only form never appears on the map.
+2. **One colour, one meaning, per view.** Every view that colours for meaning has a legend on the map, and each swatch is the same token the map fills with.
+3. **Same framing in every view.** Switching view never moves or resizes the map, and never closes the open card. Village names, taluka names and taluka borders show in every view.
+4. **The view controls are never hidden.** No sheet or card covers them. On phones a sheet stops at 40% of the screen.
+5. **One count.** 384 village outlines are drawn (Curchorem-Cacora is two of them). Say 384 wherever the map counts villages; 429 where the site means all of them, with 45 not drawn yet.
+
+## The map (`src/components/map/GoaMap.tsx`, `map.css`)
+- **Villages:** filled with the taluka's tint (`--map-tint-*`), 0.6px edge in `--map-village-edge`, named in the house ink (`--map-ink-*`) at the angle and size worked out at build time (`data/scripts/labels.mjs`: long axis kept within ±55°, level under 8°, size 1.4 to 16 map units). Latin names are set 84% wide, close to the prototype's narrow Anek. A name shows once it is 7px tall on screen and fades in over the next 3px.
+- **Talukas:** borders always drawn (`--map-taluka-edge` at 35%). Names large over all of Goa (15 to 30px on screen), with a page-colour halo, fading out between 1.7 and 2.9 times the Goa view, and hidden while a village is open.
+- **Moving:** drag to pan; wheel, pinch or the **+ and - buttons** (48px, bottom right) to zoom around the pointer, from 0.8 to 22 times the Goa view. Some of Goa always stays on screen.
+- **Opening:** tapping a village opens it. The map moves to it (it fills 55% of the free space, up to 14 times the Goa view, 650ms ease-out, none under reduced motion), outlines it in `--text` at 2.2px, keeps its neighbours named at any zoom and dims every other village to 35%. A district or taluka opened from search, the breadcrumb or a list is framed and outlined the same way. Tapping the sea puts the card away.
+- **Rivers** (`scripts/map-lines.mjs`): only Mandovi, Zuari, Chapora, Terekhol, Sal, Talpona, Galgibaga, Mhadei, Kushavati, Valvanti River, Dudhsagar and Mapusa River, in OpenStreetMap's own names. `--map-water` at 75%, round caps, clipped to Goa, width in map units (weight × 0.9; the Mandovi draws about 175 m wide), never under 1px. Names (`--map-water-text`, 12px, letter-spaced, page-colour halo) follow the line past 2.2 times the Goa view. In the other views rivers and railway fade to 30% and river names go.
+- **Railway:** one 1px line in `--text` at 70%. **Stations** (Wikidata) and **symbols** for feasts, monuments and GI products (white tiles, 26px) show only at village zoom, past 5 times the Goa view; the symbols only in the Names view. Neither is a button: tapping the village opens it.
+- **Live layers** (Voices, Crops and the rest): white tiles with the layer's icon and a count, over each village that holds something (at village-label zoom) and each taluka (with the taluka names).
+- **Credit:** "Rivers and railway © OpenStreetMap contributors", a 44px tap target, bottom right beside the zoom buttons.
+- The SVG is aria-hidden. Search, the lists, the breadcrumb and the plain links on every page reach every place.
+
+## Views (`src/lib/layers.ts`, `src/components/layers/LayerRow.tsx`, `Views.tsx`)
+- A segmented row (44px), one view at a time: **Names · Spelling endings · Still unwritten**.
+- **Spelling endings:** chips -im, -em, -gao, -ona, -ora with their counts, only in this view. Matching villages fill `--map-view-on` (ink) with names in `--map-view-on-text`; the rest `--map-quiet` with faint names. Line: "{n} of 384 villages end in “-{ending}” in their official spelling." Legend: "ends in -{ending}", "other villages".
+- **Still unwritten:** villages with a reviewed Konkani name in either script fill `--map-written` (kokum) with names in `--map-written-text`; the rest quiet. Line: "{n} of 384 villages have a Konkani name written here. The rest still show their official spelling." Legend: "written in Konkani, {n}", "not yet, {384-n}".
+- Feasts and zatras is out of the row until there are 20 or more. Population waits for Census 2011. Phase 2 links keep working: `?layer=parts&part=im`, `?layer=need`.
+
+## Phone (390×844)
+- The header floats over the map, each piece of text on the page colour: wordmark (opens About) and script toggle; once you leave the first screen, the breadcrumb with search and layers beside it; the headline "Goa, written in its own names." (28px/1.08) and the count line; the view row; the ending chips and the legend.
+- In a view other than Names its line takes the headline's place. With a card open, the headline, count line and ending chips fold away; the wordmark, script toggle, views and legend stay.
+- The first screen's foot: the hint "Scroll or pinch to read the villages. Tap one." (goes after the first pan, zoom or tap), "Draft for review.", then search and layers. Search opens the search screen, which lists every district and taluka as house-colour tiles before anything is typed.
+- Sheets stop at 40% of the screen and scroll inside, so the map always keeps 60%.
+
+## Desktop (1280 and wider)
+- The draft banner on top, then the map filling the screen.
+- A 420px panel at the top left, on the page colour, radius 16: wordmark and layers button, breadcrumb, the headline (44px), the count line, script toggle, views, search.
+- The map is centred in the space to the panel's right. The open place, or search results, dock on the right: 380px, 14px from the edges, radius 18. The map re-centres in the space left between them.
+- The credit line sits bottom left. A taluka's list of villages opens over the map, beside the panel, which stays in view.
+
+## The village sheet (`src/components/village/VillageSheet.tsx`, `village.css`)
+On the page colour (`--surface-raised`); the house colour is the outline.
+1. "Village in {taluka}" and Close.
+2. **Hero:** the outline (96px square, in `--map-ink-*`) beside the name: the reviewed form in the chosen script, else the official spelling (40px; Devanagari 38/1.5). Under it, **Official, देवनागरी and Romi** listed together, "not written yet" (italic, full ink) where empty. A Gazetteer-only Devanagari form shows only here, in the देवनागरी row, with "Needs review" and "Devanagari as in the Gazetteer, 1979".
+3. **The ask**, when a script is missing: a dashed box, "**Do you know how {village} is said at home?** Record it or write it in either script, and it goes on the map with your name." It opens the contribution form (an email, with the address in plain text, where the form is off).
+4. Say it and recordings, then the phase 2 blocks, each only with data: Meaning, Spellings, Vaddos, Facts (distances), Known for (with the 12-month feast strip), Video.
+5. **Next to:** a 44px pill per neighbour, its name in the chosen script; tapping one opens it and moves the map there.
+6. Sources (status, who added and reviewed the name, links), Boundary, Share, and "Add or correct something" (or "Suggest a correction" by email).
+On phones the sheet peeks at the top two parts. Districts and talukas keep the house-colour place card; a taluka card's count button opens "See all as a list".
+
+## New tokens (`tokens/typemap.css`)
+| Token | Light | Dark | Use |
+| --- | --- | --- | --- |
+| `--map-tint-{house}` | prototype tints, e.g. kokum #EAD6DA | e.g. kokum #3A1B25 | village fills |
+| `--map-ink-{house}` | prototype inks; haldi #80600F, rose #9A3A55, mustard #8A4C12 deepened | prototype dark inks | village names, the outline on the sheet |
+| `--map-village-edge` | #FFFFFF | soot-950 | between villages |
+| `--map-taluka-edge` | ink-900 | chalk-100 | taluka borders, at 35% |
+| `--map-water`, `--map-water-text` | #6E9FB3, #2F6478 | #4F7F93, #8EC3D6 | rivers, river names |
+| `--map-quiet` | #ECEAE3 | #211E19 | villages a view does not pick out |
+| `--map-view-on`, `--map-view-on-text` | ink-900, lime-100 | chalk-100, soot-950 | Spelling endings |
+| `--map-written`, `--map-written-text` | #8C2E4A, lime-100 | #E07A98, soot-950 | Still unwritten |
+
+Every village name reads at 4.5:1 or more on its own tint. The deepened light inks for haldi, rose and mustard replace the prototype's, which gave 2.6 to 3.6.
+
+## Changed from the prototype, and why
+- **Zoom buttons** added: pinching and the wheel need a one-finger, one-click alternative (WCAG 2.5.1, 2.5.7).
+- **Narrow letters** are drawn by setting Latin names 84% wide: the site's fonts have no width axis. **Faint names** use weight 500, the lightest the site's fonts carry (weights 500 to 700, agreed 1 October 2026), not 300.
+- **Three inks deepened** (above). **River width** follows the map's real scale, because the prototype's formula drew rivers about 1px wide over all of Goa. **Railway** fades with the rivers in the other views.
+- **Stations and village symbols** wait for 5 times the Goa view, so they don't crowd a taluka.
+- **Search** sits in the desktop panel with results docked right; the prototype had none.
+- **Phone:** no back arrow (the breadcrumb is the way up); the view's line replaces the headline in the other views; sheets are capped at 40%; the taluka tiles moved from a bottom sheet into the search screen.
+- **Pills** for the ending chips and the "Next to" buttons, as in the prototype, although phases 1 and 2 used soft squares only.
+- The ask, "Next to" and the outline follow the prototype; everything phase 2 added to the sheet stays.
+
+## New wording waiting for approval
+"Zoom in" and "Zoom out" (the + and - buttons, read by screen readers), and "Map views" as the name of the view row. Everything else on screen is the approved wording in `docs/phase3-brief.md`, listed in `docs/copy.md`.

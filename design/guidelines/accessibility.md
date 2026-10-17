@@ -34,6 +34,15 @@ Rules: text is never set at reduced opacity. Hierarchy comes from size and weigh
 - **4.1.3 Status messages:** selection and level changes are announced in a polite live region using `KhoimData.spokenName()`. Search result counts are live.
 - **Dragging (2.5.7):** scrubbing is optional; tapping does everything dragging does.
 
+## Phase 3: the type map
+- The map's SVG is aria-hidden: its names are pictures of names. Every place is reached as text through search (and its list of every district and taluka), the breadcrumb, a taluka's "See all as a list", the "Next to" buttons and the plain links on every page.
+- Zoom has single-pointer alternatives (2.5.1, 2.5.7): the + and - buttons, 48px, named "Zoom in" and "Zoom out". Dragging is never the only way to anything.
+- Village names on the map read at 4.5:1 or more on their own tint, light and dark (`--map-ink-*` on `--map-tint-*`; haldi, rose and mustard deepened in light mode). Faint names (no reviewed form in the chosen script) are deliberately lower; the same name is always available as text.
+- Every piece of text over the map sits on the page colour: the phone header's pills, the desktop panel, the view line, the legend, the OpenStreetMap credit (a 44px target).
+- Legends never rely on colour alone: each swatch has its words and count.
+- Switching view never moves the map or the focus. Reduced motion: the map jumps to a place instead of gliding.
+- `scripts/dev/contrast-audit.js` (outside `design/`) walks the phase 3 screens; it skips the map's own SVG names, checked above.
+
 ## To test in build
 - TalkBack on a low-end Android with Chrome, VoiceOver on iOS Safari; check Devanagari is read with a Marathi/Hindi voice when no Konkani voice exists.
 - 200% text zoom: the sheet scrolls; nothing is clipped.
