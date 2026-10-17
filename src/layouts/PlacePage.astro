@@ -8,6 +8,7 @@ import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { Wordmark } from '../components/core/Wordmark';
 import { PlaceCard } from '../components/place/PlaceCard';
+import { VillageSheet } from '../components/village/VillageSheet';
 import { PAGE_INDEX } from '../data/pageIndex';
 import villagesJson from '../data/generated/villages.json';
 import factsJson from '../data/generated/village-facts.json';
@@ -52,6 +53,9 @@ const inside = place.level === 'taluka' || place.level === 'village' ? [] : chil
 const tableOf = place.level === 'taluka' ? allVillagesOf(place.id)
   : place.id === 'kushavati' ? childrenOf(place.id).flatMap(t => allVillagesOf(t.id)) : [];
 const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.id) : undefined;
+/* a village's outline, drawn beside its name on its sheet */
+const outlines = import.meta.glob<{ default: Record<string, string> }>('../data/generated/village-paths/*.json', { eager: true });
+const outline = place.level === 'village' && place.parent ? outlines[`../data/generated/village-paths/${place.parent}.json`]?.default[place.id] ?? null : null;
 ---
 
 <Base title={title} description={meta.description} path={path} noindex={notFound || list || !indexable} ogImage={ogImagePath(place)} ogImageAlt={ogImageAlt} jsonLd={jsonLd}>
@@ -76,11 +80,15 @@ const initialVillage = place.level === 'village' ? raw.find(v => v.id === place.
       </div>
       <div class="static__panel">
         <div class="static__panel-body">
-          {!home && (
-            <div class="static__card" data-house={houseOf(place).key} style={`--peek:${place.deva ? 318 : 344}px`}>
-              <PlaceCard place={place} expanded plain headingLevel={1} facts={factsOf(place.id)} />
-            </div>
-          )}
+          {!home && (place.level === 'village' ? (
+              <div class="static__card static__card--village">
+                <VillageSheet place={place} script="deva" outline={outline} plain headingLevel={1} facts={factsOf(place.id)} />
+              </div>
+            ) : (
+              <div class="static__card" data-house={houseOf(place).key} style={`--peek:${place.deva ? 318 : 344}px`}>
+                <PlaceCard place={place} expanded plain headingLevel={1} facts={factsOf(place.id)} />
+              </div>
+            ))}
           {inside.length > 0 && (
             <nav class="static__places" aria-label={'Places in ' + place.official}>
               <ul>

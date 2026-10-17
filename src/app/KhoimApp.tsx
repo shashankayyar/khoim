@@ -18,6 +18,7 @@ import { Sheet } from '../components/place/Sheet';
 import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
+import { VillageSheet } from '../components/village/VillageSheet';
 import { EndingButtons, Legend, ViewLine } from '../components/layers/Views';
 import { LayerRow } from '../components/layers/LayerRow';
 import { layerWith } from '../lib/layers';
@@ -245,6 +246,13 @@ function Views({ k, endings = true }: { k: Khoim; endings?: boolean }) {
   );
 }
 
+/* A village's sheet (phase 3): its outline beside its names, the ask, its facts, and the villages next to it,
+   whose buttons move the map there. */
+function Village({ k, place, desktop }: { k: Khoim; place: NonNullable<ReturnType<typeof getPlace>>; desktop: boolean }) {
+  return <VillageSheet place={place} script={k.script} outline={k.allPaths?.[place.id]} facts={k.facts} live={k.live.at(place.id)} layer={k.layer} headingLevel={1}
+    onClose={() => k.setSnap('closed')} onTell={k.contrib.open ? kind => k.openForm(place.id, kind ?? null) : undefined} onPick={k.select} onShare={shareAction(k, desktop, false)} />;
+}
+
 function Phone({ k }: { k: Khoim }) {
   const sp = getPlace(k.selected);
   const first = !k.focus && !k.selected;
@@ -304,10 +312,12 @@ function Phone({ k }: { k: Khoim }) {
         </div>
       )}
       {sp && (
-        <Sheet key={'s' + sp.id} label={sp.official} title={sheetTitle(sp)} snap={k.snap} onSnap={k.setSnap} peek={cardPeek} onMeasure={onMeasure} house={houseOf(sp).key} maxShare={SHEET_SHARE}>
+        <Sheet key={'s' + sp.id} label={sp.official} title={sheetTitle(sp)} snap={k.snap} onSnap={k.setSnap} peek={cardPeek} onMeasure={onMeasure} house={sp.level === 'village' ? undefined : houseOf(sp).key} maxShare={SHEET_SHARE}>
           <div className="k-phone-card">
-            <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={showInside(k)}
-              onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, false, false)} />
+            {sp.level === 'village'
+              ? <Village k={k} place={sp} desktop={false} />
+              : <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={showInside(k)}
+                  onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, false, false)} />}
           </div>
         </Sheet>
       )}
@@ -355,6 +365,8 @@ function Desktop({ k }: { k: Khoim }) {
             <aside className="k-desktop-dock" aria-label={k.query ? 'Search' : 'Names'}>
               {k.query ? (
                 <div className="k-desktop-dock__search"><SearchResults query={k.query} onPick={id => { k.setQuery(''); k.openPlace(id); }} villagesLoaded={k.villagesLoaded} /></div>
+              ) : sp?.level === 'village' ? (
+                <div key={sp.id} className="k-desktop-card k-desktop-card--village"><div className="k-desktop-card__inner"><Village k={k} place={sp} desktop /></div></div>
               ) : sp ? (
                 <div key={sp.id} className="k-desktop-card" data-house={houseOf(sp).key}>
                   <div className="k-desktop-card__inner">

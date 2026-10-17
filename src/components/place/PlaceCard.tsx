@@ -1,4 +1,6 @@
-/* The place card. Sits in a Sheet on phones or in the names panel on desktop, on the place's house colour.
+/* The place card for Goa, a district or a taluka. Since phase 3 a village has its own sheet
+   (src/components/village/VillageSheet.tsx); the village parts below remain for any older caller.
+   Sits in a Sheet on phones or docked on the right on desktop, on the place's house colour.
    Order is fixed: Devanagari (largest), Romi, official spelling; then say it, sources, details.
    Missing names show PendingName; never a guess. A name recorded in one script only leads with that script
    and says the other is not recorded yet (Romi only: since 4 October 2026, for names people send in). Ported from design/components/place/PlaceCard.jsx.
