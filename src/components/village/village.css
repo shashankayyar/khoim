@@ -110,3 +110,38 @@
 .k-video__frame { border: 0; }
 .k-video__title { font: var(--weight-strong) 18px/1.35 var(--font-latin); }
 .k-video__channel { color: inherit; font-weight: var(--weight-strong); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: var(--tap-min); }
+
+/* ---------- The village sheet (phase 3, docs/prototypes/type-atlas.html) ---------- */
+.k-vsheet { color: var(--text); }
+.k-vsheet__hero { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 4px; }
+.k-vsheet__hero--text { grid-template-columns: minmax(0, 1fr); }
+.k-vsheet__outline { width: 96px; height: 96px; display: block; }
+.k-vsheet__names { display: grid; gap: 8px; min-width: 0; }
+.k-vsheet__name { margin: 0; font: var(--weight-strong) 40px/1.05 var(--font-latin); letter-spacing: -.01em; overflow-wrap: anywhere; }
+.k-vsheet__name--deva { font: var(--weight-strong) 38px/1.5 var(--font-deva); letter-spacing: 0; }
+.k-vsheet__forms { margin: 0; display: grid; gap: 4px; }
+.k-vsheet__forms > div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.k-vsheet__forms dt { font: var(--weight-strong) 14px/1.5 var(--font-latin); }
+.k-vsheet__forms dt[lang="gom"] { font-family: var(--font-deva); }
+.k-vsheet__forms dd { margin: 0; font: var(--weight-regular) 17px/1.5 var(--font-latin); overflow-wrap: anywhere; }
+.k-vsheet__deva { font-family: var(--font-deva); line-height: 1.6; }
+/* a script with no name yet: said in words, never faded (phase 2 placeholders are dashed, not grey) */
+.k-vsheet__missing { font-style: italic; }
+.k-vsheet__review { display: grid; gap: 2px; margin-top: 2px; font: var(--weight-regular) 14px/1.4 var(--font-latin); }
+/* the ask: a dashed box that opens the contribution form */
+.k-vsheet__ask {
+  display: block; width: 100%; box-sizing: border-box; margin: 16px 0 4px; padding: 14px 16px; text-align: left; cursor: pointer;
+  border: 2px dashed currentColor; border-radius: var(--radius-l); background: transparent; color: inherit; text-decoration: none;
+  font: var(--weight-regular) 16px/1.5 var(--font-latin);
+}
+.k-vsheet__ask strong { font-weight: var(--weight-strong); }
+.k-vsheet__ask:hover { background: var(--surface-sunk); }
+.k-vsheet__ask:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+.k-vsheet__next { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.k-vsheet__nb {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; box-sizing: border-box; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-strong); background: transparent; color: var(--text); text-decoration: none;
+  font: var(--weight-strong) 16px/1.2 var(--font-latin);
+}
+.k-vsheet__nb:hover { background: var(--surface-sunk); }
+.k-vsheet__nb:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }

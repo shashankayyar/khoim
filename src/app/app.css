@@ -122,8 +122,11 @@ html[data-app="ready"] #khoim-static { display: none; }
   background: var(--house-bg); color: var(--house-on); padding: var(--trim-inset);
 }
 .k-desktop-card__inner { padding: 10px 10px 16px; }
+/* a village's sheet is on the page colour: the house colour is its outline */
+.k-desktop-card--village { background: var(--surface-raised); color: var(--text); padding: 10px 14px; }
 
-.k-desktop-hint { position: absolute; left: calc(14px + 420px + 14px); right: 14px; bottom: 18px; margin: 0 auto; width: max-content; z-index: 3; }
+/* above the OpenStreetMap credit and the zoom buttons */
+.k-desktop-hint { position: absolute; left: calc(14px + 420px + 14px); right: 14px; bottom: 78px; margin: 0 auto; width: max-content; z-index: 3; }
 .k-desktop-credit { position: absolute; left: 14px; bottom: 14px; width: 420px; z-index: 2; }
 .k-desktop-credit .k-credit { padding: 6px 10px; border-radius: var(--radius-s); background: var(--surface); }
 .k-desktop-credit .k-credit p { margin: 0; font-size: 14px; line-height: 1.4; }

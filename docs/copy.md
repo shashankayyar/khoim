@@ -69,6 +69,22 @@ DRAFT FOR REVIEW · Names and pronunciation guides are not final. Please tell us
 - Correction sent: Got it, thanks. Someone who reads Konkani will check this before we change anything. We'll credit you if you left your name.
 - Errors: The map didn't load. Check your connection and try again. / You're offline. The map will load once you're back online. / That didn't send. Your text is still here, so please try again.
 
+## Phase 3: the type map (17 October 2026)
+Approved in `docs/phase3-brief.md`, used as written:
+- Headline: Goa, written in its own names.
+- Count line: {n} villages, as the government spells them. Switch script to see how many we can write in Konkani yet.
+- Count line, Devanagari or Romi: {n} of {total} villages written in {Devanagari|Romi} so far. The faint names are still waiting for someone who knows them.
+- Views: Names · Spelling endings · Still unwritten
+- Spelling endings line: {n} of 384 villages end in “-{ending}” in their official spelling. Legend: ends in -{ending} · other villages
+- Still unwritten line: {n} of 384 villages have a Konkani name written here. The rest still show their official spelling. Legend: written in Konkani, {n} · not yet, {384-n}
+- Hint: Scroll or pinch to read the villages. Tap one.
+- Village sheet: Village in {taluka} · not written yet · Next to
+- The ask: Do you know how {village} is said at home? Record it or write it in either script, and it goes on the map with your name.
+
+New, for Shashank to confirm (read out by screen readers, not shown on screen):
+- "Zoom in" and "Zoom out" on the map's + and - buttons.
+- "Map views" as the name of the row of views (it was "Map layers").
+
 ## Why Khoim
 Most places in Goa have an official spelling and a Konkani name, and the two often don't match. Canacona is काणकोण, written Kannkonn in Romi. Many official spellings come from Portuguese-era records and are what you see on boards, maps and bills.
 
