@@ -30,6 +30,7 @@ import { pageIndex } from './pages.mjs';
 import { sourcedFactCount, villageFacts } from './village-facts.mjs';
 import { openProjection } from './lib/projection.mjs';
 import { mapExtra } from './map-extra.mjs';
+import { labelFor, neighboursOf } from '../data/scripts/labels.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'src/data/generated');
@@ -82,9 +83,9 @@ const shapes = new Map();
 for (const v of VILLAGES) {
   const key = v.id.split('-')[0];
   const has = shapes.get(key);
-  if (!has) { shapes.set(key, { ...v, id: key }); continue; }
+  if (!has) { shapes.set(key, { ...v, id: key, labelD: v.d }); continue; }
   check(has.t === v.t && has.n === v.n, `Shape ${v.id} shares a code with ${has.id} but not its taluka or name.`);
-  if (v.d.length > has.d.length) has.lp = v.lp; // label sits on the larger part
+  if (v.d.length > has.d.length) { has.lp = v.lp; has.labelD = v.d; } // label sits on the larger part
   has.d += v.d;
 }
 
@@ -121,7 +122,7 @@ for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_
   if (shape && shape.t !== listTaluka) mapTalukaDiffers.push(`${row.lgd_code} ${row.official}: filed under ${row.taluka} as the LGD list says; the boundary file draws it inside ${placeById[shape.t].official}`);
   const v = { id: 'v' + row.lgd_code, t: taluka, n: row.official, lgd: row.lgd_code };
   if (row.lgd_type === 'Ct') v.town = true;
-  if (shape) { v.src = shape.src; v.lp = shape.lp; paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
+  if (shape) { v.src = shape.src; v.lp = shape.lp; Object.assign(v, labelFor(shape.labelD, row.official)); paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
   /* A Konkani name appears only when a reviewer has signed the row. */
   if ((row.konkani_deva || row.romi) && row.reviewer && row.reviewed_on) {
     if (row.konkani_deva) v.deva = row.konkani_deva;
@@ -140,7 +141,7 @@ for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_
 /* 2. Outlines that are not in the LGD list. These come from Survey of India and keep its spelling. */
 for (const shape of shapes.values()) {
   check(shape.src === 'SOI', `Shape ${shape.id} (${shape.n}) is marked LGD but its code is not in data/villages_lgd.csv.`);
-  const v = { id: 'v' + shape.id, t: shape.t, n: shape.n, lgd: null, src: 'SOI', lp: shape.lp };
+  const v = { id: 'v' + shape.id, t: shape.t, n: shape.n, lgd: null, src: 'SOI', lp: shape.lp, ...labelFor(shape.labelD, shape.n) };
   if (shape.town) v.town = true;
   paths[shape.t][v.id] = shape.d;
   villages.push(v);
@@ -190,6 +191,12 @@ const facts = villageFacts(root, { lgdCodes: new Set(lgdByCode.keys()), check })
 }
 
 const withShape = villages.filter(v => v.src);
+
+/* The type map's neighbours (data/scripts/labels.mjs): villages whose outlines share at least two boundary points. */
+{
+  const nb = neighboursOf(withShape.map(v => ({ id: v.id, d: paths[v.t][v.id] })));
+  for (const v of withShape) v.nb = nb[v.id];
+}
 const counts = {
   lgd: lgdRows.length,
   lgdWithShape: villages.filter(v => v.lgd && v.src === 'LGD').length,
