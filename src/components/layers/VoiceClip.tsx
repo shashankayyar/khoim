@@ -38,7 +38,8 @@ export function VoiceClip({ recordings }: VoiceClipProps) {
         <li key={i}>
           <button type="button" className="k-voice" onClick={() => play(r, i)} aria-pressed={playing === i} aria-label={(playing === i ? 'Pause ' : 'Play ') + r.speaker + (r.village ? ', ' + r.village : '')}>
             <span className="k-voice__play" aria-hidden="true"><Icon name={playing === i ? 'pause' : 'play'} size={20} /></span>
-            <span className="k-voice__who"><span className="k-voice__speaker">{r.speaker}</span>{r.village && <span className="k-voice__village">{r.village}</span>}</span>
+            {/* "Said by [name], [village]" (phase 2 brief); a speaker who gave no name stays "A speaker from" the village */}
+            <span className="k-voice__who"><span className="k-voice__speaker">{r.village ? `Said by ${r.speaker}, ${r.village}` : r.speaker}</span></span>
             {r.duration && <span className="k-voice__duration">{r.duration}</span>}
           </button>
         </li>

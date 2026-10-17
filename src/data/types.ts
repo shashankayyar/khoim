@@ -93,6 +93,8 @@ export interface VillageFacts {
   vaddos?: { source: string; url: string | null; items: string[] };
   knownFor?: KnownForItem[];
   spellings?: { items: Spelling[]; page: string | null };
+  /** Videos about the village, credited to the channel. The still is kept on khoim.in: /video-thumbs/{id}.jpg. */
+  videos?: { id: string; title: string; channel: string; channelUrl: string; url: string; uploaded: string }[];
   /** The Gazetteer's Devanagari, 1979. Unreviewed: shown on the village sheet only, labelled (phase 2 rule 6). */
   gazetteerDeva?: string;
   sources: { title: string; url: string | null }[];
