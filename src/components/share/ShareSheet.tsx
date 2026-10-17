@@ -1,11 +1,13 @@
 /* Share a place or a map view (design/components/share/ShareSheet.jsx). On phones: Send opens the phone's own
    share menu (WhatsApp, Instagram and the rest); Copy link; and for a place, the square and tall images
-   ("My village in Konkani"). Desktop has no sheet: Share copies the link straight away. No counts, no logins. */
+   ("My village in Konkani"), drawn in the browser when chosen (src/lib/shareImage.ts). Desktop has no sheet:
+   Share copies the link straight away. No counts, no logins. */
 import { useRef } from 'react';
 import type { Place } from '../../data/types';
 import { useDialog } from '../../lib/dialog';
 import type { MapLayer } from '../../lib/layers';
 import { copyText, imageUrl, shareUrl } from '../../lib/share';
+import { makeShareImage, saveBlob, type ShareFormat } from '../../lib/shareImage';
 import { Icon } from '../core/Icon';
 import { IconButton } from '../core/IconButton';
 import type { IconName } from '../core/iconPaths';
@@ -46,6 +48,13 @@ export function ShareSheet({ open, place, layer, onClose, onDone }: ShareSheetPr
       : <button type="button" className="k-share__row" onClick={props.onClick}>{inner}</button>;
   };
   const slug = place && place.level !== 'state' ? place.slug : 'goa';
+  const save = async (format: ShareFormat) => {
+    if (!place) return;
+    try {
+      saveBlob(await makeShareImage(place, format), `khoim-${slug}-${format}.png`);
+      onDone(format === 'square' ? 'Square image saved' : 'Tall image saved');
+    } catch { /* the browser could not draw it: nothing is saved, and nothing claims it was */ }
+  };
   return (
     <div className={open ? 'k-share-scrim is-open' : 'k-share-scrim'} onClick={e => { if (e.target === e.currentTarget) onClose(); }} aria-hidden={!open}>
       <div ref={ref} tabIndex={-1} className="k-share" role="dialog" aria-modal="true" aria-label={title}>
@@ -57,8 +66,8 @@ export function ShareSheet({ open, place, layer, onClose, onDone }: ShareSheetPr
             <div className="k-share__rows">
               {row('share-2', 'Send', 'WhatsApp, Instagram and the rest', { onClick: send })}
               {row('link', 'Copy link', null, { onClick: copy })}
-              {place && !view && row('square', 'Save image, square', 'For posts. Your village in Konkani', { href: imageUrl(place, 'square'), download: `khoim-${slug}-square.png`, onClick: () => onDone('Square image saved') })}
-              {place && !view && row('rectangle-vertical', 'Save image, tall', 'For status and stories', { href: imageUrl(place, 'tall'), download: `khoim-${slug}-tall.png`, onClick: () => onDone('Tall image saved') })}
+              {place && !view && row('square', 'Save image, square', 'For posts. Your village in Konkani', { onClick: () => save('square') })}
+              {place && !view && row('rectangle-vertical', 'Save image, tall', 'For status and stories', { onClick: () => save('tall') })}
             </div>
           </>
         )}

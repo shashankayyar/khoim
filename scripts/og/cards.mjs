@@ -49,8 +49,9 @@ const outlineOf = p => p.level === 'state' ? Object.values(geo.districts).map(d 
 
 /* ---------- Layout (ShareCard) ---------- */
 
-/* The three formats of design/components/share/ShareCard.jsx: the link preview (og), and the square and tall
-   images the share sheet saves ("My village in Konkani"). */
+/* The formats of design/components/share/ShareCard.jsx. Only the link preview (og) is made here; the square and
+   tall images the share sheet saves are drawn in the visitor's browser when chosen (src/lib/shareImage.ts, same
+   numbers), which keeps the build to one image per place. */
 const FORMATS = {
   og: { W: 1200, H: 630, pad: 24, frame: 5, radius: 36, px: 48, py: 36, name: 112, where: 30, official: 44, ask: 34, mark: 40, url: 36, rowGap: 36 },
   square: { W: 1080, H: 1080, pad: 36, frame: 6, radius: 48, px: 60, py: 56, name: 130, where: 40, official: 56, ask: 44, mark: 52, url: 46, rowGap: 36 },
@@ -138,7 +139,7 @@ function card(p, format = 'og') {
 const out = join(root, 'dist');
 const started = Date.now();
 let count = 0, bytes = 0;
-for (const p of all) for (const format of Object.keys(FORMATS)) {
+for (const p of all) for (const format of ['og']) {
   const file = join(out, imagePath(p, format));
   mkdirSync(dirname(file), { recursive: true });
   const img = new Resvg(card(p, format), { font: { loadSystemFonts: false } }).render();
@@ -146,7 +147,7 @@ for (const p of all) for (const format of Object.keys(FORMATS)) {
   writeFileSync(file, png);
   count++; bytes += png.length;
 }
-console.log(`Khoim share images: ${count} written to dist/og/ (${(bytes / 1048576).toFixed(1)} MB) in ${((Date.now() - started) / 1000).toFixed(1)}s.`);
+console.log(`Khoim preview images: ${count} written to dist/og/ (${(bytes / 1048576).toFixed(1)} MB) in ${((Date.now() - started) / 1000).toFixed(1)}s.`);
 
 /* Exported for a quick look at one card while working on the layout. */
 export { card };

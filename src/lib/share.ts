@@ -13,10 +13,9 @@ export function shareUrl(p: Place | null, layer: MapLayer | null): string {
   return SITE_URL + pathOf(p) + q;
 }
 
-/** The images made at build (scripts/og/cards.mjs makes the same addresses): the link preview, and the square
-    and tall images the share sheet saves. */
-export function imageUrl(p: Place, format: 'og' | 'square' | 'tall'): string {
-  return '/og' + (format === 'og' ? '' : '/' + format) + (p.level === 'state' ? '/goa' : pathOf(p).slice(0, -1)) + '.png';
+/** The link-preview image made at build (scripts/og/cards.mjs makes the same address). */
+export function imageUrl(p: Place, _format: 'og' = 'og'): string {
+  return '/og' + (p.level === 'state' ? '/goa' : pathOf(p).slice(0, -1)) + '.png';
 }
 
 /** Copies text. Uses the clipboard where the browser allows it, and an old-style copy otherwise. */
