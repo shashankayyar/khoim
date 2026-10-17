@@ -337,7 +337,7 @@ function Desktop({ k }: { k: Khoim }) {
             </div>
           </header>
           <div className="k-desktop-layers"><Layers k={k} /></div>
-          {!fp && !sp && !k.layered && (
+          {!fp && !sp && !k.layered && !k.mapMoved && (
             <div className="k-desktop-intro">
               <h1>{TITLE}</h1>
               <p>{HINT}</p>
