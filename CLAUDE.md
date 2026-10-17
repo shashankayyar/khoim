@@ -58,6 +58,7 @@ The brief is `docs/phase3-brief.md`; the prototype `docs/prototypes/type-atlas.h
 - **One tap on a village opens it**: the map moves to it, outlines it, keeps its neighbours named and dims the rest. Districts and talukas open from search, the breadcrumb and the lists, and are framed and outlined the same way.
 - **Zoom buttons** (+ and -) sit on the map so it can be zoomed without a wheel or two fingers (WCAG 2.5.1, 2.5.7). Their labels "Zoom in" and "Zoom out" are new wording.
 - **Three views, colours only:** Names, Spelling endings (with ending buttons -im, -em, -gao, -ona, -ora), Still unwritten (`src/lib/layers.ts`). Switching never moves the map or touches the open card. Each view that colours for meaning has a legend whose swatches are the map's own tokens. Feasts and zatras is out of the row until there are 20 or more; Population waits for Census data. Old `?layer=` links keep working.
+- **Rivers and railway** (`scripts/map-lines.mjs`): only the twelve named main rivers, in OpenStreetMap's own names, never a Konkani river name we made up. Railway is one thin ink line; station names, and the symbols for feasts, monuments and GI products, show only at village zoom (the symbols in the Names view only). The OpenStreetMap credit stays on the map.
 - **One count:** 384 villages are drawn (one town, Curchorem-Cacora, is two outlines). Say 384 wherever the map counts villages; 429 where the site means all of them, with 45 not drawn yet.
 
 ## Contributions (stage 1, built 1 October 2026)

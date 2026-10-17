@@ -1,4 +1,4 @@
-/* Map shapes. Districts and talukas load with the page; village outlines load one taluka at a time.
+/* Map shapes. Districts and talukas load with the page; village outlines load straight after, a file per taluka.
    Written by scripts/build-data.mjs from design/components/data/goaGeo.js (LGD boundaries, a few from Survey of India). */
 import baseJson from './generated/geo-base.json';
 import type { GeoBase } from './types';
@@ -31,22 +31,17 @@ export function loadVillagePaths(talukaId: string): Promise<VillagePaths> {
   return p;
 }
 
-/** Inside a taluka (scripts/map-extra.mjs): each village's neighbours, the boxes needed to frame a village with
-    them, rivers and railway from OpenStreetMap (k: 'river' | 'rail'), and railway stations. */
-export interface MapExtra {
-  nb: Record<string, string[]>;
-  box: Record<string, [number, number, number, number]>;
-  lines: { k: 'river' | 'rail'; n: string | null; d: string }[];
+/** Rivers (named main rivers only), railway and stations for the map (scripts/map-lines.mjs, OpenStreetMap and
+    Wikidata). Each river keeps OpenStreetMap's name and the prototype's weight; label is the part its name runs along. */
+export interface MapLines {
+  rivers: { n: string; w: number; d: string[]; label: string }[];
+  rail: string[];
   stations: { n: string; code: string; at: [number, number] }[];
 }
 
-const extraLoaders = import.meta.glob<{ default: MapExtra }>('./generated/map-extra/*.json');
-const extraCache = new Map<string, MapExtra>();
-
-/** Fetches one taluka's neighbours, lines and stations once. */
-export function loadMapExtra(talukaId: string): Promise<MapExtra | null> {
-  const have = extraCache.get(talukaId);
-  if (have) return Promise.resolve(have);
-  const load = extraLoaders[`./generated/map-extra/${talukaId}.json`];
-  return load ? load().then(m => { extraCache.set(talukaId, m.default); return m.default; }) : Promise.resolve(null);
+let lines: Promise<MapLines> | null = null;
+/** Fetches the lines once. */
+export function loadMapLines(): Promise<MapLines> {
+  lines ??= import('./generated/map-lines.json').then(m => m.default as unknown as MapLines);
+  return lines;
 }

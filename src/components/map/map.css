@@ -70,6 +70,23 @@
 .k-tmap.is-layered .k-tmap__name.is-lit { font-weight: 600; --base: 1; }
 .k-tmap.is-layered .k-tmap__name.is-lit.is-off { --base: .6; }
 
+/* Rivers: quiet water, round caps, heavier by weight --w. The width is in map units, so it grows with the zoom
+   (a map unit is about 65 m: the Mandovi draws about 175 m wide), and never thinner than 1px on screen.
+   Names follow the line past 2.2 times the Goa view, in the Names view only. In the other views rivers fade to 30%. */
+.k-tmap__lines { pointer-events: none; transition: opacity var(--dur-base) var(--ease-out); }
+.k-tmap__river {
+  fill: none; stroke: var(--map-water); stroke-linecap: round; stroke-linejoin: round; opacity: .75;
+  stroke-width: max(calc(var(--w) * .9px), calc(1px / var(--k)));
+}
+.k-tmap__rail { fill: none; stroke: var(--text); stroke-width: 1px; opacity: .7; }
+.k-tmap__river-name {
+  fill: var(--map-water-text); font-family: var(--font-latin); font-weight: 600; letter-spacing: .12em; text-anchor: middle; dominant-baseline: central;
+  font-size: calc(12px / var(--k)); paint-order: stroke; stroke: var(--surface); stroke-width: calc(3px / var(--k)); stroke-linejoin: round;
+  pointer-events: none; opacity: clamp(0, (var(--z) - 2.2) * 1000, 1);
+}
+.k-tmap.is-layered .k-tmap__lines { opacity: .3; }
+.k-tmap.is-layered .k-tmap__river-names { display: none; }
+
 /* Live layer tiles: HTML over the map, placed from the map's own numbers. */
 .k-tmap__marks { position: absolute; inset: 0; pointer-events: none; }
 .k-tmap__mark {
@@ -82,6 +99,22 @@
   opacity: clamp(0, (var(--px) - 7) * 1000, 1);
 }
 .k-tmap__mark--taluka { transform: translate(-50%, -100%); opacity: clamp(0, 1 - (var(--z) - 1.7) / 1.2, 1); }
+
+/* At village zoom (five times the Goa view, past where a taluka fills the screen): stations, and the symbols for
+   what a village is known for */
+.k-tmap__station, .k-tmap__glyphs {
+  position: absolute; left: calc((var(--tx) + var(--x) * var(--k)) * 1px); top: calc((var(--ty) + var(--y) * var(--k)) * 1px);
+  opacity: clamp(0, (var(--z) - 5) * 1000, 1);
+}
+.k-tmap__station {
+  transform: translate(-7px, -50%); display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+  padding: 2px 6px 2px 2px; border-radius: var(--radius-s); background: var(--surface); color: var(--text);
+  font: var(--weight-strong) 13px/1.2 var(--font-latin);
+}
+.k-tmap__glyphs { display: flex; gap: 3px; transform: translate(-50%, calc(var(--fs) * var(--k) * .7px)); }
+.k-tmap__glyph { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1); }
+.k-tmap__credit { position: absolute; right: 76px; bottom: calc(var(--map-inset-bottom, 0px) + 16px); margin: 0; z-index: 2; }
+.k-tmap__credit a { display: inline-block; padding: 2px 6px; border-radius: var(--radius-s); background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); }
 
 /* Zoom buttons: the way to zoom without a wheel or two fingers. */
 .k-tmap__zoom {

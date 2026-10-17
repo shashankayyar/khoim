@@ -137,6 +137,7 @@ function Layers({ k }: { k: Khoim }) {
    A tap on the sea puts the open card away. */
 const mapProps = (k: Khoim) => ({
   selected: k.selected, focus: k.focus, hot: k.hot, script: k.script, villages: k.mapVillages, paths: k.allPaths, mapLayer: k.mapLayer,
+  lines: k.mapLines, factsReady: k.factsLoaded,
   onSelect: (id: string) => k.pick(id, false), onBackground: () => { if (k.selected) k.setSnap('closed'); }, onInteract: k.touch,
   ...(k.litLayer && k.marks ? { marks: k.marks, markIcon: k.litLayer.icon } : {})
 });
