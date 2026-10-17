@@ -1,4 +1,4 @@
-/* Sheets, the place card, say-it beats, pending names and the strip.
+/* Sheets, the place card, say-it beats and pending names.
    Values from design/components/place/*.jsx. */
 
 /* ---------- Sheet ---------- */
@@ -102,43 +102,3 @@ html.js .k-card__official-head { overflow-wrap: normal; overflow: hidden; }
   font: var(--weight-strong) 15px/1.4 var(--font-latin); text-align: center;
 }
 
-/* ---------- Place strip ---------- */
-/* the room between the heading and the cards is the list's own padding, so a mark can sit on a card's top edge */
-.k-strip { display: grid; gap: 0; }
-.k-strip__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 10px; padding: 0 var(--gutter); }
-.k-strip__name { margin: 0; font: var(--weight-strong) 26px/1.5 var(--font-latin); }
-.k-strip__name--deva { font: var(--weight-strong) 30px/1.5 var(--font-deva); }
-.k-strip__count { font: var(--weight-regular) 16px/1.4 var(--font-latin); white-space: nowrap; }
-.k-strip__note { flex-basis: 100%; font: var(--weight-regular) 15px/1.4 var(--font-latin); }
-.k-strip__list {
-  list-style: none; margin: 0; display: flex; gap: 10px;
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
-  padding: 14px var(--gutter) 8px; scrollbar-width: none; touch-action: pan-x;
-}
-.k-strip__list::-webkit-scrollbar { display: none; }
-.k-strip__item { flex: 0 0 142px; scroll-snap-align: start; }
-.k-strip__card {
-  width: 100%; height: 100%; min-height: 100px; box-sizing: border-box; border-radius: var(--radius-l); border: 0;
-  background: var(--house-bg); color: var(--house-on); padding: 5px;
-  cursor: pointer; text-align: left;
-  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
-}
-.k-strip__card--plain { background: var(--surface-raised); color: var(--text); border: 2px solid var(--line); padding: 8px 12px; }
-.k-strip__card--plain.is-on { border-color: var(--text); }
-.k-strip__card.is-on { transform: translateY(-4px); }
-/* with a layer on: a small white tile on the places that have something in it */
-.k-strip__card { position: relative; }
-.k-strip__mark {
-  position: absolute; top: -10px; right: 8px; display: inline-flex; align-items: center; gap: 4px;
-  background: var(--surface-raised); color: var(--text); border-radius: var(--radius-s); padding: 3px 7px;
-  font: var(--weight-strong) 14px/1.3 var(--font-latin); box-shadow: var(--shadow-1);
-}
-.k-strip__inner {
-  display: grid; align-content: space-between; height: 100%; box-sizing: border-box;
-  border-radius: var(--radius-m); border: var(--trim-width) solid currentColor; padding: 6px 10px;
-}
-.k-strip__card--plain .k-strip__inner { border: 0; padding: 0; }
-.k-strip__official { font: var(--weight-strong) 18px/1.25 var(--font-latin); overflow-wrap: anywhere; }
-.k-strip__title { font: var(--weight-strong) 18px/1.5 var(--font-latin); }
-.k-strip__title--deva { font: var(--weight-strong) 24px/1.5 var(--font-deva); }
-.k-strip__sub { font: var(--weight-regular) 14px/1.3 var(--font-latin); }

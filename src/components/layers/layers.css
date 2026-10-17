@@ -56,13 +56,13 @@
 @media (prefers-reduced-motion: reduce) { .k-layer-row__item:active { transform: none; } }
 
 /* Ending buttons: chips with their counts */
-.k-endings { display: flex; flex-wrap: wrap; gap: 6px; pointer-events: auto; }
+.k-endings { display: flex; flex-wrap: wrap; gap: 4px; pointer-events: auto; }
 .k-endings__item {
-  min-height: 44px; padding: 0 14px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 0 8px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
   border: 1px solid var(--line); background: var(--surface-raised); color: var(--text);
   font: var(--weight-strong) 15px/1 var(--font-latin);
 }
-.k-endings__count { font-weight: var(--weight-regular); font-variant-numeric: tabular-nums; }
+.k-endings__count { font-weight: var(--weight-regular); font-size: 14px; font-variant-numeric: tabular-nums; }
 .k-endings__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); border-color: var(--surface-invert); }
 .k-endings__item:focus-visible { outline: 3px solid var(--text); outline-offset: 1px; }
 

@@ -114,7 +114,7 @@
 .k-tmap__glyphs { display: flex; gap: 3px; transform: translate(-50%, calc(var(--fs) * var(--k) * .7px)); }
 .k-tmap__glyph { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1); }
 .k-tmap__credit { position: absolute; right: 76px; bottom: calc(var(--map-inset-bottom, 0px) + 16px); margin: 0; z-index: 2; }
-.k-tmap__credit a { display: inline-block; padding: 2px 6px; border-radius: var(--radius-s); background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); }
+.k-tmap__credit a { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 10px; border-radius: var(--radius-m); background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); }
 
 /* Zoom buttons: the way to zoom without a wheel or two fingers. */
 .k-tmap__zoom {
