@@ -187,3 +187,6 @@ html[data-app="ready"] #khoim-static { display: none; }
 /* the legend and the link to the full list share a row where they fit */
 .k-views__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 .k-views__foot:empty { display: none; }
+
+/* phone: the OpenStreetMap credit at the foot of an open sheet (phase 4 polish, step 2) */
+.k-sheet-credit { padding: 0 16px 24px; }
