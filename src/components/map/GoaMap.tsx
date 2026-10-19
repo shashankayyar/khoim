@@ -298,7 +298,9 @@ export function GoaMap({
        show only while the name shows (phase 4 polish, step 3). They give way to names, except the open village's own. */
     if (z >= CLOSE_Z) for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs')) {
       const n = nameAt.get(g.dataset.id!);
-      if (!n) { g.classList.add('is-culled'); continue; }
+      /* a name off the edge of the map takes its symbols with it */
+      const off = !n || n.q.every(([x]) => x < 0) || n.q.every(([x]) => x > W) || n.q.every(([, y]) => y < 0) || n.q.every(([, y]) => y > H);
+      if (!n || off) { g.classList.add('is-culled'); continue; }
       const rw = g.offsetWidth, rh = g.offsetHeight, x0 = n.cx - rw / 2, x1 = n.cx + rw / 2;
       let bottom = -Infinity;
       for (const [x, y] of n.q) if (x >= x0 && x <= x1) bottom = Math.max(bottom, y);
