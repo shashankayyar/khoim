@@ -19,7 +19,7 @@
      (Shashank's decision, 4 October 2026). The other script is never worked out from the one we have.
    - The build stops with a plain message if the sources disagree with each other. */
 
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readdirSync } from 'node:fs';
@@ -31,6 +31,7 @@ import { sourcedFactCount, villageFacts } from './village-facts.mjs';
 import { openProjection } from './lib/projection.mjs';
 import { mapLines } from './map-lines.mjs';
 import { labelFor, neighboursOf } from '../data/scripts/labels.mjs';
+import { readSheet } from './lib/xlsx.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'src/data/generated');
@@ -104,6 +105,10 @@ for (const m of readCsv('data/town_outline_matches.csv')) {
   shapes.delete(m.outline_id);
 }
 
+/* Outlines the boundary file marks as a Municipal Council ("M Cl"): towns (phase 4, A6). */
+const municipal = new Set(JSON.parse(readFileSync(join(root, 'data/raw/goa_villages_lgd.geojson'), 'utf8')).features
+  .filter(f => /^M\b/.test(f.properties.lgd_status || '')).map(f => String(f.properties.vilcode11)));
+
 const villages = [];
 const paths = Object.fromEntries(talukas.map(t => [t.id, {}]));
 const mapTalukaDiffers = [];
@@ -122,6 +127,8 @@ for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_
   if (shape && shape.t !== listTaluka) mapTalukaDiffers.push(`${row.lgd_code} ${row.official}: filed under ${row.taluka} as the LGD list says; the boundary file draws it inside ${placeById[shape.t].official}`);
   const v = { id: 'v' + row.lgd_code, t: taluka, n: row.official, lgd: row.lgd_code };
   if (row.lgd_type === 'Ct') v.town = true;
+  /* A town (phase 4, A6): an LGD town code (they start with 9), or an LGD entry matched to a Survey of India town outline. */
+  if (row.lgd_code.startsWith('9') || outlineFor.has(row.lgd_code)) v.tw = 1;
   if (shape) { v.src = shape.src; v.lp = shape.lp; Object.assign(v, labelFor(shape.labelD, row.official)); paths[taluka][v.id] = shape.d; shapes.delete(row.lgd_code); }
   /* A Konkani name appears only when a reviewer has signed the row. */
   if ((row.konkani_deva || row.romi) && row.reviewer && row.reviewed_on) {
@@ -142,7 +149,7 @@ for (const row of [...lgdRows].sort((a, b) => Number(a.lgd_code) - Number(b.lgd_
 for (const shape of shapes.values()) {
   check(shape.src === 'SOI', `Shape ${shape.id} (${shape.n}) is marked LGD but its code is not in data/villages_lgd.csv.`);
   const v = { id: 'v' + shape.id, t: shape.t, n: shape.n, lgd: null, src: 'SOI', lp: shape.lp, ...labelFor(shape.labelD, shape.n) };
-  if (shape.town) v.town = true;
+  if (municipal.has(shape.id)) v.tw = 1; // the boundary file marks it a Municipal Council
   paths[shape.t][v.id] = shape.d;
   villages.push(v);
 }
@@ -170,6 +177,38 @@ for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWi
     if (r.locality_of) check(lgdByCode.has(r.locality_of), `data/credited/${file}: locality_of ${r.locality_of} is not in data/villages_lgd.csv.`);
     if (r.place_id) check(!!placeById[r.place_id] || villages.some(v => v.id === r.place_id), `data/credited/${file}: place_id ${r.place_id} is not a page on the site.`);
     if ('checked' in r && r.village_code) check(['yes', 'no'].includes(r.checked), `data/credited/${file}: checked must be yes or no (row for ${r.village_code}).`);
+  }
+}
+
+/* Other spellings, for search only (phase 4, A6). Latin script only, never shown as a name.
+   - OpenStreetMap (ODbL): alt_name, old_name, name_pt and name_en of a city, town or village whose point lies inside
+     the place's outline in the same taluka, when the OSM place has the place's own name, or is a town inside a town's outline.
+     Its Devanagari names are never used here.
+   - The 1979 Gazetteer's spelling list (the forms two readings agreed on) and Dr Luis's spelling, from the review sheet. */
+{
+  const fold = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').toLowerCase().replace(/[^a-z]/g, '');
+  const latin = s => /^[\p{Script=Latin}\s\-'’().,]+$/u.test(s);
+  const TALUKA_OSM = { Satari: 'Sattari' };
+  const byOutline = new Map(villages.filter(v => v.src).map(v => [v.t + '|' + fold(v.n), v]));
+  const add = (v, form, src) => {
+    form = form.trim();
+    if (!form || !latin(form) || fold(form) === fold(v.n)) return;
+    v.aka ??= [];
+    if (!v.aka.some(([f]) => fold(f) === fold(form))) v.aka.push([form, src]);
+  };
+  for (const o of readCsv('data/raw/osm_localities_ODbL.csv')) {
+    if (!['city', 'town', 'village'].includes(o.place) || !o.inside_village) continue;
+    const t = talukaIdByOfficial[TALUKA_OSM[o.inside_taluka] ?? o.inside_taluka];
+    const v = byOutline.get(t + '|' + fold(o.inside_village));
+    if (!v || !(fold(o.name) === fold(v.n) || (o.place !== 'village' && v.tw))) continue;
+    for (const f of ['alt_name', 'old_name', 'name_pt', 'name_en']) for (const form of (o[f] || '').split(';')) add(v, form, 'o');
+  }
+  const byCode = new Map(villages.filter(v => v.lgd).map(v => [v.lgd, v]));
+  for (const r of readSheet(join(root, 'data/village_names_review.xlsx'), 'Review')) {
+    const v = byCode.get(String(r['LGD code']).replace(/\.0$/, ''));
+    if (!v) continue;
+    for (const f of ['gazetteer_government', 'gazetteer_soi', 'advisory_body_form']) add(v, r[f] || '', 'g');
+    add(v, r.luis_spelling || '', 'l');
   }
 }
 

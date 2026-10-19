@@ -39,6 +39,10 @@ export interface Place {
 
   /* Villages only */
   town?: boolean;
+  /** A town (phase 4, A6): an LGD town code, an LGD entry matched to a town outline, or a Survey of India town. */
+  isTown?: boolean;
+  /** Other spellings, for search only: [form, source] with o = OpenStreetMap, g = Gazetteer 1979, l = Luis. */
+  aka?: [string, AkaSource][];
   /** Where the outline comes from. Null when there is no outline yet. */
   boundarySource?: 'LGD' | 'SOI' | null;
   /** Label point on the map. Null when there is no outline yet. */
@@ -54,6 +58,7 @@ export interface Place {
 }
 
 /** A village as written by scripts/build-data.mjs (short keys, to keep the file small). */
+export type AkaSource = 'o' | 'g' | 'l';
 export interface RawVillage {
   id: string;
   t: string;
@@ -61,6 +66,8 @@ export interface RawVillage {
   lgd: string | null;
   slug: string;
   town?: boolean;
+  tw?: 1;
+  aka?: [string, AkaSource][];
   src?: 'LGD' | 'SOI';
   lp?: Point;
   deva?: string;
@@ -150,7 +157,7 @@ export interface Layer {
 
 export interface NameForm { text: string; kind: Script; fallback: boolean }
 export interface House { key: HouseKey; bg: string; on: string; dim: string }
-export interface SearchHit { place: Place; field: 'deva' | 'romi' | 'official' | 'alsoWritten' | 'marathi'; rank: number }
+export interface SearchHit { place: Place; field: 'deva' | 'romi' | 'official' | 'alsoWritten' | 'marathi' | 'aka'; rank: number; aka?: [string, AkaSource] }
 
 /** Written by scripts/pages.mjs: which pages search engines may index, and the day each page's data last changed. */
 export interface PageIndex {

@@ -36,14 +36,14 @@ const colour = name => { let v = tokens[name]; for (let i = 0; v && v.startsWith
 
 const all = [
   ...places.map(p => ({ id: p.id, level: p.level, parent: p.parent, official: p.official, deva: p.deva, romi: p.romi, house: p.house, slug: p.slug })),
-  ...villages.map(v => ({ id: v.id, level: 'village', parent: v.t, official: v.n, deva: v.deva, romi: v.romi, house: byId.get(v.t).house, slug: v.slug }))
+  ...villages.map(v => ({ id: v.id, level: 'village', parent: v.t, official: v.n, deva: v.deva, romi: v.romi, house: byId.get(v.t).house, slug: v.slug, isTown: !!v.tw }))
 ];
 const parentOf = p => p.parent && (byId.get(p.parent) ?? null);
 const pathOf = p => { const t = []; for (let q = p; q && q.level !== 'state'; q = parentOf(q)) t.unshift(q.slug); return t.length ? '/' + t.join('/') + '/' : '/'; };
 /* /og/south-goa/salcete.png, /og/square/south-goa/salcete.png, /og/tall/south-goa/salcete.png */
 const imagePath = (p, format = 'og') => '/og' + (format === 'og' ? '' : format === 'square' ? '/square' : '/tall') + (p.level === 'state' ? '/goa' : pathOf(p).slice(0, -1)) + '.png';
 const LEVEL = { district: 'District', taluka: 'Taluka', village: 'Village' };
-const whereLine = p => { const par = parentOf(p); return LEVEL[p.level] + (par && par.level !== 'state' ? ' in ' + par.official : '') + ', Goa'; };
+const whereLine = p => { const par = parentOf(p); return (p.isTown ? 'Town' : LEVEL[p.level]) + (par && par.level !== 'state' ? ' in ' + par.official : '') + ', Goa'; };
 const outlineOf = p => p.level === 'state' ? Object.values(geo.districts).map(d => d.d).join('')
   : p.level === 'district' ? geo.districts[p.id]?.d : p.level === 'taluka' ? geo.talukas[p.id]?.d : villagePaths[p.id];
 

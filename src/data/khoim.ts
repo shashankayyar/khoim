@@ -33,6 +33,8 @@ function toPlace(v: RawVillage): Place {
     reviewed: !!v.reviewer,
     slug: v.slug,
     town: !!v.town,
+    isTown: !!v.tw,
+    aka: v.aka,
     boundarySource: v.src ?? null,
     lp: v.lp ?? null,
     reviewer: v.reviewer,
@@ -120,7 +122,8 @@ export function trailOf(id: string | null | undefined): Place[] {
 }
 
 const LEVEL_LABEL = { state: 'State', district: 'District', taluka: 'Taluka', village: 'Village' } as const;
-export function levelLabel(p: Place | null): string { return p ? LEVEL_LABEL[p.level] : ''; }
+/** "Village", or "Town" for a town (phase 4, A6). */
+export function levelLabel(p: Place | null): string { return p ? (p.isTown ? 'Town' : LEVEL_LABEL[p.level]) : ''; }
 
 export function whereLabel(p: Place | null): string {
   if (!p) return '';
@@ -178,13 +181,18 @@ export function searchPlaces(q: string, limit = Infinity): SearchHit[] {
       ['deva', p.deva], ['romi', p.romi], ['official', p.official],
       ['alsoWritten', p.alsoWritten && p.alsoWritten.join(' ')], ['marathi', p.marathi]
     ];
-    let hit: SearchHit['field'] | null = null, rank = 9;
+    let hit: SearchHit['field'] | null = null, rank = 9, aka: SearchHit['aka'];
     for (const [k, v] of fields) {
       if (!v) continue;
       const i = fold(v).indexOf(f);
       if (i >= 0) { const r = (i === 0 ? 0 : 1) + (p.level === 'village' ? 2 : 0); if (r < rank) { rank = r; hit = k; } }
     }
-    if (hit) res.push({ place: p, field: hit, rank });
+    /* other spellings (Panjim, Vasco da Gama, Madgaon): a little below the place's own names */
+    for (const a of p.aka ?? []) {
+      const i = fold(a[0]).indexOf(f);
+      if (i >= 0) { const r = (i === 0 ? 0 : 1) + (p.level === 'village' ? 2 : 0) + 0.5; if (r < rank) { rank = r; hit = 'aka'; aka = a; } }
+    }
+    if (hit) res.push({ place: p, field: hit, rank, ...(aka ? { aka } : {}) });
   }
   res.sort((a, b) => a.rank - b.rank || a.place.official.localeCompare(b.place.official));
   return limit === Infinity ? res : res.slice(0, limit);
