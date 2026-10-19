@@ -38,7 +38,6 @@ registerVillageFacts(factsJson as unknown as Record<string, VillageFacts>);
 const place = getPlace(placeId ?? 'goa')!;
 const home = place.level === 'state';
 const meta = pageMeta(place);
-/* TODO(copy): the list's title, from the design's "Villages in {taluka}" */
 const title = list ? `Villages in ${place.official} | Khoim` : meta.title;
 /* Village pages without a reviewed name or two sourced facts stay out of search results (scripts/pages.mjs). */
 const indexable = PAGE_INDEX.places[place.id]?.index ?? false;

@@ -31,7 +31,6 @@ const cssVar = (name: string) => getComputedStyle(document.documentElement).getP
 export async function makeShareImage(p: Place, format: ShareFormat): Promise<Blob> {
   const F = FORMATS[format];
   const named = !!(p.deva || p.romi);
-  /* TODO(copy): from the design's list (revision 1) */
   const ask = factsOf(p.id)?.gazetteerDeva ? 'Konkani name: help us check it' : 'Konkani name: help us find it';
   const where = p.level === 'state' ? null : whereLabel(p) + ', Goa';
   const texts = [p.deva, p.romi, p.official, where, ask, SITE.deva, SITE.romi, 'khoim.in'].filter(Boolean).join(' ');

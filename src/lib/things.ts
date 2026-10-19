@@ -7,7 +7,6 @@ import type { MapLines } from '../data/geo';
 
 export interface Thing { key: string; name: string; what: string; where: string; open: string; rank: number }
 
-// TODO(copy): the words for what a result is: "feast", "parish", "landmark", "river", and "{what} in {where}"
 const WHAT: Record<string, string> = { zatra: 'feast', feast: 'feast', festival: 'feast', parish: 'parish', landmark: 'landmark' };
 
 export function searchThings(q: string, lines: MapLines | null): Thing[] {

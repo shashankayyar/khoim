@@ -36,7 +36,6 @@ export function SearchResults({ query, onPick, villagesLoaded, factsLoaded = fal
   return (
     <div>
       <p className="k-search-note k-search-note--count" role="status" aria-live="polite">
-        {/* TODO(copy): "and {n} other matches" (feasts, parishes, landmarks, rivers) */}
         {total ? `${res.length} ${res.length === 1 ? 'place' : 'places'}${things.length ? ` and ${things.length} other ${things.length === 1 ? 'match' : 'matches'}` : ''}` : `Nothing for "${query}" yet. Try the official spelling.`}
       </p>
       <ul className="k-results">
@@ -59,7 +58,6 @@ export function SearchResults({ query, onPick, villagesLoaded, factsLoaded = fal
                 <span className="k-result__sub">
                   {p.deva || p.romi ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : 'Official name only · '}{whereLabel(p)}
                 </span>
-                {/* TODO(copy): the line saying which other spelling matched, and whose it is */}
                 {aka && <span className="k-result__sub">Also written {mark(aka[0], query)} ({AKA_CREDIT[aka[1]]})</span>}
               </span>
             </button>

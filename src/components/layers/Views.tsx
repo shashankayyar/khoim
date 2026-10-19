@@ -51,7 +51,6 @@ export function EndingNote({ layer }: { layer: MapLayer }) {
   if (!lines.length) return null;
   return (
     <p className="k-ending-note">
-      {/* TODO(copy): the sentence that frames each reading */}
       {lines.map((e, i) => {
         const p = getPlace(e.id);
         return (

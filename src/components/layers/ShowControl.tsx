@@ -26,7 +26,6 @@ export function ShowControl({ options, value, onChange, compact = false }: { opt
   };
   return (
     <div className="k-show" role="radiogroup" aria-labelledby="k-show-label">
-      {/* TODO(copy): "Show", the control's name */}
       <span id="k-show-label" className="k-show__label">Show</span>
       {options.map((o, i) => {
         const on = o.id === value;

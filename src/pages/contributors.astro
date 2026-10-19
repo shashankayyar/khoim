@@ -1,6 +1,6 @@
 ---
 /* Everyone whose work is on Khoim (phase 2 brief, Part B: contributors page). Not designed in Claude Design: built
-   from the existing document page (privacy), and every line of new wording is marked TODO(copy).
+   from the existing document page (privacy); its wording was approved on 19 October 2026 (docs/copy.md, Phase 4).
    - Names: each village name a contributor sent and a Konkani reviewer allowed, with both credited, from
      data/villages_lgd.csv (the card's own credit line, docs/copy.md).
    - Voices and notes: what reviewers have allowed for the live layers, loaded from /api/live when the page opens.
@@ -35,7 +35,6 @@ for (const [t, u] of [...more].sort((a, b) => a[0].localeCompare(b[0]))) sources
 ---
 
 <DocPage title="Contributors | Khoim" description="Everyone whose work is on Khoim: the people who sent and checked names, the voices, and the sources the facts come from." path="/contributors/">
-      {/* TODO(copy): title, intro and section headings on this page */}
       <h1>Contributors</h1>
       <p>Everyone whose work is on Khoim. Each entry on the map carries the same credit.</p>
 
@@ -72,7 +71,6 @@ for (const [t, u] of [...more].sort((a, b) => a[0].localeCompare(b[0]))) sources
     .then((d: { ok?: boolean; items?: Item[] } | null) => {
       if (!box || !d?.ok || !Array.isArray(d.items) || !d.items.length) return;
       const named = d.items.filter(i => i.by), unnamed = d.items.length - named.length;
-      /* TODO(copy): "Said by {name}, {village}" is from the brief; the other lines are new */
       const line = (i: Item) => i.kind === 'voice'
         ? `Said by ${esc(i.by!)}${i.from ? ', ' + esc(i.from) : ''}.`
         : `${esc(i.by!)}: ${esc(LAYER[i.kind] ?? i.kind)}.`;

@@ -88,7 +88,6 @@ export function Sheet({ label, snap = 'peek', onSnap, peek = 280, onMeasure, hou
         <button type="button" className={title ? 'k-sheet__handle k-sheet__handle--titled' : 'k-sheet__handle'} data-sheet-handle="1" aria-expanded={full} aria-label={(full ? 'Show less' : 'Show more') + ': ' + label} onClick={() => onSnap(full ? 'peek' : 'full')}>
           {title && <span className="k-sheet__title" aria-hidden="true">{title}</span>}
           <span className="k-sheet__grip" aria-hidden="true" />
-          {/* TODO(copy): "More" / "Less" are the design's */}
           {title && <span className="k-sheet__more" aria-hidden="true">{full ? 'Less' : 'More'}</span>}
         </button>
       ) : (

@@ -89,7 +89,6 @@ function insideCount(p: Place): string {
   return p.level === 'village' ? '' : ' ' + childCount(p) + (p.level === 'taluka' ? ' villages.' : ' talukas.');
 }
 
-/* TODO(copy): the list's page title. "Villages in {taluka}" is the design's title for the list. */
 const listTitle = (t: Place) => `Villages in ${t.official} | Khoim`;
 
 const queryInAddress = () => new URLSearchParams(window.location.search).get('q') ?? '';

@@ -20,7 +20,6 @@ export function pageTitle(p: Place): string {
   if (names) return `${p.official} (${names}): Konkani name, how to say it | Khoim`;
   const kind = p.isTown ? 'town' : 'village', where = `${p.official}, ${getPlace(p.parent)?.official}, Goa`;
   /* phase 4, B7: the meaning or the main feast, where there is one */
-  // TODO(copy): "name meaning and {kind} facts", "{feast} and {kind} facts"
   if (p.level === 'village') {
     if (meaningOf(p)) return `${where}: name meaning and ${kind} facts | Khoim`;
     const feast = mainFeast(p);
@@ -43,8 +42,7 @@ function mainFeast(p: Place): KnownForItem | null {
 /** The sentences a village's description adds for its meaning and main feast. */
 function factLine(p: Place): string {
   const m = meaningOf(p), f = mainFeast(p);
-  // TODO(copy): "The name: {reading}." and "Known for {feast}, {date}."
-  return (m ? ` The name: ${m}.` : '') + (f ? ` Known for ${f.title}${f.whenText ? ', ' + f.whenText : ''}.` : '');
+  return (m ? ` Name meaning: ${m}.` : '') + (f ? ` Known for ${f.title}${f.whenText ? ', ' + f.whenText : ''}.` : '');
 }
 
 export function pageMeta(p: Place | null): PageMeta {

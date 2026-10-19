@@ -154,9 +154,7 @@ function ListScreen({ k, compact }: { k: Khoim; compact: boolean }) {
       {open && t && (
         <>
           <div className="k-list-screen__top">
-            {/* TODO(copy): "Back to the map" is in the design's list of new wording */}
             <IconButton icon="arrow-left" label="Back to the map" onClick={k.closeList} />
-            {/* TODO(copy): "Villages in {taluka}" is the design's list title */}
             <h1 id="k-list-title" className="k-list-screen__title">
               {t.deva && <span className="k-list-screen__deva" lang="gom">{t.deva}</span>}
               <span>{'Villages in ' + t.official}</span>
@@ -246,7 +244,6 @@ function Views({ k, endings = true, compact = false }: { k: Khoim; endings?: boo
       <div className="k-views__foot">
         <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
         {/* the full lists behind two of the choices (phase 4, B5) */}
-        {/* TODO(copy): the links' wording */}
         {k.mapLayer.id === 'feasts' && <a className="k-views__more" href="/feasts/">All feasts and zatras, by month</a>}
         {k.mapLayer.id === 'parts' && <a className="k-views__more" href="/meanings/">What the names mean, A to Z</a>}
       </div>

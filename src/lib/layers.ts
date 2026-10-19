@@ -77,7 +77,6 @@ const LIVE_IDS = ['voices', 'crops', 'food', 'music'];
 export function showOptions(liveCounts: Record<string, number> | null): ShowOption[] {
   const out: ShowOption[] = [{ id: 'names', label: 'Names', kind: 'view' }, { id: 'parts', label: 'Spelling endings', kind: 'view' }];
   const feasts = showCounts.feasts, landmarks = showCounts.landmarks + (liveCounts?.landmarks ?? 0);
-  // TODO(copy): "Feasts and zatras" is the phase 2 layer name; the counts beside each choice are new
   if (feasts >= SHOW_MIN) out.push({ id: 'feasts', label: 'Feasts and zatras', icon: 'flame', count: feasts, kind: 'view' });
   if (landmarks >= SHOW_MIN) out.push({ id: 'landmarks', label: 'Landmarks', icon: 'landmark', count: landmarks, kind: 'view' });
   for (const l of LAYERS.filter(x => LIVE_IDS.includes(x.id))) {
@@ -91,7 +90,6 @@ export function showOptions(liveCounts: Record<string, number> | null): ShowOpti
     docs/phase3-brief.md. */
 export function viewLine(layer: MapLayer, script: Script): { strong: string; rest: string } {
   if (layer.id === 'parts') { const p = partOf(layer); return { strong: `${partCount(p.id)} of ${DRAWN} villages`, rest: ` end in “${p.label}” in their official spelling.` }; }
-  // TODO(copy): the lines for Feasts and zatras, and Landmarks
   if (layer.id === 'feasts') return { strong: `${feastVillages()} of ${DRAWN} villages`, rest: ' have a feast or zatra on file. Tap one to see when.' };
   if (layer.id === 'landmarks') return { strong: `${landmarkVillages()} of ${DRAWN} villages`, rest: ' have a temple, church, fort or other landmark on file.' };
   if (script === 'official') return { strong: `${DRAWN} villages`, rest: ', as the government spells them. Switch script to see how many we can write in Konkani yet.' };
@@ -102,7 +100,6 @@ export function viewLine(layer: MapLayer, script: Script): { strong: string; res
 /** The legend for a view that colours for meaning: each swatch is the token the map fills with. */
 export function legendOf(layer: MapLayer, script: Script): { token: string; label: string }[] {
   if (layer.id === 'parts') return [{ token: '--map-view-on', label: `ends in ${partOf(layer).label}` }, { token: '--map-quiet', label: 'other villages' }];
-  // TODO(copy): legends for Feasts and zatras, and Landmarks
   if (layer.id === 'feasts') { const n = feastVillages(); return [{ token: '--map-view-on', label: `feast or zatra on file, ${n}` }, { token: '--map-quiet', label: `not yet, ${DRAWN - n}` }]; }
   if (layer.id === 'landmarks') { const n = landmarkVillages(); return [{ token: '--map-view-on', label: `landmark on file, ${n}` }, { token: '--map-quiet', label: `not yet, ${DRAWN - n}` }]; }
   /* Names in Devanagari or Romi: the approved "Still unwritten" legend, counted for the chosen script */

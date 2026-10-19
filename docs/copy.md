@@ -81,9 +81,29 @@ Approved in `docs/phase3-brief.md`, used as written:
 - Village sheet: Village in {taluka} · not written yet · Next to
 - The ask: Do you know how {village} is said at home? Record it or write it in either script, and it goes on the map with your name.
 
-New, for Shashank to confirm (read out by screen readers, not shown on screen):
+Read out by screen readers, not shown on screen (approved 19 October 2026, with phase 4):
 - "Zoom in" and "Zoom out" on the map's + and - buttons.
 - "Map views" as the name of the row of views (it was "Map layers").
+
+## Phase 4 (approved 19 October 2026)
+Approved in `docs/phase4-copy-approved.md` (Shashank delegated the review). Used as written:
+- Show: Show · Names · Spelling endings · Feasts and zatras {n} · Landmarks {n} (the count beside each choice)
+- Feasts line: {n} of 384 villages have a feast or zatra on file. Tap one to see when. Legend: feast or zatra on file, {n} · not yet, {n}
+- Landmarks line: {n} of 384 villages have a temple, church, fort or other landmark on file. Legend: landmark on file, {n} · not yet, {n}
+- Links under a view: All feasts and zatras, by month · What the names mean, A to Z
+- Map legend: Church or church feast · Zatra, fair or festival · Festival on the water · Temple, mosque or monument · Fort · Spring or waterfall · GI product · Railway station
+- Phone legend button: Key (read out as "Key to the map")
+- Search: Feast in {where} · Parish in {where} · Landmark in {where} · River in {where} · {n} places and {m} other matches · Also written {spelling} ({source})
+- Towns: Town · Town in {taluka} · is a town in · town facts. The village table says Town too.
+- Endings: In {village}, {reading} ({caution}). {credit}, {date}.
+- Page titles: {place}: name meaning and village facts | Khoim · {place}: {feast} and village facts | Khoim
+- Page descriptions: Name meaning: {reading}. · Known for {feast}, {date}.
+- /feasts/: Feasts and zatras, by month · {total} feasts, zatras and parish feasts, each with its village. A date that follows the moon is listed under its lunar month, as the source gives it. · Lunar date, moves each year · Date as the source gives it · Date not on file yet · None on file yet.
+- /meanings/: What the names mean, A to Z · {n} villages with an origin on file, in our words, each with its source and the source's own caution. Where sources differ, both are given.
+- /contributors/: Contributors · Everyone whose work is on Khoim. Each entry on the map carries the same credit. · Names · Voices and notes · Sources · Said by {name}, {village}. · {name}: {layer}. · People who record a name or send a note appear here once a reviewer has allowed it. · And {n} people who chose not to give a name.
+- About: Feasts and zatras, by month · What the names mean, A to Z · Contributors
+- The document pages' header link: Back to the map
+- Older lines approved at the same time: More / Less · Share · Share {place} · Share this view · {place} on Khoim · Villages in {taluka} · Konkani name: help us check it · Konkani name: help us find it
 
 ## Why Khoim
 Most places in Goa have an official spelling and a Konkani name, and the two often don't match. Canacona is काणकोण, written Kannkonn in Romi. Many official spellings come from Portuguese-era records and are what you see on boards, maps and bills.
