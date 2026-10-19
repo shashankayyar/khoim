@@ -97,7 +97,7 @@ export type FeastWhen =
   | { lunar: true; months: number[] };
 export interface Reading { text: string; hedge: string | null; credit: string; url: string | null }
 export interface KnownForItem {
-  kind: 'parish' | 'zatra' | 'festival' | 'gi' | 'monument';
+  kind: 'parish' | 'zatra' | 'feast' | 'festival' | 'gi' | 'landmark';
   icon: string;
   title: string;
   detail?: string | null;
