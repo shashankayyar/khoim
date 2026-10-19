@@ -1,11 +1,10 @@
-/* About, help and layers: the "More" screen. Copy is verbatim from design/ui_kits/khoim/More.jsx. */
+/* About and help: the "More" screen. Since phase 4 (B3) the layers are in the map's "Show" control. Copy is verbatim from design/ui_kits/khoim/More.jsx. */
 import { useRef } from 'react';
 import { Button } from '../components/core/Button';
 import { Credit } from '../components/core/Credit';
 import { DraftBanner } from '../components/core/DraftBanner';
 import { IconButton } from '../components/core/IconButton';
 import { Wordmark } from '../components/core/Wordmark';
-import { LayerSwitch } from '../components/layers/LayerSwitch';
 import { CONTACT_EMAIL } from '../data/site';
 import { useDialog } from '../lib/dialog';
 import { tellUsWhatIsWrongHref, writeToUsHref } from '../lib/mailto';
@@ -22,15 +21,11 @@ const ROLES: [title: string, body: string][] = [
 export interface MoreProps {
   open: boolean;
   onClose: () => void;
-  layer: string;
-  onLayer: (id: string) => void;
-  /** How many things each layer holds so far. Null until the server has answered. */
-  layerCounts?: Record<string, number> | null;
   /** Opens the contribution form from the draft banner. When missing, the banner opens an email. */
   onTellUs?: () => void;
 }
 
-export function More({ open, onClose, layer, onLayer, layerCounts, onTellUs }: MoreProps) {
+export function More({ open, onClose, onTellUs }: MoreProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [theme, toggleTheme] = useTheme();
   useDialog(ref, open, onClose);
@@ -47,14 +42,6 @@ export function More({ open, onClose, layer, onLayer, layerCounts, onTellUs }: M
             </div>
           </div>
           <p className="k-more__lead">Khoim means "where" in Konkani. Every taluka in Goa, with its Konkani name and how to say it.</p>
-
-          <section className="k-more__section" aria-labelledby="k-layers">
-            <h2 id="k-layers">Layers</h2>
-            {/* The design read "Names are live. The rest are coming, one at a time, each credited to the people who
-                give them." The other layers went live on 4 October 2026 (wording in docs/copy.md). */}
-            <p>Pick a layer to see it on the map. The layers fill in as people send what they know, each credited to the people who give them.</p>
-            <LayerSwitch value={layer} onChange={onLayer} counts={layerCounts} />
-          </section>
 
           <section className="k-more__section" aria-labelledby="k-why">
             <h2 id="k-why">Why Khoim</h2>

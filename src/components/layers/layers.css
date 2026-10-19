@@ -14,23 +14,6 @@
 .k-voice__village { font: var(--weight-regular) 15px/1.4 var(--font-latin); }
 .k-voice__duration { font: var(--weight-regular) 15px/1 var(--font-latin); padding-right: 10px; }
 
-/* Layer list. Values from design/components/layers/LayerSwitch.jsx. */
-.k-layers { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.k-layer {
-  width: 100%; box-sizing: border-box; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center;
-  text-align: left; padding: 10px 14px 10px 10px; border-radius: var(--radius-l); cursor: pointer;
-  border: 2px solid var(--line); background: var(--surface-raised); color: var(--text);
-}
-.k-layer--coming { border-style: dashed; cursor: default; }
-.k-layer.is-on { border-color: var(--text); background: var(--surface-invert); color: var(--text-invert); }
-.k-layer__icon { width: 44px; height: 44px; border-radius: var(--radius-m); display: grid; place-items: center; background: var(--surface-sunk); color: var(--text); }
-.k-layer.is-on .k-layer__icon { background: var(--surface-raised); }
-.k-layer__text { display: grid; gap: 2px; }
-.k-layer__label { font: var(--weight-strong) 17px/1.3 var(--font-latin); }
-.k-layer__note { font: var(--weight-regular) 15px/1.45 var(--font-latin); }
-.k-layer__status { font: var(--weight-strong) 14px/1 var(--font-latin); }
-.k-layer__count { font: var(--weight-strong) 15px/1.45 var(--font-latin); }
-
 /* One layer's notes on the place card (crops, food, music, landmarks). Not in the design files: built from the
    card's own type sizes, in the card's ink. */
 .k-notes { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 12px; }
@@ -40,20 +23,23 @@
 .k-note__by { font: var(--weight-regular) 15px/1.4 var(--font-latin); overflow-wrap: anywhere; }
 
 /* ---------- Map views (phase 3) ---------- */
-/* The view row: the prototype's segmented row, 44px targets */
-.k-layer-row {
-  display: inline-flex; align-self: flex-start; justify-self: start; max-width: 100%; overflow-x: auto; scrollbar-width: none; pointer-events: auto;
+/* "Show": what the map shows (phase 4, B3). The prototype's segmented row, wrapping instead of scrolling so no
+   choice is ever out of sight. 44px targets. */
+.k-show {
+  display: inline-flex; flex-wrap: wrap; align-items: center; align-self: flex-start; justify-self: start; max-width: 100%; pointer-events: auto;
   background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 3px; gap: 2px; box-shadow: var(--shadow-1);
 }
-.k-layer-row::-webkit-scrollbar { display: none; }
-.k-layer-row__item {
+.k-show__label { padding: 0 8px 0 9px; font: var(--weight-regular) 15px/1 var(--font-latin); color: var(--text); }
+.k-show__item {
   flex: 0 0 auto; min-height: 44px; padding: 0 12px; border-radius: calc(var(--radius-m) - 3px); border: 0; cursor: pointer; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px;
   background: transparent; color: var(--text); font: var(--weight-strong) 15px/1 var(--font-latin);
 }
-.k-layer-row__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); }
-.k-layer-row__item:focus-visible { outline: 3px solid var(--text); outline-offset: 1px; }
-.k-layer-row__item:active { transform: scale(var(--press-scale, .96)); }
-@media (prefers-reduced-motion: reduce) { .k-layer-row__item:active { transform: none; } }
+.k-show__count { font-weight: var(--weight-regular); }
+.k-show__item[aria-checked="true"] { background: var(--surface-invert); color: var(--text-invert); }
+.k-show__item:focus-visible { outline: 3px solid var(--text); outline-offset: 1px; }
+.k-show__item:active { transform: scale(var(--press-scale, .96)); }
+@media (prefers-reduced-motion: reduce) { .k-show__item:active { transform: none; } }
 
 /* Ending buttons: chips with their counts */
 .k-endings { display: flex; flex-wrap: wrap; gap: 4px; pointer-events: auto; }

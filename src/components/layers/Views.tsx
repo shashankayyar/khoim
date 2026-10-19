@@ -1,4 +1,4 @@
-/* What goes with a map view, beside the view row (phase 3, step 3): the ending buttons (Spelling endings only),
+/* What goes with a map view, beside the "Show" control (phase 3, step 3; phase 4, B3): the ending buttons (Spelling endings only),
    the line that says what the colours mean, and the legend. Nothing here covers the map's controls. */
 import { NAME_PARTS, legendOf, partCount, partOf, viewLine, type MapLayer } from '../../lib/layers';
 import type { Script } from '../../data/types';
@@ -26,8 +26,8 @@ export function ViewLine({ layer, script, className = 'k-view-line' }: { layer: 
 }
 
 /** One swatch per colour on the map, filled with the same token the map uses. */
-export function Legend({ layer }: { layer: MapLayer }) {
-  const items = legendOf(layer);
+export function Legend({ layer, script }: { layer: MapLayer; script: Script }) {
+  const items = legendOf(layer, script);
   if (!items.length) return null;
   return (
     <ul className="k-legend">

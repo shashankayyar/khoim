@@ -20,8 +20,8 @@ import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
 import { VillageSheet } from '../components/village/VillageSheet';
 import { EndingButtons, Legend, ViewLine } from '../components/layers/Views';
-import { LayerRow } from '../components/layers/LayerRow';
-import { layerWith } from '../lib/layers';
+import { ShowControl } from '../components/layers/ShowControl';
+import { showOptions } from '../lib/layers';
 import { ShareSheet } from '../components/share/ShareSheet';
 import { Toast } from '../components/share/Toast';
 import { copyText, shareUrl } from '../lib/share';
@@ -103,8 +103,9 @@ function Contribute({ k }: { k: Khoim }) {
 
 /* The way in to the layers and About. While a layer other than Names is on, the button wears that layer's icon
    and says so, which is how you can tell why there are marks on the map and where to switch them off. */
-function LayersButton({ k, size }: { k: Khoim; size?: number }) {
-  return <IconButton icon={k.litLayer ? k.litLayer.icon : 'layers'} label={'Layers and about' + (k.litLayer ? `. ${k.litLayer.label} layer is on` : '')} size={size} onClick={k.openMore} />;
+/** About Khoim. The layers moved into "Show" (phase 4, B3), so this button only opens About. */
+function AboutButton({ k, size }: { k: Khoim; size?: number }) {
+  return <IconButton icon="info" label="About Khoim" size={size} onClick={k.openMore} />;
 }
 /* What the map and the strip need to mark the places that have something in the layer that is on. */
 const marksOf = (k: Khoim) => (k.litLayer && k.marks ? { marks: k.marks, markIcon: k.litLayer.icon, markLabel: k.litLayer.label } : {});
@@ -235,13 +236,13 @@ const SHEET_SHARE = 0.4;
    talukas show on the map. */
 const showInside = (k: Khoim) => () => { if (getPlace(k.selected)?.level === 'taluka') k.openList(); else k.setSnap('closed'); };
 
-/* The map views: the row, the ending buttons (Spelling endings only) and the legend. Never covered. */
+/* What the map shows: "Show", the ending buttons (Spelling endings only) and the legend. Never covered. */
 function Views({ k, endings = true }: { k: Khoim; endings?: boolean }) {
   return (
     <div className="k-views">
-      <LayerRow value={k.mapLayer.id} onChange={id => k.setMapLayer(id === k.mapLayer.id ? k.mapLayer : layerWith(id))} />
+      <ShowControl options={showOptions(k.layerCounts)} value={k.showValue} onChange={k.show} />
       {endings && <EndingButtons layer={k.mapLayer} onChange={k.setMapLayer} />}
-      <div className="k-views__key" role="status">{k.layered && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} /></div>
+      <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
     </div>
   );
 }
@@ -290,7 +291,7 @@ function Phone({ k }: { k: Khoim }) {
             <Crumbs k={k} />
             <div className="k-phone-header__tools">
               <IconButton icon="search" label="Search any name, in any script" onClick={k.openSearch} />
-              <LayersButton k={k} />
+              <AboutButton k={k} />
             </div>
           </div>
         )}
@@ -309,7 +310,7 @@ function Phone({ k }: { k: Khoim }) {
           {first && (
             <div className="k-phone-bar__actions">
               <button type="button" className="k-search-button" onClick={k.openSearch}><Icon name="search" size={20} />Search any name, any script</button>
-              <LayersButton k={k} size={56} />
+              <AboutButton k={k} size={56} />
             </div>
           )}
         </div>
@@ -328,7 +329,7 @@ function Phone({ k }: { k: Khoim }) {
       <ListScreen k={k} compact />
       <ShareSheet open={k.shareOpen} place={viewPlace(k)} layer={!sp && k.layered ? k.mapLayer : null} onClose={k.closeShare} onDone={k.showToast} />
       <Toast text={k.toast} />
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
+      <More open={k.more} onClose={k.closeMore} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />
@@ -359,7 +360,7 @@ function Desktop({ k }: { k: Khoim }) {
           <section className="k-desktop-panel" aria-label="Khoim">
             <div className="k-desktop-panel__top">
               <button type="button" className="k-desktop-header__home" onClick={() => k.goTo(null)}><Wordmark size={24} suffix="All of Goa" /></button>
-              <LayersButton k={k} />
+              <AboutButton k={k} />
             </div>
             <Crumbs k={k} />
             <H className="k-lede">{LEDE}</H>
@@ -391,7 +392,7 @@ function Desktop({ k }: { k: Khoim }) {
       </div>
       <ShareSheet open={k.shareOpen} place={viewPlace(k)} layer={!sp && k.layered ? k.mapLayer : null} onClose={k.closeShare} onDone={k.showToast} />
       <Toast text={k.toast} />
-      <More open={k.more} onClose={k.closeMore} layer={k.layer} onLayer={k.setLayer} layerCounts={k.layerCounts} onTellUs={tellUs(k)} />
+      <More open={k.more} onClose={k.closeMore} onTellUs={tellUs(k)} />
       <Contribute k={k} />
       <MailNote />
       <Announcer text={k.announce} />

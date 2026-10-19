@@ -65,8 +65,11 @@
 .k-tmap.is-layered .k-tmap__name.is-off { --base: .25; }
 .k-tmap--parts .k-tmap__v.is-lit { fill: var(--map-view-on); }
 .k-tmap--parts .k-tmap__name.is-lit { fill: var(--map-view-on-text); }
-.k-tmap--need .k-tmap__v.is-lit { fill: var(--map-written); }
-.k-tmap--need .k-tmap__name.is-lit { fill: var(--map-written-text); }
+.k-tmap--feasts .k-tmap__v.is-lit, .k-tmap--landmarks .k-tmap__v.is-lit { fill: var(--map-view-on); }
+.k-tmap--feasts .k-tmap__name.is-lit, .k-tmap--landmarks .k-tmap__name.is-lit { fill: var(--map-view-on-text); }
+/* Names in Devanagari or Romi: the villages written in that script, the way "Still unwritten" showed them */
+.k-tmap--written .k-tmap__v.is-lit { fill: var(--map-written); }
+.k-tmap--written .k-tmap__name.is-lit { fill: var(--map-written-text); }
 .k-tmap.is-layered .k-tmap__name.is-lit { font-weight: 600; --base: 1; }
 .k-tmap.is-layered .k-tmap__name.is-lit.is-off { --base: .6; }
 
@@ -90,6 +93,9 @@
 .k-tmap__station.is-culled, .k-tmap__glyphs.is-culled { visibility: hidden; }
 .k-tmap.is-layered .k-tmap__lines { opacity: .3; }
 .k-tmap.is-layered .k-tmap__river-names { display: none; }
+/* Names in Devanagari or Romi is still the Names view: rivers keep their strength and their names */
+.k-tmap--written .k-tmap__lines { opacity: 1; }
+.k-tmap--written .k-tmap__river-names { display: inline; }
 
 /* Live layer tiles: HTML over the map, placed from the map's own numbers. */
 .k-tmap__marks { position: absolute; inset: 0; pointer-events: none; }
