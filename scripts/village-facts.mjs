@@ -37,7 +37,7 @@ const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
     Returns null when the rule names no month (a tithi alone, "Saptami to Navami"): the rule is then shown as
     written, with no month and no date. Lunar dates are never turned into a day. */
 export function parseRule(rule, calendar) {
-  const r = rule.trim().toLowerCase().replace(/[,.]/g, ' ').replace(/\s+/g, ' ');
+  const r = rule.trim().toLowerCase().replace(/[,.]/g, ' ').replace(/[-/]/g, ' ').replace(/\s+/g, ' ');
   if (!r) return null;
   if (calendar === 'lunar') {
     const words = r.split(/[\s\-/]+/).map(w => LUNAR_ALIASES[w] ?? w);
@@ -47,24 +47,43 @@ export function parseRule(rule, calendar) {
     const use = / and /.test(r) ? months : months.slice(0, 1);
     return { lunar: true, months: [...new Set(use.flatMap(m => LUNAR[m]))] };
   }
-  const monthIn = s => MONTHS.findIndex(m => new RegExp(`\\b${m}\\b`).test(s));
-  let m = /^(first|second|third|fourth|fifth) (sunday|monday|tuesday|wednesday|thursday|friday|saturday) after easter$/.exec(r);
-  if (m) return m[2] === 'saturday' ? { easterSaturday: ORDINALS.indexOf(m[1]) + 1 } : { easterDays: 7 * ORDINALS.indexOf(m[1]) + WEEKDAYS.indexOf(m[2]) };
-  m = /\b(\d{1,2})(?:st|nd|rd|th)? ([a-z]+)\b/.exec(r) || /\b([a-z]+) (\d{1,2})(?:st|nd|rd|th)?\b/.exec(r);
-  if (m) {
-    const [day, name] = /^\d/.test(m[1]) ? [+m[1], m[2]] : [+m[2], m[1]];
-    const month = MONTHS.indexOf(name) + 1;
-    if (month) {
-      const near = /(sunday|monday|tuesday|wednesday|thursday|friday|saturday) (?:closest|nearest) to/.exec(r);
-      return near ? { month, day, nearest: WEEKDAYS.indexOf(near[1]) } : { month, day };
-    }
+  /* two dates ("Jul 16, 4th Sun of Jan"): the months of both, no single day */
+  const parts = rule.split(',').map(x => x.trim().toLowerCase().replace(/[.]/g, ' ').replace(/[-/]/g, ' ').replace(/\s+/g, ' ')).filter(Boolean);
+  if (parts.length > 1) {
+    const each = parts.map(gregorian);
+    if (each.every(Boolean)) return { months: [...new Set(each.flatMap(w => ('months' in w ? w.months : 'month' in w ? [w.month] : [])))] };
   }
-  m = /\blast (sunday|monday|tuesday|wednesday|thursday|friday|saturday) (?:in|of) (?:the month of )?([a-z]+)/.exec(r);
-  if (m && MONTHS.includes(m[2])) return { month: MONTHS.indexOf(m[2]) + 1, lastWeekday: WEEKDAYS.indexOf(m[1]) };
-  /* a month and no day ("October", "In the month of September", "April-May", "December/January") */
+  return gregorian(r);
+}
+
+/* Short forms in the parish directory: "2nd Sun of May", "Sun after Jul 26", "Last Tue of Oct", "Sept 8". */
+const SHORT = { sun: 'sunday', mon: 'monday', tue: 'tuesday', tues: 'tuesday', wed: 'wednesday', thu: 'thursday', thur: 'thursday', fri: 'friday', sat: 'saturday',
+  jan: 'january', feb: 'february', mar: 'march', apr: 'april', jun: 'june', jul: 'july', aug: 'august', sep: 'september', sept: 'september', oct: 'october', nov: 'november', dec: 'december',
+  '1st': 'first', '2nd': 'second', '3rd': 'third', '4th': 'fourth', '5th': 'fifth' };
+const WD = '(sunday|monday|tuesday|wednesday|thursday|friday|saturday)', MO = `(${MONTHS.join('|')})`, ORD = '(first|second|third|fourth|fifth)';
+
+function gregorian(raw) {
+  const r = raw.split(' ').map(w => SHORT[w] ?? w).join(' ');
+  let m;
+  if (r === 'pentecost') return { easterDays: 49 };
+  if ((m = new RegExp(`^(?:${ORD} )?${WD} after easter$`).exec(r))) {
+    const n = m[1] ? ORDINALS.indexOf(m[1]) + 1 : 1, wd = WEEKDAYS.indexOf(m[2]);
+    return wd === 6 ? { easterSaturday: n } : { easterDays: (wd || 7) + 7 * (n - 1) };
+  }
+  if ((m = new RegExp(`\\b${ORD} ${WD} (?:of|in) (?:the month of )?${MO}\\b`).exec(r))) return { month: MONTHS.indexOf(m[3]) + 1, nth: ORDINALS.indexOf(m[1]) + 1, weekday: WEEKDAYS.indexOf(m[2]) };
+  if ((m = new RegExp(`\\blast ${WD} (?:of|in) (?:the month of )?${MO}\\b`).exec(r))) return { month: MONTHS.indexOf(m[2]) + 1, lastWeekday: WEEKDAYS.indexOf(m[1]) };
+  if ((m = new RegExp(`^${WD} after ${MO} (\\d{1,2})$`).exec(r))) return { month: MONTHS.indexOf(m[2]) + 1, day: +m[3], after: WEEKDAYS.indexOf(m[1]) };
+  /* anything else that counts from Easter, Lent or Carnival ("Sun before Carnival") is shown as written */
+  if (/easter|lent|carnival|ash wednesday|ash wed/.test(r)) return null;
+  const days = [...r.matchAll(new RegExp(`\\b(\\d{1,2})(?:st|nd|rd|th)? ${MO}\\b|\\b${MO} (\\d{1,2})(?:st|nd|rd|th)?\\b`, 'g'))];
   const months = MONTHS.map((x, i) => (new RegExp(`\\b${x}\\b`).test(r) ? i + 1 : 0)).filter(Boolean);
+  if (days.length === 1 && months.length === 1) {
+    const d = days[0], month = MONTHS.indexOf(d[2] ?? d[3]) + 1, day = +(d[1] ?? d[4]);
+    const near = new RegExp(`${WD} (?:closest|nearest) to`).exec(r);
+    return near ? { month, day, nearest: WEEKDAYS.indexOf(near[1]) } : { month, day };
+  }
+  /* a month and no day ("October", "2nd week of May", "April-May", "December/January"), or two dates: months only */
   if (months.length) return { months };
-  if (monthIn(r) < 0) throw new Error(`feast rule not recognised: "${rule}"`);
   return null;
 }
 
