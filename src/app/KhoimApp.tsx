@@ -19,7 +19,7 @@ import { SearchField } from '../components/search/SearchField';
 import { SearchResults } from '../components/search/SearchResults';
 import { VillageList } from '../components/village/VillageList';
 import { VillageSheet } from '../components/village/VillageSheet';
-import { EndingButtons, Legend, ViewLine } from '../components/layers/Views';
+import { EndingButtons, EndingNote, Legend, ViewLine } from '../components/layers/Views';
 import { ShowControl } from '../components/layers/ShowControl';
 import { showOptions } from '../lib/layers';
 import { ShareSheet } from '../components/share/ShareSheet';
@@ -242,6 +242,7 @@ function Views({ k, endings = true }: { k: Khoim; endings?: boolean }) {
     <div className="k-views">
       <ShowControl options={showOptions(k.layerCounts)} value={k.showValue} onChange={k.show} />
       {endings && <EndingButtons layer={k.mapLayer} onChange={k.setMapLayer} />}
+      {endings && <EndingNote layer={k.mapLayer} />}
       <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
       {/* the full lists behind two of the choices (phase 4, B5) */}
       {/* TODO(copy): the links' wording */}

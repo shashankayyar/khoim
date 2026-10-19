@@ -297,6 +297,12 @@ write('places.json', places);
 write('geo-base.json', geoBase);
 write('villages.json', villages);
 write('village-facts.json', facts);
+/* What a spelling ending tells you, only where a source says so (phase 4, B6): data/credited/endings.csv, each line
+   taken from a row of the origins table, with its hedge and credit. An ending no source explains gets no line. */
+write('endings.json', readCsv('data/credited/endings.csv').map(r => ({
+  ending: r.ending, id: 'v' + r.village_code, village: r.village, reading: r.reading, hedge: r.hedge === 'stated' ? null : r.hedge,
+  credit: `${r.author}, ${r.publication.replace(/ \(.*\)$/, '')}`, date: r.date, url: r.url
+})));
 /* How many entries the "Show" control's data options hold (phase 4, B3): an option appears only with 10 or more. */
 {
   const items = Object.values(facts).flatMap(f => f.knownFor ?? []);
