@@ -50,6 +50,28 @@ export function openHistory(root) {
       return days;
     },
 
+    /** Like rowDays, for a binary file (the review spreadsheet): each version is written to a scratch file and
+        `rowsOf(path)` lists its rows. */
+    binaryRowDays(file, rowsOf) {
+      const days = new Map();
+      let before = new Map();
+      if (!ok) return days;
+      const dir = mkdtempSync(join(tmpdir(), 'khoim-history-'));
+      try {
+        for (const [i, { hash, day }] of commits(file).entries()) {
+          let now;
+          try {
+            const copy = join(dir, `v${i}` + file.slice(file.lastIndexOf('.')));
+            writeFileSync(copy, execFileSync('git', ['show', `${hash}:${file}`], { cwd: root, maxBuffer: 64 << 20, stdio: ['ignore', 'pipe', 'ignore'] }));
+            now = new Map(rowsOf(copy).map(([k, row]) => [k, same(row)]));
+          } catch { continue; }
+          for (const [k, row] of now) if (before.get(k) !== row) days.set(k, day);
+          before = now;
+        }
+      } finally { rmSync(dir, { recursive: true, force: true }); }
+      return days;
+    },
+
     /** Like rowDays, for a JavaScript data file: each version is loaded and `rowsOf(module)` lists its rows. */
     async moduleRowDays(file, rowsOf) {
       const days = new Map();

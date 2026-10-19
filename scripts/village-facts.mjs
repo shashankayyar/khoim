@@ -186,5 +186,9 @@ export function villageFacts(root, { lgdCodes, check }) {
   return facts;
 }
 
-/** Sourced facts beyond the official name, for the indexing rule (A1). A Gazetteer form does not count (rule 6). */
-export const sourcedFactCount = f => f ? (f.meaning?.readings.length ?? 0) + (f.knownFor?.length ?? 0) + (f.vaddos ? 1 : 0) : 0;
+/** Sourced facts beyond the official name, for the indexing rule (phase 4, B7): each origin, each thing it is known
+    for, a vaddo list, each video, and its Gazetteer spellings when one differs from the official name. */
+export const sourcedFactCount = (f, official = '') => f
+  ? (f.meaning?.readings.length ?? 0) + (f.knownFor?.length ?? 0) + (f.vaddos ? 1 : 0) + (f.videos?.length ?? 0)
+    + (f.spellings?.items.some(i => i.form !== official) ? 1 : 0)
+  : 0;

@@ -2,18 +2,20 @@
 
    The rule (docs/phase2-brief.md, A1, with Shashank's change of 16 October 2026):
    - Goa, the districts and the talukas are always indexable: they carry the lists of the places inside them.
-   - A village page is indexable only if it has a reviewed Konkani name (Devanagari or Romi or both, with a
-     reviewer), or at least two sourced facts beyond its official name. A Gazetteer-only form never counts
-     (phase 2 rule 6). Sourced facts are counted by scripts/village-facts.mjs: each origin, each feast, product or
-     monument, and a vaddo list. Census and LGD facts join them with A2.
+   - A village or town page is indexable if it has a reviewed Konkani name (Devanagari or Romi or both, with a
+     reviewer), or at least one sourced fact beyond its official name (phase 4, B7): a meaning, feast, parish,
+     landmark, product, video, vaddo list or Gazetteer spelling. Sourced facts are counted by
+     scripts/village-facts.mjs. How a Gazetteer form is shown still follows phase 2 rule 6.
    Every other page carries <meta name="robots" content="noindex"> and is left out of the sitemap. Nothing is ever
    blocked in robots.txt.
 
-   A page's day is the latest change to its own rows; a taluka also takes its villages' days, a district its
+   A page's day is the latest change to its own rows (the LGD list, its credited facts, its Gazetteer spellings);
+   a taluka also takes its villages' days, a district its
    talukas', and the home page everything. */
 import { parseCsv, readCsv } from './lib/csv.mjs';
 import { openHistory } from './lib/history.mjs';
 import { openProjection } from './lib/projection.mjs';
+import { readSheet } from './lib/xlsx.mjs';
 import { join } from 'node:path';
 
 const latest = days => days.filter(Boolean).sort().at(-1) ?? null;
@@ -26,14 +28,25 @@ export async function pageIndex(root, { places, villages, geoBase, factCount = (
   const lgdDays = history.rowDays('data/villages_lgd.csv', csvRows('lgd_code'));
   const outlineDays = history.rowDays('data/town_outline_matches.csv', csvRows('lgd_code'));
   const shapesDay = history.fileDay('design/components/data/goaGeo.js');
+  /* Phase 4, B7: a village's day also takes its credited facts (every row of data/credited/ with its code; a row is
+     known by its code and its own fields, so each row's last change counts) and its Gazetteer spellings in the review
+     sheet. A row that is removed leaves no day behind. */
+  const creditedDays = new Map();
+  for (const file of ['origins_luis_2026.csv', 'feasts.csv', 'parishes.csv', 'monuments.csv', 'gi_products.csv', 'videos_villages_of_goa.csv', 'vaddos.csv']) {
+    const days = history.rowDays('data/credited/' + file, text => parseCsv(text).filter(r => r.village_code || r.place_id).map(r => [(r.village_code ? 'v' + r.village_code : r.place_id) + '|' + JSON.stringify(Object.values(r)), r]));
+    for (const [k, day] of days) { const id = k.split('|')[0]; if (!creditedDays.has(id) || creditedDays.get(id) < day) creditedDays.set(id, day); }
+  }
+  const GAZ = ['gazetteer_government', 'gazetteer_soi', 'advisory_body_form', 'gazetteer_devanagari', 'gazetteer_page'];
+  const sheetDays = history.binaryRowDays('data/village_names_review.xlsx', path => readSheet(path, 'Review').map(r => ['v' + String(r['LGD code']).replace(/\.0$/, ''), Object.fromEntries(GAZ.map(c => [c, r[c] ?? '']))]));
 
   const pages = {};
   for (const v of villages) {
     const named = !!(v.deva || v.romi) && !!v.reviewer;
     const facts = factCount(v.id);
     /* A Survey of India outline with no LGD row: its outline is its data. */
-    const day = v.lgd ? latest([lgdDays.get(v.lgd), outlineDays.get(v.lgd)]) : shapesDay;
-    pages[v.id] = { index: named || facts >= 2, lastmod: day };
+    const day = latest([v.lgd ? latest([lgdDays.get(v.lgd), outlineDays.get(v.lgd)]) : shapesDay, creditedDays.get(v.id), sheetDays.get(v.id)]);
+    /* phase 4, B7: one sourced fact beyond the official name is enough */
+    pages[v.id] = { index: named || facts >= 1, lastmod: day };
   }
   for (const p of places.filter(p => p.level === 'taluka')) {
     const day = latest([placeDays.get(p.id), ...villages.filter(v => v.t === p.id).map(v => pages[v.id].lastmod)]);
