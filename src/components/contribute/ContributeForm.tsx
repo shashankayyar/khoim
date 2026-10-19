@@ -82,7 +82,7 @@ export interface ContributeFormProps {
   /** The place the form is about. Null when the form is closed. */
   place: Place | null;
   /** Which row is already ticked when it opens. Null: none. */
-  kind: ContributionKind | null;
+  kind: ContributionKind | ContributionKind[] | null;
   siteKey: string | null;
   onClose: () => void;
 }
@@ -105,10 +105,13 @@ export function ContributeForm({ place, kind: firstKind, siteKey, onClose }: Con
   /* A fresh form each time it opens for a place. The person's name, their village and how they know are kept
      for this visit, to save typing them again for the next place. */
   const placeId = place?.id;
+  /* what to tick first: one thing, or several (the ask on a village sheet ticks the name and the recording) */
+  const firstKinds: ContributionKind[] = Array.isArray(firstKind) ? firstKind : firstKind ? [firstKind] : [];
+  const firstKey = firstKinds.join(',');
   useEffect(() => {
     if (!placeId) return;
-    setPicked(firstKind ? { [firstKind]: true } : {}); setValues({}); setRecording(null); setAgree(false); setState('idle'); setMissing({});
-  }, [placeId, firstKind]);
+    setPicked(Object.fromEntries(firstKinds.map(k => [k, true]))); setValues({}); setRecording(null); setAgree(false); setState('idle'); setMissing({});
+  }, [placeId, firstKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* The bot check appears while the form is open and the person has not sent it yet. */
   const showCheck = open && state !== 'sent' && !!siteKey;

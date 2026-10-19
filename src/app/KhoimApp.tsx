@@ -363,8 +363,9 @@ function Desktop({ k }: { k: Khoim }) {
               <AboutButton k={k} />
             </div>
             <Crumbs k={k} />
-            <H className="k-lede">{LEDE}</H>
-            <ViewLine layer={k.mapLayer} script={k.script} className="k-count" />
+            {/* with a place open the panel keeps the way back and the controls, as the phone does (phase 4, B4) */}
+            {!sp && <H className="k-lede">{LEDE}</H>}
+            {!sp && <ViewLine layer={k.mapLayer} script={k.script} className="k-count" />}
             <ScriptToggle value={k.script} onChange={k.setScript} />
             <Views k={k} />
             <SearchField value={k.query} onChange={k.setQuery} onCancel={k.query ? () => k.setQuery('') : undefined} />

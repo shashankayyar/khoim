@@ -161,8 +161,14 @@ export function villageFacts(root, { lgdCodes, check }) {
       r.gazetteer_devanagari && { form: r.gazetteer_devanagari, source: 'Devanagari', lang: 'gom', note: 'pending review' }
     ].filter(Boolean);
     if (!items.length) continue;
+    /* the same form from two columns shows once, with both sources (phase 4, B4: Aldona showed "Aldona" twice) */
+    const merged = [];
+    for (const it of items) {
+      const same = merged.find(m => m.form === it.form && m.lang === it.lang);
+      if (same) same.source += ' and ' + it.source; else merged.push({ ...it });
+    }
     const f = of(code);
-    f.spellings = { items, page: r.gazetteer_page || null };
+    f.spellings = { items: merged, page: r.gazetteer_page || null };
     if (r.gazetteer_devanagari) f.gazetteerDeva = r.gazetteer_devanagari;
   }
 
