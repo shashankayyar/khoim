@@ -109,7 +109,7 @@ export function KnownFor({ items, today }: { items: KnownForItem[]; today: Date 
           <div className="k-known__text">
             <span className="k-known__title">{it.title}</span>
             {it.detail && <span className="k-known__detail">{it.detail}</span>}
-            {it.when && <FeastStrip item={it} today={today} />}
+            {it.when ? <FeastStrip item={it} today={today} /> : it.whenText && <p className="k-feast__when">{it.whenText}.</p>}
             <span className="k-vsmall">{it.source}</span>
           </div>
         </li>

@@ -95,11 +95,15 @@ for r in csv.DictReader(open('data/gazetteer/directory_facts_1979.tsv'), delimit
 # one row per landmark: same village, and the same distinctive words once generic ones are set aside
 STOP = r'\b(the|of|at|and|shri|shree|sri|temple|tl|mandir|church|chapel|fort|fortress|site|ruins|devasthan|saunsthan|caves?|st|nossa|senhora|our|lady)\b'
 core = lambda n: key(re.sub(STOP, ' ', n.lower()))
+import difflib
 seen, out = {}, []
+def same(a, b):  # "Mahalakshmi" and "Mahalaximi": the same name in two spellings of the same book
+    return a == b or (min(len(a), len(b)) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.8)
 for r in rows:
     k = (r['village_code'] or key(r['village']), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
-    if k[1] and k in seen:
-        first = seen[k]
+    hit = next((x for x in seen if x[0] == k[0] and x[2] == k[2] and k[1] and same(x[1], k[1])), None)
+    if hit:
+        first = seen[hit]
         if r['source'] not in first['source']: first['source'] += '; ' + r['source'] + (f', p. {r["page"]}' if r['page'] else '')
         continue
     seen[k] = r; out.append(r)
