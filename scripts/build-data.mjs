@@ -337,7 +337,7 @@ if (problems.length) { console.error('\nKhoim data: the build stopped.\n'); for 
 write('map-lines.json', lines);
 
 /* Read only when the pages are built, never sent to the browser. */
-const index = await pageIndex(root, { places, villages, geoBase, factCount: id => sourcedFactCount(facts[id]) });
+const index = await pageIndex(root, { places, villages, geoBase, factCount: id => sourcedFactCount(facts[id], villages.find(v => v.id === id)?.n) });
 write('pages.json', index.pages);
 
 console.log(`Khoim data: ${PLACES.length} named places, ${villages.length} villages ` +

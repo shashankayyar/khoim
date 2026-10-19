@@ -1,7 +1,7 @@
 /* Page titles and descriptions. Templates are from docs/copy.md (SEO section).
    Used when the pages are built and again in the app as you move between places. */
-import { getPlace, pathOf } from './khoim';
-import type { Place } from './types';
+import { factsOf, getPlace, pathOf } from './khoim';
+import type { KnownForItem, Place } from './types';
 
 export interface PageMeta { title: string; description: string }
 
@@ -18,7 +18,33 @@ export const HOME_META: PageMeta = {
 export function pageTitle(p: Place): string {
   const names = [p.deva, p.romi].filter(Boolean).join(', ');
   if (names) return `${p.official} (${names}): Konkani name, how to say it | Khoim`;
-  return `${p.official}, ${getPlace(p.parent)?.official}, Goa: ${p.isTown ? 'town' : 'village'} facts | Khoim`;
+  const kind = p.isTown ? 'town' : 'village', where = `${p.official}, ${getPlace(p.parent)?.official}, Goa`;
+  /* phase 4, B7: the meaning or the main feast, where there is one */
+  // TODO(copy): "name meaning and {kind} facts", "{feast} and {kind} facts"
+  if (p.level === 'village') {
+    if (meaningOf(p)) return `${where}: name meaning and ${kind} facts | Khoim`;
+    const feast = mainFeast(p);
+    if (feast) return `${where}: ${feast.title} and ${kind} facts | Khoim`;
+  }
+  return `${where}: ${kind} facts | Khoim`;
+}
+
+/** A village's first reading of where its name comes from, with its source's caution. Sourced, in our words. */
+function meaningOf(p: Place): string | null {
+  const r = factsOf(p.id)?.meaning?.readings[0];
+  return r ? `${r.text}${r.hedge ? ` (${r.hedge})` : ''}` : null;
+}
+/** The feast a village is best known for: a zatra or feast with its date, else any, else its parish feast. */
+const FEAST_RANK: Record<string, number> = { zatra: 0, feast: 1, festival: 2, parish: 3 };
+function mainFeast(p: Place): KnownForItem | null {
+  const all = (factsOf(p.id)?.knownFor ?? []).filter(k => k.kind in FEAST_RANK && (k.kind !== 'parish' || k.whenText));
+  return all.sort((a, b) => (a.whenText ? 0 : 4) + FEAST_RANK[a.kind] - ((b.whenText ? 0 : 4) + FEAST_RANK[b.kind]))[0] ?? null;
+}
+/** The sentences a village's description adds for its meaning and main feast. */
+function factLine(p: Place): string {
+  const m = meaningOf(p), f = mainFeast(p);
+  // TODO(copy): "The name: {reading}." and "Known for {feast}, {date}."
+  return (m ? ` The name: ${m}.` : '') + (f ? ` Known for ${f.title}${f.whenText ? ', ' + f.whenText : ''}.` : '');
 }
 
 export function pageMeta(p: Place | null): PageMeta {
@@ -33,12 +59,12 @@ export function pageMeta(p: Place | null): PageMeta {
     if (p.deva || p.romi) {
       return {
         title,
-        description: `${p.official} is a ${kind} in ${where}. It is ${p.deva ? `${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}` : `${p.romi} in Romi`}.`
+        description: `${p.official} is a ${kind} in ${where}. It is ${p.deva ? `${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}` : `${p.romi} in Romi`}.${factLine(p)}`
       };
     }
     return {
       title,
-      description: `${p.official} is a ${kind} in ${where}. Official name from government records; its Konkani name is being added.`
+      description: `${p.official} is a ${kind} in ${where}.${factLine(p)} Official name from government records; its Konkani name is being added.`
     };
   }
 
