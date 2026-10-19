@@ -66,12 +66,14 @@ const START: State = { focus: null, selected: null, snap: 'peek', hot: null, sea
 const SCRIPT_KEY = 'khoim-script';
 const SITE = 'https://khoim.in';
 
+/** The script a visit opens in: the visitor's own choice if they made one, otherwise Official (Shashank's decision,
+    19 October 2026: it is the spelling on signboards and in documents, and takes no side between Devanagari and Romi). */
 function savedScript(): Script {
   try {
     const v = localStorage.getItem(SCRIPT_KEY);
-    return v === 'official' || v === 'romi' || v === 'deva' ? v : 'deva';
+    return v === 'official' || v === 'romi' || v === 'deva' ? v : 'official';
   } catch {
-    return 'deva';
+    return 'official';
   }
 }
 

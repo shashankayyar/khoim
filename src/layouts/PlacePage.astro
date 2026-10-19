@@ -82,7 +82,7 @@ const outline = place.level === 'village' && place.parent ? outlines[`../data/ge
         <div class="static__panel-body">
           {!home && (place.level === 'village' ? (
               <div class="static__card static__card--village">
-                <VillageSheet place={place} script="deva" outline={outline} plain headingLevel={1} facts={factsOf(place.id)} />
+                <VillageSheet place={place} script="official" outline={outline} plain headingLevel={1} facts={factsOf(place.id)} />
               </div>
             ) : (
               <div class="static__card" data-house={houseOf(place).key} style={`--peek:${place.deva ? 318 : 344}px`}>
