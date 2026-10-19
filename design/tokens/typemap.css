@@ -7,7 +7,7 @@
 --map-ink-haldi:#80600F;--map-ink-kokum:#8C2E4A;--map-ink-rose:#9A3A55;--map-ink-green:#206150;--map-ink-oxide:#913D28;--map-ink-lilac:#5F4FA0;--map-ink-sky:#1F6E82;--map-ink-neel:#294C9C;--map-ink-mustard:#8A4C12;
 --map-village-edge:#FFFFFF;--map-taluka-edge:var(--ink-900);
 /* rivers: the prototype's soft water, and a deeper one for their names so they read */
---map-water:#6E9FB3;--map-water-text:#2F6478;
+--map-water:#6E9FB3;--map-water-text:#1F4E60;
 /* the quiet fill of villages a view does not pick out */
 --map-quiet:#ECEAE3;--map-quiet-edge:var(--lime-300);
 /* views (src/lib/layers.ts): the map fill and its legend swatch are the same token */

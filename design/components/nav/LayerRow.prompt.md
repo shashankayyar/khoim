@@ -1,3 +1,5 @@
+**Replaced in phase 4 by ShowControl** (see ShowControl.prompt.md). Kept as the phase 3 record.
+
 The map views (phase 3): a radio group styled as the prototype's segmented row.
 ```jsx
 <LayerRow value={view.id} onChange={id => setView(layerWith(id))} />
