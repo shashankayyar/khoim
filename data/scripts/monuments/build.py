@@ -15,7 +15,9 @@ Names are the source's own. The Directory's abbreviations are spelled out with i
 A landmark gets a village code only when the source's village (or locality) is spelt exactly as an LGD village in
 the same taluka (the Gazetteer's 1979 talukas include today's Dharbandora), or, for the ASI's localities, as the
 only LGD village of that name in the district. "Tambdi Surla" is Surla, Dharbandora (626974), as Shashank decided on
-16 October 2026 (docs/phase2-decisions.md). Everything else stays without a code, with the reason.
+16 October 2026 (docs/phase2-decisions.md). The ASI's Old Goa is Ella, Tiswadi (626714), as Shashank decided on
+19 October 2026 (docs/phase4-polish-brief.md, step 4): Old Goa is not an LGD village, and the State's own list files its
+monuments under Ella. Everything else stays without a code, with the reason.
 
 Run from the repository root: python3 data/scripts/monuments/build.py
 """
@@ -34,10 +36,10 @@ def in_talukas(name, talukas):
     return c[0] if len(c) == 1 else None
 
 rows = []
-def add(name, kind, village, v, protection, source, url, page='', note=''):
+def add(name, kind, village, v, protection, source, url, page='', note='', matched=''):
     rows.append({'name': name, 'type': kind, 'village': village, 'village_code': v['lgd_code'] if v else '',
                  'checked': 'yes' if v else 'no', 'protection': protection, 'source': source, 'page': page,
-                 'source_url': url, 'match_note': '' if v else note})
+                 'source_url': url, 'match_note': matched if v else note})
 
 def kind_of(name):
     n = name.lower()
@@ -52,12 +54,13 @@ def kind_of(name):
 for r in csv.DictReader(open('data/raw/monuments_asi_goa_circle.tsv'), delimiter='\t'):
     loc = r['locality']
     if loc == 'Tambdisurla': v = next(x for x in lgd if x['lgd_code'] == '626974')
+    elif loc == 'Old Goa': v = next(x for x in lgd if x['lgd_code'] == '626714')
     else:
         c = [x for x in lgd if x['district'] in DISTRICT[r['district']] and key(x['official']) == key(loc)]
         v = c[0] if len(c) == 1 else None
-    note = 'Old Goa is not an LGD village; the State list files Old Goa monuments under Ella' if loc == 'Old Goa' else f'no LGD village spelt "{loc}" in {r["district"]}'
     add(r['name'], kind_of(r['name']), loc, v, 'Centrally protected (ASI)', 'Archaeological Survey of India, Goa Circle',
-        'https://asi.nic.in/pdf/CPM_List.pdf', note=note)
+        'https://asi.nic.in/pdf/CPM_List.pdf', note=f'no LGD village spelt "{loc}" in {r["district"]}',
+        matched='Old Goa lies in Ella; the State list files it there' if loc == 'Old Goa' else '')
 
 # 2. Government of Goa
 for r in csv.DictReader(open('data/raw/monuments_goa_state_57.tsv'), delimiter='\t'):
@@ -99,8 +102,9 @@ import difflib
 seen, out = {}, []
 def same(a, b):  # "Mahalakshmi" and "Mahalaximi": the same name in two spellings of the same book
     return a == b or (min(len(a), len(b)) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.75)
+OLD_GOA = '626714'  # Ella: the Gazetteer's own Old Goa entries still join the ASI's, now filed there
 for r in rows:
-    k = (r['village_code'] or key(r['village']), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
+    k = (r['village_code'] or (OLD_GOA if r['village'] == 'Old Goa' else key(r['village'])), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
     hit = next((x for x in seen if x[0] == k[0] and x[2] == k[2] and k[1] and same(x[1], k[1])), None)
     if hit:
         first = seen[hit]

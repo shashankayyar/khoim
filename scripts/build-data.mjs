@@ -184,7 +184,9 @@ for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWi
    - OpenStreetMap (ODbL): alt_name, old_name, name_pt and name_en of a city, town or village whose point lies inside
      the place's outline in the same taluka, when the OSM place has the place's own name, or is a town inside a town's outline.
      Its Devanagari names are never used here.
-   - The 1979 Gazetteer's spelling list (the forms two readings agreed on) and Dr Luis's spelling, from the review sheet. */
+   - The 1979 Gazetteer's spelling list (the forms two readings agreed on) and Dr Luis's spelling, from the review sheet.
+   - "Old Goa" and "Velha Goa" for Ella: the State's list of protected monuments files Old Goa under Ella (Shashank's
+     decision, 19 October 2026, docs/phase4-polish-brief.md step 4). */
 {
   const fold = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’']/g, '').toLowerCase().replace(/[^a-z]/g, '');
   const latin = s => /^[\p{Script=Latin}\s\-'’().,]+$/u.test(s);
@@ -210,6 +212,9 @@ for (const file of readdirSync(join(root, 'data/credited')).filter(f => f.endsWi
     for (const f of ['gazetteer_government', 'gazetteer_soi', 'advisory_body_form']) add(v, r[f] || '', 'g');
     add(v, r.luis_spelling || '', 'l');
   }
+  const ella = byCode.get('626714');
+  check(!!ella, 'Ella (626714) is missing: "Old Goa" and "Velha Goa" need it.');
+  if (ella) for (const form of ['Old Goa', 'Velha Goa']) add(ella, form, 's');
 }
 
 /* What each village's sheet shows beyond its names (scripts/village-facts.mjs). */

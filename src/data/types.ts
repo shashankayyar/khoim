@@ -58,7 +58,7 @@ export interface Place {
 }
 
 /** A village as written by scripts/build-data.mjs (short keys, to keep the file small). */
-export type AkaSource = 'o' | 'g' | 'l';
+export type AkaSource = 'o' | 'g' | 'l' | 's';
 export interface RawVillage {
   id: string;
   t: string;
