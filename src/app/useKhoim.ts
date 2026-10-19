@@ -132,6 +132,8 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
 
   const up = (o: Partial<State>) => set(v => ({ ...v, ...o }));
   const needVillages = () => loadVillages().then(() => setVillagesLoaded(true));
+  /* search also finds feasts, landmarks and rivers (phase 4, B5): their data comes along when someone searches */
+  const needSearch = () => { needVillages(); loadVillageFacts().then(() => setFactsLoaded(true)); loadMapLines().then(setMapLines); };
 
   /* The type map is made of the village names, so the village list and every outline load straight away.
      Talukas are drawn in their tints until they arrive. The rest waits until the page has settled. */
@@ -286,7 +288,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),
     /* villages are part of search, so make sure their list is on its way as soon as someone starts */
-    setQuery: (query: string) => { if (query) needVillages(); up({ query }); },
+    setQuery: (query: string) => { if (query) needSearch(); up({ query }); },
     /** "Show" (phase 4, B3): one choice sets both the view and the layer people add to. Landmarks is both: the
         credited landmarks colour the map, and any that people sent come as tiles. */
     show: (id: string) => {
@@ -311,7 +313,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
       if (cur?.overlay && cur.idx > 0) sayNext.current = words;
       closeOverlay();
     },
-    openSearch: () => { needVillages(); up({ search: true }); },
+    openSearch: () => { needSearch(); up({ search: true }); },
     closeSearch: closeOverlay,
     openMore: () => up({ more: true }),
     /** The taluka's villages as a list. */

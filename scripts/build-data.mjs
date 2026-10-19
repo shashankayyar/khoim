@@ -301,7 +301,8 @@ write('village-facts.json', facts);
 {
   const items = Object.values(facts).flatMap(f => f.knownFor ?? []);
   write('show-counts.json', {
-    feasts: items.filter(i => ['zatra', 'feast', 'festival'].includes(i.kind) || (i.kind === 'parish' && i.when)).length,
+    /* every feast, zatra and festival, and every parish whose feast day is on file: the entries on /feasts/ */
+    feasts: items.filter(i => ['zatra', 'feast', 'festival'].includes(i.kind) || (i.kind === 'parish' && i.whenText)).length,
     landmarks: items.filter(i => i.kind === 'landmark').length
   });
 }
@@ -309,6 +310,23 @@ for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
 /* Rivers, railway and stations for the map (OpenStreetMap and Wikidata). */
 const lines = mapLines(root, { check });
+/* The taluka a river runs through most, so search can open it there (phase 4, B5). Point in polygon on the taluka
+   outlines (paths of M, L and Z on the map plane). */
+{
+  const rings = d => d.split(/[MZ]/).filter(Boolean).map(r => r.split('L').map(p => p.split(',').map(Number)));
+  const inside = ([x, y], ring) => { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const [xi, yi] = ring[i], [xj, yj] = ring[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+  /* the talukas holding most of the river's points (up to three, each with 15% or more), the first opened by search */
+  const shapes = Object.entries(geoBase.talukas).map(([id, sh]) => [id, rings(sh.d)]);
+  const talukaAt = pt => shapes.find(([, rs]) => rs.filter(ring => inside(pt, ring)).length % 2 === 1)?.[0];
+  for (const r of lines.rivers) {
+    const n = {};
+    for (const d of r.d) for (const ring of rings(d)) for (const pt of ring) { const t = talukaAt(pt); if (t) n[t] = (n[t] ?? 0) + 1; }
+    const own = talukaAt(r.label.at);
+    const ranked = Object.entries(n).sort((a, b) => b[1] - a[1] || (a[0] === own ? -1 : b[0] === own ? 1 : 0));
+    const total = ranked.reduce((x, [, c]) => x + c, 0);
+    r.ts = ranked.filter(([, c], i) => i === 0 || c / total >= 0.15).slice(0, 3).map(([t]) => t);
+  }
+}
 if (problems.length) { console.error('\nKhoim data: the build stopped.\n'); for (const p of problems) console.error('  - ' + p); process.exit(1); }
 write('map-lines.json', lines);
 

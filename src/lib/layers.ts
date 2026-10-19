@@ -44,7 +44,7 @@ export const partCount = (id: string) => mappedVillages().filter(v => endsWith(v
 export const writtenCount = (script: Script = 'official') => mappedVillages().filter(v => (script === 'deva' ? v.deva : script === 'romi' ? v.romi : v.deva || v.romi)).length;
 
 const FEAST_KINDS = new Set(['zatra', 'feast', 'festival']);
-const isFeast = (k: KnownForItem) => FEAST_KINDS.has(k.kind) || (k.kind === 'parish' && !!k.when);
+const isFeast = (k: KnownForItem) => FEAST_KINDS.has(k.kind) || (k.kind === 'parish' && !!k.whenText);
 const has = (v: Place, test: (k: KnownForItem) => boolean) => (factsOf(v.id)?.knownFor ?? []).some(test);
 export const feastVillages = () => mappedVillages().filter(v => has(v, isFeast)).length;
 export const landmarkVillages = () => mappedVillages().filter(v => has(v, k => k.kind === 'landmark')).length;

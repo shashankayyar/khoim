@@ -64,6 +64,12 @@ export async function pageIndex(root, { places, villages, geoBase, factCount = (
   }
 
   /* Pages that are not places, listed in the sitemap with their own file's day. */
-  const other = { '/privacy/': history.fileDay('src/pages/privacy.astro'), '/contributors/': latest([history.fileDay('src/pages/contributors.astro'), history.fileDay('data/villages_lgd.csv')]) };
+  const other = {
+    '/privacy/': history.fileDay('src/pages/privacy.astro'),
+    '/contributors/': latest([history.fileDay('src/pages/contributors.astro'), history.fileDay('data/villages_lgd.csv')]),
+    /* phase 4, B5: the pages listing every feast and every name's origin */
+    '/feasts/': latest(['src/pages/feasts.astro', 'data/credited/feasts.csv', 'data/credited/parishes.csv'].map(f => history.fileDay(f))),
+    '/meanings/': latest(['src/pages/meanings.astro', 'data/credited/origins_luis_2026.csv'].map(f => history.fileDay(f)))
+  };
   return { pages: { places: pages, other }, summary };
 }
