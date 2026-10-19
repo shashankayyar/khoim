@@ -86,7 +86,15 @@ export interface RawVillage {
 /* ---------- Phase 2: what a village's sheet shows beyond its names (scripts/village-facts.mjs) ---------- */
 
 /** A feast date as a rule: a fixed day, the nth Saturday after Easter, or a lunar date (months only, never a day). */
-export type FeastWhen = { month: number; day: number } | { easterSaturday: number } | { lunar: true; months: number[] };
+/** When a feast falls, read from its rule: a fixed day (or the given weekday nearest it), the last given weekday of a
+    month, days after Easter, a Gregorian month with no day, or a lunar date (its months only, never a day). */
+export type FeastWhen =
+  | { month: number; day: number; nearest?: number }
+  | { month: number; lastWeekday: number }
+  | { easterSaturday: number }
+  | { easterDays: number }
+  | { months: number[] }
+  | { lunar: true; months: number[] };
 export interface Reading { text: string; hedge: string | null; credit: string; url: string | null }
 export interface KnownForItem {
   kind: 'parish' | 'zatra' | 'festival' | 'gi' | 'monument';
