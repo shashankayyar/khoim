@@ -27,7 +27,9 @@
 .doc-entry__name { font: var(--weight-strong) 18px/1.35 var(--font-latin); overflow-wrap: anywhere; }
 .doc-entry__name--deva { font: var(--weight-strong) 20px/1.6 var(--font-deva); }
 .doc-entry__where { font: var(--weight-regular) 16px/1.5 var(--font-latin); }
-.doc-entry__where a, .doc-entry__name a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-weight: var(--weight-strong); }
+.doc-entry__name a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+/* the village link sits in a sentence, so it stays inline (WCAG 2.5.5's inline exception) and the comma follows it */
+.doc-entry__where a { font-weight: var(--weight-strong); }
 .doc-entry__text { font: var(--weight-regular) 16px/1.5 var(--font-latin); }
 .doc-entry__source { color: var(--text-2); font: var(--weight-regular) 14px/1.45 var(--font-latin); overflow-wrap: anywhere; }
 .doc-entry__source a { display: inline-flex; align-items: center; min-height: 44px; }
