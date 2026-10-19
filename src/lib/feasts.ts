@@ -17,8 +17,10 @@ export function feastDate(when: FeastWhen, year: number): Date | null {
   if ('months' in when) return null;
   if ('easterSaturday' in when) { const e = easter(year); return new Date(year, e.getMonth(), e.getDate() + 6 + 7 * (when.easterSaturday - 1)); }
   if ('easterDays' in when) { const e = easter(year); return new Date(year, e.getMonth(), e.getDate() + when.easterDays); }
+  if ('nth' in when) { const d = new Date(year, when.month - 1, 1); d.setDate(1 + ((when.weekday - d.getDay() + 7) % 7) + 7 * (when.nth - 1)); return d; }
   if ('lastWeekday' in when) { const d = new Date(year, when.month, 0); d.setDate(d.getDate() - ((d.getDay() - when.lastWeekday + 7) % 7)); return d; }
   const d = new Date(year, when.month - 1, when.day);
+  if (when.after !== undefined) d.setDate(d.getDate() + (((when.after - d.getDay() + 7) % 7) || 7));
   if (when.nearest !== undefined) { let off = (when.nearest - d.getDay() + 7) % 7; if (off > 3) off -= 7; d.setDate(d.getDate() + off); }
   return d;
 }
