@@ -63,6 +63,9 @@ The brief is `docs/phase3-brief.md`; the prototype `docs/prototypes/type-atlas.h
 - **The village sheet** (`src/components/village/VillageSheet.tsx`) is on the page colour with the village's outline, in its taluka's ink, beside the name. Official, देवनागरी and Romi are listed together, "not written yet" where empty; a Gazetteer-only form shows only here, with "Needs review" and its note. The ask ("Do you know how {village} is said at home? ...") opens the contribution form (an email without it). "Next to" lists the neighbours; each button moves the map there. Everything phase 2 added stays. Districts and talukas keep the house-colour card (`PlaceCard`).
 - **One count:** 384 villages are drawn (one town, Curchorem-Cacora, is two outlines). Say 384 wherever the map counts villages; 429 where the site means all of them, with 45 not drawn yet.
 
+## Phase 4: fill the map, then fix it (from 19 October 2026)
+The brief is `docs/phase4-brief.md`. Where it differs from phase 3 above, phase 4 wins: the site opens in Official; "Still unwritten" goes and the script toggle does its job; the view row and the Layers panel become one "Show" control; places with a town code are towns. Gazetteer Devanagari stays off the map (phase 2 rule 6 unchanged).
+
 ## Contributions (stage 1, built 1 October 2026)
 The plan is `docs/collaboration-plan.md`; the one-time Cloudflare setup is `docs/contributions-setup.md`.
 - **Form:** `src/components/contribute/ContributeForm.tsx`. The choices are the three under the Names layer (name or spelling, how it is said, a correction) and the other layers: a recording of the name (Voices), crops, food, music, landmarks. Since 4 October 2026 the other layers are live: see "Live layers" below.
