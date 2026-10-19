@@ -266,14 +266,16 @@ function Phone({ k }: { k: Khoim }) {
   /* the header floats over the map; what it covers, and the sheet or bar at the bottom, frame what the map shows */
   const head = useRef<HTMLElement>(null), bar = useRef<HTMLDivElement>(null);
   const headH = useHeight(head), barH = useHeight(bar);
-  const bottom = sp ? (k.snap === 'full' ? cap : cardPeek) : barH;
+  /* the bar floats 16px above the bottom edge (app.css), so it takes its height and that gap */
+  const bottom = sp ? (k.snap === 'full' ? cap : cardPeek) : barH + 16;
   /* With a card open the headline, the line and the ending buttons fold away; the wordmark, the script toggle and
      the views stay. In a view other than Names its line takes the headline's place, so the map keeps its room. */
   const lede = !sp && !k.layered;
   return (
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
-        <GoaMap {...mapProps(k)} insetTop={headH + 8} insetBottom={bottom + 8} />
+        {/* with no card open the bar at the bottom carries the OpenStreetMap credit, so nothing on the map covers Goa */}
+        <GoaMap {...mapProps(k)} insetTop={headH + 8} insetBottom={bottom + 8} showCredit={!!sp} />
       </main>
       <header ref={head} className="k-phone-header">
         <div className="k-phone-header__row">
@@ -302,6 +304,7 @@ function Phone({ k }: { k: Khoim }) {
             {/* the first-visit hint, in the phase 3 wording; it goes after the first pan, zoom or tap */}
             {!k.tapped && <p className="k-hint"><Icon name="hand" size={18} />{HINT}</p>}
             <button type="button" className="k-draft-chip" onClick={k.openMore}>Draft for review.</button>
+            {k.mapLines && <OsmCredit />}
           </div>
           {first && (
             <div className="k-phone-bar__actions">
@@ -334,18 +337,24 @@ function Phone({ k }: { k: Khoim }) {
 }
 
 /** Desktop: the panel's width, and the gap around it. The map is centred in the space to its right. */
-const PANEL = 420, GAP = 14, DOCK = 380;
+const PANEL = 420, GAP = 14, DOCK = 380, HINT_H = 44;
+
+/** OpenStreetMap's credit for the rivers and railway, off the map where the page has room for it. */
+function OsmCredit() {
+  return <a className="k-osm-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Rivers and railway © OpenStreetMap contributors</a>;
+}
 
 function Desktop({ k }: { k: Khoim }) {
   const sp = getPlace(k.selected);
   const dock = !!sp || !!k.query;
   const H = sp ? 'p' : 'h1';
+  const hint = !k.tapped && !dock;
   return (
     <div className="k-app k-app--desktop">
       <DraftBanner {...banner(k)} />
       <div className="k-desktop">
         <main className="k-desktop__map">
-          <GoaMap {...mapProps(k)} insetTop={GAP} insetBottom={GAP} insetLeft={GAP + PANEL + GAP} insetRight={dock ? DOCK + 2 * GAP : GAP} />
+          <GoaMap {...mapProps(k)} insetTop={GAP} insetBottom={hint ? GAP + HINT_H + GAP : GAP} insetLeft={GAP + PANEL + GAP} insetRight={dock ? DOCK + 2 * GAP : GAP} showCredit={false} />
           {/* text and controls: top left, over the map (docs/prototypes/type-atlas.html) */}
           <section className="k-desktop-panel" aria-label="Khoim">
             <div className="k-desktop-panel__top">
@@ -359,7 +368,7 @@ function Desktop({ k }: { k: Khoim }) {
             <Views k={k} />
             <SearchField value={k.query} onChange={k.setQuery} onCancel={k.query ? () => k.setQuery('') : undefined} />
           </section>
-          {!k.tapped && !dock && <p className="k-hint k-desktop-hint"><Icon name="hand" size={18} />{HINT}</p>}
+          {hint && <p className="k-hint k-desktop-hint"><Icon name="hand" size={18} />{HINT}</p>}
           {/* the open place, or search results: docked on the right */}
           {dock && (
             <aside className="k-desktop-dock" aria-label={k.query ? 'Search' : 'Names'}>
@@ -376,7 +385,7 @@ function Desktop({ k }: { k: Khoim }) {
               ) : null}
             </aside>
           )}
-          <div className="k-desktop-credit"><Credit /></div>
+          <div className="k-desktop-credit"><Credit />{k.mapLines && <OsmCredit />}</div>
           <ListScreen k={k} compact={false} />
         </main>
       </div>

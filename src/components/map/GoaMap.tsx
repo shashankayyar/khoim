@@ -29,15 +29,16 @@ import type { IconName } from '../core/iconPaths';
 import './map.css';
 
 const T = GEO.talukas, D = GEO.districts;
-const GOA: Box = [20, 30, 985, 1400];
+/** All of Goa: the whole map plane, so no tip of it is left under the chrome. */
+const GOA: Box = [0, 0, GEO.size[0], GEO.size[1]];
 /* Where a taluka's name sits better a little away from the shape's label point. */
 const NUDGE: Record<string, Point> = { mormugao: [-10, 4], quepem: [-45, 95] };
 const talukaPoint = (id: string): Point => { const n = NUDGE[id] || [0, 0]; return [T[id].lp[0] + n[0], T[id].lp[1] + n[1]]; };
 const houseKey = (id: string) => houseOf(getPlace(id)).key;
-/** How far in and out you can zoom, against the Goa view. */
-const MIN_Z = 0.8, MAX_Z = 22;
-/** A selected village fills this much of the free space (the prototype's figure), up to 14 times the Goa view. */
-const VILLAGE_FILL = 0.55, VILLAGE_MAX_Z = 14;
+/** How far out you can zoom: all of Goa (phase 4, B1). */
+const MIN_Z = 1;
+/** How far in: a village fills about 60% of the shorter side of the map. An open village is framed the same way. */
+const VILLAGE_FILL = 0.6;
 /** Official spellings are set narrower on the map, close to the prototype's width-75 Anek Latin. */
 const NARROW = 0.84;
 
@@ -86,13 +87,16 @@ export interface GoaMapProps {
   lines?: MapLines | null;
   /** Once the village facts have loaded: the symbols for what villages are known for. */
   factsReady?: boolean;
+  /** False where the page shows the OpenStreetMap credit itself, off the map (the phone's bar, the desktop panel). */
+  showCredit?: boolean;
 }
 
 interface View { k: number; tx: number; ty: number }
 
 export function GoaMap({
   selected = null, focus = null, hot = null, script = 'deva', onSelect, onBackground, onInteract,
-  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon, lines = null, factsReady = false
+  insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon, lines = null, factsReady = false,
+  showCredit = true
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null), world = useRef<SVGGElement>(null);
@@ -109,15 +113,26 @@ export function GoaMap({
     const aw = Math.max(1, w - insetLeft - insetRight), ah = Math.max(1, h - insetTop - insetBottom);
     return { x: insetLeft, y: insetTop, w: aw, h: ah };
   }, [w, h, insetLeft, insetRight, insetTop, insetBottom]);
-  const fit = useCallback((b: Box, fill = 1, maxZ = MAX_Z): View => {
+  /* The deepest zoom: a village of typical size (the median outline) fills VILLAGE_FILL of the shorter side; an open
+     village smaller than that may be framed closer, and then that is the limit while it is open. */
+  const typical = useMemo(() => {
+    const sizes = (villages ?? []).filter(v => v.map).map(v => Math.max(v.map!.b[2] - v.map!.b[0], v.map!.b[3] - v.map!.b[1])).sort((x, y) => x - y);
+    return sizes.length ? sizes[sizes.length >> 1] : 12;
+  }, [villages]);
+  const villageK = useCallback((b: Box) => { const a = area(); return Math.min(a.w, a.h) * VILLAGE_FILL / Math.max(b[2] - b[0], b[3] - b[1]); }, [area]);
+  const openBox = useMemo(() => { const p = getPlace(selected); return p?.level === 'village' && p.map ? p.map.b : null; }, [selected]);
+  const maxK = useCallback(() => Math.max(villageK([0, 0, typical, typical]), openBox ? villageK(openBox) : 0, k0.current * 1.5), [villageK, typical, openBox]);
+  const minK = () => k0.current * MIN_Z;
+  const fit = useCallback((b: Box, fill = 1): View => {
     const a = area(), bw = b[2] - b[0], bh = b[3] - b[1];
     const k = Math.min(a.w / bw, a.h / bh) * fill;
-    const kk = Math.max(k0.current * MIN_Z, Math.min(k0.current * maxZ, k));
+    const kk = Math.max(k0.current * MIN_Z, Math.min(maxK(), k));
     return { k: kk, tx: a.x + a.w / 2 - (b[0] + bw / 2) * kk, ty: a.y + a.h / 2 - (b[1] + bh / 2) * kk };
-  }, [area]);
+  }, [area, maxK]);
 
   const apply = useCallback(() => {
     const { k, tx, ty } = view.current, el = root.current;
+    if (!(k > 0) || !Number.isFinite(tx) || !Number.isFinite(ty)) return;
     world.current?.setAttribute('transform', `translate(${tx} ${ty}) scale(${k})`);
     if (!el) return;
     el.style.setProperty('--k', String(k));
@@ -128,7 +143,7 @@ export function GoaMap({
 
   /* Keep some of Goa on screen, however far it is dragged. */
   const clampView = (v: View): View => {
-    const k = Math.max(k0.current * MIN_Z, Math.min(k0.current * MAX_Z, v.k)), m = 60;
+    const k = Math.max(minK(), Math.min(maxK(), v.k)), m = 60;
     const tx = Math.min(w - m - GOA[0] * k, Math.max(m - GOA[2] * k, v.tx));
     const ty = Math.min(h - m - GOA[1] * k, Math.max(m - GOA[3] * k, v.ty));
     return { k, tx, ty };
@@ -153,7 +168,9 @@ export function GoaMap({
   const targetPlace = getPlace(target);
   const targetView = useCallback((): View => {
     const p = targetPlace;
-    if (p?.level === 'village' && p.map) return fit(p.map.b, VILLAGE_FILL, VILLAGE_MAX_Z);
+    if (p?.level === 'village' && p.map) return fit(p.map.b, VILLAGE_FILL);
+    /* a village with no outline yet: its taluka, outlined (phase 4, B1) */
+    if (p?.level === 'village' && p.parent && T[p.parent]) { const b = T[p.parent].view ?? T[p.parent].b, pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.06; return fit([b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad]); }
     if (p?.level === 'taluka') { const b = T[p.id].view ?? T[p.id].b, pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.06; return fit([b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad]); }
     if (p?.level === 'district') { const b = D[p.id].b, pad = Math.max(b[2] - b[0], b[3] - b[1]) * 0.04; return fit([b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad]); }
     return fit(GOA);
@@ -173,13 +190,16 @@ export function GoaMap({
     else apply();
   }, [w, h, area, target, targetView, animateTo, apply]);
 
+  /* after any redraw, the map stays where it was */
+  useLayoutEffect(() => { if (view.current.k) apply(); });
+
   /* ---------- Pan, pinch, wheel, tap ---------- */
   const pointers = useRef(new Map<number, Point>());
   const gesture = useRef<{ moved: boolean; last: Point; pinch: { d: number; v: View; c: Point } | null } | null>(null);
   const interacted = useRef(false);
   const touched = () => { if (!interacted.current) { interacted.current = true; onInteract?.(); } };
   const zoomAt = (factor: number, cx: number, cy: number) => {
-    const v = view.current, k = Math.max(k0.current * MIN_Z, Math.min(k0.current * MAX_Z, v.k * factor));
+    const v = view.current, k = Math.max(minK(), Math.min(maxK(), v.k * factor));
     view.current = clampView({ k, tx: cx - (cx - v.tx) * k / v.k, ty: cy - (cy - v.ty) * k / v.k });
     moved.current = true;
     apply();
@@ -207,7 +227,7 @@ export function GoaMap({
     pointers.current.set(e.pointerId, p);
     if (g.pinch && pointers.current.size >= 2) {
       const [a, b] = [...pointers.current.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
-      const { v, c } = g.pinch, k = Math.max(k0.current * MIN_Z, Math.min(k0.current * MAX_Z, v.k * d / g.pinch.d));
+      const { v, c } = g.pinch, k = Math.max(minK(), Math.min(maxK(), v.k * d / g.pinch.d));
       const mid: Point = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
       view.current = clampView({ k, tx: mid[0] - (c[0] - v.tx) * k / v.k, ty: mid[1] - (c[1] - v.ty) * k / v.k });
       moved.current = true; touched(); apply();
@@ -250,7 +270,7 @@ export function GoaMap({
   });
   const zoomButton = (factor: number) => () => {
     const a = area(), v = view.current, cx = a.x + a.w / 2, cy = a.y + a.h / 2;
-    const k = Math.max(k0.current * MIN_Z, Math.min(k0.current * MAX_Z, v.k * factor));
+    const k = Math.max(minK(), Math.min(maxK(), v.k * factor));
     moved.current = true; touched();
     animateTo(clampView({ k, tx: cx - (cx - v.tx) * k / v.k, ty: cy - (cy - v.ty) * k / v.k }), 300);
   };
@@ -264,7 +284,8 @@ export function GoaMap({
   const outlineOf = (id: string | null) => {
     const p = getPlace(id);
     if (!p) return null;
-    if (p.level === 'village') return paths?.[p.id] ?? null;
+    /* a village with no outline yet: its taluka's outline */
+    if (p.level === 'village') return paths?.[p.id] ?? (p.parent && T[p.parent] ? T[p.parent].d : null);
     if (p.level === 'taluka') return T[p.id].d;
     if (p.level === 'district') return D[p.id].d;
     return null;
@@ -276,7 +297,8 @@ export function GoaMap({
     ? drawn.map(v => ({ v, items: (factsOf(v.id)?.knownFor ?? []).filter((it, i, a) => a.findIndex(x => x.icon === it.icon) === i).slice(0, 3) })).filter(g => g.items.length)
     : [];
 
-  const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-bottom': insetBottom + 'px' } as CSSProperties;
+  const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-bottom': insetBottom + 'px', '--map-inset-right': insetRight + 'px' } as CSSProperties;
+  const { k, tx, ty } = view.current;
   return (
     <div ref={root} className={'k-tmap' + (selV ? ' has-village' : '') + (layered ? ' is-layered k-tmap--' + mapLayer!.id : '')} style={style}
       onPointerDown={onDown} onPointerMove={onMove} onPointerUp={e => onUp(e, true)} onPointerCancel={e => onUp(e, false)}>
@@ -286,7 +308,8 @@ export function GoaMap({
             <clipPath id="k-goa-clip" clipPathUnits="userSpaceOnUse">{DISTRICT_IDS.map(id => <path key={id} d={D[id].d} />)}</clipPath>
             {lines?.rivers.map((r, i) => <path key={r.n} id={'k-river-' + i} d={r.label} />)}
           </defs>
-          <g ref={world}>
+          {/* the transform is also set here, so a redrawn group never starts at the plain, unzoomed plane */}
+          <g ref={world} transform={k > 0 ? `translate(${tx} ${ty}) scale(${k})` : undefined}>
             {/* each taluka in its tint, under the villages: what shows before the village outlines arrive */}
             {TALUKA_IDS.map(id => <path key={'tf' + id} className="k-tmap__base" data-house={houseKey(id)} d={T[id].d} />)}
             <Villages drawn={drawn} paths={paths ?? null} script={script} near={near} mapLayer={mapLayer} />
@@ -329,7 +352,7 @@ export function GoaMap({
           ))}
         </div>
       )}
-      {lines && (
+      {lines && showCredit && (
         /* OpenStreetMap's licence asks for this wherever its lines are shown */
         <p className="k-tmap__credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Rivers and railway © OpenStreetMap contributors</a></p>
       )}
