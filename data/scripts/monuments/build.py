@@ -98,7 +98,7 @@ core = lambda n: key(re.sub(STOP, ' ', n.lower()))
 import difflib
 seen, out = {}, []
 def same(a, b):  # "Mahalakshmi" and "Mahalaximi": the same name in two spellings of the same book
-    return a == b or (min(len(a), len(b)) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.8)
+    return a == b or (min(len(a), len(b)) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.75)
 for r in rows:
     k = (r['village_code'] or key(r['village']), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
     hit = next((x for x in seen if x[0] == k[0] and x[2] == k[2] and k[1] and same(x[1], k[1])), None)
