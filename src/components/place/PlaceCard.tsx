@@ -162,7 +162,6 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             ? <Button variant="outline" ink={INK} icon={lit.icon} onClick={onExpand}>{lit.label} ({litCount})</Button>
             : <Button variant="outline" ink={INK} onClick={onExpand}>{p.level === 'village' ? 'All about ' + p.official : p.say ? 'How to say it' : 'All names'}</Button>}
           {inside && <Button ink={INK} paper={PAPER} iconAfter={p.level === 'taluka' ? 'list' : 'chevron-down'} onClick={onShowInside}>{insideLabel}</Button>}
-          {/* TODO(copy): "Share" is the design's */}
           {!inside && onShare && p.level === 'village' && <Button ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share</Button>}
         </div>
       )}
@@ -219,7 +218,6 @@ export function PlaceCard({ place: p, expanded = false, onExpand, onClose, onSho
             <>
               <Rule />
               <div className="k-card__row">
-                {/* TODO(copy): "Share {place}" is the design's */}
                 <Button full ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share {p.official}</Button>
               </div>
             </>

@@ -27,7 +27,6 @@ export function ShareSheet({ open, place, layer, onClose, onDone }: ShareSheetPr
   useDialog(ref, open, onClose);
   const view = !!layer && layer.id !== 'names';
   const url = shareUrl(place, view ? layer : null);
-  /* TODO(copy): "Share {place}" and "Share this view" are the design's; "{place} on Khoim" is the share title */
   const title = view || !place ? 'Share this view' : 'Share ' + place.official;
   const copy = async () => {
     if (await copyText(url)) onDone('Link copied');

@@ -25,11 +25,10 @@ const rows = [...villages].sort((a, b) =>
   showTaluka ? (getPlace(a.parent)!.official.localeCompare(getPlace(b.parent)!.official) || a.official.localeCompare(b.official)) : a.official.localeCompare(b.official));
 const has = (key: keyof VillageFacts) => rows.some(v => facts[v.id]?.[key] != null);
 const showPopulation = has('population'), showPanchayat = has('panchayat'), showKind = has('kind');
-const KIND = { village: 'Village', town: 'Census Town' } as const; // TODO(copy)
+const KIND = { village: 'Village', town: 'Town' } as const;
 ---
 
 <section class="vtable" aria-labelledby="vtable-title">
-  {/* TODO(copy): table title and column headings */}
   <h2 id="vtable-title" class="vtable__title">{'Villages in ' + place.official}</h2>
   <div class="vtable__scroll" tabindex="0" role="region" aria-labelledby="vtable-title">
     <table>

@@ -44,7 +44,6 @@ const NARROW = 0.84;
 /** Village zoom: five times the Goa view. Stations, the symbols for what villages are known for, and their legend. */
 const CLOSE_Z = 5;
 /* What each symbol stands for, for the legend (phase 4, B2). */
-// TODO(copy): the legend's wording for the map's symbols
 const SYMBOL_LABEL: Partial<Record<IconName, string>> = {
   church: 'Church or church feast', flame: 'Zatra, fair or festival', sailboat: 'Festival on the water', landmark: 'Temple, mosque or monument',
   castle: 'Fort', waves: 'Spring or waterfall', sprout: 'GI product', banana: 'GI product', 'train-front': 'Railway station'
@@ -499,7 +498,6 @@ export function GoaMap({
         <p className="k-tmap__credit"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">Rivers and railway © OpenStreetMap contributors</a></p>
       )}
       <div className="k-tmap__zoom">
-        {/* TODO(copy): "Zoom in" and "Zoom out" are new; the buttons are the way to zoom without pinching */}
         <button type="button" className="k-tmap__zoom-button" aria-label="Zoom in" onClick={zoomButton(1.6)}><Icon name="plus" size={22} /></button>
         <button type="button" className="k-tmap__zoom-button" aria-label="Zoom out" onClick={zoomButton(1 / 1.6)}><Icon name="minus" size={22} /></button>
       </div>

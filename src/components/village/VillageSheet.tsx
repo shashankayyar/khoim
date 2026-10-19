@@ -177,7 +177,6 @@ export function VillageSheet({ place: p, script, outline, facts = null, live = [
         {onShare && (
           <>
             <Rule />
-            {/* TODO(copy): "Share {place}" is the design's */}
             <div className="k-card__row"><Button full ink={INK} paper={PAPER} icon="share-2" onClick={onShare}>Share {p.official}</Button></div>
           </>
         )}

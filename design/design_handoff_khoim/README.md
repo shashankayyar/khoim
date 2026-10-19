@@ -570,12 +570,12 @@ Replaces the phase 3 view row and the Layers list in About.
 ## Tokens
 `tokens/typemap.css`: `--map-water-text` light is now `#1F4E60` (was `#2F6478`, 6.0:1). Everything else unchanged; Feasts and zatras and Landmarks reuse `--map-view-on`, the script view reuses `--map-written`.
 
-## New wording waiting for approval
-All marked `TODO(copy)` in `src/`:
+## Wording (approved 19 October 2026, `docs/phase4-copy-approved.md`; listed in `docs/copy.md`, Phase 4)
 - **Show:** "Show"; counts beside choices; "{n} of 384 villages have a feast or zatra on file. Tap one to see when."; "{n} of 384 villages have a temple, church, fort or other landmark on file."; legends "feast or zatra on file, {n}", "landmark on file, {n}", "not yet, {n}"; links "All feasts and zatras, by month", "What the names mean, A to Z".
 - **Map legend:** "Church or church feast", "Zatra, fair or festival", "Festival on the water", "Temple, mosque or monument", "Fort", "Spring or waterfall", "GI product", "Railway station".
 - **Search:** "Feast / Parish / Landmark / River in {where}"; "{n} places and {m} other matches"; "Also written {spelling} ({source})".
-- **Towns:** "Town", "Town in {taluka}", "is a town in", "town facts".
+- **Towns:** "Town", "Town in {taluka}", "is a town in", "town facts"; the village table says "Town" too.
+- **Phone legend:** a "Key" button (read out as "Key to the map").
 - **Endings:** the frame "In {village}, … ({caution}). {credit}, {date}."
-- **Titles:** "name meaning and village facts", "{feast} and village facts"; descriptions "The name: {reading}." and "Known for {feast}, {date}."
+- **Titles:** "name meaning and village facts", "{feast} and village facts"; descriptions "Name meaning: {reading}." and "Known for {feast}, {date}."
 - **Pages:** /feasts/ and /meanings/ titles, intros and section headings; About's links to them.
