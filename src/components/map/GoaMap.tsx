@@ -302,7 +302,7 @@ export function GoaMap({
     for (const e of short) { e.classList.add('is-short'); e.classList.remove('is-culled'); }
     for (const it of items) it.el.classList.remove('is-short');
   };
-  /* The pieces of the page over the map: the header's pills, the panel, the card or sheet, the zoom buttons, the key,
+  /* The pieces of the page over the map: the draft banner, the header's pills, the panel, the card or sheet, the zoom buttons, the key,
      the credit. Measured at most every 300ms, since they move only when the page changes. */
   const chrome = useRef<{ t: number; boxes: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] }>({ t: 0, boxes: [] });
   const chromeBoxes = (el: HTMLElement, r0: DOMRect) => {
@@ -310,7 +310,7 @@ export function GoaMap({
     if (now - chrome.current.t < 300) return [...chrome.current.boxes];
     const solid = (e: Element) => { const s = getComputedStyle(e); if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.05) return false; const m = s.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? Number(m[1].split(/[,\s/]+/).filter(Boolean)[3] ?? 1) : 0; return a > 0.5 || s.boxShadow !== 'none'; };
     const rects: DOMRect[] = [];
-    const roots = [...document.querySelectorAll('.k-phone-header, .k-phone-bar, .k-desktop-panel, .k-desktop-dock, .k-sheet, .k-desktop-credit, .k-desktop-hint'), ...el.querySelectorAll('.k-tmap__zoom, .k-tmap__legend, .k-key, .k-tmap__credit')];
+    const roots = [...document.querySelectorAll('.k-draft-banner, .k-phone-header, .k-phone-bar, .k-desktop-panel, .k-desktop-dock, .k-sheet, .k-desktop-credit, .k-desktop-hint'), ...el.querySelectorAll('.k-tmap__zoom, .k-tmap__legend, .k-key, .k-tmap__credit')];
     for (const root of roots) {
       if (solid(root)) { rects.push(root.getBoundingClientRect()); continue; }
       for (const d of root.querySelectorAll('*')) if (!(d instanceof SVGElement) && solid(d)) rects.push(d.getBoundingClientRect());
