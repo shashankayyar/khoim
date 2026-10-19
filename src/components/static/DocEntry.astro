@@ -1,0 +1,12 @@
+---
+/* One entry on a document page (phase 4 polish, step 1): the name, then the village (a link) and what follows it,
+   then the source in small type. */
+interface Props { name: string; nameLang?: string; nameHref?: string | null; href?: string | null; village?: string | null; after?: string; source?: string | null; sourceUrl?: string | null }
+const { name, nameLang, nameHref, href, village, after = '', source, sourceUrl } = Astro.props;
+---
+<li class="doc-entry">
+  <span class={nameLang === 'gom' ? 'doc-entry__name doc-entry__name--deva' : 'doc-entry__name'} lang={nameLang}>{nameHref ? <a href={nameHref}>{name}</a> : name}</span>
+  {(village || after) && <span class="doc-entry__where">{village && (href ? <a href={href}>{village}</a> : village)}{after}</span>}
+  <slot />
+  {source && <span class="doc-entry__source">{sourceUrl ? <a href={sourceUrl} target="_blank" rel="noopener">{source}</a> : source}</span>}
+</li>
