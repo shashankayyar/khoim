@@ -87,7 +87,7 @@
 /* Names never overlap (phase 4, B2): the map hides the less important of two names that would touch, and a river
    name whose straight stretch is shorter than the name */
 .k-tmap__name.is-culled, .k-tmap__taluka.is-culled, .k-tmap__river-name.is-culled, .k-tmap__river-name.is-short { opacity: 0 !important; }
-.k-tmap__station.is-culled { visibility: hidden; }
+.k-tmap__station.is-culled, .k-tmap__glyphs.is-culled { visibility: hidden; }
 .k-tmap.is-layered .k-tmap__lines { opacity: .3; }
 .k-tmap.is-layered .k-tmap__river-names { display: none; }
 

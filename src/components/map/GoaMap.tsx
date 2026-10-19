@@ -240,7 +240,7 @@ export function GoaMap({
     const items: { el: Element; q: Quad; p: number }[] = [], short: Element[] = [], skip: Element[] = [];
     const rectQuad = (e: Element): Quad => { const r = e.getBoundingClientRect(); return [[r.left - r0.left, r.top - r0.top], [r.right - r0.left, r.top - r0.top], [r.right - r0.left, r.bottom - r0.top], [r.left - r0.left, r.bottom - r0.top]]; };
     const onScreen = (cx: number, cy: number) => cx > -300 && cy > -300 && cx < W + 300 && cy < H + 300;
-    const hasVillage = el.classList.contains('has-village');
+    const hasVillage = el.classList.contains('has-village'), openId = getPlace(selected)?.id;
     if (!hasVillage) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__taluka')) {
       if (1 - (z - 1.7) / 1.2 < 0.3) { skip.push(t); continue; }
       const b = T[t.dataset.id!]?.b, area = b ? (b[2] - b[0]) * (b[3] - b[1]) : 0;
@@ -251,7 +251,7 @@ export function GoaMap({
       const cx = tx + Number(t.dataset.x) * k, cy = ty + Number(t.dataset.y) * k;
       if ((px < 7 && !near) || !onScreen(cx, cy)) { skip.push(t); continue; }
       const w = width(t, t.dataset.latin ? NARROW : 1) * k;
-      const p = near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
+      const p = t.classList.contains('is-open') ? 3000 : near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
       items.push({ el: t, q: quad(cx, cy, w + 4, px, Number(t.dataset.a) || 0), p });
     }
     if (!el.classList.contains('is-layered')) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__river-name')) {
@@ -265,6 +265,8 @@ export function GoaMap({
       items.push({ el: t, q: quad(cx, cy, wpx + 6, 15, Math.atan2(m.b, m.a) * 180 / Math.PI), p: 5 });
     }
     if (z >= CLOSE_Z) for (const st of el.querySelectorAll('.k-tmap__station')) items.push({ el: st, q: rectQuad(st), p: 1 });
+    /* the symbols under a village's name give way to names too, except the open village's own */
+    if (z >= CLOSE_Z) for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs')) items.push({ el: g, q: rectQuad(g), p: g.dataset.id === openId ? 2500 : 2 });
     items.sort((a, b) => b.p - a.p);
     const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = [];
     for (const it of items) {
@@ -278,7 +280,7 @@ export function GoaMap({
     /* which symbols and stations are on screen, for the legend */
     const icons = new Set<string>();
     if (z >= CLOSE_Z) {
-      for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyph')) { const r = g.getBoundingClientRect(); if (r.right > r0.left && r.left < r0.right && r.bottom > r0.top && r.top < r0.bottom) icons.add(g.dataset.icon!); }
+      for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs:not(.is-culled) .k-tmap__glyph')) { const r = g.getBoundingClientRect(); if (r.right > r0.left && r.left < r0.right && r.bottom > r0.top && r.top < r0.bottom) icons.add(g.dataset.icon!); }
       for (const st of el.querySelectorAll('.k-tmap__station:not(.is-culled)')) { const r = st.getBoundingClientRect(); if (r.right > r0.left && r.left < r0.right && r.bottom > r0.top && r.top < r0.bottom) { icons.add('train-front'); break; } }
     }
     const key = [...icons].sort().join(' ');
@@ -431,7 +433,7 @@ export function GoaMap({
             {TALUKA_IDS.map(id => <path key={'tb' + id} className="k-tmap__border" d={T[id].d} vectorEffect="non-scaling-stroke" />)}
             {hotOutline && <path className="k-tmap__hot" d={hotOutline} vectorEffect="non-scaling-stroke" />}
             {selOutline && <path className="k-tmap__selected" d={selOutline} vectorEffect="non-scaling-stroke" />}
-            <Names drawn={drawn} script={script} near={near} mapLayer={mapLayer} />
+            <Names drawn={drawn} script={script} near={near} mapLayer={mapLayer} open={selV?.id ?? null} />
             {lines && (
               /* straight, on each river's straightest stretch; shown when zoomed in and the stretch is long enough */
               <g className="k-tmap__river-names">
@@ -463,7 +465,7 @@ export function GoaMap({
             <span key={st.code} className="k-tmap__station" style={{ '--x': st.at[0], '--y': st.at[1] } as CSSProperties}><Icon name="train-front" size={14} />{st.n}</span>
           ))}
           {glyphs.map(({ v, items }) => (
-            <span key={'g' + v.id} className="k-tmap__glyphs" style={{ '--x': v.lp![0], '--y': v.lp![1], '--fs': v.map!.fs } as CSSProperties}>
+            <span key={'g' + v.id} className="k-tmap__glyphs" data-id={v.id} style={{ '--x': v.lp![0], '--y': v.lp![1], '--fs': v.map!.fs } as CSSProperties}>
               {items.map(it => (
                 /* a tap names what the symbol stands for here; the village's sheet lists it all */
                 <button key={it.kind + it.title} type="button" tabIndex={-1} className="k-tmap__glyph" data-icon={it.icon}
@@ -540,7 +542,7 @@ const Villages = memo(function Villages({ drawn, paths, near, mapLayer }: LayerP
 });
 
 /** The names, one per outline, in the chosen script. */
-const Names = memo(function Names({ drawn, script, near, mapLayer }: LayerProps) {
+const Names = memo(function Names({ drawn, script, near, mapLayer, open }: LayerProps & { open: string | null }) {
   const today = new Date();
   return (
     <g className="k-tmap__names">
@@ -549,7 +551,7 @@ const Names = memo(function Names({ drawn, script, near, mapLayer }: LayerProps)
           {drawn.filter(v => v.parent === t).map(v => {
             const n = nameIn(v, script), m = v.map!, [x, y] = v.lp!;
             const st = mapLayer && mapLayer.id !== 'names' ? layerState(v, mapLayer, today) : null;
-            const cls = 'k-tmap__name' + (n.fallback ? ' is-faint' : '') + (st ? ' is-' + st : '') + (near.size ? (near.has(v.id) ? ' is-near' : ' is-off') : '');
+            const cls = 'k-tmap__name' + (n.fallback ? ' is-faint' : '') + (st ? ' is-' + st : '') + (near.size ? (near.has(v.id) ? ' is-near' : ' is-off') : '') + (v.id === open ? ' is-open' : '');
             const latin = n.kind !== 'deva';
             return (
               <text key={v.id} className={cls} fontSize={m.fs} lang={n.kind === 'deva' ? 'gom' : undefined} style={{ '--fs': m.fs } as CSSProperties}
