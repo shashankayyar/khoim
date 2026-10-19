@@ -5,9 +5,12 @@
    - cover(): the things that sit over the map (the header, panels, banner, hint, credit, zoom buttons, the sheet),
      and how many of them cover land. Checked on a grid of points inside each one, against Goa's own outline.
    - whole(): whether all of Goa is inside the map's free space.
+   - under(): every name, symbol, station or tile drawn under a piece of the page over the map (the draft banner, the header and its
+     pills, the breadcrumb, Show, the zoom buttons, the key, the sheet or panel). Empty means it passes.
+   - free(): the share of the screen that shows map nothing covers (at least 45% on a phone with a village open).
 
    How to run: as for contrast-audit.js, copy into dist/ as __map-audit.js, or inject it, then in the console
-     (await import('/__map-audit.js')).overlaps()   and   .cover()   and   .whole()
+     (await import('/__map-audit.js')).overlaps()   and   .cover()   and   .whole()   and   .under()   and   .free()
    Empty "pairs" and "covering" lists mean it passes. */
 
 const shown = el => { const s = getComputedStyle(el); if (s.display === 'none' || s.visibility === 'hidden') return false; let o = 1; for (let e = el; e && e.nodeType === 1; e = e.parentElement) o *= Number(getComputedStyle(e).opacity); return o >= 0.15; };
@@ -79,4 +82,36 @@ export function whole() {
   }
   const counts = {}; for (const o of outside) counts[o] = (counts[o] || 0) + 1;
   return { hidden: counts };
+}
+
+/** How much of the screen shows map that nothing covers (phase 4 polish, step 2): a grid of points, each counted as
+    map when the topmost thing there is the map itself, or a name, symbol, station or tile drawn on it. */
+export function free() {
+  let map = 0, n = 0;
+  for (let x = 4; x < innerWidth; x += 8) for (let y = 4; y < innerHeight; y += 8) {
+    n++;
+    const top = document.elementFromPoint(x, y);
+    if (!top) continue;
+    const onMap = top.closest('.k-tmap__svg') || top.classList.contains('k-tmap') || top.closest('.k-tmap__glyphs, .k-tmap__station, .k-tmap__mark, .k-tmap__tip');
+    if (onMap) map++;
+  }
+  return { share: Math.round((map / n) * 1000) / 10 };
+}
+
+/** Names, symbols, stations and tiles under the page's own pieces over the map (phase 4 polish, step 2). A piece
+    counts where it is drawn solid: its own background, or a child's. */
+const OVER = ['.k-draft-banner', '.k-phone-header', '.k-phone-bar', '.k-desktop-panel', '.k-desktop-dock', '.k-sheet', '.k-desktop-credit', '.k-desktop-hint', '.k-tmap__zoom', '.k-tmap__legend', '.k-key', '.k-tmap__credit'];
+export function under() {
+  const solid = e => { const s = getComputedStyle(e); if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.05) return false; const m = s.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? Number(m[1].split(/[,\s/]+/).filter(Boolean)[3] ?? 1) : 0; return a > 0.5 || s.boxShadow !== 'none'; };
+  const boxes = [];
+  for (const root of document.querySelectorAll(OVER.join(','))) {
+    if (solid(root)) { boxes.push(root.getBoundingClientRect()); continue; }
+    for (const d of root.querySelectorAll('*')) if (!(d instanceof SVGElement) && solid(d)) boxes.push(d.getBoundingClientRect());
+  }
+  const quad = r => [[r.left, r.top], [r.right, r.top], [r.right, r.bottom], [r.left, r.bottom]];
+  const drawn = [...document.querySelectorAll('.k-tmap__name, .k-tmap__taluka, .k-tmap__river-name, .k-tmap__station, .k-tmap__glyphs, .k-tmap__mark')]
+    .filter(shown).map(el => ({ c: corners(el), t: el.textContent.trim() || el.getAttribute('aria-label') || el.className.toString().split(' ')[0] })).filter(i => i.c);
+  const found = [];
+  for (const d of drawn) for (const b of boxes) if (b.width > 1 && b.height > 1 && hit(d.c, quad(b))) { found.push(d.t); break; }
+  return { under: found };
 }

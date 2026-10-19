@@ -90,7 +90,7 @@
 /* Names never overlap (phase 4, B2): the map hides the less important of two names that would touch, and a river
    name whose straight stretch is shorter than the name */
 .k-tmap__name.is-culled, .k-tmap__taluka.is-culled, .k-tmap__river-name.is-culled, .k-tmap__river-name.is-short { opacity: 0 !important; }
-.k-tmap__station.is-culled, .k-tmap__glyphs.is-culled { visibility: hidden; }
+.k-tmap__station.is-culled, .k-tmap__glyphs.is-culled, .k-tmap__mark.is-culled { visibility: hidden; }
 .k-tmap.is-layered .k-tmap__lines { opacity: .3; }
 .k-tmap.is-layered .k-tmap__river-names { display: none; }
 /* Names in Devanagari or Romi is still the Names view: rivers keep their strength and their names */
@@ -148,6 +148,17 @@
 }
 .k-tmap__legend li { display: inline-flex; align-items: center; gap: 6px; }
 .k-tmap:not(.is-close) .k-tmap__legend { display: none; }
+/* phone: the legend folds into "Key" (phase 4 polish, step 2) */
+.k-key { position: absolute; left: calc(var(--map-inset-left, 0px) + 12px); top: calc(var(--map-inset-top, 0px) + 4px); z-index: 3; display: grid; gap: 6px; justify-items: start; }
+.k-tmap:not(.is-close) .k-key { display: none; }
+.k-key__button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 12px; border: 0; cursor: pointer;
+  border-radius: var(--radius-m); background: var(--surface); color: var(--text); box-shadow: var(--shadow-1);
+  font: var(--weight-strong) 15px/1 var(--font-latin);
+}
+.k-key__button[aria-expanded="true"] { background: var(--surface-invert); color: var(--text-invert); }
+.k-key__button:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; }
+.k-key .k-key__list { position: static; display: grid; max-width: min(320px, calc(100vw - 32px)); box-shadow: var(--shadow-2); }
 .k-tmap__credit { position: absolute; right: calc(var(--map-inset-right, 0px) + 76px); bottom: calc(var(--map-inset-bottom, 0px) + 16px); margin: 0; z-index: 2; }
 .k-tmap__credit a { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 10px; border-radius: var(--radius-m); background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); }
 

@@ -113,8 +113,10 @@ export interface GoaMapProps {
   lines?: MapLines | null;
   /** Once the village facts have loaded: the symbols for what villages are known for. */
   factsReady?: boolean;
-  /** False where the page shows the OpenStreetMap credit itself, off the map (the phone's bar, the desktop panel). */
+  /** False where the page shows the OpenStreetMap credit itself, off the map (the phone's bar or sheet, the desktop panel). */
   showCredit?: boolean;
+  /** A phone: the legend folds into a "Key" button, opened over the map and closed by a tap elsewhere. */
+  compactLegend?: boolean;
 }
 
 interface View { k: number; tx: number; ty: number }
@@ -122,7 +124,7 @@ interface View { k: number; tx: number; ty: number }
 export function GoaMap({
   selected = null, focus = null, hot = null, script = 'deva', onSelect, onBackground, onInteract,
   insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon, lines = null, factsReady = false,
-  showCredit = true
+  showCredit = true, compactLegend = false
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null), world = useRef<SVGGElement>(null);
@@ -133,6 +135,14 @@ export function GoaMap({
   const moved = useRef(false);
   const anim = useRef(0);
   const framed = useRef<string | null>(null);
+  /* the phone's key to the map: open or not; a tap anywhere else closes it */
+  const [keyOpen, setKeyOpen] = useState(false);
+  useEffect(() => {
+    if (!keyOpen) return;
+    const away = (e: PointerEvent) => { if (!(e.target as Element).closest('.k-key')) setKeyOpen(false); };
+    document.addEventListener('pointerdown', away, true);
+    return () => document.removeEventListener('pointerdown', away, true);
+  }, [keyOpen]);
   /* the name under a symbol, after a tap */
   const [tip, setTip] = useState<{ key: string; x: number; y: number; fs: number; place: string; lines: string[] } | null>(null);
 
@@ -269,8 +279,10 @@ export function GoaMap({
     if (z >= CLOSE_Z) for (const st of el.querySelectorAll('.k-tmap__station')) items.push({ el: st, q: rectQuad(st), p: 1 });
     /* the symbols under a village's name give way to names too, except the open village's own */
     if (z >= CLOSE_Z) for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs')) items.push({ el: g, q: rectQuad(g), p: g.dataset.id === openId ? 2500 : 2 });
+    if (z >= CLOSE_Z) for (const m of el.querySelectorAll('.k-tmap__mark')) items.push({ el: m, q: rectQuad(m), p: 2.1 });
     items.sort((a, b) => b.p - a.p);
-    const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = [];
+    /* nothing is drawn under the page's own pieces over the map (phase 4 polish, step 2): they are placed first */
+    const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = chromeBoxes(el, r0);
     for (const it of items) {
       const xs = it.q.map(c => c[0]), ys = it.q.map(c => c[1]);
       const box = { q: it.q, x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) };
@@ -289,6 +301,26 @@ export function GoaMap({
     setInView(v => (v === key ? v : key));
     for (const e of short) { e.classList.add('is-short'); e.classList.remove('is-culled'); }
     for (const it of items) it.el.classList.remove('is-short');
+  };
+  /* The pieces of the page over the map: the draft banner, the header's pills, the panel, the card or sheet, the zoom buttons, the key,
+     the credit. Measured at most every 300ms, since they move only when the page changes. */
+  const chrome = useRef<{ t: number; boxes: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] }>({ t: 0, boxes: [] });
+  const chromeBoxes = (el: HTMLElement, r0: DOMRect) => {
+    const now = performance.now();
+    if (now - chrome.current.t < 300) return [...chrome.current.boxes];
+    const solid = (e: Element) => { const s = getComputedStyle(e); if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.05) return false; const m = s.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? Number(m[1].split(/[,\s/]+/).filter(Boolean)[3] ?? 1) : 0; return a > 0.5 || s.boxShadow !== 'none'; };
+    const rects: DOMRect[] = [];
+    const roots = [...document.querySelectorAll('.k-draft-banner, .k-phone-header, .k-phone-bar, .k-desktop-panel, .k-desktop-dock, .k-sheet, .k-desktop-credit, .k-desktop-hint'), ...el.querySelectorAll('.k-tmap__zoom, .k-tmap__legend, .k-key, .k-tmap__credit')];
+    for (const root of roots) {
+      if (solid(root)) { rects.push(root.getBoundingClientRect()); continue; }
+      for (const d of root.querySelectorAll('*')) if (!(d instanceof SVGElement) && solid(d)) rects.push(d.getBoundingClientRect());
+    }
+    const boxes = rects.filter(r => r.width > 1 && r.height > 1).map(r => {
+      const x0 = r.left - r0.left, y0 = r.top - r0.top, x1 = r.right - r0.left, y1 = r.bottom - r0.top;
+      return { q: [[x0, y0], [x1, y0], [x1, y1], [x0, y1]] as Quad, x0, y0, x1, y1 };
+    });
+    chrome.current = { t: now, boxes };
+    return [...boxes];
   };
   const cullSoon = useRef(() => {});
   cullSoon.current = () => {
@@ -488,11 +520,23 @@ export function GoaMap({
           )}
         </div>
       )}
-      {/* what the symbols mean, at village zoom in the Names view */}
-      {legend.length > 0 && (
+      {/* what the symbols mean, at village zoom in the Names view; on a phone, behind the "Key" button */}
+      {legend.length > 0 && !compactLegend && (
         <ul className="k-tmap__legend" aria-hidden="true">
           {legend.map(([icon, label]) => <li key={icon}><Icon name={icon} size={16} />{label}</li>)}
         </ul>
+      )}
+      {legend.length > 0 && compactLegend && (
+        <div className="k-key">
+          <button type="button" className="k-key__button" aria-label="Key to the map" aria-expanded={keyOpen} onClick={() => setKeyOpen(o => !o)}>
+            <Icon name="list" size={18} />Key
+          </button>
+          {keyOpen && (
+            <ul className="k-tmap__legend k-key__list">
+              {legend.map(([icon, label]) => <li key={icon}><Icon name={icon} size={16} />{label}</li>)}
+            </ul>
+          )}
+        </div>
       )}
       {lines && showCredit && (
         /* OpenStreetMap's licence asks for this wherever its lines are shown */
