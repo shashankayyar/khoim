@@ -43,6 +43,17 @@ const VILLAGE_FILL = 0.6;
 const NARROW = 0.84;
 /** Village zoom: five times the Goa view. Stations, the symbols for what villages are known for, and their legend. */
 const CLOSE_Z = 5;
+/* Towns rank above other villages when names clash (phase 4 polish, step 3): Goa's capital first, then each
+   taluka's headquarters as the place data names it, then the other towns. Two headquarters carry another name in the
+   LGD list and on the map: Vasco da Gama lies in Mormugao, and the LGD spells Dharbandora "Darbandora". */
+const CAPITAL = 'Panaji';
+const HQ_ON_MAP: Record<string, string> = { 'Vasco da Gama': 'Mormugao', Dharbandora: 'Darbandora' };
+function townRank(v: Place): number {
+  if (v.official === CAPITAL) return 3;
+  const hq = getPlace(v.parent)?.hq;
+  if (hq && (HQ_ON_MAP[hq] ?? hq) === v.official) return 2;
+  return v.isTown ? 1 : 0;
+}
 /* What each symbol stands for, for the legend (phase 4, B2). */
 // TODO(copy): the legend's wording for the map's symbols
 const SYMBOL_LABEL: Partial<Record<IconName, string>> = {
@@ -113,8 +124,10 @@ export interface GoaMapProps {
   lines?: MapLines | null;
   /** Once the village facts have loaded: the symbols for what villages are known for. */
   factsReady?: boolean;
-  /** False where the page shows the OpenStreetMap credit itself, off the map (the phone's bar, the desktop panel). */
+  /** False where the page shows the OpenStreetMap credit itself, off the map (the phone's bar or sheet, the desktop panel). */
   showCredit?: boolean;
+  /** A phone: the legend folds into a "Key" button, opened over the map and closed by a tap elsewhere. */
+  compactLegend?: boolean;
 }
 
 interface View { k: number; tx: number; ty: number }
@@ -122,7 +135,7 @@ interface View { k: number; tx: number; ty: number }
 export function GoaMap({
   selected = null, focus = null, hot = null, script = 'deva', onSelect, onBackground, onInteract,
   insetTop = 0, insetBottom = 0, insetLeft = 0, insetRight = 0, villages, paths, mapLayer, marks, markIcon, lines = null, factsReady = false,
-  showCredit = true
+  showCredit = true, compactLegend = false
 }: GoaMapProps) {
   const reduce = useReducedMotion();
   const root = useRef<HTMLDivElement>(null), world = useRef<SVGGElement>(null);
@@ -133,8 +146,16 @@ export function GoaMap({
   const moved = useRef(false);
   const anim = useRef(0);
   const framed = useRef<string | null>(null);
+  /* the phone's key to the map: open or not; a tap anywhere else closes it */
+  const [keyOpen, setKeyOpen] = useState(false);
+  useEffect(() => {
+    if (!keyOpen) return;
+    const away = (e: PointerEvent) => { if (!(e.target as Element).closest('.k-key')) setKeyOpen(false); };
+    document.addEventListener('pointerdown', away, true);
+    return () => document.removeEventListener('pointerdown', away, true);
+  }, [keyOpen]);
   /* the name under a symbol, after a tap */
-  const [tip, setTip] = useState<{ key: string; x: number; y: number; fs: number; place: string; lines: string[] } | null>(null);
+  const [tip, setTip] = useState<{ key: string; x: number; y: number; fs: number; gdy: string; place: string; lines: string[] } | null>(null);
 
   /* the free space for the map, and the zoom that fits all of Goa in it */
   const area = useCallback(() => {
@@ -237,7 +258,8 @@ export function GoaMap({
       if (c && c.t === txt) return c.w;
       const w = t.getComputedTextLength() * scale; widths.current.set(t, { t: txt, w }); return w;
     };
-    const items: { el: Element; q: Quad; p: number }[] = [], short: Element[] = [], skip: Element[] = [];
+    const items: { el: Element; q: Quad; p: number; of?: Element }[] = [], short: Element[] = [], skip: Element[] = [];
+    const nameAt = new Map<string, { el: Element; q: Quad; cx: number; cy: number; px: number }>();
     const rectQuad = (e: Element): Quad => { const r = e.getBoundingClientRect(); return [[r.left - r0.left, r.top - r0.top], [r.right - r0.left, r.top - r0.top], [r.right - r0.left, r.bottom - r0.top], [r.left - r0.left, r.bottom - r0.top]]; };
     const onScreen = (cx: number, cy: number) => cx > -300 && cy > -300 && cx < W + 300 && cy < H + 300;
     const hasVillage = el.classList.contains('has-village'), openId = getPlace(selected)?.id;
@@ -253,8 +275,14 @@ export function GoaMap({
       const cx = tx + Number(t.dataset.x) * k, cy = ty + Number(t.dataset.y) * k;
       if ((px < 7 && !near) || !onScreen(cx, cy)) { skip.push(t); continue; }
       const w = width(t, t.dataset.latin ? NARROW : 1) * k;
-      const p = t.classList.contains('is-open') ? 3000 : near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
-      items.push({ el: t, q: quad(cx, cy, w + 4, px, Number(t.dataset.a) || 0), p });
+      /* towns above other villages, near the open village or not; below the open village and the taluka names */
+      const rank = Number(t.dataset.rank) || 0;
+      const p = t.classList.contains('is-open') ? 3000
+        : rank ? (hasVillage ? 1500 : 800) + rank * 30 + Math.min(px, 29)
+        : near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
+      const nq = quad(cx, cy, w + 4, px, Number(t.dataset.a) || 0);
+      items.push({ el: t, q: nq, p });
+      if (t.dataset.id) nameAt.set(t.dataset.id, { el: t, q: nq, cx, cy, px });
     }
     if (!el.classList.contains('is-layered') || el.classList.contains('k-tmap--written')) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__river-name')) {
       if (z <= 2.2) { skip.push(t); continue; }
@@ -267,14 +295,36 @@ export function GoaMap({
       items.push({ el: t, q: quad(cx, cy, wpx + 6, 15, Math.atan2(m.b, m.a) * 180 / Math.PI), p: 5 });
     }
     if (z >= CLOSE_Z) for (const st of el.querySelectorAll('.k-tmap__station')) items.push({ el: st, q: rectQuad(st), p: 1 });
-    /* the symbols under a village's name give way to names too, except the open village's own */
-    if (z >= CLOSE_Z) for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs')) items.push({ el: g, q: rectQuad(g), p: g.dataset.id === openId ? 2500 : 2 });
+    /* A village's symbols sit in one row just under its name, wherever the name's tilt puts its lower edge, and
+       show only while the name shows (phase 4 polish, step 3). They give way to names, except the open village's own. */
+    if (z >= CLOSE_Z) for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyphs')) {
+      const n = nameAt.get(g.dataset.id!);
+      if (!n) { g.classList.add('is-culled'); continue; }
+      const rw = g.offsetWidth, rh = g.offsetHeight, x0 = n.cx - rw / 2, x1 = n.cx + rw / 2;
+      let bottom = -Infinity;
+      for (const [x, y] of n.q) if (x >= x0 && x <= x1) bottom = Math.max(bottom, y);
+      for (let i = 0; i <= 6; i++) {
+        const x = x0 + (x1 - x0) * i / 6;
+        for (let e = 0; e < 4; e++) {
+          const [ax, ay] = n.q[e], [bx, by] = n.q[(e + 1) % 4];
+          if ((x - ax) * (x - bx) > 0 || ax === bx) continue;
+          bottom = Math.max(bottom, ay + (by - ay) * (x - ax) / (bx - ax));
+        }
+      }
+      if (!Number.isFinite(bottom)) bottom = n.cy + n.px / 2;
+      const top = bottom + 2;
+      g.style.setProperty('--gdy', String(Math.round(((top - n.cy) / n.px) * 1000) / 1000));
+      items.push({ el: g, q: [[x0, top], [x1, top], [x1, top + rh], [x0, top + rh]], p: g.dataset.id === openId ? 2500 : 2, of: n.el });
+    }
+    if (z >= CLOSE_Z) for (const m of el.querySelectorAll('.k-tmap__mark')) items.push({ el: m, q: rectQuad(m), p: 2.1 });
     items.sort((a, b) => b.p - a.p);
-    const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = [];
+    /* nothing is drawn under the page's own pieces over the map (phase 4 polish, step 2): they are placed first */
+    const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = chromeBoxes(el, r0);
     for (const it of items) {
       const xs = it.q.map(c => c[0]), ys = it.q.map(c => c[1]);
       const box = { q: it.q, x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) };
-      const clash = placed.some(o => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1 && overlap(o.q, it.q));
+      /* symbols whose name is hidden hide with it */
+      const clash = (it.of && it.of.classList.contains('is-culled')) || placed.some(o => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1 && overlap(o.q, it.q));
       it.el.classList.toggle('is-culled', clash);
       if (!clash) placed.push(box);
     }
@@ -289,6 +339,31 @@ export function GoaMap({
     setInView(v => (v === key ? v : key));
     for (const e of short) { e.classList.add('is-short'); e.classList.remove('is-culled'); }
     for (const it of items) it.el.classList.remove('is-short');
+  };
+  /* The pieces of the page over the map: the draft banner, the header's pills, the panel, the card or sheet, the zoom buttons, the key,
+     the credit. Measured at most every 300ms, since they move only when the page changes. */
+  const chrome = useRef<{ t: number; boxes: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] }>({ t: 0, boxes: [] });
+  /* when one of them changes size (a card that grows as its facts arrive, a sheet pulled up), the names are placed again */
+  const chromeWatch = useRef<ResizeObserver | null>(null);
+  useEffect(() => () => chromeWatch.current?.disconnect(), []);
+  const chromeBoxes = (el: HTMLElement, r0: DOMRect) => {
+    const now = performance.now();
+    if (now - chrome.current.t < 300) return [...chrome.current.boxes];
+    if (!chromeWatch.current && typeof ResizeObserver !== 'undefined') chromeWatch.current = new ResizeObserver(() => { chrome.current.t = 0; cullSoon.current(); });
+    const solid = (e: Element) => { const s = getComputedStyle(e); if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.05) return false; const m = s.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? Number(m[1].split(/[,\s/]+/).filter(Boolean)[3] ?? 1) : 0; return a > 0.5 || s.boxShadow !== 'none'; };
+    const rects: DOMRect[] = [];
+    const roots = [...document.querySelectorAll('.k-draft-banner, .k-phone-header, .k-phone-bar, .k-desktop-panel, .k-desktop-dock, .k-sheet, .k-desktop-credit, .k-desktop-hint'), ...el.querySelectorAll('.k-tmap__zoom, .k-tmap__legend, .k-key, .k-tmap__credit')];
+    for (const root of roots) {
+      chromeWatch.current?.observe(root);
+      if (solid(root)) { rects.push(root.getBoundingClientRect()); continue; }
+      for (const d of root.querySelectorAll('*')) if (!(d instanceof SVGElement) && solid(d)) rects.push(d.getBoundingClientRect());
+    }
+    const boxes = rects.filter(r => r.width > 1 && r.height > 1).map(r => {
+      const x0 = r.left - r0.left, y0 = r.top - r0.top, x1 = r.right - r0.left, y1 = r.bottom - r0.top;
+      return { q: [[x0, y0], [x1, y0], [x1, y1], [x0, y1]] as Quad, x0, y0, x1, y1 };
+    });
+    chrome.current = { t: now, boxes };
+    return [...boxes];
   };
   const cullSoon = useRef(() => {});
   cullSoon.current = () => {
@@ -473,14 +548,14 @@ export function GoaMap({
               {items.map(it => (
                 /* a tap names what the symbol stands for here; the village's sheet lists it all */
                 <button key={it.kind + it.title} type="button" tabIndex={-1} className="k-tmap__glyph" data-icon={it.icon}
-                  onClick={() => setTip(tp => (tp?.key === v.id + it.icon ? null : { key: v.id + it.icon, x: v.lp![0], y: v.lp![1], fs: v.map!.fs, place: v.official, lines: (factsOf(v.id)?.knownFor ?? []).filter(x => x.icon === it.icon).map(x => x.title) }))}>
+                  onClick={e => { const gdy = e.currentTarget.parentElement?.style.getPropertyValue('--gdy') || '.7'; setTip(tp => (tp?.key === v.id + it.icon ? null : { key: v.id + it.icon, x: v.lp![0], y: v.lp![1], fs: v.map!.fs, gdy, place: v.official, lines: (factsOf(v.id)?.knownFor ?? []).filter(x => x.icon === it.icon).map(x => x.title) })); }}>
                   <Icon name={it.icon as IconName} size={16} />
                 </button>
               ))}
             </span>
           ))}
           {tip && (
-            <span className="k-tmap__tip" style={{ '--x': tip.x, '--y': tip.y, '--fs': tip.fs } as CSSProperties}>
+            <span className="k-tmap__tip" style={{ '--x': tip.x, '--y': tip.y, '--fs': tip.fs, '--gdy': tip.gdy } as CSSProperties}>
               <strong>{tip.place}</strong>
               {tip.lines.slice(0, 4).map(l => <span key={l}>{l}</span>)}
               {tip.lines.length > 4 && <span>+{tip.lines.length - 4}</span>}
@@ -488,11 +563,23 @@ export function GoaMap({
           )}
         </div>
       )}
-      {/* what the symbols mean, at village zoom in the Names view */}
-      {legend.length > 0 && (
+      {/* what the symbols mean, at village zoom in the Names view; on a phone, behind the "Key" button */}
+      {legend.length > 0 && !compactLegend && (
         <ul className="k-tmap__legend" aria-hidden="true">
           {legend.map(([icon, label]) => <li key={icon}><Icon name={icon} size={16} />{label}</li>)}
         </ul>
+      )}
+      {legend.length > 0 && compactLegend && (
+        <div className="k-key">
+          <button type="button" className="k-key__button" aria-label="Key to the map" aria-expanded={keyOpen} onClick={() => setKeyOpen(o => !o)}>
+            <Icon name="list" size={18} />Key
+          </button>
+          {keyOpen && (
+            <ul className="k-tmap__legend k-key__list">
+              {legend.map(([icon, label]) => <li key={icon}><Icon name={icon} size={16} />{label}</li>)}
+            </ul>
+          )}
+        </div>
       )}
       {lines && showCredit && (
         /* OpenStreetMap's licence asks for this wherever its lines are shown */
@@ -554,9 +641,9 @@ const Names = memo(function Names({ drawn, script, near, mapLayer, open }: Layer
             const n = nameIn(v, script), m = v.map!, [x, y] = v.lp!;
             const st = mapLayer ? layerState(v, mapLayer, script) : null;
             const cls = 'k-tmap__name' + (n.fallback ? ' is-faint' : '') + (st ? ' is-' + st : '') + (near.size ? (near.has(v.id) ? ' is-near' : ' is-off') : '') + (v.id === open ? ' is-open' : '');
-            const latin = n.kind !== 'deva';
+            const latin = n.kind !== 'deva', rank = townRank(v);
             return (
-              <text key={v.id} className={cls} fontSize={m.fs} lang={n.kind === 'deva' ? 'gom' : undefined} style={{ '--fs': m.fs } as CSSProperties}
+              <text key={v.id} className={cls + (rank ? ' is-town' : '')} data-id={v.id} data-rank={rank || undefined} fontSize={m.fs} lang={n.kind === 'deva' ? 'gom' : undefined} style={{ '--fs': m.fs } as CSSProperties}
                 data-x={x} data-y={y} data-a={m.a} data-fs={m.fs} data-latin={latin ? 1 : undefined}
                 transform={`translate(${x} ${y})${m.a ? ` rotate(${m.a})` : ''}${latin ? ` scale(${NARROW} 1)` : ''}`}>{n.text}</text>
             );
