@@ -1,5 +1,6 @@
-/* Feast dates from their rules (phase 2 rule 5 and revision 6): a fixed day, the nth Saturday after Easter, or a
-   lunar date. A lunar date is never turned into a day: only the months it can fall in are known. */
+/* Feast dates from their rules (phase 2 rule 5 and revision 6; phase 4, A2): a fixed day, a day counted from Easter,
+   a weekday in a month, a month with no day, or a lunar date. A lunar date is never turned into a day: only the
+   months it can fall in are known. */
 import type { FeastWhen } from '../data/types';
 
 /** Easter Sunday (Gregorian), by the anonymous Gregorian algorithm. */
@@ -11,11 +12,15 @@ export function easter(y: number): Date {
   return new Date(y, month - 1, day);
 }
 
-/** The day a feast falls on in a year, or null for a lunar date. */
+/** The day a feast falls on in a year, or null when its rule gives months only (a lunar date, or "In October"). */
 export function feastDate(when: FeastWhen, year: number): Date | null {
-  if ('lunar' in when) return null;
+  if ('months' in when) return null;
   if ('easterSaturday' in when) { const e = easter(year); return new Date(year, e.getMonth(), e.getDate() + 6 + 7 * (when.easterSaturday - 1)); }
-  return new Date(year, when.month - 1, when.day);
+  if ('easterDays' in when) { const e = easter(year); return new Date(year, e.getMonth(), e.getDate() + when.easterDays); }
+  if ('lastWeekday' in when) { const d = new Date(year, when.month, 0); d.setDate(d.getDate() - ((d.getDay() - when.lastWeekday + 7) % 7)); return d; }
+  const d = new Date(year, when.month - 1, when.day);
+  if (when.nearest !== undefined) { let off = (when.nearest - d.getDay() + 7) % 7; if (off > 3) off -= 7; d.setDate(d.getDate() + off); }
+  return d;
 }
 
 /** This year's date if it is still to come, otherwise next year's (revision 6). */
@@ -26,9 +31,9 @@ export function nextFeastDate(when: FeastWhen, today: Date): Date | null {
   return d >= t ? d : feastDate(when, t.getFullYear() + 1);
 }
 
-/** The months to mark on the 12-month strip: the next date's month, or a lunar date's months. */
+/** The months to mark on the 12-month strip: the next date's month, or the months a rule names. */
 export function upcomingMonths(when: FeastWhen, today: Date): number[] {
-  if ('lunar' in when) return when.months;
+  if ('months' in when) return when.months;
   const d = nextFeastDate(when, today);
   return d ? [d.getMonth() + 1] : [];
 }

@@ -28,19 +28,44 @@ const sentence = s => s.charAt(0).toUpperCase() + s.slice(1);
 /* "2026-02-21" as "21 Feb 2026"; a year stays a year. */
 const shortDate = d => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d); return m ? `${+m[3]} ${SHORT_MONTHS[+m[2] - 1]} ${m[1]}` : d; };
 
-/** A feast rule as data the browser can turn into the next date. Throws on a rule it cannot read. */
+/** Lunar month names as sources spell them ("Ashvin", "Ashvina", "Kartika", "Magha", "Pausha", "Chaitri"). */
+const LUNAR_ALIASES = { ashvin: 'ashwin', ashvina: 'ashwin', chaitri: 'chaitra', jaishtha: 'jyeshtha', ashadha: 'ashadh', bhadrapada: 'bhadrapad' };
+const WEEKDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+/** A feast rule as data the browser can turn into a date or months. Rules are kept as their source states them
+    ("Vaishakha Shuddha Panchami", "Fr-Kt" read as "Kartika", "second Monday after Easter", "In October").
+    Returns null when the rule names no month (a tithi alone, "Saptami to Navami"): the rule is then shown as
+    written, with no month and no date. Lunar dates are never turned into a day. */
 export function parseRule(rule, calendar) {
-  const r = rule.trim().toLowerCase();
+  const r = rule.trim().toLowerCase().replace(/[,.]/g, ' ').replace(/\s+/g, ' ');
+  if (!r) return null;
   if (calendar === 'lunar') {
-    const month = Object.keys(LUNAR).find(m => r.startsWith(m));
-    if (!month) throw new Error(`lunar month not recognised in "${rule}"`);
-    return { lunar: true, months: LUNAR[month] };
+    const words = r.split(/[\s\-/]+/).map(w => LUNAR_ALIASES[w] ?? w);
+    const months = [...new Set(words.map(w => Object.keys(LUNAR).find(m => w.startsWith(m))).filter(Boolean))];
+    if (!months.length) return null;
+    /* "Magha and Phalguna": both; "Magha Krishna 12 to Phalgun Shuddha 2": the month it starts in */
+    const use = / and /.test(r) ? months : months.slice(0, 1);
+    return { lunar: true, months: [...new Set(use.flatMap(m => LUNAR[m]))] };
   }
-  let m = /^(first|second|third|fourth|fifth) saturday after easter$/.exec(r);
-  if (m) return { easterSaturday: ORDINALS.indexOf(m[1]) + 1 };
-  m = /^(\d{1,2}) ([a-z]+)$/.exec(r);
-  if (m && MONTHS.includes(m[2])) return { month: MONTHS.indexOf(m[2]) + 1, day: +m[1] };
-  throw new Error(`feast rule not recognised: "${rule}"`);
+  const monthIn = s => MONTHS.findIndex(m => new RegExp(`\\b${m}\\b`).test(s));
+  let m = /^(first|second|third|fourth|fifth) (sunday|monday|tuesday|wednesday|thursday|friday|saturday) after easter$/.exec(r);
+  if (m) return m[2] === 'saturday' ? { easterSaturday: ORDINALS.indexOf(m[1]) + 1 } : { easterDays: 7 * ORDINALS.indexOf(m[1]) + WEEKDAYS.indexOf(m[2]) };
+  m = /\b(\d{1,2})(?:st|nd|rd|th)? ([a-z]+)\b/.exec(r) || /\b([a-z]+) (\d{1,2})(?:st|nd|rd|th)?\b/.exec(r);
+  if (m) {
+    const [day, name] = /^\d/.test(m[1]) ? [+m[1], m[2]] : [+m[2], m[1]];
+    const month = MONTHS.indexOf(name) + 1;
+    if (month) {
+      const near = /(sunday|monday|tuesday|wednesday|thursday|friday|saturday) (?:closest|nearest) to/.exec(r);
+      return near ? { month, day, nearest: WEEKDAYS.indexOf(near[1]) } : { month, day };
+    }
+  }
+  m = /\blast (sunday|monday|tuesday|wednesday|thursday|friday|saturday) (?:in|of) (?:the month of )?([a-z]+)/.exec(r);
+  if (m && MONTHS.includes(m[2])) return { month: MONTHS.indexOf(m[2]) + 1, lastWeekday: WEEKDAYS.indexOf(m[1]) };
+  /* a month and no day ("October", "In the month of September", "April-May", "December/January") */
+  const months = MONTHS.map((x, i) => (new RegExp(`\\b${x}\\b`).test(r) ? i + 1 : 0)).filter(Boolean);
+  if (months.length) return { months };
+  if (monthIn(r) < 0) throw new Error(`feast rule not recognised: "${rule}"`);
+  return null;
 }
 
 export function villageFacts(root, { lgdCodes, check }) {
@@ -74,12 +99,12 @@ export function villageFacts(root, { lgdCodes, check }) {
   const known = (code, item) => (of(code).knownFor ??= []).push(item);
   for (const r of csv('parishes.csv')) {
     if (!ok(r)) continue;
-    try { known(r.village_code, { kind: 'parish', icon: 'church', title: `${r.patron} parish`, detail: 'Parish feast', when: parseRule(r.feast_rule, 'gregorian'), whenText: sentence(r.feast_rule), source: r.source, url: link(r.source_url) }); }
+    try { const when = parseRule(r.feast_rule, 'gregorian'); known(r.village_code, { kind: 'parish', icon: 'church', title: `${r.patron} parish`, detail: r.feast_rule ? 'Parish feast' : null, ...(when ? { when } : {}), ...(r.feast_rule ? { whenText: sentence(r.feast_rule) } : {}), source: r.source, url: link(r.source_url) }); }
     catch (e) { check(false, `data/credited/parishes.csv, ${r.parish}: ${e.message}.`); }
   }
   for (const r of csv('feasts.csv')) {
     if (!ok(r)) continue;
-    try { known(r.village_code, { kind: r.kind || 'zatra', icon: r.icon || 'flame', title: r.name, when: parseRule(r.rule, r.calendar), whenText: sentence(r.rule), source: r.source, url: link(r.source_url) }); }
+    try { const when = parseRule(r.rule, r.calendar); known(r.village_code, { kind: r.kind || 'zatra', icon: r.icon || 'flame', title: r.name, ...(when ? { when } : {}), ...(r.rule ? { whenText: sentence(r.rule) } : {}), source: r.source, url: link(r.source_url) }); }
     catch (e) { check(false, `data/credited/feasts.csv, ${r.name}: ${e.message}.`); }
   }
   for (const r of csv('gi_products.csv')) {
