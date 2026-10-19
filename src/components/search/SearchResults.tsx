@@ -4,6 +4,9 @@ import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { fold, houseOf, searchPlaces, whereLabel } from '../../data/khoim';
 import './search.css';
 
+/** Who an other spelling comes from (phase 4, A6). OpenStreetMap's are ODbL and always credited. */
+const AKA_CREDIT = { o: '© OpenStreetMap contributors', g: 'Gazetteer, 1979', l: 'Dr Alvarinho J. Luis' } as const;
+
 /** Wraps the matched part of a name in the search highlight. */
 function mark(text: string, q: string): ReactNode {
   const f = fold(text), i = f.indexOf(fold(q.trim()));
@@ -28,7 +31,7 @@ export function SearchResults({ query, onPick, villagesLoaded }: SearchResultsPr
         {res.length ? `${res.length} ${res.length === 1 ? 'place' : 'places'}` : `Nothing for "${query}" yet. Try the official spelling.`}
       </p>
       <ul className="k-results">
-        {res.map(({ place: p, field }, i) => (
+        {res.map(({ place: p, field, aka }, i) => (
           <li key={p.id} className="k-results__item" style={{ '--rise-delay': `${Math.min(i, 8) * 30}ms` } as CSSProperties}>
             <button type="button" className="k-result" onClick={() => onPick(p.id)}>
               <span className="k-result__tab" aria-hidden="true" data-house={houseOf(p).key} />
@@ -47,6 +50,8 @@ export function SearchResults({ query, onPick, villagesLoaded }: SearchResultsPr
                 <span className="k-result__sub">
                   {p.deva || p.romi ? <>{field === 'official' ? mark(p.official, query) : p.official} · </> : 'Official name only · '}{whereLabel(p)}
                 </span>
+                {/* TODO(copy): the line saying which other spelling matched, and whose it is */}
+                {aka && <span className="k-result__sub">Also written {mark(aka[0], query)} ({AKA_CREDIT[aka[1]]})</span>}
               </span>
             </button>
           </li>

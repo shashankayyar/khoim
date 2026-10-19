@@ -18,7 +18,7 @@ export const HOME_META: PageMeta = {
 export function pageTitle(p: Place): string {
   const names = [p.deva, p.romi].filter(Boolean).join(', ');
   if (names) return `${p.official} (${names}): Konkani name, how to say it | Khoim`;
-  return `${p.official}, ${getPlace(p.parent)?.official}, Goa: village facts | Khoim`;
+  return `${p.official}, ${getPlace(p.parent)?.official}, Goa: ${p.isTown ? 'town' : 'village'} facts | Khoim`;
 }
 
 export function pageMeta(p: Place | null): PageMeta {
@@ -29,15 +29,16 @@ export function pageMeta(p: Place | null): PageMeta {
   if (p.level === 'village') {
     const district = getPlace(parent?.parent);
     const where = `${parent?.official} taluka, ${district?.official}, Goa`;
+    const kind = p.isTown ? 'town' : 'village';
     if (p.deva || p.romi) {
       return {
         title,
-        description: `${p.official} is a village in ${where}. It is ${p.deva ? `${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}` : `${p.romi} in Romi`}.`
+        description: `${p.official} is a ${kind} in ${where}. It is ${p.deva ? `${p.deva} in Konkani${p.romi ? ` and ${p.romi} in Romi` : ''}` : `${p.romi} in Romi`}.`
       };
     }
     return {
       title,
-      description: `${p.official} is a village in ${where}. Official name from government records; its Konkani name is being added.`
+      description: `${p.official} is a ${kind} in ${where}. Official name from government records; its Konkani name is being added.`
     };
   }
 
