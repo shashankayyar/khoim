@@ -82,15 +82,22 @@ for r in csv.DictReader(open('data/gazetteer/places_of_interest_feasts_1979.csv'
                  'source': f'Gazetteer 1979, Part 1, Places of Interest, p. {r["page"]}', 'source_url': URL,
                  'as_printed': r['quote'], 'match_note': note})
 
-# A Chapter 19 date and a Directory month for the same fair: keep the fuller Chapter 19 row
+# A Chapter 19 date and a Directory month for the same fair: keep the fuller Chapter 19 row. Same village, same
+# kind (a fair with a jatra or fair, a church feast with a feast), and the Directory's deity named in Chapter 19's
+# row as the deity of a fair, not as part of a temple's name ("Mahalasa fair" is not "Jayachi-puja at Mahalasa temple").
 def deity(n): return key(n.split(' ')[0])
 ch19 = [r for r in rows if 'Places of Interest' in r['source'] and r['village_code']]
-drop = []
+drop, used = [], set()
 for r in rows:
-    if r['source'].startswith('Gazetteer 1979, Part 1, Directory') and r['village_code']:
-        for c in ch19:
-            if c['village_code'] == r['village_code'] and deity(r['name']) in key(c['name']) and deity(r['name']) not in ('fair', 'feast', 'church'):
-                drop.append(id(r)); c['source'] += f'; Directory of Villages, p. {r["source"].rsplit(" ", 1)[1]}'
+    if not (r['source'].startswith('Gazetteer 1979, Part 1, Directory') and r['village_code']): continue
+    d = deity(r['name'])
+    if d in ('fair', 'feast', 'church'): continue
+    for c in ch19:
+        if id(c) in used or c['village_code'] != r['village_code'] or c['kind'] != r['kind']: continue
+        own = re.split(r' at ', c['name'])[0]   # the feast's own name, not the building it is held at
+        if not re.search(rf'\b{re.escape(r["name"].split(" ")[0])}\b', own, re.I): continue
+        drop.append(id(r)); used.add(id(c)); c['source'] += f'; Directory of Villages, p. {r["source"].rsplit(" ", 1)[1]}'
+        break
 rows = [r for r in rows if id(r) not in drop]
 
 # keep rows that did not come from the Gazetteer passes (the Lairai row typed in phase 2 is replaced by Chapter 19's)

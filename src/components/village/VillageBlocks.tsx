@@ -80,11 +80,12 @@ export function FactsGrid({ place }: { place: Place }) {
 }
 
 const M = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-/** A 12-month strip with the next date of a feast. A lunar date marks its months, dashed, and says it moves. */
+/** A 12-month strip with the next date of a feast. A lunar date marks its months, dashed, and says it moves; a
+    month with no day ("In October") marks that month. */
 function FeastStrip({ item, today }: { item: KnownForItem; today: Date | null }) {
   const when = item.when!, lunar = 'lunar' in when;
   const next = today ? nextFeastDate(when, today) : null;
-  const months = today || lunar ? upcomingMonths(when, today ?? new Date(0)) : [];
+  const months = today || 'months' in when ? upcomingMonths(when, today ?? new Date(0)) : [];
   return (
     <div className="k-feast">
       <div className="k-feast__strip" aria-hidden="true">
