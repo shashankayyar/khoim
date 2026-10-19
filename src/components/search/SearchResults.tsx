@@ -2,6 +2,8 @@
    Districts and talukas rank above villages. Ported from design/components/search/SearchResults.jsx. */
 import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { fold, houseOf, searchPlaces, whereLabel } from '../../data/khoim';
+import type { MapLines } from '../../data/geo';
+import { searchThings } from '../../lib/things';
 import './search.css';
 
 /** Who an other spelling comes from (phase 4, A6). OpenStreetMap's are ODbL and always credited. */
@@ -20,15 +22,21 @@ export interface SearchResultsProps {
   onPick: (id: string) => void;
   /** Villages join the results once their list has loaded. */
   villagesLoaded: boolean;
+  /** Feasts, parishes and landmarks join once the village facts have loaded; rivers once the map's lines have. */
+  factsLoaded?: boolean;
+  lines?: MapLines | null;
 }
 
-export function SearchResults({ query, onPick, villagesLoaded }: SearchResultsProps) {
+export function SearchResults({ query, onPick, villagesLoaded, factsLoaded = false, lines = null }: SearchResultsProps) {
   const res = useMemo(() => searchPlaces(query), [query, villagesLoaded]);
+  const things = useMemo(() => searchThings(query, lines), [query, factsLoaded, lines]); // eslint-disable-line react-hooks/exhaustive-deps
+  const total = res.length + things.length;
   if (!query.trim()) return <p className="k-search-note">Type a name the way you know it. Official spelling, देवनागरी or Romi all work.</p>;
   return (
     <div>
       <p className="k-search-note k-search-note--count" role="status" aria-live="polite">
-        {res.length ? `${res.length} ${res.length === 1 ? 'place' : 'places'}` : `Nothing for "${query}" yet. Try the official spelling.`}
+        {/* TODO(copy): "and {n} other matches" (feasts, parishes, landmarks, rivers) */}
+        {total ? `${res.length} ${res.length === 1 ? 'place' : 'places'}${things.length ? ` and ${things.length} other ${things.length === 1 ? 'match' : 'matches'}` : ''}` : `Nothing for "${query}" yet. Try the official spelling.`}
       </p>
       <ul className="k-results">
         {res.map(({ place: p, field, aka }, i) => (
@@ -52,6 +60,17 @@ export function SearchResults({ query, onPick, villagesLoaded }: SearchResultsPr
                 </span>
                 {/* TODO(copy): the line saying which other spelling matched, and whose it is */}
                 {aka && <span className="k-result__sub">Also written {mark(aka[0], query)} ({AKA_CREDIT[aka[1]]})</span>}
+              </span>
+            </button>
+          </li>
+        ))}
+        {things.map((t, i) => (
+          <li key={t.key} className="k-results__item" style={{ '--rise-delay': `${Math.min(res.length + i, 8) * 30}ms` } as CSSProperties}>
+            <button type="button" className="k-result" onClick={() => onPick(t.open)}>
+              <span className="k-result__tab" aria-hidden="true" data-house={houseOf(null).key} />
+              <span className="k-result__text">
+                <span className="k-result__official-head">{mark(t.name, query)}</span>
+                <span className="k-result__sub">{t.what.charAt(0).toUpperCase() + t.what.slice(1)} in {t.where}</span>
               </span>
             </button>
           </li>

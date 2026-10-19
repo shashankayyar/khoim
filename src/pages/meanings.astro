@@ -1,0 +1,51 @@
+---
+/* What the names mean, A to Z (phase 4, B5). Every village with an origin on its sheet, from
+   data/credited/origins_luis_2026.csv through the village facts: our summary, the source's own hedge, the credit and
+   its link (phase 2 rule 2). Each entry links to its village. New wording marked TODO(copy). */
+import Base from '../layouts/Base.astro';
+import { Credit } from '../components/core/Credit';
+import { Wordmark } from '../components/core/Wordmark';
+import villagesJson from '../data/generated/villages.json';
+import factsJson from '../data/generated/village-facts.json';
+import { getPlace, pathOf, registerVillages } from '../data/khoim';
+import type { Place, RawVillage, VillageFacts } from '../data/types';
+import '../styles/static.css';
+
+registerVillages(villagesJson as unknown as RawVillage[]);
+const entries = Object.entries(factsJson as unknown as Record<string, VillageFacts>)
+  .filter(([, f]) => f.meaning?.readings.length)
+  .map(([id, f]) => ({ p: getPlace(id) as Place, m: f.meaning! }))
+  .filter(e => e.p)
+  .sort((a, b) => a.p.official.localeCompare(b.p.official));
+const letters = [...new Set(entries.map(e => e.p.official[0].toUpperCase()))];
+---
+
+<Base title="What Goa's village names mean, A to Z | Khoim" description="Where Goa's village names come from, village by village, each reading with its source and how sure the source is." path="/meanings/">
+  <div class="doc">
+    <header class="doc__head">
+      <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
+    </header>
+    <main class="doc__main">
+      {/* TODO(copy): title, intro and the letter list on this page */}
+      <h1>What the names mean, A to Z</h1>
+      <p>{entries.length} villages with an origin on file, in our words, each with its source and the source's own caution. Where sources differ, both are given.</p>
+      <p>{letters.map((l, i) => <>{i > 0 && ' · '}<a href={'#' + l}>{l}</a></>)}</p>
+      {letters.map(l => (
+        <section id={l}>
+          <h2>{l}</h2>
+          <ul class="doc__list">
+            {entries.filter(e => e.p.official[0].toUpperCase() === l).map(e => (
+              <li>
+                <a href={pathOf(e.p)}>{e.p.official}</a>, {getPlace(e.p.parent)?.official}.{' '}
+                {e.m.readings.map(r => <>{r.text}{r.hedge ? ` (${r.hedge})` : ''}. <span class="doc__meta">{r.url ? <a href={r.url} target="_blank" rel="noopener">{r.credit}</a> : r.credit}</span>{' '}</>)}
+                {e.m.differ && <span class="doc__meta">Sources differ.</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      <p><a href="/feasts/">Feasts and zatras, by month</a></p>
+    </main>
+    <footer class="doc__foot"><Credit /></footer>
+  </div>
+</Base>

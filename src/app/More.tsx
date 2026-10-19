@@ -78,6 +78,9 @@ export function More({ open, onClose, onTellUs }: MoreProps) {
               Village codes and official names: Local Government Directory, Ministry of Panchayati Raj, Government of India (<a href="https://lgdirectory.gov.in/">lgdirectory.gov.in</a>), licensed under the Government Open Data License India (GODL-India). This use is not endorsed by the Government of India.
             </p>
             <p className="k-more__licence"><a className="k-more__link" href="/privacy/">Privacy notice</a></p>
+            {/* TODO(copy): the links to the feasts and meanings pages (phase 4, B5) */}
+            <p className="k-more__licence"><a className="k-more__link" href="/feasts/">Feasts and zatras, by month</a></p>
+            <p className="k-more__licence"><a className="k-more__link" href="/meanings/">What the names mean, A to Z</a></p>
             {/* TODO(copy): link to the contributors page */}
             <p className="k-more__licence"><a className="k-more__link" href="/contributors/">Contributors</a></p>
           </section>

@@ -211,7 +211,7 @@ function SearchScreen({ k }: { k: Khoim }) {
     <div ref={ref} className={k.search ? 'k-search-screen is-open' : 'k-search-screen'} role="dialog" aria-modal="true" aria-label="Search" aria-hidden={!k.search}>
       <div className="k-search-screen__top"><SearchField inputRef={input} value={k.query} onChange={k.setQuery} onCancel={k.closeSearch} /></div>
       <div className="k-search-screen__results">
-        {k.search && <SearchResults query={k.query} onPick={k.openPlace} villagesLoaded={k.villagesLoaded} />}
+        {k.search && <SearchResults query={k.query} onPick={k.openPlace} villagesLoaded={k.villagesLoaded} factsLoaded={k.factsLoaded} lines={k.mapLines} />}
         {/* nothing typed yet: every district and taluka, a list route into the map */}
         {k.search && !k.query.trim() && <GoaList k={k} />}
       </div>
@@ -243,6 +243,10 @@ function Views({ k, endings = true }: { k: Khoim; endings?: boolean }) {
       <ShowControl options={showOptions(k.layerCounts)} value={k.showValue} onChange={k.show} />
       {endings && <EndingButtons layer={k.mapLayer} onChange={k.setMapLayer} />}
       <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
+      {/* the full lists behind two of the choices (phase 4, B5) */}
+      {/* TODO(copy): the links' wording */}
+      {k.mapLayer.id === 'feasts' && <a className="k-views__more" href="/feasts/">All feasts and zatras, by month</a>}
+      {k.mapLayer.id === 'parts' && <a className="k-views__more" href="/meanings/">What the names mean, A to Z</a>}
     </div>
   );
 }
@@ -375,7 +379,7 @@ function Desktop({ k }: { k: Khoim }) {
           {dock && (
             <aside className="k-desktop-dock" aria-label={k.query ? 'Search' : 'Names'}>
               {k.query ? (
-                <div className="k-desktop-dock__search"><SearchResults query={k.query} onPick={id => { k.setQuery(''); k.openPlace(id); }} villagesLoaded={k.villagesLoaded} /></div>
+                <div className="k-desktop-dock__search"><SearchResults query={k.query} onPick={id => { k.setQuery(''); k.openPlace(id); }} villagesLoaded={k.villagesLoaded} factsLoaded={k.factsLoaded} lines={k.mapLines} /></div>
               ) : sp?.level === 'village' ? (
                 <div key={sp.id} className="k-desktop-card k-desktop-card--village"><div className="k-desktop-card__inner"><Village k={k} place={sp} desktop /></div></div>
               ) : sp ? (

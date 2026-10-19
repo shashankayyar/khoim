@@ -35,7 +35,7 @@ export function loadVillagePaths(talukaId: string): Promise<VillagePaths> {
     Wikidata). Each river keeps OpenStreetMap's name and the prototype's weight; label is the straightest stretch of it,
     where its name sits as straight text: the middle, the angle and the length, in map units. */
 export interface MapLines {
-  rivers: { n: string; w: number; d: string[]; label: { at: [number, number]; a: number; len: number } }[];
+  rivers: { n: string; w: number; d: string[]; label: { at: [number, number]; a: number; len: number }; ts?: string[] }[];
   rail: string[];
   stations: { n: string; code: string; at: [number, number] }[];
 }
