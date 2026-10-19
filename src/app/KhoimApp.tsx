@@ -237,17 +237,19 @@ const SHEET_SHARE = 0.4;
 const showInside = (k: Khoim) => () => { if (getPlace(k.selected)?.level === 'taluka') k.openList(); else k.setSnap('closed'); };
 
 /* What the map shows: "Show", the ending buttons (Spelling endings only) and the legend. Never covered. */
-function Views({ k, endings = true }: { k: Khoim; endings?: boolean }) {
+function Views({ k, endings = true, compact = false }: { k: Khoim; endings?: boolean; compact?: boolean }) {
   return (
     <div className="k-views">
-      <ShowControl options={showOptions(k.layerCounts)} value={k.showValue} onChange={k.show} />
+      <ShowControl options={showOptions(k.layerCounts)} value={k.showValue} onChange={k.show} compact={compact} />
       {endings && <EndingButtons layer={k.mapLayer} onChange={k.setMapLayer} />}
       {endings && <EndingNote layer={k.mapLayer} />}
-      <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
-      {/* the full lists behind two of the choices (phase 4, B5) */}
-      {/* TODO(copy): the links' wording */}
-      {k.mapLayer.id === 'feasts' && <a className="k-views__more" href="/feasts/">All feasts and zatras, by month</a>}
-      {k.mapLayer.id === 'parts' && <a className="k-views__more" href="/meanings/">What the names mean, A to Z</a>}
+      <div className="k-views__foot">
+        <div className="k-views__key" role="status">{k.coloured && <span className="k-visually-hidden"><ViewLine layer={k.mapLayer} script={k.script} className="" /></span>}<Legend layer={k.mapLayer} script={k.script} /></div>
+        {/* the full lists behind two of the choices (phase 4, B5) */}
+        {/* TODO(copy): the links' wording */}
+        {k.mapLayer.id === 'feasts' && <a className="k-views__more" href="/feasts/">All feasts and zatras, by month</a>}
+        {k.mapLayer.id === 'parts' && <a className="k-views__more" href="/meanings/">What the names mean, A to Z</a>}
+      </div>
     </div>
   );
 }
@@ -302,7 +304,7 @@ function Phone({ k }: { k: Khoim }) {
         )}
         {lede && <h1 className="k-lede">{LEDE}</h1>}
         {!sp && <ViewLine layer={k.mapLayer} script={k.script} className="k-count" />}
-        <Views k={k} endings={!sp} />
+        <Views k={k} endings={!sp} compact />
       </header>
       {!sp && (
         <div ref={bar} className="k-phone-bar">

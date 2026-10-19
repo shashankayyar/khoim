@@ -184,3 +184,6 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-views { display: grid; gap: 8px; justify-items: start; pointer-events: none; }
 .k-views > * { pointer-events: auto; }
 .k-views__key { display: grid; gap: 4px; justify-items: start; }
+/* the legend and the link to the full list share a row where they fit */
+.k-views__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.k-views__foot:empty { display: none; }

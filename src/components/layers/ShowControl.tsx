@@ -4,7 +4,18 @@
 import type { ShowOption } from '../../lib/layers';
 import './layers.css';
 
-export function ShowControl({ options, value, onChange }: { options: ShowOption[]; value: string; onChange: (id: string) => void }) {
+export function ShowControl({ options, value, onChange, compact = false }: { options: ShowOption[]; value: string; onChange: (id: string) => void; compact?: boolean }) {
+  /* On a phone, one row: the same choices in a native list, so the map keeps its room. Still always in view. */
+  if (compact) {
+    return (
+      <label className="k-show k-show--compact">
+        <span className="k-show__label">Show</span>
+        <select className="k-show__select" value={value} onChange={e => onChange(e.target.value)}>
+          {options.map(o => <option key={o.id} value={o.id}>{o.label}{o.count !== undefined ? `, ${o.count}` : ''}</option>)}
+        </select>
+      </label>
+    );
+  }
   const move = (e: React.KeyboardEvent, i: number) => {
     const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
     if (!d) return;
