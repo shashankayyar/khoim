@@ -230,7 +230,7 @@ function useWindowHeight(): number {
   return h;
 }
 /** Phone sheets stop at this share of the screen, so the map always has at least 60% (phase 3, step 5). */
-const SHEET_SHARE = 0.4;
+const SHEET_SHARE = 0.4, PEEK_SHARE = 0.36;
 
 /* What the card's count button does: a taluka opens its villages as a list; a district puts the card away, so its
    talukas show on the map. */
@@ -268,7 +268,9 @@ function Phone({ k }: { k: Khoim }) {
   /* How much of the card shows when collapsed. The card reports what it needs, because names wrap differently
      on different phones; until it has, use the design's figure. Never more than 40% of the screen. */
   const [measured, setMeasured] = useState<{ id: string; px: number } | null>(null);
-  const cardPeek = sp ? Math.min(cap, measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
+  /* the first view of a card stops at 36% of the screen, so a phone shows at least 45% map (phase 4 polish, step 2) */
+  const peekCap = Math.round(winH * PEEK_SHARE);
+  const cardPeek = sp ? Math.min(peekCap, measured?.id === sp.id ? measured.px : sp.deva ? 304 : 344) : 0;
   const spId = sp?.id;
   const onMeasure = useCallback((px: number) => { if (spId) setMeasured(m => (m && m.id === spId && m.px === px ? m : { id: spId, px })); }, [spId]);
   /* the header floats over the map; what it covers, and the sheet or bar at the bottom, frame what the map shows */
@@ -283,7 +285,8 @@ function Phone({ k }: { k: Khoim }) {
     <div className="k-app k-app--phone">
       <main className="k-phone-main">
         {/* with no card open the bar at the bottom carries the OpenStreetMap credit, so nothing on the map covers Goa */}
-        <GoaMap {...mapProps(k)} insetTop={headH + 8} insetBottom={bottom + 8} showCredit={!!sp} />
+        {/* the OpenStreetMap credit is never on a phone's map: it sits in the bar, or at the foot of the sheet */}
+        <GoaMap {...mapProps(k)} insetTop={headH + 8} insetBottom={bottom + 8} showCredit={false} compactLegend />
       </main>
       <header ref={head} className="k-phone-header">
         <div className="k-phone-header__row">
@@ -330,6 +333,7 @@ function Phone({ k }: { k: Khoim }) {
               : <PlaceCard place={sp} expanded={k.snap === 'full'} headingLevel={1} onExpand={() => k.setSnap('full')} onClose={() => k.setSnap('closed')} onShowInside={showInside(k)}
                   onTell={k.contrib.open ? kind => k.openForm(sp.id, kind) : undefined} live={k.live.at(sp.id)} layer={k.layer} facts={k.facts} onShare={shareAction(k, false, false)} />}
           </div>
+          {k.mapLines && <div className="k-sheet-credit"><OsmCredit /></div>}
         </Sheet>
       )}
       <SearchScreen k={k} />
