@@ -1,6 +1,7 @@
 /* Khoim contrast and touch-size check. A testing aid, not part of the site.
 
-   It walks through every screen of the app (Goa, the views, districts, talukas, villages, lists, search, About) and checks
+   It walks through every screen of the app (Goa, each "Show" choice and script, districts, talukas, villages, lists,
+   search, About) and checks
    - every visible piece of text against WCAG AAA contrast (7:1, or 4.5:1 for large text), and
    - every button and link against the 44px target size.
 
@@ -77,19 +78,29 @@ export async function tour() {
   };
   const desktop = !!q('.k-app--desktop');
   const script = async t => { byText('.k-script-toggle__option', t).click(); await wait(250); };
-  const view = async t => { byText('.k-layer-row__item', t).click(); await wait(500); };
+  /* "Show" (phase 4, B3): segmented on desktop, a native list on a phone */
+  const view = async t => {
+    const sel = q('.k-show__select');
+    if (sel) { const o = [...sel.options].find(x => x.textContent.startsWith(t)); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(sel, o.value); sel.dispatchEvent(new Event('change', { bubbles: true })); }
+    else byText('.k-show__item', t).click();
+    await wait(500);
+  };
   const sheet = desktop ? '.k-desktop-dock' : '.k-sheet__scroll';
   const expand = async () => { if (!desktop) { q('.k-sheet__handle').click(); await wait(700); } };
   await run('1 Goa');
   await script('Official'); await run('1 Goa, official'); await script('Romi'); await run('1 Goa, Romi'); await script('देवनागरी');
-  await view('Spelling endings'); await run('1 Goa, Spelling endings'); await view('Still unwritten'); await run('1 Goa, Still unwritten'); await view('Names');
+  await view('Spelling endings'); await run('1 Goa, Spelling endings'); await view('Feasts and zatras'); await run('1 Goa, Feasts and zatras'); await view('Landmarks'); await run('1 Goa, Landmarks'); await view('Names');
+  await script('Official');
   await go('/kushavati/'); await run('2 Kushavati opened'); await expand(); await run('2 Kushavati full card', sheet);
   await go('/kushavati/dharbandora/'); await expand(); await run('3 Dharbandora full card', sheet);
   await go('/south-goa/salcete/'); await run('4 Salcete opened'); await expand(); await run('4 Salcete full card', sheet);
   await go('/south-goa/salcete/raia/'); await run('5 Raia peek'); await expand(); await run('5 Raia full card', sheet);
   // a village whose name is recorded in Romi only
   await go('/south-goa/mormugao/chicalim/'); await run('5b Chicalim peek'); await expand(); await run('5b Chicalim full card', sheet);
-  await view('Still unwritten'); await run('5b Chicalim, Still unwritten'); await view('Names');
+  await script('Romi'); await run('5b Chicalim, Romi'); await script('Official');
+  // phase 4: a village with a Gazetteer form, feasts and landmarks; and the symbols' legend at village zoom
+  await go('/north-goa/bicholim/sirigao/'); await run('5c Sirigao peek'); await expand(); await run('5c Sirigao full card', sheet);
+  await go('/south-goa/salcete/navelim/'); await run('5d Navelim, symbols and legend');
   // the list of a taluka's villages
   await go('/south-goa/salcete/villages/'); await run('6 Salcete villages list', '.k-list-screen__body');
   await go('/');
@@ -102,10 +113,14 @@ export async function tour() {
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, ''); input.dispatchEvent(new Event('input', { bubbles: true })); await wait(400);
   if (!desktop) { await run('7 search, empty', '.k-search-screen__results'); q('.k-search-field__cancel').click(); await wait(900); }
   // About
-  q('[aria-label^="Layers and about"]').click(); await wait(1000); await run('8 About', '.k-more__scroll');
+  q('[aria-label="About Khoim"]').click(); await wait(1000); await run('8 About', '.k-more__scroll');
   // A layer other than Names: its marks on the map, and its button on the card. These steps only have something
   // to check where allowed contributions exist (the local test database, or the live site).
-  byText('.k-layer', 'Food').click(); await wait(1200); await run('9 Food layer, Goa');
-  await go('/south-goa/salcete/'); await run('9 Food layer, Salcete');
+  // a layer people add to shows in "Show" only with 10 or more entries; where one does (the live site), check it
+  q('[aria-label="Close"]')?.click(); await wait(800);
+  if ([...document.querySelectorAll('.k-show__item, .k-show__select option')].some(e => e.textContent.startsWith('Food'))) {
+    await view('Food'); await run('9 Food layer, Goa');
+    await go('/south-goa/salcete/'); await run('9 Food layer, Salcete');
+  }
   return res;
 }
