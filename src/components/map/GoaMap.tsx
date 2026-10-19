@@ -242,9 +242,11 @@ export function GoaMap({
     const onScreen = (cx: number, cy: number) => cx > -300 && cy > -300 && cx < W + 300 && cy < H + 300;
     const hasVillage = el.classList.contains('has-village'), openId = getPlace(selected)?.id;
     if (!hasVillage) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__taluka')) {
-      if (1 - (z - 1.7) / 1.2 < 0.3) { skip.push(t); continue; }
+      const op = 1 - (z - 1.7) / 1.2;
+      if (op <= 0) { skip.push(t); continue; }
       const b = T[t.dataset.id!]?.b, area = b ? (b[2] - b[0]) * (b[3] - b[1]) : 0;
-      items.push({ el: t, q: rectQuad(t), p: 900 + area / 1e4 });
+      /* while a taluka name fades out it gives way to the village names it would sit on */
+      items.push({ el: t, q: rectQuad(t), p: op < 0.5 ? 0.5 : 900 + area / 1e4 });
     }
     for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__name')) {
       const fs = Number(t.dataset.fs), px = fs * k, near = t.classList.contains('is-near');
