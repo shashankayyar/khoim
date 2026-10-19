@@ -80,10 +80,14 @@
 }
 .k-tmap__rail { fill: none; stroke: var(--text); stroke-width: 1px; opacity: .7; }
 .k-tmap__river-name {
-  fill: var(--map-water-text); font-family: var(--font-latin); font-weight: 600; letter-spacing: .12em; text-anchor: middle; dominant-baseline: central;
-  font-size: calc(12px / var(--k)); paint-order: stroke; stroke: var(--surface); stroke-width: calc(3px / var(--k)); stroke-linejoin: round;
+  fill: var(--map-water-text); font-family: var(--font-latin); font-weight: 600; letter-spacing: .06em; text-anchor: middle; dominant-baseline: central;
+  font-size: calc(13px / var(--k)); paint-order: stroke; stroke: var(--surface); stroke-width: calc(3px / var(--k)); stroke-linejoin: round;
   pointer-events: none; opacity: clamp(0, (var(--z) - 2.2) * 1000, 1);
 }
+/* Names never overlap (phase 4, B2): the map hides the less important of two names that would touch, and a river
+   name whose straight stretch is shorter than the name */
+.k-tmap__name.is-culled, .k-tmap__taluka.is-culled, .k-tmap__river-name.is-culled, .k-tmap__river-name.is-short { opacity: 0 !important; }
+.k-tmap__station.is-culled, .k-tmap__glyphs.is-culled { visibility: hidden; }
 .k-tmap.is-layered .k-tmap__lines { opacity: .3; }
 .k-tmap.is-layered .k-tmap__river-names { display: none; }
 
@@ -112,7 +116,32 @@
   font: var(--weight-strong) 13px/1.2 var(--font-latin);
 }
 .k-tmap__glyphs { display: flex; gap: 3px; transform: translate(-50%, calc(var(--fs) * var(--k) * .7px)); }
-.k-tmap__glyph { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 6px; background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1); }
+.k-tmap__glyph {
+  position: relative; width: 26px; height: 26px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer;
+  border-radius: 6px; background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1); pointer-events: auto;
+}
+/* a 44px touch area around the 26px symbol */
+.k-tmap__glyph::after { content: ''; position: absolute; inset: -9px; }
+.k-tmap:not(.is-close) .k-tmap__glyph { pointer-events: none; }
+/* the name of what a symbol stands for, after a tap */
+.k-tmap__tip {
+  position: absolute; left: calc((var(--tx) + var(--x) * var(--k)) * 1px); top: calc((var(--ty) + var(--y) * var(--k)) * 1px);
+  transform: translate(-50%, calc(var(--fs) * var(--k) * .7px + 34px)); z-index: 3;
+  display: grid; gap: 2px; max-width: 240px; padding: 8px 10px; border-radius: var(--radius-m);
+  background: var(--surface-raised); color: var(--text); box-shadow: var(--shadow-2);
+  font: var(--weight-regular) 15px/1.35 var(--font-latin);
+}
+.k-tmap__tip strong { font-weight: var(--weight-strong); }
+.k-tmap:not(.is-close) .k-tmap__tip { display: none; }
+/* what the symbols mean, at village zoom: top left of the map's free space */
+.k-tmap__legend {
+  position: absolute; left: calc(var(--map-inset-left, 0px) + 12px); top: calc(var(--map-inset-top, 0px) + 4px); z-index: 2;
+  display: flex; flex-wrap: wrap; gap: 4px 12px; max-width: min(520px, calc(100% - var(--map-inset-left, 0px) - 24px));
+  margin: 0; padding: 6px 10px; list-style: none; border-radius: var(--radius-m); background: var(--surface); color: var(--text);
+  font: var(--weight-regular) 14px/1.3 var(--font-latin);
+}
+.k-tmap__legend li { display: inline-flex; align-items: center; gap: 6px; }
+.k-tmap:not(.is-close) .k-tmap__legend { display: none; }
 .k-tmap__credit { position: absolute; right: calc(var(--map-inset-right, 0px) + 76px); bottom: calc(var(--map-inset-bottom, 0px) + 16px); margin: 0; z-index: 2; }
 .k-tmap__credit a { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 10px; border-radius: var(--radius-m); background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); }
 

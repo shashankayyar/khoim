@@ -31,8 +31,25 @@ function simplify(pts, tol) {
   }
   return pts.filter((_, i) => keep[i]);
 }
+/** The straightest long stretch of a line: the longest chord whose points all lie within tol of it. Its middle,
+    its angle (kept between -90 and 90 degrees, so the name never reads upside down) and its length. */
+function straightest(pts, tol = 2.2) {
+  let best = { len: 0, i: 0, j: 1 };
+  for (let i = 0; i < pts.length - 1; i++) {
+    for (let j = i + 1; j < pts.length; j++) {
+      const [x1, y1] = pts[i], [x2, y2] = pts[j], dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+      let ok = true;
+      for (let m = i + 1; m < j && ok; m++) ok = Math.abs(dy * pts[m][0] - dx * pts[m][1] + x2 * y1 - y2 * x1) / len <= tol;
+      if (!ok) break;
+      if (len > best.len) best = { len, i, j };
+    }
+  }
+  const [x1, y1] = pts[best.i], [x2, y2] = pts[best.j];
+  let a = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+  if (a > 90) a -= 180; else if (a <= -90) a += 180;
+  return { at: [r1((x1 + x2) / 2), r1((y1 + y2) / 2)], a: Math.round(a * 10) / 10, len: r1(best.len) };
+}
 const pathOf = pts => 'M' + pts.map(([x, y]) => r1(x) + ',' + r1(y)).join('L');
-const length = pts => pts.reduce((s, p, i) => (i ? s + Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]) : 0), 0);
 
 export function mapLines(root, { check }) {
   const { toMap } = openProjection(root);
@@ -43,10 +60,9 @@ export function mapLines(root, { check }) {
       .map(f => simplify(f.geometry.coordinates.map(toMap), SIMPLIFY)).filter(p => p.length > 1);
     check(parts.length > 0, `data/raw/osm_lines_ODbL.geojson has no river named "${name}".`);
     if (!parts.length) continue;
-    /* the name runs along the longest part, left to right so it never reads upside down */
-    const longest = parts.reduce((a, b) => (length(b) > length(a) ? b : a));
-    const label = longest[0][0] > longest[longest.length - 1][0] ? [...longest].reverse() : longest;
-    rivers.push({ n: name, w, d: parts.map(pathOf), label: pathOf(label) });
+    /* the name is straight text on the straightest long stretch of the river (phase 4, B2) */
+    const label = parts.map(p => straightest(p)).reduce((a, b) => (b.len > a.len ? b : a));
+    rivers.push({ n: name, w, d: parts.map(pathOf), label });
   }
   const rail = osm.features.filter(f => f.properties.kind === 'rail' && f.properties.usage === 'main')
     .map(f => simplify(f.geometry.coordinates.map(toMap), SIMPLIFY)).filter(p => p.length > 1).map(pathOf);
