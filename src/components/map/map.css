@@ -121,7 +121,8 @@
   padding: 2px 6px 2px 2px; border-radius: var(--radius-s); background: var(--surface); color: var(--text);
   font: var(--weight-strong) 13px/1.2 var(--font-latin);
 }
-.k-tmap__glyphs { display: flex; gap: 3px; transform: translate(-50%, calc(var(--fs) * var(--k) * .7px)); }
+/* --gdy: how far under the name's middle its lower edge lies, in the name's size; worked out after each move */
+.k-tmap__glyphs { display: flex; gap: 3px; transform: translate(-50%, calc(var(--fs) * var(--k) * var(--gdy, .7) * 1px)); }
 .k-tmap__glyph {
   position: relative; width: 26px; height: 26px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer;
   border-radius: 6px; background: var(--glyph-bg); color: var(--glyph-ink); box-shadow: var(--shadow-1); pointer-events: auto;
@@ -132,7 +133,7 @@
 /* the name of what a symbol stands for, after a tap */
 .k-tmap__tip {
   position: absolute; left: calc((var(--tx) + var(--x) * var(--k)) * 1px); top: calc((var(--ty) + var(--y) * var(--k)) * 1px);
-  transform: translate(-50%, calc(var(--fs) * var(--k) * .7px + 34px)); z-index: 3;
+  transform: translate(-50%, calc(var(--fs) * var(--k) * var(--gdy, .7) * 1px + 34px)); z-index: 3;
   display: grid; gap: 2px; max-width: 240px; padding: 8px 10px; border-radius: var(--radius-m);
   background: var(--surface-raised); color: var(--text); box-shadow: var(--shadow-2);
   font: var(--weight-regular) 15px/1.35 var(--font-latin);
