@@ -1,0 +1,25 @@
+---
+/* A document page (phase 4 polish, step 1): /feasts/, /meanings/, /contributors/, /privacy/. The Khoim wordmark
+   linking home, "Back to the map", the page, and the credit line. */
+import Base from './Base.astro';
+import { Credit } from '../components/core/Credit';
+import { Icon } from '../components/core/Icon';
+import { Wordmark } from '../components/core/Wordmark';
+import '../styles/doc.css';
+
+interface Props { title: string; description: string; path: string; noindex?: boolean }
+const { title, description, path, noindex = false } = Astro.props;
+---
+
+<Base title={title} description={description} path={path} noindex={noindex}>
+  <div class="doc">
+    <header class="doc__head">
+      <a class="doc__home" href="/"><Wordmark size={22} suffix="All of Goa" /></a>
+      <a class="doc__back" href="/"><Icon name="arrow-left" size={18} />Back to the map</a>
+    </header>
+    <main class="doc__main">
+      <slot />
+    </main>
+    <footer class="doc__foot"><Credit /></footer>
+  </div>
+</Base>

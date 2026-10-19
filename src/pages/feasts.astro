@@ -6,29 +6,27 @@
      date; a rule that names months only ("October", from the Gazetteer's "Fs-Oct") under each of them.
    - A lunar date goes under "Lunar date, moves each year", with the rule as its source gives it, never a day.
    - The page is built in month order from the build's month; a small script puts this month first for the reader. */
-import Base from '../layouts/Base.astro';
-import { Credit } from '../components/core/Credit';
-import { Wordmark } from '../components/core/Wordmark';
+import DocPage from '../layouts/DocPage.astro';
+import DocEntry from '../components/static/DocEntry.astro';
 import villagesJson from '../data/generated/villages.json';
 import factsJson from '../data/generated/village-facts.json';
 import { getPlace, pathOf, registerVillages } from '../data/khoim';
 import { nextFeastDate } from '../lib/feasts';
 import type { KnownForItem, RawVillage, VillageFacts } from '../data/types';
-import '../styles/static.css';
 
 registerVillages(villagesJson as unknown as RawVillage[]);
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const FEAST = new Set(['zatra', 'feast', 'festival', 'parish']);
-type Entry = { item: KnownForItem; href: string; where: string };
+type Entry = { item: KnownForItem; href: string; village: string; taluka: string };
 const today = new Date();
 const byMonth: Entry[][] = MONTHS.map(() => []), lunar: Entry[] = [], other: Entry[] = [], undated: Entry[] = [];
 for (const [id, f] of Object.entries(factsJson as unknown as Record<string, VillageFacts>)) {
   const p = getPlace(id);
   if (!p) continue;
-  const where = `${p.official}, ${getPlace(p.parent)?.official ?? ''}`;
+  const village = p.official, taluka = getPlace(p.parent)?.official ?? '';
   for (const item of f.knownFor ?? []) {
     if (!FEAST.has(item.kind)) continue;
-    const e = { item, href: pathOf(p), where };
+    const e = { item, href: pathOf(p), village, taluka };
     /* a feast its source names without a date; a parish with no feast day on file is not a feast here */
     if (!item.whenText) { if (item.kind !== 'parish') undated.push(e); continue; }
     const w = item.when;
@@ -38,7 +36,7 @@ for (const [id, f] of Object.entries(factsJson as unknown as Record<string, Vill
     else { const d = nextFeastDate(w, today); if (d) byMonth[d.getMonth()].push(e); else other.push(e); }
   }
 }
-const byName = (a: Entry, b: Entry) => a.item.title.localeCompare(b.item.title) || a.where.localeCompare(b.where);
+const byName = (a: Entry, b: Entry) => a.item.title.localeCompare(b.item.title) || a.village.localeCompare(b.village);
 byMonth.forEach(l => l.sort(byName)); other.sort(byName); undated.sort(byName);
 /* lunar dates in the order of the lunar year as the months fall, then by name */
 lunar.sort((a, b) => ((a.item.when as { months: number[] }).months[0] - (b.item.when as { months: number[] }).months[0]) || byName(a, b));
@@ -47,61 +45,63 @@ const order = MONTHS.map((_, i) => (today.getMonth() + i) % 12);
 const total = new Set([...byMonth.flat(), ...lunar, ...other, ...undated].map(e => e.item)).size;
 ---
 
-<Base title="Feasts and zatras of Goa, by month | Khoim" description="Every feast, zatra and parish feast on Khoim, month by month, each with its village and the source of its date." path="/feasts/">
-  <div class="doc">
-    <header class="doc__head">
-      <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
-    </header>
-    <main class="doc__main">
-      {/* TODO(copy): title, intro and section headings on this page */}
+<DocPage title="Feasts and zatras of Goa, by month | Khoim" description="Every feast, zatra and parish feast on Khoim, month by month, each with its village and the source of its date." path="/feasts/">
       <h1>Feasts and zatras, by month</h1>
-      <p>{total} feasts, zatras and parish feasts, each with its village. A date that moves with the moon is listed with its lunar month, as its source gives it. Most come from the Gazetteer of 1979 and the parish directories; each village's page says where.</p>
+      <p>{total} feasts, zatras and parish feasts, each with its village. A date that follows the moon is listed under its lunar month, as the source gives it.</p>
+      {/* the months as buttons that jump to each, this month first */}
+      <ul class="doc-jump" id="month-jump">
+        {order.map((m, i) => <li data-month={m}><a href={'#' + MONTHS[m].toLowerCase()} aria-current={i === 0 ? 'true' : undefined}>{MONTHS[m]}</a></li>)}
+        <li><a href="#lunar">Lunar date, moves each year</a></li>
+      </ul>
       <div id="months">
         {order.map(m => (
-          <section data-month={m}>
+          <section data-month={m} id={MONTHS[m].toLowerCase()}>
             <h2>{MONTHS[m]}</h2>
             {byMonth[m].length ? (
-              <ul class="doc__list">
-                {byMonth[m].map(e => <li><a href={e.href}>{e.item.title}</a>, {e.where}. {e.item.whenText}. <span class="doc__meta">{e.item.source}</span></li>)}
+              <ul class="doc-entries">
+                {byMonth[m].map(e => <DocEntry name={e.item.title} href={e.href} village={e.village} after={`, ${e.taluka}. ${e.item.whenText}.`} source={e.item.source} />)}
               </ul>
             ) : <p>None on file yet.</p>}
           </section>
         ))}
       </div>
-      <section>
+      <section id="lunar">
         <h2>Lunar date, moves each year</h2>
-        <ul class="doc__list">
-          {lunar.map(e => <li><a href={e.href}>{e.item.title}</a>, {e.where}. {e.item.whenText}. <span class="doc__meta">{e.item.source}</span></li>)}
+        <ul class="doc-entries">
+          {lunar.map(e => <DocEntry name={e.item.title} href={e.href} village={e.village} after={`, ${e.taluka}. ${e.item.whenText}.`} source={e.item.source} />)}
         </ul>
       </section>
       {other.length > 0 && (
         <section>
           <h2>Date as the source gives it</h2>
-          <ul class="doc__list">
-            {other.map(e => <li><a href={e.href}>{e.item.title}</a>, {e.where}. {e.item.whenText}. <span class="doc__meta">{e.item.source}</span></li>)}
+          <ul class="doc-entries">
+            {other.map(e => <DocEntry name={e.item.title} href={e.href} village={e.village} after={`, ${e.taluka}. ${e.item.whenText}.`} source={e.item.source} />)}
           </ul>
         </section>
       )}
       {undated.length > 0 && (
         <section>
           <h2>Date not on file yet</h2>
-          <ul class="doc__list">
-            {undated.map(e => <li><a href={e.href}>{e.item.title}</a>, {e.where}. <span class="doc__meta">{e.item.source}</span></li>)}
+          <ul class="doc-entries">
+            {undated.map(e => <DocEntry name={e.item.title} href={e.href} village={e.village} after={`, ${e.taluka}.`} source={e.item.source} />)}
           </ul>
         </section>
       )}
       <p><a href="/meanings/">What the names mean, A to Z</a></p>
-    </main>
-    <footer class="doc__foot"><Credit /></footer>
-  </div>
-</Base>
+    </DocPage>
 
 <script>
-  /* this month first, for the reader's own date */
-  const box = document.getElementById('months');
-  if (box) {
-    const now = new Date().getMonth();
-    const parts = [...box.querySelectorAll<HTMLElement>('section[data-month]')];
-    parts.sort((a, b) => ((Number(a.dataset.month) - now + 12) % 12) - ((Number(b.dataset.month) - now + 12) % 12)).forEach(s => box.appendChild(s));
+  /* this month first, for the reader's own date: the sections and the month buttons */
+  const now = new Date().getMonth();
+  const rank = (el: HTMLElement) => (Number(el.dataset.month) - now + 12) % 12;
+  for (const id of ['months', 'month-jump']) {
+    const box = document.getElementById(id);
+    if (!box) continue;
+    const parts = [...box.querySelectorAll<HTMLElement>(':scope > [data-month]')];
+    const rest = [...box.children].filter(c => !(c as HTMLElement).dataset.month);
+    parts.sort((a, b) => rank(a) - rank(b)).forEach(s => box.appendChild(s));
+    rest.forEach(r => box.appendChild(r));
+    box.querySelectorAll('a[aria-current]').forEach(a => a.removeAttribute('aria-current'));
+    box.querySelector(`[data-month="${now}"] a`)?.setAttribute('aria-current', 'true');
   }
 </script>
