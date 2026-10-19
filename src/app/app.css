@@ -126,10 +126,16 @@ html[data-app="ready"] #khoim-static { display: none; }
 .k-desktop-card--village { background: var(--surface-raised); color: var(--text); padding: 10px 14px; }
 
 /* above the OpenStreetMap credit and the zoom buttons */
-.k-desktop-hint { position: absolute; left: calc(14px + 420px + 14px); right: 14px; bottom: 78px; margin: 0 auto; width: max-content; z-index: 3; }
+.k-desktop-hint { position: absolute; left: calc(14px + 420px + 14px); right: 14px; bottom: 14px; margin: 0 auto; width: max-content; z-index: 3; }
 .k-desktop-credit { position: absolute; left: 14px; bottom: 14px; width: 420px; z-index: 2; }
 .k-desktop-credit .k-credit { padding: 6px 10px; border-radius: var(--radius-s); background: var(--surface); }
 .k-desktop-credit .k-credit p { margin: 0; font-size: 14px; line-height: 1.4; }
+.k-desktop-credit { display: grid; gap: 6px; justify-items: start; }
+/* OpenStreetMap's credit, off the map: in the phone's bar and under the desktop credit */
+.k-osm-credit {
+  display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 10px; border-radius: var(--radius-m);
+  background: var(--surface); color: var(--text); font: var(--weight-regular) 13px/1.4 var(--font-latin); pointer-events: auto;
+}
 
 /* The address, shown when an email link was pressed but no mail app opened. Sits above everything. */
 .k-mail-note { position: absolute; left: 16px; right: 16px; bottom: 20px; z-index: var(--z-banner); display: grid; justify-items: center; pointer-events: none; }
