@@ -32,7 +32,7 @@ interface State {
   query: string;
   more: boolean;
   /** The contribution form: which place it is about and which choice is ticked. Null when closed. */
-  form: { placeId: string; kind: ContributionKind | null } | null;
+  form: { placeId: string; kind: ContributionKind | ContributionKind[] | null } | null;
   layer: string;
   /** The taluka's villages as a list, over the map. Only inside a taluka. */
   list: boolean;
@@ -143,9 +143,10 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
       loadMapLines().then(l => { if (live) setMapLines(l); });
       /* for the symbols of what each village is known for, at village zoom */
       loadVillageFacts().then(() => { if (live) setFactsLoaded(true); });
-      loadContribConfig().then(c => { if (live) setContrib(c); });
       loadLive().then(l => { if (live) setLiveData(l); });
     };
+    /* whether the form is open, straight away: the ask on a village sheet needs to know before the first tap (B4) */
+    loadContribConfig().then(c => { if (live) setContrib(c); });
     const idle = window.requestIdleCallback ? window.requestIdleCallback(run, { timeout: 2500 }) : window.setTimeout(run, 1200);
     return () => {
       live = false;
@@ -280,7 +281,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     live: liveData ?? NO_LIVE, litLayer, layerCounts,
     marks: litLayer && liveData ? liveData.marks(litLayer.id) : null,
     /* the form takes the place of About if it was opened from there */
-    openForm: (placeId: string, kind: ContributionKind | null = null) => up({ more: false, form: { placeId, kind } }),
+    openForm: (placeId: string, kind: ContributionKind | ContributionKind[] | null = null) => up({ more: false, form: { placeId, kind } }),
     closeForm: closeOverlay,
     setScript: (v: Script) => { setScriptRaw(v); try { localStorage.setItem(SCRIPT_KEY, v); } catch { /* private mode: the choice lasts for this visit */ } },
     setHot: (hot: string | null) => up({ hot }),

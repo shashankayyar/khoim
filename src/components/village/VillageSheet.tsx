@@ -75,7 +75,7 @@ export interface VillageSheetProps {
   headingLevel?: 1 | 2 | 3;
   onClose?: () => void;
   /** Opens the contribution form. Without it the ask and the correction open an email. */
-  onTell?: (kind?: ContributionKind) => void;
+  onTell?: (kind?: ContributionKind | ContributionKind[]) => void;
   /** A neighbour's button: open it and move the map there. */
   onPick?: (id: string) => void;
   onShare?: () => void;
@@ -128,7 +128,8 @@ export function VillageSheet({ place: p, script, outline, facts = null, live = [
         {(!p.deva || !p.romi) && (
           <>
             {onTell
-              ? <button type="button" className="k-vsheet__ask" onClick={() => onTell()}>{ask(p.official)}</button>
+              /* the form, with the name and the recorder ready (phase 4, B4); email only when the form is closed */
+              ? <button type="button" className="k-vsheet__ask" onClick={() => onTell(['name', 'voice'])}>{ask(p.official)}</button>
               : <a className="k-vsheet__ask" href={tellUsNameHref(mail)}>{ask(p.official)}</a>}
             {!onTell && <WriteTo />}
           </>
@@ -139,9 +140,10 @@ export function VillageSheet({ place: p, script, outline, facts = null, live = [
         {facts?.meaning && <><Rule /><Block level={sub} label="Meaning"><MeaningBlock meaning={facts.meaning} /></Block></>}
         {facts?.spellings && <><Rule /><Block level={sub} label="Spellings"><SpellingTimeline spellings={facts.spellings} /></Block></>}
         {facts?.vaddos && <><Rule /><Block level={sub} label="Vaddos"><VaddoList vaddos={facts.vaddos} /></Block></>}
-        {p.km && <><Rule /><Block level={sub} label="Facts"><FactsGrid place={p} /></Block></>}
         {facts?.knownFor && <><Rule /><Block level={sub} label="Known for"><KnownFor items={facts.knownFor} today={today} /></Block></>}
         {facts?.videos && <><Rule /><Block level={sub} label="Video"><Videos videos={facts.videos} plain={plain} /></Block></>}
+        {/* the distances last: the facts with more to say come first (phase 4, B4) */}
+        {p.km && <><Rule /><Block level={sub} label="Facts"><FactsGrid place={p} /></Block></>}
         {nbs.length > 0 && (
           <>
             <Rule />
