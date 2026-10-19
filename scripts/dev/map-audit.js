@@ -5,7 +5,7 @@
    - cover(): the things that sit over the map (the header, panels, banner, hint, credit, zoom buttons, the sheet),
      and how many of them cover land. Checked on a grid of points inside each one, against Goa's own outline.
    - whole(): whether all of Goa is inside the map's free space.
-   - under(): every name, symbol, station or tile drawn under a piece of the page over the map (the header and its
+   - under(): every name, symbol, station or tile drawn under a piece of the page over the map (the draft banner, the header and its
      pills, the breadcrumb, Show, the zoom buttons, the key, the sheet or panel). Empty means it passes.
    - free(): the share of the screen that shows map nothing covers (at least 45% on a phone with a village open).
 
@@ -100,7 +100,7 @@ export function free() {
 
 /** Names, symbols, stations and tiles under the page's own pieces over the map (phase 4 polish, step 2). A piece
     counts where it is drawn solid: its own background, or a child's. */
-const OVER = ['.k-phone-header', '.k-phone-bar', '.k-desktop-panel', '.k-desktop-dock', '.k-sheet', '.k-desktop-credit', '.k-desktop-hint', '.k-tmap__zoom', '.k-tmap__legend', '.k-key', '.k-tmap__credit'];
+const OVER = ['.k-draft-banner', '.k-phone-header', '.k-phone-bar', '.k-desktop-panel', '.k-desktop-dock', '.k-sheet', '.k-desktop-credit', '.k-desktop-hint', '.k-tmap__zoom', '.k-tmap__legend', '.k-key', '.k-tmap__credit'];
 export function under() {
   const solid = e => { const s = getComputedStyle(e); if (s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.05) return false; const m = s.backgroundColor.match(/rgba?\(([^)]+)\)/); const a = m ? Number(m[1].split(/[,\s/]+/).filter(Boolean)[3] ?? 1) : 0; return a > 0.5 || s.boxShadow !== 'none'; };
   const boxes = [];
