@@ -511,3 +511,71 @@ Every village name reads at 4.5:1 or more on its own tint. The deepened light in
 
 ## New wording waiting for approval
 "Zoom in" and "Zoom out" (the + and - buttons, read by screen readers), and "Map views" as the name of the view row. Everything else on screen is the approved wording in `docs/phase3-brief.md`, listed in `docs/copy.md`.
+
+---
+
+# Phase 4: fill the map, then fix it (live on khoim.in since 19 Oct 2026)
+
+This section describes what is live. **Where it differs from the phases above, phase 4 wins.** The brief is `docs/phase4-brief.md`. As in phase 3, the live code in `src/` is the reference; `ui_kits/khoim/` and most `.jsx` files still show phase 2.
+
+## Decisions (Shashank, 19 October 2026)
+1. **The site opens in Official**, the spelling on signboards and in documents. A visitor's own choice is still saved (`khoim-script`).
+2. **Gazetteer Devanagari stays off the map.** Phase 2 rule 6 is unchanged: village sheet only, "Needs review".
+3. **One control for what the map shows**: "Show" (below).
+
+## The data behind the map (Part A)
+- **Gazetteer spellings** for 298 villages, read twice (by eye and by OCR) from the 1979 Gazetteer's spelling list, pp. 997 to 1007; only values both readings agree on. Disagreements, with crops of each line: `docs/gazetteer-disagreements.md`.
+- **326 feasts, zatras and parish feasts** (`data/credited/feasts.csv`, `parishes.csv`), from the Gazetteer's Directory of Villages and Places of Interest chapter and the Archdiocese and UCA News parish lists, each rule as its source states it.
+- **128 landmarks on 72 villages** (`monuments.csv`): ASI and State protected monuments, and the temples, churches, forts, springs and waterfalls the Gazetteer names.
+- **Towns** (LGD codes starting with 9, matched town outlines, Municipal Council outlines) read "Town in {taluka}" and "town" in titles.
+- **Other spellings for search** (Panjim, Pangim, Vasco da Gama, Madgaon, Dicholi): OpenStreetMap's Latin `alt_name`, `old_name`, `name_pt`, `name_en` (credited on the result), the Gazetteer's agreed spellings and Dr Luis's.
+- **Review batch 1** (`docs/review-batch-1.csv`): every source's form of each village name on one row, for one reviewer to settle many names in one sitting. Nothing in it shows on the site until reviewed.
+
+## The map (`src/components/map/GoaMap.tsx`, `map.css`)
+Changes to the phase 3 map:
+- **All of Goa** is the whole map plane (0,0 to 1000,1419.2). At the all-Goa view nothing covers land at any width from 360 to 1920: the OpenStreetMap credit moves off the map (into the phone's bottom bar, and under the desktop credit) and comes back over the map only with a card open; the desktop hint has its own room.
+- **Zoom limits:** out to all of Goa (1×), in until a typical village (the median outline) fills about 60% of the map's shorter side. An open village is framed at 60% too. The map's transform is also rendered, so a redraw can never drop it to the unzoomed plane.
+- **Zoom buttons** sit left of the desktop's docked card (`--map-inset-right`), never under it.
+- **A village with no outline** (Sirigao) frames and outlines its taluka; its sheet says "The outline is not available yet."
+- **No two names overlap, at any zoom.** After each move the map ranks every name that would show: the open village (always shown), its neighbours, taluka names while they show (a taluka name fading out gives way), village names by size on screen (reviewed names before official spellings), river names, stations, then the symbols under names. A name that would overlap one ranked above it is hidden (`is-culled`). `scripts/dev/map-audit.js` checks this.
+- **River names are straight text** on each river's straightest stretch (worked out at build time: the longest chord its points stay within 2.2 map units of), 13px, shown past 2.2× the Goa view and only where the stretch is longer than the name. Light-mode ink deepened to `#1F4E60` (8.3:1, AAA).
+- **Symbols are named on tap.** At village zoom, tapping a symbol shows a small label with the village and what the symbol stands for there. A **legend** at the top left of the map's free space lists the symbols and stations in view.
+
+## Show (`src/components/layers/ShowControl.tsx`, `src/lib/layers.ts`)
+Replaces the phase 3 view row and the Layers list in About.
+- Choices: **Names**, **Spelling endings**, then **Feasts and zatras**, **Landmarks**, **Voices**, **Crops**, **Food**, **Music**, each with its count, offered only with **10 or more entries**. Today: Feasts and zatras 326, Landmarks 128.
+- **Desktop:** the segmented row, wrapping (never scrolling), with the word "Show" in front. **Phone:** one row, "Show" and the phone's own list, so the map keeps its room.
+- **Still unwritten is gone.** In देवनागरी or Romi, the Names view fills villages with a reviewed name in that script with `--map-written` (names `--map-written-text`) and the rest `--map-quiet`, with the legend "written in Konkani, {n}" / "not yet, {384-n}". Switching script plainly changes the whole map. Old `?layer=need` links open Names.
+- **Feasts and zatras** and **Landmarks** fill villages that have one on file with `--map-view-on`; legend and line say how many. Choosing Landmarks also shows landmarks people sent, as tiles.
+- **Spelling endings** adds a line per ending from a source in `data/credited/endings.csv` (Dr Luis, with his caution and a link): -im, -gao, -ora. **-em and -ona have no line**: no source explains them.
+- Under Feasts and zatras: "All feasts and zatras, by month" (`/feasts/`). Under Spelling endings: "What the names mean, A to Z" (`/meanings/`).
+- About keeps the about text, credits and how to help; it no longer has layers. The header's layers button is now an About button (info icon, "About Khoim").
+
+## The village sheet
+- **The ask** opens the contribution form for the village with the name and **the recorder** ready, whenever `/api/config` says the form is open (asked as the page opens). Email only when it is off.
+- **Spellings:** a form two sources share shows once, "Government spelling and Survey of India spelling".
+- **Distances** to Panaji and Margao come last, after Meaning, Spellings, Known for and Video.
+- A feast whose rule names no month shows its rule as written, with no month strip.
+- **Desktop:** with a place open the panel keeps the breadcrumb and controls and drops the headline and count line.
+
+## Findable without the map
+- **Search** also finds feasts and zatras, parishes, landmarks and rivers, each saying what and where ("Lairai jatra · Feast in Sirigao, Bicholim"; "Mandovi · River in Bicholim and Tiswadi"), and other spellings ("Panaji · … · Also written Panjim (© OpenStreetMap contributors)"). Spaces do not count (Dudhsagar finds Dudh Sagar).
+- **`/feasts/`**: by month, this month first; lunar dates under "Lunar date, moves each year" with the rule as the source gives it. **`/meanings/`**: A to Z. Both in the sitemap, linked from About and from Show.
+
+## Google
+- A village or town page is indexable with **one** sourced fact beyond its official name (meaning, feast, parish, landmark, product, video, vaddo list, or a Gazetteer spelling differing from the official one): 332 of 454.
+- Titles and descriptions name the meaning or main feast: "Sirigao, Bicholim, Goa: Lairai jatra and village facts | Khoim".
+- The sitemap's date for a village is the last change to its own rows (LGD list, credited files, Gazetteer columns).
+
+## Tokens
+`tokens/typemap.css`: `--map-water-text` light is now `#1F4E60` (was `#2F6478`, 6.0:1). Everything else unchanged; Feasts and zatras and Landmarks reuse `--map-view-on`, the script view reuses `--map-written`.
+
+## New wording waiting for approval
+All marked `TODO(copy)` in `src/`:
+- **Show:** "Show"; counts beside choices; "{n} of 384 villages have a feast or zatra on file. Tap one to see when."; "{n} of 384 villages have a temple, church, fort or other landmark on file."; legends "feast or zatra on file, {n}", "landmark on file, {n}", "not yet, {n}"; links "All feasts and zatras, by month", "What the names mean, A to Z".
+- **Map legend:** "Church or church feast", "Zatra, fair or festival", "Festival on the water", "Temple, mosque or monument", "Fort", "Spring or waterfall", "GI product", "Railway station".
+- **Search:** "Feast / Parish / Landmark / River in {where}"; "{n} places and {m} other matches"; "Also written {spelling} ({source})".
+- **Towns:** "Town", "Town in {taluka}", "is a town in", "town facts".
+- **Endings:** the frame "In {village}, … ({caution}). {credit}, {date}."
+- **Titles:** "name meaning and village facts", "{feast} and village facts"; descriptions "The name: {reading}." and "Known for {feast}, {date}."
+- **Pages:** /feasts/ and /meanings/ titles, intros and section headings; About's links to them.

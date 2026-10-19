@@ -43,6 +43,13 @@ Rules: text is never set at reduced opacity. Hierarchy comes from size and weigh
 - Switching view never moves the map or the focus. Reduced motion: the map jumps to a place instead of gliding.
 - `scripts/dev/contrast-audit.js` (outside `design/`) walks the phase 3 screens; it skips the map's own SVG names, checked above.
 
+## Phase 4
+- No two names on the map overlap at any zoom; the less important one is hidden. `scripts/dev/map-audit.js` (outside `design/`) checks overlaps, chrome over land at the all-Goa view, and whether all of Goa is in view.
+- River names now meet AAA: `--map-water-text` light #1F4E60 (8.3:1 on the page colour), dark #8EC3D6 (9.7:1).
+- "Show" is a radio group named "Show" on desktop and a labelled native select on phones, both 44px.
+- Map symbols are buttons (44px touch area around a 26px tile) that show their name on tap; they are left out of the tab order because the village sheet lists the same things as text. The legend of symbols uses the page colour and `--text`.
+- `scripts/dev/contrast-audit.js` now walks each Show choice, the three scripts, Sirigao's sheet and the symbols' legend: no problems on 24 screens, phone and desktop, light and dark (19 Oct 2026).
+
 ## To test in build
 - TalkBack on a low-end Android with Chrome, VoiceOver on iOS Safari; check Devanagari is read with a Marathi/Hindi voice when no Konkani voice exists.
 - 200% text zoom: the sheet scrolls; nothing is clipped.
