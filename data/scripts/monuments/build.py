@@ -17,7 +17,7 @@ the same taluka (the Gazetteer's 1979 talukas include today's Dharbandora), or, 
 only LGD village of that name in the district. "Tambdi Surla" is Surla, Dharbandora (626974), as Shashank decided on
 16 October 2026 (docs/phase2-decisions.md). The ASI's Old Goa is Ella, Tiswadi (626714), as Shashank decided on
 19 October 2026 (docs/phase4-polish-brief.md, step 4): Old Goa is not an LGD village, and the State's own list files its
-monuments under Ella. Everything else stays without a code, with the reason.
+monuments under Ella. The Gazetteer's Old Goa landmarks go there too (Shashank, 19 October 2026). Everything else stays without a code, with the reason.
 
 Run from the repository root: python3 data/scripts/monuments/build.py
 """
@@ -84,8 +84,10 @@ for r in csv.DictReader(open('data/gazetteer/places_of_interest_landmarks_1979.c
     abbr = taluka_of.get(key(head))
     v = in_talukas(head, ABBR[abbr]) if abbr else None
     if head == 'Surla': v = next(x for x in lgd if x['lgd_code'] == '626974')
+    if head == 'Old Goa': v = next(x for x in lgd if x['lgd_code'] == '626714')
     add(r['name'], r['type'], head, v, '', 'Gazetteer 1979, Part 1, Places of Interest', GAZ_URL, r['page'],
-        'Old Goa is not an LGD village' if head == 'Old Goa' else f'no LGD village spelt "{head}" in the 1979 taluka')
+        f'no LGD village spelt "{head}" in the 1979 taluka',
+        matched='Old Goa lies in Ella; the State list files it there' if head == 'Old Goa' else '')
 
 # 4. Directory of Villages: named ones only
 GENERIC = {'fort', 'fountain', 'lake', 'spring'}
@@ -97,14 +99,15 @@ for r in csv.DictReader(open('data/gazetteer/directory_facts_1979.tsv'), delimit
 
 # one row per landmark: same village, and the same distinctive words once generic ones are set aside
 STOP = r'\b(the|of|at|and|shri|shree|sri|temple|tl|mandir|church|chapel|fort|fortress|site|ruins|devasthan|saunsthan|caves?|st|nossa|senhora|our|lady)\b'
-core = lambda n: key(re.sub(STOP, ' ', n.lower()))
+# the same landmark under two names, one per source
+SAME_AS = {key('The Viceroy’s Arch'): 'Arch of Viceroy'}
+core = lambda n: key(re.sub(STOP, ' ', SAME_AS.get(key(n), n).lower()))
 import difflib
 seen, out = {}, []
 def same(a, b):  # "Mahalakshmi" and "Mahalaximi": the same name in two spellings of the same book
     return a == b or (min(len(a), len(b)) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.75)
-OLD_GOA = '626714'  # Ella: the Gazetteer's own Old Goa entries still join the ASI's, now filed there
 for r in rows:
-    k = (r['village_code'] or (OLD_GOA if r['village'] == 'Old Goa' else key(r['village'])), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
+    k = (r['village_code'] or key(r['village']), core(r['name']), r['type'] if r['type'] in ('cave', 'fort') else '')
     hit = next((x for x in seen if x[0] == k[0] and x[2] == k[2] and k[1] and same(x[1], k[1])), None)
     if hit:
         first = seen[hit]
