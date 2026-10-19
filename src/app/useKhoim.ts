@@ -199,6 +199,14 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', SITE + path);
   }, [s.focus, s.selected, s.snap, s.query, s.search, overlay, desktop, place, listOpen, s.mapLayer]);
+  /* A village's title names its meaning or main feast (phase 4, B7): set it again once its facts have loaded, so the
+     app's title matches the page Google reads. */
+  useEffect(() => {
+    if (!factsLoaded || listOpen || place?.level !== 'village') return;
+    const meta = pageMeta(place);
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+  }, [factsLoaded, place, listOpen]);
 
   /* The browser's back and forward buttons. */
   useEffect(() => {
