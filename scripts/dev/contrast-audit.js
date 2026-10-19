@@ -9,7 +9,8 @@
      1. npm run build, then copy this file into dist/ as __audit.js, then npm run preview.
      2. Open the site at phone size (390 wide) and at desktop size (1280 wide), in light and in dark.
      3. In the browser console:  (await import('/__audit.js')).tour().then(console.log)
-   An empty "problems" and "small" list for every screen means it passes. */
+   An empty "problems" and "small" list for every screen means it passes.
+   The document pages are separate pages: open each and run  (await import('/__audit.js')).page()  (phase 4 polish). */
 const parse = c => { const m = c && c.match(/rgba?\(([^)]+)\)/); if (m) { const p = m[1].split(/[,\s/]+/).filter(Boolean).map(Number); return [p[0], p[1], p[2], p[3] ?? 1]; } return null; };
 const lum = ([r, g, b]) => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
 const ratio = (a, b) => { const l1 = lum(a), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); };
@@ -65,6 +66,12 @@ const q = s => document.querySelector(s);
 const byText = (sel, t) => [...document.querySelectorAll(sel)].find(e => e.textContent.trim().startsWith(t));
 /* Opens a page the way a link inside the app would: the address changes and the app follows it. */
 const go = async (path, ms = 1800) => { history.pushState(null, '', path); dispatchEvent(new PopStateEvent('popstate')); await wait(ms); };
+/** A document page (/feasts/, /meanings/, /contributors/, /privacy/): every piece of text and every target. */
+export function page() {
+  const c = contrast(document.body);
+  return { checked: c.checked, problems: c.problems, small: targets(document.body) };
+}
+
 export async function tour() {
   const still = document.createElement('style'); still.textContent = '*,*::before,*::after{transition:none!important;animation:none!important}'; document.head.appendChild(still);
   const res = {}; const app = () => q('.k-app');

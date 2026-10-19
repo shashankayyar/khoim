@@ -1,18 +1,10 @@
 ---
 /* Privacy notice. Wording from docs/collaboration-plan.md, section 5c. */
-import Base from '../layouts/Base.astro';
-import { Credit } from '../components/core/Credit';
-import { Wordmark } from '../components/core/Wordmark';
+import DocPage from '../layouts/DocPage.astro';
 import { CONTACT_EMAIL } from '../data/site';
-import '../styles/static.css';
 ---
 
-<Base title="Privacy notice | Khoim" description="What Khoim collects when you visit or contribute, why, who sees it, and how to have it corrected or removed." path="/privacy/">
-  <div class="doc">
-    <header class="doc__head">
-      <a class="static__wordmark" href="/"><Wordmark size={22} /></a>
-    </header>
-    <main class="doc__main">
+<DocPage title="Privacy notice | Khoim" description="What Khoim collects when you visit or contribute, why, who sees it, and how to have it corrected or removed." path="/privacy/">
       <h1>Privacy notice</h1>
       <p class="doc__meta">4 October 2026. This notice is a draft, like the rest of the site.</p>
 
@@ -42,18 +34,5 @@ import '../styles/static.css';
 
       <h2>Children</h2>
       <p>Khoim takes contributions only from people aged 18 or older.</p>
-    </main>
-    <footer class="doc__foot"><Credit /></footer>
-  </div>
-</Base>
+    </DocPage>
 
-<style>
-  .doc { max-width: 720px; margin: 0 auto; }
-  .doc__head { padding: 14px 16px 0; }
-  .doc__main { padding: 8px var(--gutter) 24px; }
-  .doc__main h1 { margin: 16px 0 4px; font: var(--weight-strong) 40px/1.15 var(--font-latin); letter-spacing: var(--track-title); }
-  .doc__meta { margin: 0 0 8px; color: var(--text-2); font: var(--weight-regular) var(--size-small)/1.5 var(--font-latin); }
-  .doc__main h2 { margin: 28px 0 6px; font: var(--weight-strong) 24px/1.25 var(--font-latin); }
-  .doc__main p { margin: 0 0 12px; max-width: 60ch; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); text-wrap: pretty; }
-  .doc__foot { padding: var(--space-6) var(--gutter) var(--space-10); border-top: 1px solid var(--line); margin: 0 var(--gutter); padding-inline: 0; }
-</style>
