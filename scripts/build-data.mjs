@@ -297,6 +297,14 @@ write('places.json', places);
 write('geo-base.json', geoBase);
 write('villages.json', villages);
 write('village-facts.json', facts);
+/* How many entries the "Show" control's data options hold (phase 4, B3): an option appears only with 10 or more. */
+{
+  const items = Object.values(facts).flatMap(f => f.knownFor ?? []);
+  write('show-counts.json', {
+    feasts: items.filter(i => ['zatra', 'feast', 'festival'].includes(i.kind) || (i.kind === 'parish' && i.when)).length,
+    landmarks: items.filter(i => i.kind === 'landmark').length
+  });
+}
 for (const t of talukas) write(`village-paths/${t.id}.json`, paths[t.id]);
 
 /* Rivers, railway and stations for the map (OpenStreetMap and Wikidata). */

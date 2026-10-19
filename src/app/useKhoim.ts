@@ -16,7 +16,7 @@ import { pageMeta } from '../data/seo';
 import type { Place, RawVillage, Script } from '../data/types';
 import { loadContribConfig, type ContribConfig, type ContributionKind } from '../lib/contribute';
 import { LIVE_LAYERS, NO_LIVE, loadLive, type Live } from '../lib/live';
-import { NAMES_LAYER, layerFromQuery, layerHeadline, layerQuery, mappedVillages, type MapLayer } from '../lib/layers';
+import { NAMES_LAYER, isColoured, layerFromQuery, layerHeadline, layerQuery, layerWith, mappedVillages, type MapLayer, type MapLayerId } from '../lib/layers';
 
 export type Snap = 'peek' | 'full';
 type Overlay = 'search' | 'more' | 'form' | 'list' | null;
@@ -155,6 +155,8 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
 
   const focusPlace = getPlace(s.focus), selectedPlace = getPlace(s.selected);
   const layered = s.mapLayer.id !== 'names';
+  /* the map colours for meaning: a view other than Names, or Names in Devanagari or Romi (phase 4, B3) */
+  const coloured = isColoured(s.mapLayer, script);
 
   /* A village's phase 2 facts load the first time a village is selected, or once the page has settled. */
   /* the list needs them too, to mark the villages whose Konkani form is waiting for review, and so does the map
@@ -250,6 +252,7 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
   return {
     ...s, script, announce, villagesLoaded, mapVillages, contrib,
     layered,
+    coloured,
     tapped,
     mapMoved,
     shareOpen,
@@ -283,6 +286,19 @@ export function useKhoim({ desktop, initialId, initialVillage, initialList = fal
     setHot: (hot: string | null) => up({ hot }),
     /* villages are part of search, so make sure their list is on its way as soon as someone starts */
     setQuery: (query: string) => { if (query) needVillages(); up({ query }); },
+    /** "Show" (phase 4, B3): one choice sets both the view and the layer people add to. Landmarks is both: the
+        credited landmarks colour the map, and any that people sent come as tiles. */
+    show: (id: string) => {
+      const live = LIVE_LAYERS.some(l => l.id === id) && id !== 'landmarks';
+      const mapLayer = live ? NAMES_LAYER : s.mapLayer.id === id ? s.mapLayer : layerWith(id as MapLayerId);
+      const layer = live || id === 'landmarks' ? id : 'names';
+      replaceNext.current = true;
+      set(v => ({ ...v, mapLayer, layer }));
+      const l = LIVE_LAYERS.find(x => x.id === id), n = l && liveData ? liveData.total(l.id) : null;
+      setAnnounce(live && l ? `${l.label}.${n === null ? '' : n ? ` ${n} so far.` : ' None yet.'}` : mapLayer.id === 'names' ? 'Names.' : layerHeadline(mapLayer, script));
+    },
+    /** What "Show" has chosen. */
+    showValue: LIVE_LAYERS.some(l => l.id === s.layer) && s.layer !== 'landmarks' ? s.layer : s.mapLayer.id,
     /* Choosing a layer puts About away, so the map with that layer's marks is what you see next. */
     setLayer: (layer: string) => {
       const l = LIVE_LAYERS.find(x => x.id === layer), n = l && liveData ? liveData.total(l.id) : null;

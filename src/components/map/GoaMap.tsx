@@ -23,7 +23,7 @@ import { DISTRICT_IDS, GEO, TALUKA_IDS, type MapLines, type VillagePaths } from 
 import { factsOf, getPlace, houseOf, nameIn } from '../../data/khoim';
 import type { Box, Place, Point, Script } from '../../data/types';
 import { useReducedMotion } from '../../lib/motion';
-import { layerState, type MapLayer } from '../../lib/layers';
+import { isColoured, layerState, type MapLayer } from '../../lib/layers';
 import { Icon } from '../core/Icon';
 import type { IconName } from '../core/iconPaths';
 import './map.css';
@@ -254,7 +254,7 @@ export function GoaMap({
       const p = t.classList.contains('is-open') ? 3000 : near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
       items.push({ el: t, q: quad(cx, cy, w + 4, px, Number(t.dataset.a) || 0), p });
     }
-    if (!el.classList.contains('is-layered')) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__river-name')) {
+    if (!el.classList.contains('is-layered') || el.classList.contains('k-tmap--written')) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__river-name')) {
       if (z <= 2.2) { skip.push(t); continue; }
       const wpx = width(t, k), len = Number(t.dataset.len) * k;
       if (len < wpx + 12) { short.push(t); continue; }
@@ -389,7 +389,9 @@ export function GoaMap({
   const sel = getPlace(selected);
   const selV = sel?.level === 'village' && sel.map ? sel : null;
   const near = useMemo(() => new Set(selV ? [selV.id, ...selV.map!.nb] : []), [selV]);
-  const layered = !!mapLayer && mapLayer.id !== 'names';
+  /* a view that colours for meaning: anything but Names in the Official script (phase 4, B3) */
+  const layered = !!mapLayer && isColoured(mapLayer, script);
+  const viewClass = layered ? (mapLayer!.id === 'names' ? 'written' : mapLayer!.id) : '';
   const drawn = villages && paths ? villages.filter(v => paths[v.id] && v.map) : [];
   const outlineOf = (id: string | null) => {
     const p = getPlace(id);
@@ -403,7 +405,7 @@ export function GoaMap({
   const selOutline = outlineOf(selected), hotOutline = hot && hot !== selected ? outlineOf(hot) : null;
   const markAt = (id: string) => (markIcon && marks?.[id]) || 0;
   /* what each village is known for: one symbol per kind, three at most */
-  const glyphs = factsReady && !layered
+  const glyphs = factsReady && (!mapLayer || mapLayer.id === 'names')
     ? drawn.map(v => ({ v, items: (factsOf(v.id)?.knownFor ?? []).filter((it, i, a) => a.findIndex(x => x.icon === it.icon) === i).slice(0, 3) })).filter(g => g.items.length)
     : [];
 
@@ -417,7 +419,7 @@ export function GoaMap({
   const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-left': insetLeft + 'px', '--map-inset-top': insetTop + 'px', '--map-inset-bottom': insetBottom + 'px', '--map-inset-right': insetRight + 'px' } as CSSProperties;
   const { k, tx, ty } = view.current;
   return (
-    <div ref={root} className={'k-tmap' + (selV ? ' has-village' : '') + (layered ? ' is-layered k-tmap--' + mapLayer!.id : '')} style={style}
+    <div ref={root} className={'k-tmap' + (selV ? ' has-village' : '') + (layered ? ' is-layered k-tmap--' + viewClass : '')} style={style}
       onPointerDown={onDown} onPointerMove={onMove} onPointerUp={e => onUp(e, true)} onPointerCancel={e => onUp(e, false)}>
       {w > 0 && (
         <svg className="k-tmap__svg" width={w} height={h} aria-hidden="true">
@@ -428,12 +430,12 @@ export function GoaMap({
           <g ref={world} transform={k > 0 ? `translate(${tx} ${ty}) scale(${k})` : undefined}>
             {/* each taluka in its tint, under the villages: what shows before the village outlines arrive */}
             {TALUKA_IDS.map(id => <path key={'tf' + id} className="k-tmap__base" data-house={houseKey(id)} d={T[id].d} />)}
-            <Villages drawn={drawn} paths={paths ?? null} script={script} near={near} mapLayer={mapLayer} />
+            <Villages drawn={drawn} paths={paths ?? null} script={script} near={near} mapLayer={layered ? mapLayer : undefined} />
             {lines && <Lines lines={lines} />}
             {TALUKA_IDS.map(id => <path key={'tb' + id} className="k-tmap__border" d={T[id].d} vectorEffect="non-scaling-stroke" />)}
             {hotOutline && <path className="k-tmap__hot" d={hotOutline} vectorEffect="non-scaling-stroke" />}
             {selOutline && <path className="k-tmap__selected" d={selOutline} vectorEffect="non-scaling-stroke" />}
-            <Names drawn={drawn} script={script} near={near} mapLayer={mapLayer} open={selV?.id ?? null} />
+            <Names drawn={drawn} script={script} near={near} mapLayer={layered ? mapLayer : undefined} open={selV?.id ?? null} />
             {lines && (
               /* straight, on each river's straightest stretch; shown when zoomed in and the stretch is long enough */
               <g className="k-tmap__river-names">
@@ -525,14 +527,13 @@ const Lines = memo(function Lines({ lines }: { lines: MapLines }) {
 interface LayerProps { drawn: Place[]; script: Script; near: Set<string>; mapLayer?: MapLayer }
 
 /** The village outlines, grouped by taluka so each group carries its house colours. */
-const Villages = memo(function Villages({ drawn, paths, near, mapLayer }: LayerProps & { paths: VillagePaths | null }) {
-  const today = new Date();
+const Villages = memo(function Villages({ drawn, paths, near, mapLayer, script }: LayerProps & { paths: VillagePaths | null }) {
   return (
     <g className="k-tmap__villages">
       {TALUKA_IDS.map(t => (
         <g key={t} data-house={houseKey(t)}>
           {drawn.filter(v => v.parent === t).map(v => {
-            const st = mapLayer && mapLayer.id !== 'names' ? layerState(v, mapLayer, today) : null;
+            const st = mapLayer ? layerState(v, mapLayer, script) : null;
             return <path key={v.id} data-village={v.id} className={'k-tmap__v' + (st ? ' is-' + st : '') + (near.size && !near.has(v.id) ? ' is-off' : '')} d={paths![v.id]} vectorEffect="non-scaling-stroke" />;
           })}
         </g>
@@ -543,14 +544,13 @@ const Villages = memo(function Villages({ drawn, paths, near, mapLayer }: LayerP
 
 /** The names, one per outline, in the chosen script. */
 const Names = memo(function Names({ drawn, script, near, mapLayer, open }: LayerProps & { open: string | null }) {
-  const today = new Date();
   return (
     <g className="k-tmap__names">
       {TALUKA_IDS.map(t => (
         <g key={t} data-house={houseKey(t)}>
           {drawn.filter(v => v.parent === t).map(v => {
             const n = nameIn(v, script), m = v.map!, [x, y] = v.lp!;
-            const st = mapLayer && mapLayer.id !== 'names' ? layerState(v, mapLayer, today) : null;
+            const st = mapLayer ? layerState(v, mapLayer, script) : null;
             const cls = 'k-tmap__name' + (n.fallback ? ' is-faint' : '') + (st ? ' is-' + st : '') + (near.size ? (near.has(v.id) ? ' is-near' : ' is-off') : '') + (v.id === open ? ' is-open' : '');
             const latin = n.kind !== 'deva';
             return (
