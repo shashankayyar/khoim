@@ -32,9 +32,10 @@ export function loadVillagePaths(talukaId: string): Promise<VillagePaths> {
 }
 
 /** Rivers (named main rivers only), railway and stations for the map (scripts/map-lines.mjs, OpenStreetMap and
-    Wikidata). Each river keeps OpenStreetMap's name and the prototype's weight; label is the part its name runs along. */
+    Wikidata). Each river keeps OpenStreetMap's name and the prototype's weight; label is the straightest stretch of it,
+    where its name sits as straight text: the middle, the angle and the length, in map units. */
 export interface MapLines {
-  rivers: { n: string; w: number; d: string[]; label: string }[];
+  rivers: { n: string; w: number; d: string[]; label: { at: [number, number]; a: number; len: number } }[];
   rail: string[];
   stations: { n: string; code: string; at: [number, number] }[];
 }

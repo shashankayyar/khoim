@@ -16,7 +16,7 @@ const shown = el => { const s = getComputedStyle(el); if (s.display === 'none' |
 function corners(el) {
   if (el instanceof SVGGraphicsElement) {
     const b = el.getBBox(), m = el.getScreenCTM(); if (!m || !b.width) return null;
-    const pad = Math.min(b.height * 0.08, 2);
+    const pad = b.height * 0.12; // the line box is about 1.25 em; the letters are about 1 em
     return [[b.x + pad, b.y + pad], [b.x + b.width - pad, b.y + pad], [b.x + b.width - pad, b.y + b.height - pad], [b.x + pad, b.y + b.height - pad]]
       .map(([x, y]) => { const p = new DOMPoint(x, y).matrixTransform(m); return [p.x, p.y]; });
   }

@@ -41,6 +41,32 @@ const MIN_Z = 1;
 const VILLAGE_FILL = 0.6;
 /** Official spellings are set narrower on the map, close to the prototype's width-75 Anek Latin. */
 const NARROW = 0.84;
+/** Village zoom: five times the Goa view. Stations, the symbols for what villages are known for, and their legend. */
+const CLOSE_Z = 5;
+/* What each symbol stands for, for the legend (phase 4, B2). */
+// TODO(copy): the legend's wording for the map's symbols
+const SYMBOL_LABEL: Partial<Record<IconName, string>> = {
+  church: 'Church or church feast', flame: 'Zatra, fair or festival', sailboat: 'Festival on the water', landmark: 'Temple, mosque or monument',
+  castle: 'Fort', waves: 'Spring or waterfall', sprout: 'GI product', banana: 'GI product', 'train-front': 'Railway station'
+};
+
+type Quad = [number, number][];
+/** A box of w by h centred on (cx, cy), turned by deg degrees, as its four corners on screen. */
+function quad(cx: number, cy: number, w: number, h: number, deg: number): Quad {
+  const t = deg * Math.PI / 180, c = Math.cos(t), sn = Math.sin(t);
+  return ([[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]] as const).map(([dx, dy]) => [cx + dx * c - dy * sn, cy + dx * sn + dy * c] as [number, number]);
+}
+/** Do two boxes overlap? The separating axis test. */
+function overlap(a: Quad, b: Quad): boolean {
+  for (const poly of [a, b]) for (let i = 0; i < 4; i++) {
+    const [x1, y1] = poly[i], [x2, y2] = poly[(i + 1) % 4], nx = y2 - y1, ny = x1 - x2;
+    let a0 = Infinity, a1 = -Infinity, b0 = Infinity, b1 = -Infinity;
+    for (const [x, y] of a) { const v = x * nx + y * ny; a0 = Math.min(a0, v); a1 = Math.max(a1, v); }
+    for (const [x, y] of b) { const v = x * nx + y * ny; b0 = Math.min(b0, v); b1 = Math.max(b1, v); }
+    if (a1 <= b0 || b1 <= a0) return false;
+  }
+  return true;
+}
 
 function useSize(ref: RefObject<HTMLElement | null>) {
   const [z, set] = useState({ w: 0, h: 0 });
@@ -107,6 +133,8 @@ export function GoaMap({
   const moved = useRef(false);
   const anim = useRef(0);
   const framed = useRef<string | null>(null);
+  /* the name under a symbol, after a tap */
+  const [tip, setTip] = useState<{ key: string; x: number; y: number; fs: number; place: string; lines: string[] } | null>(null);
 
   /* the free space for the map, and the zoom that fits all of Goa in it */
   const area = useCallback(() => {
@@ -139,6 +167,9 @@ export function GoaMap({
     el.style.setProperty('--z', String(k / k0.current));
     el.style.setProperty('--tx', String(tx));
     el.style.setProperty('--ty', String(ty));
+    /* at village zoom: stations, symbols and their legend */
+    el.classList.toggle('is-close', k / k0.current >= CLOSE_Z);
+    cullSoon.current();
   }, []);
 
   /* Keep some of Goa on screen, however far it is dragged. */
@@ -190,8 +221,84 @@ export function GoaMap({
     else apply();
   }, [w, h, area, target, targetView, animateTo, apply]);
 
+  /* ---------- No two names overlap (phase 4, B2) ----------
+     After each move, every name that would show is ranked: the open village and its neighbours first, then taluka
+     names while they show, then village names by their size on screen (reviewed names before official spellings),
+     then river names, then stations. A name that would overlap one ranked above it is hidden. A river name shows
+     only where its straight stretch is longer than the name. */
+  const widths = useRef(new WeakMap<Element, { t: string; w: number }>());
+  const cullFrame = useRef(0), cullTimer = useRef(0), lastCull = useRef(0);
+  const cull = () => {
+    const el = root.current, { k, tx, ty } = view.current;
+    if (!el || !k) return;
+    const z = k / k0.current, W = el.clientWidth, H = el.clientHeight, r0 = el.getBoundingClientRect();
+    const width = (t: SVGTextElement, scale = 1) => {
+      const txt = t.textContent ?? '', c = widths.current.get(t);
+      if (c && c.t === txt) return c.w;
+      const w = t.getComputedTextLength() * scale; widths.current.set(t, { t: txt, w }); return w;
+    };
+    const items: { el: Element; q: Quad; p: number }[] = [], short: Element[] = [], skip: Element[] = [];
+    const rectQuad = (e: Element): Quad => { const r = e.getBoundingClientRect(); return [[r.left - r0.left, r.top - r0.top], [r.right - r0.left, r.top - r0.top], [r.right - r0.left, r.bottom - r0.top], [r.left - r0.left, r.bottom - r0.top]]; };
+    const onScreen = (cx: number, cy: number) => cx > -300 && cy > -300 && cx < W + 300 && cy < H + 300;
+    const hasVillage = el.classList.contains('has-village');
+    if (!hasVillage) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__taluka')) {
+      if (1 - (z - 1.7) / 1.2 < 0.3) { skip.push(t); continue; }
+      const b = T[t.dataset.id!]?.b, area = b ? (b[2] - b[0]) * (b[3] - b[1]) : 0;
+      items.push({ el: t, q: rectQuad(t), p: 900 + area / 1e4 });
+    }
+    for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__name')) {
+      const fs = Number(t.dataset.fs), px = fs * k, near = t.classList.contains('is-near');
+      const cx = tx + Number(t.dataset.x) * k, cy = ty + Number(t.dataset.y) * k;
+      if ((px < 7 && !near) || !onScreen(cx, cy)) { skip.push(t); continue; }
+      const w = width(t, t.dataset.latin ? NARROW : 1) * k;
+      const p = near ? 1000 + px : px + (t.classList.contains('is-faint') ? 0 : 3) + (t.classList.contains('is-lit') ? 2 : 0);
+      items.push({ el: t, q: quad(cx, cy, w + 4, px, Number(t.dataset.a) || 0), p });
+    }
+    if (!el.classList.contains('is-layered')) for (const t of el.querySelectorAll<SVGTextElement>('.k-tmap__river-name')) {
+      if (z <= 2.2) { skip.push(t); continue; }
+      const wpx = width(t, k), len = Number(t.dataset.len) * k;
+      if (len < wpx + 12) { short.push(t); continue; }
+      const m = t.transform.baseVal.consolidate()?.matrix;
+      if (!m) continue;
+      const cx = tx + m.e * k, cy = ty + m.f * k;
+      if (!onScreen(cx, cy)) { skip.push(t); continue; }
+      items.push({ el: t, q: quad(cx, cy, wpx + 6, 15, Math.atan2(m.b, m.a) * 180 / Math.PI), p: 5 });
+    }
+    if (z >= CLOSE_Z) for (const st of el.querySelectorAll('.k-tmap__station')) items.push({ el: st, q: rectQuad(st), p: 1 });
+    items.sort((a, b) => b.p - a.p);
+    const placed: { q: Quad; x0: number; y0: number; x1: number; y1: number }[] = [];
+    for (const it of items) {
+      const xs = it.q.map(c => c[0]), ys = it.q.map(c => c[1]);
+      const box = { q: it.q, x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) };
+      const clash = placed.some(o => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1 && overlap(o.q, it.q));
+      it.el.classList.toggle('is-culled', clash);
+      if (!clash) placed.push(box);
+    }
+    for (const e of skip) e.classList.remove('is-culled', 'is-short');
+    /* which symbols and stations are on screen, for the legend */
+    const icons = new Set<string>();
+    if (z >= CLOSE_Z) {
+      for (const g of el.querySelectorAll<HTMLElement>('.k-tmap__glyph')) { const r = g.getBoundingClientRect(); if (r.right > r0.left && r.left < r0.right && r.bottom > r0.top && r.top < r0.bottom) icons.add(g.dataset.icon!); }
+      for (const st of el.querySelectorAll('.k-tmap__station:not(.is-culled)')) { const r = st.getBoundingClientRect(); if (r.right > r0.left && r.left < r0.right && r.bottom > r0.top && r.top < r0.bottom) { icons.add('train-front'); break; } }
+    }
+    const key = [...icons].sort().join(' ');
+    setInView(v => (v === key ? v : key));
+    for (const e of short) { e.classList.add('is-short'); e.classList.remove('is-culled'); }
+    for (const it of items) it.el.classList.remove('is-short');
+  };
+  const cullSoon = useRef(() => {});
+  cullSoon.current = () => {
+    clearTimeout(cullTimer.current);
+    if (performance.now() - lastCull.current > 90) {
+      cancelAnimationFrame(cullFrame.current);
+      cullFrame.current = requestAnimationFrame(() => { lastCull.current = performance.now(); cull(); });
+    }
+    cullTimer.current = window.setTimeout(() => { lastCull.current = performance.now(); cull(); }, 140);
+  };
+  useEffect(() => { document.fonts?.ready.then(() => { widths.current = new WeakMap(); cullSoon.current(); }); }, []);
+
   /* after any redraw, the map stays where it was */
-  useLayoutEffect(() => { if (view.current.k) apply(); });
+  useLayoutEffect(() => { if (view.current.k) apply(); cullSoon.current(); });
 
   /* ---------- Pan, pinch, wheel, tap ---------- */
   const pointers = useRef(new Map<number, Point>());
@@ -208,6 +315,7 @@ export function GoaMap({
 
   const onDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if ((e.target as Element).closest('button, a')) return;
+    if (tip) setTip(null);
     if (e.pointerType === 'mouse' && e.button > 0) return;
     e.currentTarget.setPointerCapture(e.pointerId);
     cancelAnimationFrame(anim.current);
@@ -297,7 +405,14 @@ export function GoaMap({
     ? drawn.map(v => ({ v, items: (factsOf(v.id)?.knownFor ?? []).filter((it, i, a) => a.findIndex(x => x.icon === it.icon) === i).slice(0, 3) })).filter(g => g.items.length)
     : [];
 
-  const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-bottom': insetBottom + 'px', '--map-inset-right': insetRight + 'px' } as CSSProperties;
+  /* the legend at village zoom: the symbols and stations in view, once each (worked out after each move, below) */
+  const [inView, setInView] = useState<string>('');
+  const legend = useMemo(() => {
+    const out: [IconName, string][] = [];
+    for (const icon of inView.split(' ').filter(Boolean) as IconName[]) { const l = SYMBOL_LABEL[icon]; if (l && !out.some(o => o[1] === l)) out.push([icon, l]); }
+    return out;
+  }, [inView]);
+  const style = { '--tl': Math.max(15, Math.min(30, w / 30)), '--map-inset-left': insetLeft + 'px', '--map-inset-top': insetTop + 'px', '--map-inset-bottom': insetBottom + 'px', '--map-inset-right': insetRight + 'px' } as CSSProperties;
   const { k, tx, ty } = view.current;
   return (
     <div ref={root} className={'k-tmap' + (selV ? ' has-village' : '') + (layered ? ' is-layered k-tmap--' + mapLayer!.id : '')} style={style}
@@ -306,7 +421,6 @@ export function GoaMap({
         <svg className="k-tmap__svg" width={w} height={h} aria-hidden="true">
           <defs>
             <clipPath id="k-goa-clip" clipPathUnits="userSpaceOnUse">{DISTRICT_IDS.map(id => <path key={id} d={D[id].d} />)}</clipPath>
-            {lines?.rivers.map((r, i) => <path key={r.n} id={'k-river-' + i} d={r.label} />)}
           </defs>
           {/* the transform is also set here, so a redrawn group never starts at the plain, unzoomed plane */}
           <g ref={world} transform={k > 0 ? `translate(${tx} ${ty}) scale(${k})` : undefined}>
@@ -319,14 +433,17 @@ export function GoaMap({
             {selOutline && <path className="k-tmap__selected" d={selOutline} vectorEffect="non-scaling-stroke" />}
             <Names drawn={drawn} script={script} near={near} mapLayer={mapLayer} />
             {lines && (
+              /* straight, on each river's straightest stretch; shown when zoomed in and the stretch is long enough */
               <g className="k-tmap__river-names">
-                {lines.rivers.map((r, i) => <text key={r.n} className="k-tmap__river-name"><textPath href={'#k-river-' + i} startOffset="50%">{r.n}</textPath></text>)}
+                {lines.rivers.map(r => (
+                  <text key={r.n} className="k-tmap__river-name" data-len={r.label.len} transform={`translate(${r.label.at[0]} ${r.label.at[1]}) rotate(${r.label.a})`}>{r.n}</text>
+                ))}
               </g>
             )}
             <g className="k-tmap__talukas">
               {TALUKA_IDS.map(id => {
                 const n = nameIn(getPlace(id), script), [x, y] = talukaPoint(id);
-                return <text key={'tl' + id} className="k-tmap__taluka" x={x} y={y} lang={n.kind === 'deva' ? 'gom' : undefined}>{n.text}</text>;
+                return <text key={'tl' + id} className="k-tmap__taluka" data-id={id} x={x} y={y} lang={n.kind === 'deva' ? 'gom' : undefined}>{n.text}</text>;
               })}
             </g>
           </g>
@@ -347,10 +464,29 @@ export function GoaMap({
           ))}
           {glyphs.map(({ v, items }) => (
             <span key={'g' + v.id} className="k-tmap__glyphs" style={{ '--x': v.lp![0], '--y': v.lp![1], '--fs': v.map!.fs } as CSSProperties}>
-              {items.map(it => <span key={it.kind + it.title} className="k-tmap__glyph"><Icon name={it.icon as IconName} size={16} /></span>)}
+              {items.map(it => (
+                /* a tap names what the symbol stands for here; the village's sheet lists it all */
+                <button key={it.kind + it.title} type="button" tabIndex={-1} className="k-tmap__glyph" data-icon={it.icon}
+                  onClick={() => setTip(tp => (tp?.key === v.id + it.icon ? null : { key: v.id + it.icon, x: v.lp![0], y: v.lp![1], fs: v.map!.fs, place: v.official, lines: (factsOf(v.id)?.knownFor ?? []).filter(x => x.icon === it.icon).map(x => x.title) }))}>
+                  <Icon name={it.icon as IconName} size={16} />
+                </button>
+              ))}
             </span>
           ))}
+          {tip && (
+            <span className="k-tmap__tip" style={{ '--x': tip.x, '--y': tip.y, '--fs': tip.fs } as CSSProperties}>
+              <strong>{tip.place}</strong>
+              {tip.lines.slice(0, 4).map(l => <span key={l}>{l}</span>)}
+              {tip.lines.length > 4 && <span>+{tip.lines.length - 4}</span>}
+            </span>
+          )}
         </div>
+      )}
+      {/* what the symbols mean, at village zoom in the Names view */}
+      {legend.length > 0 && (
+        <ul className="k-tmap__legend" aria-hidden="true">
+          {legend.map(([icon, label]) => <li key={icon}><Icon name={icon} size={16} />{label}</li>)}
+        </ul>
       )}
       {lines && showCredit && (
         /* OpenStreetMap's licence asks for this wherever its lines are shown */
@@ -417,6 +553,7 @@ const Names = memo(function Names({ drawn, script, near, mapLayer }: LayerProps)
             const latin = n.kind !== 'deva';
             return (
               <text key={v.id} className={cls} fontSize={m.fs} lang={n.kind === 'deva' ? 'gom' : undefined} style={{ '--fs': m.fs } as CSSProperties}
+                data-x={x} data-y={y} data-a={m.a} data-fs={m.fs} data-latin={latin ? 1 : undefined}
                 transform={`translate(${x} ${y})${m.a ? ` rotate(${m.a})` : ''}${latin ? ` scale(${NARROW} 1)` : ''}`}>{n.text}</text>
             );
           })}
