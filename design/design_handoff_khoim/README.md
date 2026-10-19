@@ -526,7 +526,7 @@ This section describes what is live. **Where it differs from the phases above, p
 ## The data behind the map (Part A)
 - **Gazetteer spellings** for 298 villages, read twice (by eye and by OCR) from the 1979 Gazetteer's spelling list, pp. 997 to 1007; only values both readings agree on. Disagreements, with crops of each line: `docs/gazetteer-disagreements.md`.
 - **326 feasts, zatras and parish feasts** (`data/credited/feasts.csv`, `parishes.csv`), from the Gazetteer's Directory of Villages and Places of Interest chapter and the Archdiocese and UCA News parish lists, each rule as its source states it.
-- **128 landmarks on 72 villages** (`monuments.csv`): ASI and State protected monuments, and the temples, churches, forts, springs and waterfalls the Gazetteer names.
+- **139 landmarks on 72 villages** (`monuments.csv`): ASI and State protected monuments, and the temples, churches, forts, springs and waterfalls the Gazetteer names. The ASI's 14 Old Goa monuments are on Ella's page, where the State's list files them (Shashank's decision, 19 October 2026); "Old Goa" and "Velha Goa" find Ella in search.
 - **Towns** (LGD codes starting with 9, matched town outlines, Municipal Council outlines) read "Town in {taluka}" and "town" in titles.
 - **Other spellings for search** (Panjim, Pangim, Vasco da Gama, Madgaon, Dicholi): OpenStreetMap's Latin `alt_name`, `old_name`, `name_pt`, `name_en` (credited on the result), the Gazetteer's agreed spellings and Dr Luis's.
 - **Review batch 1** (`docs/review-batch-1.csv`): every source's form of each village name on one row, for one reviewer to settle many names in one sitting. Nothing in it shows on the site until reviewed.

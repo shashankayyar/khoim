@@ -7,7 +7,8 @@ import { searchThings } from '../../lib/things';
 import './search.css';
 
 /** Who an other spelling comes from (phase 4, A6). OpenStreetMap's are ODbL and always credited. */
-const AKA_CREDIT = { o: '© OpenStreetMap contributors', g: 'Gazetteer, 1979', l: 'Dr Alvarinho J. Luis' } as const;
+// TODO(copy): "State list of protected monuments", the source of "Old Goa" and "Velha Goa" for Ella (phase 4 polish, step 4)
+const AKA_CREDIT = { o: '© OpenStreetMap contributors', g: 'Gazetteer, 1979', l: 'Dr Alvarinho J. Luis', s: 'State list of protected monuments' } as const;
 
 /** Wraps the matched part of a name in the search highlight. */
 function mark(text: string, q: string): ReactNode {
