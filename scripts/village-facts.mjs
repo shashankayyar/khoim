@@ -130,9 +130,13 @@ export function villageFacts(root, { lgdCodes, check }) {
     if (!ok(r)) continue;
     known(r.village_code, { kind: 'gi', icon: /banana/i.test(r.product) ? 'banana' : 'sprout', title: r.product, detail: `GI no. ${r.app_no}`, source: r.source, url: link(r.source_url) });
   }
+  /* Landmarks: protected monuments (ASI, Government of Goa) and the temples, churches, forts and springs the 1979
+     Gazetteer names village by village. Names as the source gives them. */
+  const LANDMARK_ICON = { fort: 'castle', church: 'church', chapel: 'church', waterfall: 'waves', spring: 'waves' };
   for (const r of csv('monuments.csv')) {
-    if (!r.village_code || !lgdCodes.has(r.village_code)) continue;
-    known(r.village_code, { kind: 'monument', icon: 'castle', title: r.name, detail: r.protection || null, source: r.protection || 'Protected monument', url: link(r.source_url) });
+    if (!ok(r)) continue;
+    const page = r.page ? `, p. ${r.page}` : '';
+    known(r.village_code, { kind: 'landmark', icon: LANDMARK_ICON[r.type] ?? 'landmark', title: r.name, detail: r.protection || null, source: r.source.split('; ')[0] + page, url: link(r.source_url) });
   }
 
   /* Videos, credited to the channel. Shown as a still (public/video-thumbs/, fetched once and kept here) until
