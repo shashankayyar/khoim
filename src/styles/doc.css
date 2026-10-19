@@ -1,0 +1,45 @@
+/* The document pages: /feasts/, /meanings/, /contributors/, /privacy/ (phase 4 polish, step 1). The site's page
+   colour, type and tokens, light and dark; a 16px gutter on a phone and a reading width of about 680px on desktop;
+   links in the site's ink, underlined, never browser blue. */
+.doc { box-sizing: border-box; max-width: calc(680px + 2 * var(--gutter, 16px)); margin: 0 auto; padding: 0 var(--gutter, 16px); color: var(--text); }
+.doc a { color: var(--text); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.doc a:hover { text-decoration-thickness: 2px; }
+.doc a:focus-visible { outline: 3px solid var(--text); outline-offset: 2px; border-radius: 4px; }
+
+.doc__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 14px 0 0; }
+.doc__home { display: inline-flex; align-items: center; min-height: 48px; padding: 0 6px; margin-left: -6px; border-radius: var(--radius-m); color: var(--text); text-decoration: none !important; }
+.doc__back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border-radius: var(--radius-m); background: var(--surface-raised); box-shadow: inset 0 0 0 1px var(--line); font: var(--weight-strong) 16px/1 var(--font-latin); text-decoration: none !important; }
+
+.doc__main { padding: 8px 0 24px; }
+.doc__main h1 { margin: 20px 0 8px; font: var(--weight-strong) clamp(30px, 7vw, 44px)/1.12 var(--font-latin); letter-spacing: var(--track-title); text-wrap: balance; }
+.doc__main h2 { margin: 32px 0 8px; font: var(--weight-strong) 24px/1.25 var(--font-latin); scroll-margin-top: 16px; }
+.doc__main p { margin: 0 0 12px; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); text-wrap: pretty; }
+.doc__meta { margin: 0 0 8px; color: var(--text-2); font: var(--weight-regular) var(--size-small, 15px)/1.5 var(--font-latin); }
+
+/* plain lists (sources, credits) */
+.doc__list { margin: 0 0 12px; padding-left: 20px; display: grid; gap: 4px; font: var(--weight-regular) var(--size-body)/1.55 var(--font-latin); }
+.doc__list a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* an entry: the name, then the village (a link) and the date, then the source in small type */
+.doc-entries { list-style: none; margin: 0 0 12px; padding: 0; display: grid; }
+.doc-entry { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--line); }
+.doc-entry:first-child { border-top: 0; }
+.doc-entry__name { font: var(--weight-strong) 18px/1.35 var(--font-latin); overflow-wrap: anywhere; }
+.doc-entry__name--deva { font: var(--weight-strong) 20px/1.6 var(--font-deva); }
+.doc-entry__where { font: var(--weight-regular) 16px/1.5 var(--font-latin); }
+.doc-entry__where a, .doc-entry__name a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; font-weight: var(--weight-strong); }
+.doc-entry__text { font: var(--weight-regular) 16px/1.5 var(--font-latin); }
+.doc-entry__source { color: var(--text-2); font: var(--weight-regular) 14px/1.45 var(--font-latin); overflow-wrap: anywhere; }
+.doc-entry__source a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* jump links as a row of buttons: the months on /feasts/, the letters on /meanings/ */
+.doc-jump { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 8px; padding: 0; list-style: none; }
+.doc-jump a {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; box-sizing: border-box; padding: 0 12px;
+  border-radius: var(--radius-m); background: var(--surface-raised); box-shadow: inset 0 0 0 1px var(--line);
+  font: var(--weight-strong) 15px/1 var(--font-latin); text-decoration: none !important;
+}
+.doc-jump a[aria-current="true"] { background: var(--surface-invert); color: var(--text-invert); box-shadow: none; }
+
+.doc__foot { margin-top: 24px; padding: var(--space-6, 24px) 0 var(--space-10, 48px); border-top: 1px solid var(--line); }
+.doc__foot .k-credit p { margin: 0 0 6px; font: var(--weight-regular) 15px/1.5 var(--font-latin); }
